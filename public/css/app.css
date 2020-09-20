@@ -5,22 +5,24 @@ body {
 
 nav {
   position: fixed;
-  height: 100%;
   top: 0;
-  bottom: 0;
+  width: 100%;
   background-color: #cccccc;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 main {
   width: 95%;
   max-width: 720px;
   margin: auto;
-}
-
-ul {
-  list-style-type: none;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin-top: 3rem;
 }
 
 table {
@@ -41,5 +43,9 @@ table th {
 
 table tr:nth-child(odd) {
   background-color: #dddddd;
+}
+
+footer {
+  margin: 2rem;
 }
 
