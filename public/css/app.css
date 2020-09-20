@@ -1,0 +1,45 @@
+body {
+  font-family: "IM Fell English", serif;
+  background-color: #eeeeee;
+}
+
+nav {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  background-color: #cccccc;
+}
+
+main {
+  width: 95%;
+  max-width: 720px;
+  margin: auto;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table th {
+  background-color: #cccccc;
+}
+
+table td,
+table th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+table tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+
