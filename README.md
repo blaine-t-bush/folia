@@ -1,1 +1,2 @@
 - TODO artisan command for SSH tunnel to MySQL
+- TODO follow naming conventions: https://webdevetc.com/blog/laravel-naming-conventions

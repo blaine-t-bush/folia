@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PostController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,10 +33,25 @@ Route::get('/home', function() {
     ]);
 });
 
-Route::get('/posts', function() {
-    // Return all posts.
-});
+// The 7 RESTful Methods *bow*
 
-Route::get('/posts/{post}', function() {
-    // Return the specified post.
-});
+// Display all posts.
+Route::get('/posts', [PostController::class, 'index']);
+
+// Display form for creating new post.
+Route::get('/posts/create', [PostController::class, 'create']);
+
+// Store data for newly-created post.
+Route::post('/posts', [PostController::class, 'store']);
+
+// Display a single post.
+Route::get('/posts/{post}', [PostController::class, 'show']);
+
+// Display form for editing a post.
+Route::get('/posts/{post}/edit', [PostController::class, 'edit']);
+
+// Store data for newly-edited post.
+Route::put('/posts/{post}', [PostController::class, 'update']);
+
+// Delete a single post.
+Route::delete('/posts/{post}', [PostController::class, 'destroy']);
