@@ -55,6 +55,3 @@ Route::put('/posts/{post}', [PostController::class, 'update']);
 
 // Delete a single post.
 Route::delete('/posts/{post}', [PostController::class, 'destroy']);
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
