@@ -10,11 +10,11 @@
     <form method="POST" action="/posts">
         @csrf
         <label for="title">Post Title</label><br>
-        <input id="title" name="title" type="text"><br>
+        <input name="title" type="text"><br>
         <label for="author">Author</label><br>
-        <input id="author" name="author" type="text"><br>
+        <input name="author" type="text"><br>
         <label for="body" type="text">Body</label><br>
-        <input id="body" name="body" type="text"><br>
+        <input name="body" type="text"><br>
         <input type="submit" value="Submit">
     </form>
 </body>

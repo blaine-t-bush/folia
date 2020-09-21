@@ -15,12 +15,23 @@ class PostController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
+    public function create() {
+        return view('posts.create');
+    }
+
+    public function store(Request $request) {
         $post = new Post;
         $post->title = $request->input()['title'];
         $post->author = $request->input()['author'];
         $post->body = $request->input()['body'];
         $post->save();
+
+        return redirect('posts');
+    }
+
+    public function destroy(int $id) {
+        $post = Post::where('id', $id)->firstOrFail();
+        $post->delete();
 
         return redirect('posts');
     }
