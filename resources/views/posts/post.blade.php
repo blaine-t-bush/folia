@@ -5,7 +5,7 @@
 @section('content')
 <h1>{{ $post->title }}</h1>
 
-<p>by {{ $post->author }}</p>
+<time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
 
 {!! parsedown($post->body) !!}
 @endsection

@@ -3,14 +3,22 @@ body {
   background-color: #eeeeee;
 }
 
-nav {
+nav.menu {
   position: fixed;
   top: 0;
   width: 100%;
   background-color: #cccccc;
 }
 
-nav ul {
+nav.menu ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav.pagination ul {
   display: flex;
   justify-content: space-around;
   list-style-type: none;

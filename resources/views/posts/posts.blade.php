@@ -3,25 +3,35 @@
 @section('title', 'Posts')
 
 @section('content')
+@if (session('is_admin'))
 <a href="/posts/create">New Post</a>
+@endif
 
 <h1>Posts</h1>
 
 <ol class="posts">
-@foreach ($posts as $post)
-<li>
-<h2><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h2>
+    @foreach ($posts as $post)
+    <li class="post">
+        <h2>
+            <a href="/posts/{{ $post->id }}">{{ $post->title }}</a>
+        </h2>
 
-<p>by {{ $post->author }}</p>
+        <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
 
-{!! parsedown($post->body) !!}
+        {!! parsedown($post->body) !!}
 
-<form method="POST" action="/posts/{{ $post->id }}">
-    @csrf
-    @method('DELETE')
-    <input type="submit" value="Delete">
-</form>
-</li>
-@endforeach
+        @if (session('is_admin'))
+        <form method="POST" action="/posts/{{ $post->id }}">
+            @csrf
+            @method('DELETE')
+            <input type="submit" value="Delete">
+        </form>
+        @endif
+    </li>
+
+    <hr>
+    @endforeach
 </ol>
+
+{{ $posts->links('posts.pagination') }}
 @endsection

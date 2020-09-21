@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
    
 
-        <title>@yield('title')</title>
+        <title>{{ config('app.name') }} | @yield('title')</title>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap">
@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
     <body>
-        <nav>
+        <nav class="menu">
             <ul>
                 <li>Home</li>
                 <li>Posts</li>
