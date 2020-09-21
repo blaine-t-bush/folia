@@ -8,7 +8,7 @@ use App\Models\Post;
 class PostController extends Controller
 {
     public function index() {
-        $posts = Post::all()->sortByDesc('created_at'); 
+        $posts = Post::all()->sortByDesc('created_at');
 
         return view('posts.posts', [
             'posts' => $posts,
@@ -27,6 +27,14 @@ class PostController extends Controller
         $post->save();
 
         return redirect('posts');
+    }
+
+    public function show(int $id) {
+        $post = Post::where('id', $id)->firstOrFail();
+
+        return view('posts.post', [
+            'post' => $post,
+        ]);
     }
 
     public function destroy(int $id) {
