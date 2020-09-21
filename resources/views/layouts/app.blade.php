@@ -15,10 +15,10 @@
     <body>
         <nav class="menu">
             <ul>
-                <li>Home</li>
-                <li>Posts</li>
-                <li>Resources</li>
-                <li>About</li>
+                <a href="/home"><li @if (Request::is('home*')) class="highlighted first" @endif class="first">Home</li></a>
+                <a href="/posts"><li @if (Request::is('posts*')) class="highlighted" @endif>Posts</li></a>
+                <a href="/resources"><li @if (Request::is('resources*')) class="highlighted" @endif>Resources</li></a>
+                <a href="/about"><li @if (Request::is('about*')) class="highlighted" @endif>About</li></a>
             </ul>
         </nav>
 

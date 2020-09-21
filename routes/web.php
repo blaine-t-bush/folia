@@ -15,7 +15,19 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::redirect('/', '/posts');
+Route::redirect('/', '/home');
+
+Route::get('/home', function() {
+    return view('home');
+});
+
+Route::get('/resources', function() {
+    return view('resources');
+});
+
+Route::get('/about', function() {
+    return view('about');
+});
 
 // The 7 RESTful Methods *bow*
 

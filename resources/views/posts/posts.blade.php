@@ -11,23 +11,25 @@
 
 <ol class="posts">
     @foreach ($posts as $post)
-    <li class="post">
-        <h2>
-            <a href="/posts/{{ $post->id }}">{{ $post->title }}</a>
-        </h2>
+    <a href="/posts/{{ $post->id }}">
+        <li class="post">
+            <h2>
+                {{ $post->title }}
+            </h2>
 
-        <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
+            <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
 
-        {!! parsedown($post->body) !!}
+            {!! parsedown($post->body) !!}
 
-        @if (session('is_admin'))
-        <form method="POST" action="/posts/{{ $post->id }}">
-            @csrf
-            @method('DELETE')
-            <input type="submit" value="Delete">
-        </form>
-        @endif
-    </li>
+            @if (session('is_admin'))
+            <form method="POST" action="/posts/{{ $post->id }}">
+                @csrf
+                @method('DELETE')
+                <input type="submit" value="Delete">
+            </form>
+            @endif
+        </li>
+    </a>
 
     <hr>
     @endforeach

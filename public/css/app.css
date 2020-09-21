@@ -8,6 +8,8 @@ nav.menu {
   top: 0;
   width: 100%;
   background-color: #cccccc;
+  line-height: 2;
+  font-size: 1.2rem;
 }
 
 nav.menu ul {
@@ -16,6 +18,27 @@ nav.menu ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  border-bottom: 1px solid #666666;
+}
+
+nav.menu ul a {
+  flex-grow: 1;
+  text-align: center;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+nav.menu ul a li {
+  width: 100%;
+  border-left: 1px solid #666666;
+}
+
+nav.menu ul a li.first {
+  border: none;
+}
+
+nav.menu ul a li.highlighted {
+  background-color: #aaaaaa;
 }
 
 nav.pagination ul {
@@ -37,6 +60,11 @@ main ol.posts {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+main ol.posts a {
+  color: inherit;
+  text-decoration: inherit;
 }
 
 table {
@@ -70,5 +98,9 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+footer p {
+  text-align: center;
 }
 

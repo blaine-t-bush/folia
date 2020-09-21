@@ -8,12 +8,31 @@ nav.menu {
     top: 0;
     width: 100%;
     background-color: #cccccc;
+    line-height: 2;
+    font-size: 1.2rem;
     ul {
         display: flex;
         justify-content: space-around;
         list-style-type: none;
         padding: 0;
         margin: 0;
+        border-bottom: 1px solid #666666;
+        a {
+            flex-grow: 1;
+            text-align: center;
+            color: inherit;
+            text-decoration: inherit;
+            li {
+                width: 100%;
+                border-left: 1px solid #666666;
+            }
+            li.first {
+                border: none;
+            }
+            li.highlighted {
+                background-color: #aaaaaa;
+            }
+        }
     }
 }
 
@@ -36,6 +55,10 @@ main {
         list-style-type: none;
         padding: 0;
         margin: 0;
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
     }
 }
 
@@ -67,4 +90,7 @@ footer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    p {
+        text-align: center;
+    }
 }
