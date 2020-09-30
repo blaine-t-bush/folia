@@ -27,7 +27,7 @@
         </main>
 
         <footer>
-            <p>Made with <a href="https://laravel.com/">Laravel</a>. The Fell Types are digitally reproduced by <a href="https://iginomarini.com/">Igino Marini</a>.</p>
+            <p>Handmade with <a href="https://laravel.com/">Laravel</a>. The Fell Types are digitally reproduced by <a href="https://iginomarini.com/">Igino Marini</a>.</p>
         </footer>
     </body>
 </html>

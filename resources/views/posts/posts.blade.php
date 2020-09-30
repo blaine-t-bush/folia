@@ -3,11 +3,11 @@
 @section('title', 'Posts')
 
 @section('content')
-@if (session('is_admin'))
-<a href="/posts/create">New Post</a>
-@endif
-
 <h1>Posts</h1>
+
+@if (session('is_admin'))
+<button class="create-new-post" href="/posts/create">Create New Post</button>
+@endif
 
 <ol class="posts">
     @foreach ($posts as $post)
@@ -19,19 +19,17 @@
 
             <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
 
-            {!! parsedown($post->body) !!}
+            <summary>{{ $post->summary }}</summary>
 
             @if (session('is_admin'))
             <form method="POST" action="/posts/{{ $post->id }}">
                 @csrf
                 @method('DELETE')
-                <input type="submit" value="Delete">
+                <input class="delete-post" type="submit" value="Delete">
             </form>
             @endif
         </li>
     </a>
-
-    <hr>
     @endforeach
 </ol>
 

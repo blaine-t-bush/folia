@@ -22,7 +22,7 @@ class PostController extends Controller
     public function store(Request $request) {
         $post = new Post;
         $post->title = $request->input()['title'];
-        $post->author = $request->input()['author'];
+        $post->summary = $request->input()['summary'];
         $post->body = $request->input()['body'];
         $post->save();
 
