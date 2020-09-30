@@ -93,26 +93,677 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 // Create prototype function on arrays to allow for inline random selection of one element.
 Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
-}; // TODO create a class to represent a character
-// TODO update HP function to account for class & stats
-// TODO add function to determine number of groups
+}; // TODO add function to determine number of groups
 // TODO add slots
 // TODO add starting gold
 // TODO add equipment
 
 
-function d(size) {
+var Character = /*#__PURE__*/function () {
+  function Character() {
+    _classCallCheck(this, Character);
+
+    this.regenerate();
+  }
+
+  _createClass(Character, [{
+    key: "regenerate",
+    value: function regenerate() {
+      this.level = 1;
+      this.updateName();
+      this.updateClass();
+      this.updateVocation();
+      this.updateStats();
+      this.updateHitPoints();
+      this.updateAttackValue();
+      this.updateSavingThrow();
+      this.updateSlots();
+      this.updateGroups();
+    }
+  }, {
+    key: "updateName",
+    value: function updateName() {
+      this.name = generateName();
+    }
+  }, {
+    key: "updateClass",
+    value: function updateClass() {
+      this.characterClass = generateClass();
+    }
+  }, {
+    key: "updateVocation",
+    value: function updateVocation() {
+      this.vocation = generateVocation();
+    }
+  }, {
+    key: "updateStats",
+    value: function updateStats() {
+      this.attributes = {};
+      this.attributes.strength = generateStat();
+      this.attributes.dexterity = generateStat();
+      this.attributes.constitution = generateStat();
+      this.attributes.intelligence = generateStat();
+      this.attributes.wisdom = generateStat();
+      this.attributes.charisma = generateStat();
+      this.bonusGroups = 0;
+
+      if (this.attributes.strength <= 5) {
+        this.bonusGroups += 1;
+      }
+
+      if (this.attributes.dexterity <= 5) {
+        this.bonusGroups += 1;
+      }
+
+      if (this.attributes.constitution <= 5) {
+        this.bonusGroups += 1;
+      }
+
+      if (this.attributes.intelligence <= 5) {
+        this.bonusGroups += 1;
+      }
+
+      if (this.attributes.wisdom <= 5) {
+        this.bonusGroups += 1;
+      }
+
+      if (this.attributes.charisma <= 5) {
+        this.bonusGroups += 1;
+      }
+    }
+  }, {
+    key: "updateHitPoints",
+    value: function updateHitPoints() {
+      this.hitPoints = generateHitPoints(this.characterClass, this.level);
+    }
+  }, {
+    key: "updateAttackValue",
+    value: function updateAttackValue() {
+      if (this.characterClass == 'Deft') {
+        switch (this.level) {
+          case 1:
+            this.attackValue = 10;
+            break;
+
+          case 2:
+            this.attackValue = 11;
+            break;
+
+          case 3:
+            this.attackValue = 11;
+            break;
+
+          case 4:
+            this.attackValue = 12;
+            break;
+
+          case 5:
+            this.attackValue = 12;
+            break;
+
+          case 6:
+            this.attackValue = 13;
+            break;
+
+          case 7:
+            this.attackValue = 13;
+            break;
+
+          case 8:
+            this.attackValue = 14;
+            break;
+
+          case 9:
+            this.attackValue = 14;
+            break;
+
+          case 10:
+            this.attackValue = 15;
+            break;
+        }
+      } else if (this.characterClass == 'Strong') {
+        switch (this.level) {
+          case 1:
+            this.attackValue = 11;
+            break;
+
+          case 2:
+            this.attackValue = 11;
+            break;
+
+          case 3:
+            this.attackValue = 12;
+            break;
+
+          case 4:
+            this.attackValue = 13;
+            break;
+
+          case 5:
+            this.attackValue = 13;
+            break;
+
+          case 6:
+            this.attackValue = 14;
+            break;
+
+          case 7:
+            this.attackValue = 15;
+            break;
+
+          case 8:
+            this.attackValue = 15;
+            break;
+
+          case 9:
+            this.attackValue = 16;
+            break;
+
+          case 10:
+            this.attackValue = 17;
+            break;
+        }
+      } else if (this.characterClass == 'Wise') {
+        switch (this.level) {
+          case 1:
+            this.attackValue = 10;
+            break;
+
+          case 2:
+            this.attackValue = 11;
+            break;
+
+          case 3:
+            this.attackValue = 11;
+            break;
+
+          case 4:
+            this.attackValue = 11;
+            break;
+
+          case 5:
+            this.attackValue = 12;
+            break;
+
+          case 6:
+            this.attackValue = 12;
+            break;
+
+          case 7:
+            this.attackValue = 12;
+            break;
+
+          case 8:
+            this.attackValue = 13;
+            break;
+
+          case 9:
+            this.attackValue = 13;
+            break;
+
+          case 10:
+            this.attackValue = 13;
+            break;
+        }
+      }
+    }
+  }, {
+    key: "updateSavingThrow",
+    value: function updateSavingThrow() {
+      if (this.characterClass == 'Deft') {
+        switch (this.level) {
+          case 1:
+            this.savingThrow = 7;
+            break;
+
+          case 2:
+            this.savingThrow = 8;
+            break;
+
+          case 3:
+            this.savingThrow = 9;
+            break;
+
+          case 4:
+            this.savingThrow = 10;
+            break;
+
+          case 5:
+            this.savingThrow = 11;
+            break;
+
+          case 6:
+            this.savingThrow = 12;
+            break;
+
+          case 7:
+            this.savingThrow = 13;
+            break;
+
+          case 8:
+            this.savingThrow = 14;
+            break;
+
+          case 9:
+            this.savingThrow = 15;
+            break;
+
+          case 10:
+            this.savingThrow = 16;
+            break;
+        }
+      } else if (this.characterClass == 'Strong') {
+        switch (this.level) {
+          case 1:
+            this.savingThrow = 5;
+            break;
+
+          case 2:
+            this.savingThrow = 6;
+            break;
+
+          case 3:
+            this.savingThrow = 7;
+            break;
+
+          case 4:
+            this.savingThrow = 8;
+            break;
+
+          case 5:
+            this.savingThrow = 9;
+            break;
+
+          case 6:
+            this.savingThrow = 10;
+            break;
+
+          case 7:
+            this.savingThrow = 11;
+            break;
+
+          case 8:
+            this.savingThrow = 12;
+            break;
+
+          case 9:
+            this.savingThrow = 13;
+            break;
+
+          case 10:
+            this.savingThrow = 14;
+            break;
+        }
+      } else if (this.characterClass == 'Wise') {
+        switch (this.level) {
+          case 1:
+            this.savingThrow = 6;
+            break;
+
+          case 2:
+            this.savingThrow = 7;
+            break;
+
+          case 3:
+            this.savingThrow = 8;
+            break;
+
+          case 4:
+            this.savingThrow = 9;
+            break;
+
+          case 5:
+            this.savingThrow = 10;
+            break;
+
+          case 6:
+            this.savingThrow = 11;
+            break;
+
+          case 7:
+            this.savingThrow = 12;
+            break;
+
+          case 8:
+            this.savingThrow = 13;
+            break;
+
+          case 9:
+            this.savingThrow = 14;
+            break;
+
+          case 10:
+            this.savingThrow = 15;
+            break;
+        }
+      }
+    }
+  }, {
+    key: "updateSlots",
+    value: function updateSlots() {
+      if (this.characterClass == 'Deft') {
+        switch (this.level) {
+          case 1:
+            this.slots = 1;
+            break;
+
+          case 2:
+            this.slots = 1;
+            break;
+
+          case 3:
+            this.slots = 1;
+            break;
+
+          case 4:
+            this.slots = 2;
+            break;
+
+          case 5:
+            this.slots = 2;
+            break;
+
+          case 6:
+            this.slots = 2;
+            break;
+
+          case 7:
+            this.slots = 3;
+            break;
+
+          case 8:
+            this.slots = 3;
+            break;
+
+          case 9:
+            this.slots = 3;
+            break;
+
+          case 10:
+            this.slots = 4;
+            break;
+        }
+      } else if (this.characterClass == 'Strong') {
+        switch (this.level) {
+          case 1:
+            this.slots = 1;
+            break;
+
+          case 2:
+            this.slots = 1;
+            break;
+
+          case 3:
+            this.slots = 1;
+            break;
+
+          case 4:
+            this.slots = 2;
+            break;
+
+          case 5:
+            this.slots = 2;
+            break;
+
+          case 6:
+            this.slots = 2;
+            break;
+
+          case 7:
+            this.slots = 3;
+            break;
+
+          case 8:
+            this.slots = 3;
+            break;
+
+          case 9:
+            this.slots = 3;
+            break;
+
+          case 10:
+            this.slots = 4;
+            break;
+        }
+      } else if (this.characterClass == 'Wise') {
+        switch (this.level) {
+          case 1:
+            this.slots = 1;
+            break;
+
+          case 2:
+            this.slots = 1;
+            break;
+
+          case 3:
+            this.slots = 2;
+            break;
+
+          case 4:
+            this.slots = 2;
+            break;
+
+          case 5:
+            this.slots = 3;
+            break;
+
+          case 6:
+            this.slots = 3;
+            break;
+
+          case 7:
+            this.slots = 4;
+            break;
+
+          case 8:
+            this.slots = 4;
+            break;
+
+          case 9:
+            this.slots = 5;
+            break;
+
+          case 10:
+            this.slots = 5;
+            break;
+        }
+      }
+    }
+  }, {
+    key: "updateGroups",
+    value: function updateGroups() {
+      if (this.characterClass == 'Deft') {
+        switch (this.level) {
+          case 1:
+            this.groups = 2;
+            break;
+
+          case 2:
+            this.groups = 2;
+            break;
+
+          case 3:
+            this.groups = 3;
+            break;
+
+          case 4:
+            this.groups = 3;
+            break;
+
+          case 5:
+            this.groups = 4;
+            break;
+
+          case 6:
+            this.groups = 4;
+            break;
+
+          case 7:
+            this.groups = 5;
+            break;
+
+          case 8:
+            this.groups = 5;
+            break;
+
+          case 9:
+            this.groups = 6;
+            break;
+
+          case 10:
+            this.groups = 6;
+            break;
+        }
+      } else if (this.characterClass == 'Strong') {
+        switch (this.level) {
+          case 1:
+            this.groups = 2;
+            break;
+
+          case 2:
+            this.groups = 2;
+            break;
+
+          case 3:
+            this.groups = 2;
+            break;
+
+          case 4:
+            this.groups = 3;
+            break;
+
+          case 5:
+            this.groups = 3;
+            break;
+
+          case 6:
+            this.groups = 3;
+            break;
+
+          case 7:
+            this.groups = 4;
+            break;
+
+          case 8:
+            this.groups = 4;
+            break;
+
+          case 9:
+            this.groups = 4;
+            break;
+
+          case 10:
+            this.groups = 5;
+            break;
+        }
+      } else if (this.characterClass == 'Wise') {
+        switch (this.level) {
+          case 1:
+            this.groups = 2;
+            break;
+
+          case 2:
+            this.groups = 2;
+            break;
+
+          case 3:
+            this.groups = 2;
+            break;
+
+          case 4:
+            this.groups = 3;
+            break;
+
+          case 5:
+            this.groups = 3;
+            break;
+
+          case 6:
+            this.groups = 3;
+            break;
+
+          case 7:
+            this.groups = 4;
+            break;
+
+          case 8:
+            this.groups = 4;
+            break;
+
+          case 9:
+            this.groups = 4;
+            break;
+
+          case 10:
+            this.groups = 5;
+            break;
+        }
+      }
+    }
+  }, {
+    key: "increaseLevel",
+    value: function increaseLevel() {
+      if (this.level == 10) {
+        this.level = 10;
+      } else {
+        this.level = this.level + 1;
+      }
+
+      this.updateHitPoints();
+      this.updateAttackValue();
+      this.updateSavingThrow();
+      this.updateSlots();
+      this.updateGroups();
+    }
+  }, {
+    key: "decreaseLevel",
+    value: function decreaseLevel() {
+      if (this.level == 1) {
+        this.level = 1;
+      } else {
+        this.level = this.level - 1;
+      }
+
+      this.updateHitPoints();
+      this.updateAttackValue();
+      this.updateSavingThrow();
+      this.updateSlots();
+      this.updateGroups();
+    }
+  }]);
+
+  return Character;
+}();
+
+function d(size, count) {
   var faces = Array.from(new Array(size), function (x, i) {
     return i + 1;
   });
-  return faces.random();
+  var sum = 0;
+
+  for (var i = 0; i < count; i++) {
+    sum = sum + faces.random();
+  }
+
+  return sum;
 }
 
 function generateStat() {
-  return d(6) + d(6) + d(6);
+  return d(6, 3);
+}
+
+function generateName() {
+  var names = ['A', 'B', 'C'];
+  return names.random();
 }
 
 function generateClass() {
@@ -120,59 +771,127 @@ function generateClass() {
   return classes.random();
 }
 
-function generateName() {
-  var names = ['Gobbo Dar', 'Silva', 'Ulsak', 'Elbet', 'Thunder Foot', 'Regin', 'Snuffit', 'Oddo', 'Horst', 'Ugga', 'Uno Saar', 'Haxander', 'Stravka', 'Saffron', 'Edelhart', 'Galvina', 'Beryl Chard', 'Rapokes', 'Thorne', 'Elwydd', 'Clivia', 'Laveri', 'Raffle', 'Adelina', 'Hrain of the Ice', 'Apok', 'Gonk', 'Leander', 'Lebert Creth', 'Mercutio', 'Rathid', 'Adursi', 'Furio', 'Reekwin', 'Charah', 'Cletus', 'Elbaran', 'Alehir', 'Beppo', 'Luena', 'Morne', 'Restar', 'Blind Renly', 'Alibede'];
-  return names.random();
-}
-
 function generateVocation() {
-  var vocations = ['Thief', 'Monk', 'Spy', 'Marksman', 'Ranger', 'Assassin', 'Warrior', 'Guard', 'Brigand', 'Knight', 'Bounty Hunter', 'Hunter', 'Barbarian', 'Wizard', 'Priest', 'Alchemist', 'Exorcist', 'Demonologist', 'Druid', 'Runecarver', 'Bard', 'Mad Scientist'];
+  var vocations = ['A', 'B', 'C'];
   return vocations.random();
 }
 
-function generateHitPoints() {
-  return d(6);
-}
+function generateHitPoints(characterClass, level) {
+  if (characterClass == 'Deft') {
+    switch (level) {
+      case 1:
+        return d(6, 1);
+
+      case 2:
+        return d(6, 2);
+
+      case 3:
+        return d(6, 2) + 1;
+
+      case 4:
+        return d(6, 3);
+
+      case 5:
+        return d(6, 3) + 1;
+
+      case 6:
+        return d(6, 4);
+
+      case 7:
+        return d(6, 4) + 1;
+
+      case 8:
+        return d(6, 5);
+
+      case 9:
+        return d(6, 5) + 1;
+
+      case 10:
+        return d(6, 6);
+    }
+  } else if (characterClass = 'Strong') {
+    switch (level) {
+      case 1:
+        return d(6, 1) + 2;
+
+      case 2:
+        return d(6, 2);
+
+      case 3:
+        return d(6, 3);
+
+      case 4:
+        return d(6, 4);
+
+      case 5:
+        return d(6, 5);
+
+      case 6:
+        return d(6, 6);
+
+      case 7:
+        return d(6, 7);
+
+      case 8:
+        return d(6, 8);
+
+      case 9:
+        return d(6, 9);
+
+      case 10:
+        return d(6, 10);
+    }
+  } else if (characterClass = 'Wise') {
+    switch (level) {
+      case 1:
+        return d(6, 1) + 1;
+
+      case 2:
+        return d(6, 2);
+
+      case 3:
+        return d(6, 2) + 1;
+
+      case 4:
+        return d(6, 3);
+
+      case 5:
+        return d(6, 4);
+
+      case 6:
+        return d(6, 4) + 1;
+
+      case 7:
+        return d(6, 5);
+
+      case 8:
+        return d(6, 6);
+
+      case 9:
+        return d(6, 6) + 1;
+
+      case 10:
+        return d(6, 7);
+    }
+  }
+} // Instantiate a new character on pageload.
+
+
+var character = new Character(); // Tie the character object to a Vue instance.
 
 var app = new Vue({
   el: '#app',
-  data: {
-    characterName: generateName(),
-    characterClass: generateClass(),
-    characterVocation: generateVocation(),
-    characterStats: [{
-      name: 'Strength',
-      value: generateStat()
-    }, {
-      name: 'Dexterity',
-      value: generateStat()
-    }, {
-      name: 'Constitution',
-      value: generateStat()
-    }, {
-      name: 'Intelligence',
-      value: generateStat()
-    }, {
-      name: 'Wisdom',
-      value: generateStat()
-    }, {
-      name: 'Charisma',
-      value: generateStat()
-    }],
-    hitPoints: generateHitPoints()
-  },
+  data: character,
   methods: {
+    // Define a method to create a new character.
     generateCharacter: function generateCharacter() {
-      this.characterName = generateName();
-      this.characterClass = generateClass();
-      this.characterVocation = generateVocation();
-      this.characterStats[0].value = generateStat();
-      this.characterStats[1].value = generateStat();
-      this.characterStats[2].value = generateStat();
-      this.characterStats[3].value = generateStat();
-      this.characterStats[4].value = generateStat();
-      this.characterStats[5].value = generateStat();
-      this.hitPoints = generateHitPoints();
+      character.regenerate();
+    },
+    increaseLevel: function increaseLevel() {
+      character.increaseLevel();
+    },
+    decreaseLevel: function decreaseLevel() {
+      character.decreaseLevel();
     }
   }
 });
@@ -186,7 +905,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
+module.exports = __webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
 
 
 /***/ })
