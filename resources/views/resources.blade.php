@@ -3,6 +3,8 @@
 @section('title', 'Resources')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
+
 <h1>Resources</h1>
 
 <h2>Whitehack Character Generator</h2>
@@ -11,50 +13,61 @@
     <div>
         <button class="character-generate" v-on:click="generateCharacter">Generate Character</button>
 
-        <div>
-            <button class="character-level-down" v-on:click="decreaseLevel">-</button>
+        {{-- <div>
+            <button class="character-level-down" v-bind:class="levelDownObject" v-on:click="decreaseLevel">-</button>
             <span>Level</span>
-            <button class="character-level-up" v-on:click="increaseLevel">+</button>
-        </div>
-    </div>
-    <div class="character-summary">
-        @{{ name }}, level @{{ level }} @{{ characterClass }} @{{ vocation }}
+            <button class="character-level-up" v-bind:class="levelUpObject" v-on:click="increaseLevel">+</button>
+        </div> --}}
     </div>
 
-    <div class="character-hp">
-        <strong>HP</strong> @{{ hitPoints }}
-    </div>
+    <h3 class="character-name">
+        @{{ name }}
+    </h3>
 
-    <div class="character-av">
-        <strong>AV</strong> @{{ attackValue }}
-    </div>
+    <h4 class="character-summary">
+        Level @{{ level }} @{{ characterClass }} @{{ vocation }}
+    </h4>
 
-    <div class="character-st">
-        <strong>ST</strong> @{{ savingThrow }}
-    </div>
+    <table class="vitals">
+        <tr>
+            <td>Hit Points</td>
+            <td>Attack Value</td>
+            <td>Saving Throw</td>
+            <td>Armor Class</td>
+        </tr>
+        
+        <tr>
+            <td>@{{ hitPoints }}</td>
+            <td>@{{ attackValue }}</td>
+            <td>@{{ savingThrow }}</td>
+            <td>@{{ armorClass }}</td>
+        </tr>
+    </table>
 
-    <div class="character-slots">
-        <strong>Slots</strong> @{{ slots }}
-    </div>
+    <table class="attributes">
+        <tr v-for="attribute in attributes">
+            <td>@{{ attribute.name }}</td>
+            <td style="text-align: right;">@{{ attribute.value }}</td>
+            <td>
+                <span v-for="(group, key, index) in attribute.groups"><span v-if="key == 0">(</span>@{{ group }}<span v-if="key != Object.keys(attribute.groups).length - 1">, </span><span v-else>)</span></span>
+            </td>
+        </tr>
+    </table>
 
-    <div class="character-slots">
-        <strong>Groups</strong> @{{ groups }}
-    </div>
+    <h4>Equipment</h4>
+    <ul>
+        <li>
+            @{{ goldPieces }} gp (starting wealth @{{ startingGoldPieces }} gp)
+        </li>
+        <li>
+            @{{ armor }}
+        </li>
+        <li v-for="weapon in weapons">
+            @{{ weapon.name }} (@{{ weapon.damage }})
+        </li>
+    </ul>
 
-    <div class="character-slots">
-        <strong>Bonus Groups</strong> @{{ bonusGroups }}
-    </div>
-
-    <div class="character-attributes">
-        <ul>
-            <li><strong>Strength</strong> <span>@{{ attributes.strength }}</span></li>
-            <li><strong>Dexterity</strong> <span>@{{ attributes.dexterity }}</span></li>
-            <li><strong>Constitution</strong> <span>@{{ attributes.constitution }}</span></li>
-            <li><strong>Intelligence</strong> <span>@{{ attributes.intelligence }}</span></li>
-            <li><strong>Wisdom</strong> <span>@{{ attributes.wisdom }}</span></li>
-            <li><strong>Charisma</strong> <span>@{{ attributes.charisma }}</span></li>
-        </ul>
-    </div>
+    <h4>Slots</h4>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
