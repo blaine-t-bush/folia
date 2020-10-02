@@ -11,7 +11,7 @@
 
 <div id="app" class="character">
     <div>
-        <button class="character-generate" v-on:click="generateCharacter">Generate Character</button>
+        <button class="character-generate" v-on:click="generateCharacter"><i class="fas fa-dice"></i> Generate Character</button>
 
         {{-- <div>
             <button class="character-level-down" v-bind:class="levelDownObject" v-on:click="decreaseLevel">-</button>

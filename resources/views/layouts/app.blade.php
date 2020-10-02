@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap">
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+        <script src="https://kit.fontawesome.com/acd4b236b1.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <nav class="menu">
@@ -27,7 +29,12 @@
         </main>
 
         <footer>
-            <p>Handmade with <a href="https://laravel.com/">Laravel</a> and <a href="https://vuejs.org/">Vue.js</a>. The Fell Types are digitally reproduced by <a href="https://iginomarini.com/">Igino Marini</a>.</p>
+            <p>Handmade with <a href="https://laravel.com/"><i class="fab fa-laravel"></i> Laravel</a> and <a href="https://vuejs.org/"><i class="fab fa-vuejs"></i> Vue.js</a>. The Fell Types are digitally reproduced by <a href="https://iginomarini.com/">Igino Marini</a>.</p>
+            <p>
+                <a href="https://www.linkedin.com/in/blainetbush/"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/blaine-t-bush"><i class="fab fa-github"></i></a>
+                <a href="mailto:blaine.bush@gmail.com"><i class="far fa-envelope"></i></a>
+            </p>
         </footer>
     </body>
 </html>

@@ -10,6 +10,7 @@ Array.prototype.random = function() {
 // TODO add starting gold
 // TODO add equipment
 // TODO make sure no group gets added more than once
+// TODO break names up into primary, optional secondary, and optional epithets
 
 class Character {
     constructor() {
@@ -94,48 +95,31 @@ class Character {
         this.attributes.wisdom.value = d(6, 3);
         this.attributes.charisma.value = d(6, 3);
 
-        // Attach bonus group to strength.
+        // Calculate bonus groups for low attributes.
+        this.bonusGroups = 0;
         if (this.attributes.strength.value <= 5) {
-            this.attributes.strength.bonusGroups = 1;
-        } else {
-            this.attributes.strength.bonusGroups = 0;
+            this.bonusGroups += 1;
         }
 
-        // Attach bonus group to dexterity.
         if (this.attributes.dexterity.value <= 5) {
-            this.attributes.dexterity.bonusGroups = 1;
-        } else {
-            this.attributes.dexterity.bonusGroups = 0;
+            this.bonusGroups += 1;
         }
 
-        // Attach bonus group to constitution.
         if (this.attributes.constitution.value <= 5) {
-            this.attributes.constitution.bonusGroups = 1;
-        } else {
-            this.attributes.constitution.bonusGroups = 0;
+            this.bonusGroups += 1;
         }
 
-        // Attach bonus group to intelligence.
         if (this.attributes.intelligence.value <= 5) {
-            this.attributes.intelligence.bonusGroups = 1;
-        } else {
-            this.attributes.intelligence.bonusGroups = 0;
+            this.bonusGroups += 1;
         }
 
-        // Attach bonus group to wisdom.
         if (this.attributes.wisdom.value <= 5) {
-            this.attributes.wisdom.bonusGroups = 1;
-        } else {
-            this.attributes.wisdom.bonusGroups = 0;
+            this.bonusGroups += 1;
         }
 
-        // Attach bonus group to charisma.
         if (this.attributes.charisma.value <= 5) {
-            this.attributes.charisma.bonusGroups = 1;
-        } else {
-            this.attributes.charisma.bonusGroups = 0;
+            this.bonusGroups += 1;
         }
-
     }
 
     updateAttackValue() {
@@ -817,10 +801,11 @@ class Character {
     }
 
     updateAffiliations() {
-        // First, get the total number of groups, subtract 1 (for vocation), and randomly assign
+        // First, get the total number of groups, subtract 1 (for vocation), add
+        // any bonus groups for low stats, and randomly assign
         // one at a time until that number has been met.
         // However, make sure that no one attribute has more than 2 groups on it.
-        let remainingAffiliationGroups = this.groups - 1;
+        let remainingAffiliationGroups = this.groups + this.bonusGroups - 1;
 
         while (remainingAffiliationGroups > 0) {
             switch (d(6, 1)) {
@@ -873,32 +858,6 @@ class Character {
                         break;
                     }
             }
-        }
-
-        // Next, loop through each attribute and check if it qualifies for a bonus group.
-        // If so, add an affiliation to it. This allows us to exceed the max of 2 groups on an attribute.
-        if (this.attributes.strength.bonusGroups > 0) {
-            this.attributes.strength.groups.push(this.generateAffiliation());
-        }
-
-        if (this.attributes.dexterity.bonusGroups > 0) {
-            this.attributes.dexterity.groups.push(this.generateAffiliation());
-        }
-
-        if (this.attributes.constitution.bonusGroups > 0) {
-            this.attributes.constitution.groups.push(this.generateAffiliation());
-        }
-
-        if (this.attributes.intelligence.bonusGroups > 0) {
-            this.attributes.intelligence.groups.push(this.generateAffiliation());
-        }
-
-        if (this.attributes.wisdom.bonusGroups > 0) {
-            this.attributes.wisdom.groups.push(this.generateAffiliation());
-        }
-
-        if (this.attributes.charisma.bonusGroups > 0) {
-            this.attributes.charisma.groups.push(this.generateAffiliation());
         }
     }
 
