@@ -45,6 +45,11 @@
     </table>
 
     <table class="attributes">
+        <colgroup>
+            <col class="attributes-col-1">
+            <col class="attributes-col-2">
+            <col>
+        </colgroup>
         <tr v-for="attribute in attributes">
             <td>@{{ attribute.name }}</td>
             <td style="text-align: right;">@{{ attribute.value }}</td>
@@ -70,6 +75,21 @@
     <h4>Slots</h4>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script type="text/javascript" src="{{ asset('js/whitehack_character_generator.js') }}"></script>
+<h2>Tables</h2>
+
+<h3>Lizardmen</h3>
+<div id="d6-table-encounters-lizardmen">
+    <d-table :rows="rows"></d-table>
+</div>
+
+<h3>Froglings</h3>
+<div id="d6-table-encounters-froglings">
+    <d-table :rows="rows"></d-table>
+</div>
+
+@endsection
+
+@section('footer')
+    @parent
+    <script type="text/javascript" src="{{ asset('js/whitehack_character_generator.js') }}"></script>
 @endsection

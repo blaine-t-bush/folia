@@ -3,6 +3,19 @@ button.character-generate {
 }
 
 table.vitals {
+  table-layout: fixed;
   margin-bottom: 1em;
+}
+
+table.attributes {
+  table-layout: fixed;
+}
+
+col.attributes-col-1 {
+  width: 7em;
+}
+
+col.attributes-col-2 {
+  width: 2em;
 }
 

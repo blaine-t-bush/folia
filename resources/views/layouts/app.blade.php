@@ -28,6 +28,7 @@
             @yield('content')
         </main>
 
+        @section('footer')
         <footer>
             <p>Handmade with <a href="https://laravel.com/"><i class="fab fa-laravel"></i> Laravel</a> and <a href="https://vuejs.org/"><i class="fab fa-vuejs"></i> Vue.js</a>. The Fell Types are digitally reproduced by <a href="https://iginomarini.com/">Igino Marini</a>.</p>
             <p>
@@ -36,5 +37,9 @@
                 <a href="mailto:blaine.bush@gmail.com"><i class="far fa-envelope"></i></a>
             </p>
         </footer>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+        @show
     </body>
 </html>

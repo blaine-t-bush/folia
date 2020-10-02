@@ -1,6 +1,6 @@
 // Create prototype function on arrays to allow for inline random selection of one element.
 Array.prototype.random = function() {
-    return this[Math.floor((Math.random() * this.length))];
+    return this[Math.floor(Math.random() * this.length)];
 }
 
 // TODO fix leveling
@@ -918,7 +918,7 @@ class Character {
                     newHitPoints = d(6, 6);
                     break;
             }
-        } else if (this.characterClass = 'Strong') {
+        } else if (this.characterClass == 'Strong') {
             switch (this.level) {
                 case 1:
                     newHitPoints = d(6, 1) + 2;
@@ -951,7 +951,7 @@ class Character {
                     newHitPoints = d(6, 10);
                     break;
             }
-        } else if (this.characterClass = 'Wise') {
+        } else if (this.characterClass == 'Wise') {
             switch (this.level) {
                 case 1:
                     newHitPoints = d(6, 1) + 1;
@@ -1015,47 +1015,47 @@ class Character {
 
     buyArmor() {
         let armors = {
-            none: {
-                name: 'Unarmored',
-                armorClass: 0,
-                weight: 0,
-                cost: 0,
-            },
             cloth: {
                 name: 'Cloth armor',
                 armorClass: 1,
                 weight: 10,
                 cost: 10,
+                allowedClasses: ['Deft', 'Strong', 'Wise'],
             },
             leather: {
                 name: 'Leather armor',
                 armorClass: 2,
                 weight: 15,
                 cost: 15,
+                allowedClasses: ['Deft', 'Strong', 'Wise'],
             },
             studdedLeather: {
                 name: 'Studded leather armor',
                 armorClass: 3,
                 weight: 20,
                 cost: 20,
+                allowedClasses: ['Deft', 'Strong'],
             },
             chainmail: {
                 name: 'Chainmail',
                 armorClass: 4,
                 weight: 40,
                 cost: 30,
+                allowedClasses: ['Strong'],
             },
             splintMail: {
                 name: 'Splint mail',
                 armorClass: 5,
                 weight: 50,
                 cost: 40,
+                allowedClasses: ['Strong'],
             },
             fullPlate: {
                 name: 'Full plate',
                 armorClass: 6,
                 weight: 60,
                 cost: 50,
+                allowedClasses: ['Strong'],
             },
         };
 
@@ -1148,8 +1148,18 @@ class Character {
                 ];
             }
         }
+        
+        // Determine which weapons are within budget and allowed by character class.
+        var validArmor = [];
 
-        // Choose one at random.
+        for (let key in armors) {
+            let armor = armors[key];
+            if (this.goldPieces >= armor.cost && armor.allowedClasses.includes(this.characterClass)) {
+                validArmors.push(armor);
+            }
+        }
+
+        // Choose one in-budget armor at random.
         let armor = validArmors.random();
 
         this.armor = armor.name;

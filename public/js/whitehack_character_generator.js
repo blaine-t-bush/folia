@@ -918,7 +918,7 @@ var Character = /*#__PURE__*/function () {
             newHitPoints = d(6, 6);
             break;
         }
-      } else if (this.characterClass = 'Strong') {
+      } else if (this.characterClass == 'Strong') {
         switch (this.level) {
           case 1:
             newHitPoints = d(6, 1) + 2;
@@ -960,7 +960,7 @@ var Character = /*#__PURE__*/function () {
             newHitPoints = d(6, 10);
             break;
         }
-      } else if (this.characterClass = 'Wise') {
+      } else if (this.characterClass == 'Wise') {
         switch (this.level) {
           case 1:
             newHitPoints = d(6, 1) + 1;
@@ -1036,47 +1036,47 @@ var Character = /*#__PURE__*/function () {
     key: "buyArmor",
     value: function buyArmor() {
       var armors = {
-        none: {
-          name: 'Unarmored',
-          armorClass: 0,
-          weight: 0,
-          cost: 0
-        },
         cloth: {
           name: 'Cloth armor',
           armorClass: 1,
           weight: 10,
-          cost: 10
+          cost: 10,
+          allowedClasses: ['Deft', 'Strong', 'Wise']
         },
         leather: {
           name: 'Leather armor',
           armorClass: 2,
           weight: 15,
-          cost: 15
+          cost: 15,
+          allowedClasses: ['Deft', 'Strong', 'Wise']
         },
         studdedLeather: {
           name: 'Studded leather armor',
           armorClass: 3,
           weight: 20,
-          cost: 20
+          cost: 20,
+          allowedClasses: ['Deft', 'Strong']
         },
         chainmail: {
           name: 'Chainmail',
           armorClass: 4,
           weight: 40,
-          cost: 30
+          cost: 30,
+          allowedClasses: ['Strong']
         },
         splintMail: {
           name: 'Splint mail',
           armorClass: 5,
           weight: 50,
-          cost: 40
+          cost: 40,
+          allowedClasses: ['Strong']
         },
         fullPlate: {
           name: 'Full plate',
           armorClass: 6,
           weight: 60,
-          cost: 50
+          cost: 50,
+          allowedClasses: ['Strong']
         }
       }; // TODO add shields to buyArmor().
 
@@ -1125,7 +1125,18 @@ var Character = /*#__PURE__*/function () {
           // Cloth is within budget.
           var validArmors = [armors.cloth];
         }
-      } // Choose one at random.
+      } // Determine which weapons are within budget and allowed by character class.
+
+
+      var validArmor = [];
+
+      for (var key in armors) {
+        var _armor = armors[key];
+
+        if (this.goldPieces >= _armor.cost && _armor.allowedClasses.includes(this.characterClass)) {
+          validArmors.push(_armor);
+        }
+      } // Choose one in-budget armor at random.
 
 
       var armor = validArmors.random();
@@ -1372,7 +1383,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
+module.exports = __webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
 
 
 /***/ })
