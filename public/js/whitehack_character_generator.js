@@ -102,12 +102,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // Create prototype function on arrays to allow for inline random selection of one element.
 Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
-}; // TODO fix leveling
+}; // TODO move some functions to helper function file
+// TODO move groups off of attributes to separate object {group: 'name', attribute: 'strength'}
+// TODO fix leveling
 // TODO add toggle for HP houserule (HP increases by at least 1 each level)
 // TODO add button to re-roll HP
 // TODO add class-specific slots
 // TODO add starting gold
-// TODO add equipment
+// TODO add more equipment (rope, torches, etc)
+// TODO add unique equipment (trinkets)
 // TODO make sure no group gets added more than once
 // TODO break names up into primary, optional secondary, and optional epithets
 
@@ -129,41 +132,38 @@ var Character = /*#__PURE__*/function () {
       this.weight = 0;
       this.armorClass = 0;
       this.weapons = [];
+      this.languageCount = 0;
+      this.initiativeBonus = 0;
+      this.hirelingCount = 0;
       this.attributes = {
         strength: {
           name: 'Strength',
           value: 0,
-          bonusGroups: 0,
           groups: []
         },
         dexterity: {
           name: 'Dexterity',
           value: 0,
-          bonusGroups: 0,
           groups: []
         },
         constitution: {
           name: 'Constitution',
           value: 0,
-          bonusGroups: 0,
           groups: []
         },
         intelligence: {
           name: 'Intelligence',
           value: 0,
-          bonusGroups: 0,
           groups: []
         },
         wisdom: {
           name: 'Wisdom',
           value: 0,
-          bonusGroups: 0,
           groups: []
         },
         charisma: {
           name: 'Charisma',
           value: 0,
-          bonusGroups: 0,
           groups: []
         }
       };
@@ -202,28 +202,10 @@ var Character = /*#__PURE__*/function () {
 
       this.bonusGroups = 0;
 
-      if (this.attributes.strength.value <= 5) {
-        this.bonusGroups += 1;
-      }
-
-      if (this.attributes.dexterity.value <= 5) {
-        this.bonusGroups += 1;
-      }
-
-      if (this.attributes.constitution.value <= 5) {
-        this.bonusGroups += 1;
-      }
-
-      if (this.attributes.intelligence.value <= 5) {
-        this.bonusGroups += 1;
-      }
-
-      if (this.attributes.wisdom.value <= 5) {
-        this.bonusGroups += 1;
-      }
-
-      if (this.attributes.charisma.value <= 5) {
-        this.bonusGroups += 1;
+      for (var attribute in this.attributes) {
+        if (this.attributes[attribute].value <= 5) {
+          this.bonusGroups += 1;
+        }
       }
     }
   }, {
@@ -617,6 +599,12 @@ var Character = /*#__PURE__*/function () {
             this.slots = 5;
             break;
         }
+
+        if (this.attributes.wisdom.value >= 16) {
+          this.slots += 2;
+        } else if (this.attributes.wisdom.value >= 13) {
+          this.slots += 1;
+        }
       }
     }
   }, {
@@ -761,6 +749,21 @@ var Character = /*#__PURE__*/function () {
     value: function updateClass() {
       var classes = ['Deft', 'Strong', 'Wise'];
       this.characterClass = classes.random();
+    }
+  }, {
+    key: "updateSlots",
+    value: function updateSlots() {
+      // Use class to determine what type of slots to get.
+      if (this.characterClass == 'Deft') {
+        this.slotType = 'Attunements';
+        this.generateSlots('Deft');
+      } else if (this.characterClass == 'Strong') {
+        this.slotType = 'Abilities';
+        this.generateSlots('Strong');
+      } else if (this.characterClass == 'Wise') {
+        this.slotType = 'Miracles';
+        this.generateSlots('Wise');
+      }
     }
   }, {
     key: "updateVocation",
@@ -959,6 +962,12 @@ var Character = /*#__PURE__*/function () {
           case 10:
             newHitPoints = d(6, 10);
             break;
+        }
+
+        if (this.attributes.constitution.value >= 16) {
+          this.slots += 2;
+        } else if (this.attributes.constitution.value >= 13) {
+          this.slots += 1;
         }
       } else if (this.characterClass == 'Wise') {
         switch (this.level) {
@@ -1383,7 +1392,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
+module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
 
 
 /***/ })
