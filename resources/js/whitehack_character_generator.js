@@ -3,6 +3,8 @@ Array.prototype.random = function() {
     return this[Math.floor(Math.random() * this.length)];
 }
 
+// TODO hireling generator
+
 // TODO move some functions to helper function file
 // TODO move groups off of attributes to separate object {group: 'name', attribute: 'strength'}
 // TODO fix leveling

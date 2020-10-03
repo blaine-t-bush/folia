@@ -75,7 +75,7 @@
     <h4>Slots</h4>
 </div>
 
-<h2>Tables</h2>
+<!--<h2>Tables</h2>
 
 <h3>Lizardmen</h3>
 <div id="d6-table-encounters-lizardmen">
@@ -85,7 +85,7 @@
 <h3>Froglings</h3>
 <div id="d6-table-encounters-froglings">
     <d-table :rows="rows"></d-table>
-</div>
+</div> -->
 
 @endsection
 
