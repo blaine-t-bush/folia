@@ -15,16 +15,10 @@ function d(size, count) {
 }
 
 // TODO hireling generator
-// TODO move some functions to helper function file
 // TODO move groups off of attributes to separate object {group: 'name', attribute: 'strength'}
 // TODO fix leveling
 // TODO add toggle for HP houserule (HP increases by at least 1 each level)
 // TODO add button to re-roll HP
-// TODO add class-specific slots
-// TODO add starting gold
-// TODO add more equipment (rope, torches, etc)
-// TODO add unique equipment (trinkets)
-// TODO make sure no group gets added more than once
 // TODO break names up into primary, optional secondary, and optional epithets
 
 // Instantiate a new character on pageload.

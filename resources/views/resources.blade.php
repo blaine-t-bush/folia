@@ -58,6 +58,13 @@
             </td>
         </tr>
     </table>
+
+    <h4>@{{ slots.type }}</h4>
+    <ul>
+        <li v-for="attunement in slots.attunements">@{{ attunement }}</li>
+        <li v-for="ability in slots.abilities">@{{ ability }}</li>
+        <li v-for="miracle in slots.miracles">@{{ miracle }}</li>
+    </ul>
 </div>
 
 <h2>Tables</h2>

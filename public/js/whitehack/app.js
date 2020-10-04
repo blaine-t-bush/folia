@@ -4,34 +4,7 @@ class Character {
     }
 
     generate() {
-        this.level = 1;
-        this.hitDice = {
-            base: 0,
-            bonus: 0,
-        };
-        this.hitPoints = 0;
-        this.wealth = {
-            starting: 0,
-            current: 0,
-        };
-        this.weight = 0;
-        this.armorClass = 0;
-        this.weapons = [];
-        this.languageCount = 0;
-        this.initiativeBonus = 0;
-        this.hirelingCount = 0;
-        this.slots = {
-            count: 0,
-            bonusInactiveCount: 0,
-        };
-        this.groupCount = 0;
-        this.groupCountBonus = 0;
-        this.groups = {
-            count: 0,
-            bonusCount: 0,
-            groups: {}
-        };
-        // this.groups = {count: 2, bonusCount: 1, groups: {name: 'Ninja', type: 'Vocation', attribute: 'Dexterity', }];
+        // Attribute scores.
         this.attributes = {
             strength: {
                 name: 'Strength',
@@ -64,25 +37,52 @@ class Character {
                 groups: [],
             },
         };
-        // Determine attribute scores.
-        // Determine class.
-        // Determine vital statistics:
-        //  AV
-        //  HP
-        //  ST
-        //  Number of slots
-        //  Number of groups
-        //  Number of raises
-        // Determine slots.
-        // Determine groups:
-        //  1 Vocation
-        //  (Optional) 1 Species
-        //  Affiliation groups
-        // Determine wealth.
-        // Determine equipment.
-        // Determine AC.
-        // Determine equipment weight or slots.
-        // Determine languages.
+
+        // Vital statistics.
+        this.level = 1;
+        this.characterClass = null;
+        
+        this.hitPoints = 0;
+        this.hitDice = {
+            base: 0,
+            bonus: 0,
+        };
+
+        this.attackValue = 0;
+        this.savingThrow = 0;
+        this.armorClass  = 0;
+        // this.moveSpeed = 30; // TODO update species to include move speed.
+
+        // Class slots.
+        this.slots = {
+            type: null,
+            count: 0,
+            bonusInactiveCount: 0,
+            attunements: [],
+            abilities: [],
+            miracles: [],
+        };
+
+        // Groups: vocation, species, and affiliations.
+        this.groups = {
+            count: 0,
+            bonusCount: 0,
+            vocation: null,
+            species: null,
+            affiliations: [],
+        };
+
+        // Equipment and wealth.
+        this.equipment = [];
+        this.wealth = {
+            starting: 0,
+            current: 0,
+        };
+        
+        // TODO determine slots.
+        // TODO add optional species group.
+        // TODO add equipment.
+        // TODO add languages.
         this.generateAttributes();
         this.generateClass();
         this.updateHitDice();
@@ -90,11 +90,12 @@ class Character {
         this.updateAttackValue();
         this.updateSavingThrow();
         this.updateSlotCount();
+        this.updateSlots();
         this.updateGroupCount();
-        this.updateName();
         this.updateVocation();
         this.updateAffiliations();
-        this.updateWealth();
+        this.generateWealth();
+        this.updateName();
     }
 
     increaseLevel() {
@@ -119,13 +120,9 @@ class Character {
         }
     }
 
-    updateWealth() {
-        let wealth = 10 * d(6, 3);
-        this.wealth.starting = wealth;
-        this.wealth.current  = wealth;
+    generateWealth() {
+        this.wealth.starting = this.wealth.current = 10 * d(6, 3);
     }
-
-    
 
     generateAttributes() {
         // Roll 3d6 for each attribute to determine its score.
@@ -199,9 +196,9 @@ class Character {
         if (this.characterClass == 'Deft') {
             this.attackValue = Math.floor(this.level/2) + 10;
         } else if (this.characterClass == 'Strong') {
-            this.attackValue = this.level;
-        } else if (this.characterClass == 'Wise') {
             this.attackValue = Math.floor((this.level - 1)/1.5) + 11;
+        } else if (this.characterClass == 'Wise') {
+            this.attackValue = Math.floor((this.level + 1)/3) + 10;
         } else if (this.characterClass == 'Brave') {
             this.attackValue = Math.floor((this.level + 1)/3) + 10;
         } else if (this.characterClass == 'Fortunate') {
@@ -251,6 +248,95 @@ class Character {
         } else {
             this.slots.bonusInactiveCount = 0;
         }
+    }
+
+    updateSlots() {
+        if (this.characterClass == 'Deft') {
+            this.slots.type = 'Attunements';
+            let remainingAttunements = 2*this.slots.count;
+            while (remainingAttunements > 0) {
+                // Randomly select an attunement.
+                let randomAttunement = this.getAttunement();
+
+                if (this.slots.attunements.includes(randomAttunement)) { 
+                    // Ensure same attunement isn't selected more than once.
+                    continue;
+                } else {
+                    // If the attunement is new, add it to the list.
+                    this.slots.attunements.push(randomAttunement);
+                    remainingAttunements--;
+                }
+            }
+        } else if (this.characterClass == 'Strong') {
+            this.slots.type = 'Abilities';
+            let remainingAbilities = this.slots.count;
+            while (remainingAbilities > 0) {
+                // Randomly select an ability.
+                let randomAbility = this.getAbility();
+
+                if (this.slots.abilities.includes(randomAbility)) { 
+                    // Ensure same ability isn't selected more than once.
+                    continue;
+                } else {
+                    // If the ability is new, add it to the list.
+                    this.slots.abilities.push(randomAbility);
+                    remainingAbilities--;
+                }
+            }
+        } else if (this.characterClass == 'Wise') {
+            this.slots.type = 'Miracles';
+            let remainingMiracles = 2*this.slots.count + this.slots.bonusInactiveCount; // Wise may get extra slots for high wisdom scores.
+            while (remainingMiracles > 0) {
+                // Randomly select an miracle.
+                let randomMiracle = this.getMiracle();
+
+                if (this.slots.miracles.includes(randomMiracle)) { 
+                    // Ensure same miracle isn't selected more than once.
+                    continue;
+                } else {
+                    // If the miracle is new, add it to the list.
+                    this.slots.miracles.push(randomMiracle);
+                    remainingMiracles--;
+                }
+            }
+        }
+    }
+
+    getAttunement() {
+        let attunements = [
+            'Attunement 1',
+            'Attunement 2',
+            'Attunement 3',
+            'Attunement 4',
+            'Attunement 5',
+            'Attunement 6',
+        ];
+
+        return attunements.random();
+    }
+
+    getAbility() {
+        let abilities = [
+            'Ability 1',
+            'Ability 2',
+            'Ability 3',
+        ];
+
+        return abilities.random();
+    }
+
+    getMiracle() {
+        let attunements = [
+            'Miracle 1',
+            'Miracle 2',
+            'Miracle 3',
+            'Miracle 4',
+            'Miracle 5',
+            'Miracle 6',
+            'Miracle 7',
+        ];
+
+        return attunements.random();
     }
 
     updateGroupCount() {
@@ -325,26 +411,29 @@ class Character {
 
         while (remainingAffiliationGroups > 0) {
             let randomAttributeNum = d(6, 1);
-            let randomAffiliation = this.getAffiliation(); // TODO make sure an affiliation can't be selected more than once.
+            let randomAffiliation = this.getAffiliation();
+            if (this.groups.affiliations.includes(randomAffiliation)) {
+                continue;
+            }
+
             if (randomAttributeNum == 1 && this.attributes.strength.groups.length < 2) {
                 this.attributes.strength.groups.push(randomAffiliation);
-                remainingAffiliationGroups--;
             } else if (randomAttributeNum == 2 && this.attributes.dexterity.groups.length < 2) {
                 this.attributes.dexterity.groups.push(randomAffiliation);
-                remainingAffiliationGroups--;
             } else if (randomAttributeNum == 3 && this.attributes.constitution.groups.length < 2) {
                 this.attributes.constitution.groups.push(randomAffiliation);
-                remainingAffiliationGroups--;
             } else if (randomAttributeNum == 4 && this.attributes.intelligence.groups.length < 2) {
                 this.attributes.intelligence.groups.push(randomAffiliation);
-                remainingAffiliationGroups--;
             } else if (randomAttributeNum == 5 && this.attributes.wisdom.groups.length < 2) {
                 this.attributes.wisdom.groups.push(randomAffiliation);
-                remainingAffiliationGroups--;
             } else if (randomAttributeNum == 6 && this.attributes.charisma.groups.length < 2) {
                 this.attributes.charisma.groups.push(randomAffiliation);
-                remainingAffiliationGroups--;
+            } else {
+                continue;
             }
+
+            this.groups.affiliations.push(randomAffiliation);
+            remainingAffiliationGroups--;
         }
     }
 
@@ -713,16 +802,10 @@ function d(size, count) {
 }
 
 // TODO hireling generator
-// TODO move some functions to helper function file
 // TODO move groups off of attributes to separate object {group: 'name', attribute: 'strength'}
 // TODO fix leveling
 // TODO add toggle for HP houserule (HP increases by at least 1 each level)
 // TODO add button to re-roll HP
-// TODO add class-specific slots
-// TODO add starting gold
-// TODO add more equipment (rope, torches, etc)
-// TODO add unique equipment (trinkets)
-// TODO make sure no group gets added more than once
 // TODO break names up into primary, optional secondary, and optional epithets
 
 // Instantiate a new character on pageload.
