@@ -5,8 +5,8 @@
 @section('content')
 <h1>Posts</h1>
 
-@if (session('is_admin'))
-<button class="create-new-post" href="/posts/create">Create New Post</button>
+@if (Auth::check() && Auth::user()->can_create_posts)
+<a href="/posts/create"><button class="create-new-post">Create New Post</button></a>
 @endif
 
 <ol class="posts">
@@ -21,7 +21,7 @@
 
             <summary>{{ $post->summary }}</summary>
 
-            @if (session('is_admin'))
+            @if (Auth::check() && Auth::user()->can_delete_posts)
             <form method="POST" action="/posts/{{ $post->id }}">
                 @csrf
                 @method('DELETE')

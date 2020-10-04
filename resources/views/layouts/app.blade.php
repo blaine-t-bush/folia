@@ -36,6 +36,10 @@
                 <a href="https://github.com/blaine-t-bush"><i class="fab fa-github"></i></a>
                 <a href="mailto:blaine.bush@gmail.com"><i class="far fa-envelope"></i></a>
             </p>
+
+            @if (Auth::check())
+            <a href="/logout"><button>Logout</button></a>
+            @endif
         </footer>
         
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

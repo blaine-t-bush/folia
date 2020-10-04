@@ -5,16 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+ * 
+ * Main pages
+ * 
+ */
 Route::redirect('/', '/home');
 
 Route::get('/home', function() {
@@ -29,25 +23,53 @@ Route::get('/about', function() {
     return view('about');
 });
 
-// The 7 RESTful Methods *bow*
+/*
+ * 
+ * Authentication
+ * 
+ */
+// Login and registration are taken care of by Fortify. Just need to add a route for logout.
+Route::get('/logout', function() {
+    Auth::logout();
+    return view('home');
+});
 
+/*
+ * 
+ * Posts
+ * 
+ */
 // Display all posts.
-Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts', [
+    PostController::class, 'index'
+]);
 
 // Display form for creating new post.
-Route::get('/posts/create', [PostController::class, 'create']);
+Route::get('/posts/create', [
+    PostController::class, 'create'
+])->middleware('auth.create_posts');
 
 // Store data for newly-created post.
-Route::post('/posts', [PostController::class, 'store']);
+Route::post('/posts', [
+    PostController::class, 'store'
+])->middleware('auth.create_posts');
 
 // Display a single post.
-Route::get('/posts/{post}', [PostController::class, 'show']);
+Route::get('/posts/{post}', [
+    PostController::class, 'show'
+]);
 
 // Display form for editing a post.
-Route::get('/posts/{post}/edit', [PostController::class, 'edit']);
+Route::get('/posts/{post}/edit', [
+    PostController::class, 'edit'
+])->middleware('auth.edit_posts');
 
 // Store data for newly-edited post.
-Route::put('/posts/{post}', [PostController::class, 'update']);
+Route::put('/posts/{post}', [
+    PostController::class, 'update'
+])->middleware('auth.edit_posts');
 
 // Delete a single post.
-Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+Route::delete('/posts/{post}', [
+    PostController::class, 'destroy'
+])->middleware('auth.delete_posts');
