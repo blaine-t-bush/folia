@@ -19,6 +19,14 @@ Route::get('/resources', function() {
     return view('resources');
 });
 
+Route::get('/resources/whitehack-character-generator', function() {
+    return view('resources.whitehack-character-generator');
+});
+
+Route::get('/resources/tables', function() {
+    return view('resources.tables');
+});
+
 Route::get('/about', function() {
     return view('about');
 });

@@ -1,13 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Resources')
+@section('title', 'Whitehack Character Generator')
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
 
-<h1>Resources</h1>
-
-<h2>Whitehack Character Generator</h2>
+<h1>Whitehack Character Generator</h1>
 
 <div id="app" class="character">
     <div>
@@ -61,24 +59,11 @@
 
     <h4>@{{ slots.type }}</h4>
     <ul>
-        <li v-for="attunement in slots.attunements">@{{ attunement }}</li>
+        <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<span v-if="key < slots.count">*</span></li>
         <li v-for="ability in slots.abilities">@{{ ability }}</li>
-        <li v-for="miracle in slots.miracles">@{{ miracle }}</li>
+        <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<span v-if="key < slots.count">*</span></li>
     </ul>
 </div>
-
-<h2>Tables</h2>
-
-<h3>Lizardmen</h3>
-<div id="d6-table-encounters-lizardmen">
-    <d-table :rows="rows"></d-table>
-</div>
-
-<h3>Froglings</h3>
-<div id="d6-table-encounters-froglings">
-    <d-table :rows="rows"></d-table>
-</div>
-
 @endsection
 
 @section('footer')
