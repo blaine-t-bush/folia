@@ -102,7 +102,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // Create prototype function on arrays to allow for inline random selection of one element.
 Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
-}; // TODO move some functions to helper function file
+}; // TODO hireling generator
+// TODO move some functions to helper function file
 // TODO move groups off of attributes to separate object {group: 'name', attribute: 'strength'}
 // TODO fix leveling
 // TODO add toggle for HP houserule (HP increases by at least 1 each level)
@@ -1392,7 +1393,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
+module.exports = __webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\js\whitehack_character_generator.js */"./resources/js/whitehack_character_generator.js");
 
 
 /***/ })

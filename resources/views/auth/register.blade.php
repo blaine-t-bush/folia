@@ -4,7 +4,9 @@
 
 @section('content')
 
-<form id="register" method="POST" action="/register">
+<h1>Register</h1>
+
+<form id="register" method="POST" action="/register" class="register">
     @csrf
     <label for="name">Name</label>
     <input type="name" name="name" id="name">
@@ -14,7 +16,7 @@
     <input type="password" name="password" id="password">
     <label for="password_confirmation">Confirm Password</label>
     <input type="password" name="password_confirmation" id="password_confirmation">
-    <input type="submit" value="Submit">
+    <input class="register-submit" type="submit" value="Submit">
 </form>
 
 <!--

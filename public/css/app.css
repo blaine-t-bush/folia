@@ -127,3 +127,29 @@ footer a {
   color: darkred;
 }
 
+form.login {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  row-gap: 10px;
+}
+
+input.login-submit {
+  grid-column: 1/3;
+}
+
+form.register {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  row-gap: 10px;
+}
+
+input.register-submit {
+  grid-column: 1/3;
+}
+
