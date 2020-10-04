@@ -52,30 +52,15 @@
         </colgroup>
         <tr v-for="attribute in attributes">
             <td>@{{ attribute.name }}</td>
-            <td style="text-align: right;">@{{ attribute.value }}</td>
+            <td style="text-align: right;">@{{ attribute.score }}</td>
             <td>
                 <span v-for="(group, key, index) in attribute.groups"><span v-if="key == 0">(</span>@{{ group }}<span v-if="key != Object.keys(attribute.groups).length - 1">, </span><span v-else>)</span></span>
             </td>
         </tr>
     </table>
-
-    <h4>Equipment</h4>
-    <ul>
-        <li>
-            @{{ goldPieces }} gp (starting wealth @{{ startingGoldPieces }} gp)
-        </li>
-        <li>
-            @{{ armor }}
-        </li>
-        <li v-for="weapon in weapons">
-            @{{ weapon.name }} (@{{ weapon.damage }})
-        </li>
-    </ul>
-
-    <h4>Slots</h4>
 </div>
 
-<!--<h2>Tables</h2>
+<h2>Tables</h2>
 
 <h3>Lizardmen</h3>
 <div id="d6-table-encounters-lizardmen">
@@ -85,11 +70,11 @@
 <h3>Froglings</h3>
 <div id="d6-table-encounters-froglings">
     <d-table :rows="rows"></d-table>
-</div> -->
+</div>
 
 @endsection
 
 @section('footer')
     @parent
-    <script type="text/javascript" src="{{ asset('js/whitehack_character_generator.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/whitehack/app.js') }}"></script>
 @endsection

@@ -11,7 +11,12 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/whitehack_character_generator.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/whitehack_character_generator.scss', 'public/css');
+mix
+    // .js('resources/js/app.js', 'public/js')
+    .scripts([
+        'resources/js/whitehack/character.js',
+        'resources/js/whitehack/main.js',
+        ], 'public/js/whitehack/app.js')
+    // .sass('resources/sass/app.scss', 'public/css')
+    // .sass('resources/sass/whitehack_character_generator.scss', 'public/css')
+    ;
