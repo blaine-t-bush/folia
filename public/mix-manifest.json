@@ -1,3 +1,6 @@
 {
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/css/whitehack_character_generator.css": "/css/whitehack_character_generator.css",
     "/js/whitehack/app.js": "/js/whitehack/app.js"
 }

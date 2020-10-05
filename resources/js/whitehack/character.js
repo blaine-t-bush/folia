@@ -41,7 +41,7 @@ class Character {
         // Vital statistics.
         this.level = 1;
         this.characterClass = null;
-        
+
         this.hitPoints = 0;
         this.hitDice = {
             base: 0,
@@ -50,7 +50,7 @@ class Character {
 
         this.attackValue = 0;
         this.savingThrow = 0;
-        this.armorClass  = 0;
+        this.armorClass = 0;
 
         // Class slots.
         this.slots = {
@@ -77,7 +77,7 @@ class Character {
             starting: 0,
             current: 0,
         };
-        
+
         // TODO add equipment.
         // TODO add languages.
         this.generateAttributes();
@@ -123,12 +123,12 @@ class Character {
 
     generateAttributes() {
         // Roll 3d6 for each attribute to determine its score.
-        this.attributes.strength.score     = d(6, 3);
-        this.attributes.dexterity.score    = d(6, 3);
+        this.attributes.strength.score = d(6, 3);
+        this.attributes.dexterity.score = d(6, 3);
         this.attributes.constitution.score = d(6, 3);
         this.attributes.intelligence.score = d(6, 3);
-        this.attributes.wisdom.score       = d(6, 3);
-        this.attributes.charisma.score     = d(6, 3);
+        this.attributes.wisdom.score = d(6, 3);
+        this.attributes.charisma.score = d(6, 3);
     }
 
     generateClass() {
@@ -146,15 +146,15 @@ class Character {
     updateHitDice() {
         // Calculate base HD based on class and level.
         if (this.characterClass == 'Deft') {
-            this.hitDice.base = Math.floor(this.level/2) + 1;
+            this.hitDice.base = Math.floor(this.level / 2) + 1;
         } else if (this.characterClass == 'Strong') {
-            this.hitDice.base  = this.level;
+            this.hitDice.base = this.level;
         } else if (this.characterClass == 'Wise') {
-            this.hitDice.base = Math.floor((this.level + 1)/1.5);
+            this.hitDice.base = Math.floor((this.level + 1) / 1.5);
         } else if (this.characterClass == 'Brave') {
             this.hitDice.base = this.level;
         } else if (this.characterClass == 'Fortunate') {
-            this.hitDice.base = Math.floor(this.level/2) + 1;
+            this.hitDice.base = Math.floor(this.level / 2) + 1;
         }
 
         // Calculate any bonus to HP based on class and level.
@@ -191,15 +191,15 @@ class Character {
     updateAttackValue() {
         // Calculate attack value based on class and level.
         if (this.characterClass == 'Deft') {
-            this.attackValue = Math.floor(this.level/2) + 10;
+            this.attackValue = Math.floor(this.level / 2) + 10;
         } else if (this.characterClass == 'Strong') {
-            this.attackValue = Math.floor((this.level - 1)/1.5) + 11;
+            this.attackValue = Math.floor((this.level - 1) / 1.5) + 11;
         } else if (this.characterClass == 'Wise') {
-            this.attackValue = Math.floor((this.level + 1)/3) + 10;
+            this.attackValue = Math.floor((this.level + 1) / 3) + 10;
         } else if (this.characterClass == 'Brave') {
-            this.attackValue = Math.floor((this.level + 1)/3) + 10;
+            this.attackValue = Math.floor((this.level + 1) / 3) + 10;
         } else if (this.characterClass == 'Fortunate') {
-            this.attackValue = Math.floor((this.level - 1)/3) + 10;
+            this.attackValue = Math.floor((this.level - 1) / 3) + 10;
         }
 
         // Calculate any bonus to AV based on high strength (Strong only).
@@ -226,15 +226,15 @@ class Character {
     updateSlotCount() {
         // Calculate number of slots based on class and level.
         if (this.characterClass == 'Deft') {
-            this.slots.count = Math.floor((this.level + 2)/3);
+            this.slots.count = Math.floor((this.level + 2) / 3);
         } else if (this.characterClass == 'Strong') {
-            this.slots.count = Math.floor((this.level + 2)/3);
+            this.slots.count = Math.floor((this.level + 2) / 3);
         } else if (this.characterClass == 'Wise') {
-            this.slots.count = Math.floor((this.level + 1)/2);
+            this.slots.count = Math.floor((this.level + 1) / 2);
         } else if (this.characterClass == 'Brave') {
-            this.slots.count = Math.floor((this.level + 2)/3);
+            this.slots.count = Math.floor((this.level + 2) / 3);
         } else if (this.characterClass == 'Fortunate') {
-            this.slots.count = Math.floor((this.level + 2)/3);
+            this.slots.count = Math.floor((this.level + 2) / 3);
         }
 
         // Calculate any bonus slots for high wisdom (Wise only).
@@ -250,12 +250,12 @@ class Character {
     updateSlots() {
         if (this.characterClass == 'Deft') {
             this.slots.type = 'Attunements';
-            let remainingAttunements = 2*this.slots.count;
+            let remainingAttunements = 2 * this.slots.count;
             while (remainingAttunements > 0) {
                 // Randomly select an attunement.
-                let randomAttunement = this.getAttunement();
+                let randomAttunement = generateAttunement();
 
-                if (this.slots.attunements.includes(randomAttunement)) { 
+                if (this.slots.attunements.includes(randomAttunement)) {
                     // Ensure same attunement isn't selected more than once.
                     continue;
                 } else {
@@ -271,7 +271,7 @@ class Character {
                 // Randomly select an ability.
                 let randomAbility = this.getAbility();
 
-                if (this.slots.abilities.includes(randomAbility)) { 
+                if (this.slots.abilities.includes(randomAbility)) {
                     // Ensure same ability isn't selected more than once.
                     continue;
                 } else {
@@ -282,12 +282,12 @@ class Character {
             }
         } else if (this.characterClass == 'Wise') {
             this.slots.type = 'Miracles';
-            let remainingMiracles = 2*this.slots.count + this.slots.bonusInactiveCount; // Wise may get extra slots for high wisdom scores.
+            let remainingMiracles = 2 * this.slots.count + this.slots.bonusInactiveCount; // Wise may get extra slots for high wisdom scores.
             while (remainingMiracles > 0) {
                 // Randomly select an miracle.
-                let randomMiracle = this.getMiracle();
+                let randomMiracle = generateMiracle();
 
-                if (this.slots.miracles.includes(randomMiracle)) { 
+                if (this.slots.miracles.includes(randomMiracle)) {
                     // Ensure same miracle isn't selected more than once.
                     continue;
                 } else {
@@ -299,201 +299,33 @@ class Character {
         }
     }
 
-    getAttunement() {
-        let weapons = [
-            'Axe',
-            'Sword',
-            'Club',
-            'Crossbow',
-            'Dagger',
-            'Dart',
-            'Flail',
-            'Greatsword',
-            'Battle axe',
-            'Halberd',
-            'Polearm',
-            'Javelin',
-            'Longbow',
-            'Mace',
-            'Warhammer',
-            'Morningstar',
-            'Musket',
-            'Pistol',
-            'Quarterstaff',
-            'Scimitar',
-            'Shortbow',
-            'Shortsword',
-            'Sling',
-            'Spear',
-            'Throwing knife',
-            'Throwing axe',
-        ];
-
-        let items = [
-            'Grappling hook',
-            'Dice',
-            'Lockpicks',
-            '10-foot pole',
-            'Rope',
-            'Boat',
-            'Cart',
-            'Walking staff',
-            'Wizard staff',
-        ];
-
-        let animals = [
-            'Dog',
-            'Cat',
-            'Rat',
-            'Wolf',
-            'Badger',
-        ];
-
-        let people = [
-            'Swordmaster',
-            'Bowmaster',
-            'Ringleader',
-        ];
-
-        let randomChance = Math.random();
-        if (randomChance < 0.4) {
-            return weapons.random();
-        } else if (randomChance < 0.8) {
-            return items.random();
-        } else if (randomChance < 0.9) {
-            return animals.random();
-        } else {
-            return people.random();
-        }
-    }
-
     getAbility() {
         let abilities = [
-            'Strong Ability 1: protect ally',
-            'Strong Ability 2: push enemy',
-            'Strong Ability 3: climb enemy',
-            'Strong Ability 4: battle frenzy',
-            'Strong Ability 5: instruct ally',
-            'Strong Ability 6: encourage ally or intimidate enemy',
-            'Strong Ability 7: double attack',
-            'Strong Ability 8: parry',
+            '1. Protect ally from harm',
+            '2. Push enemy after successful attack',
+            '3. Cling to large foe',
+            '4. Work up battle frenzy',
+            '5. Give tactical instruction to ally',
+            '6. Encourage allies or strike fear in enemies',
+            '7. Double attack with melee and ranged weapons',
+            '8. Parry',
         ];
 
         return abilities.random();
     }
 
-    getMiracle() {
-        let possessives = [
-            'Sophronia\'s',
-            'Barbetta\'s',
-            'Brangwine\'s',
-            'Adelard\'s',
-            'Aglovale\'s',
-            'Galleron\'s',
-            'Everard\'s',
-            'Alisander\'s',
-            'Hildebrand\'s',
-            'Berenger\'s',
-        ];
-
-        let prefixes = [
-            'Wrath of',
-            'Blessing of',
-            'Suffering of',
-            'Gift of',
-            'Seal of',
-            'Tower of',
-            'Hymn of',
-            'Word of',
-            'Song of',
-        ];
-
-        let primaries = [
-            'Fire',
-            'Demonfire',
-            'Greenfire',
-            'Shadowfire',
-            'Lava',
-            'Magma',
-            'Ash',
-            'Cinder',
-            'Ember',
-            'Torrent',
-            'Iceflow',
-            'Rime',
-            'Frost',
-            'Hellfrost',
-            'Zephyr',
-            'Air',
-            'Smoke',
-            'Wind',
-            'Justice',
-            'Righteousness',
-            'Light',
-            'Darkness',
-            'Void',
-            'Shadow',
-            'Evil',
-            'Healing',
-            'Swiftness',
-        ];
-
-        let suffixes = [
-            'Wrath',
-            'Blessing',
-            'Gift',
-            'Seal',
-            'Tower',
-            'Torment',
-            'Hymn',
-            'Ward',
-        ];
-
-        let specials = [
-            'Pyroclastic Flow',
-            'Animate Dead',
-            'Open Mind',
-            'Bend Mind',
-            'Crumble',
-            'Marduk, Demon of Fire',
-            'Magnetism',
-        ];
-
-        // Every miracle is either explicitly listed in the array 'specials', or composed of elements from the following arrays:
-        // possessives, prefixes, primaries, and suffixes. If it is of the latter type, the following rules are followed:
-        // it always has a primary; it has either a prefix, a suffix, or neither, but not both; if and only if it does not have a prefix or suffix, it has a possessive.
-        let specialChance = specials.length/(primaries.length + specials.length);
-        if (Math.random() < specialChance) {
-            return specials.random();
-        } else {
-            let possessive = possessives.random();
-            let prefix     = prefixes.random();
-            let primary    = primaries.random();
-            let suffix     = suffixes.random();
-
-            let randomChance = Math.random();
-            if (randomChance < 0.2) {
-                return possessive + ' ' + primary;
-            } else if (randomChance < 0.6) {
-                return prefix + ' ' + primary;
-            } else {
-                return primary + ' ' + suffix;
-            }
-        }
-    }
-
     updateGroupCount() {
         // Calculate number of groups based on class and level.
         if (this.characterClass == 'Deft') {
-            this.groups.count = Math.floor((this.level + 3)/2);
+            this.groups.count = Math.floor((this.level + 3) / 2);
         } else if (this.characterClass == 'Strong') {
-            this.groups.count = Math.floor((this.level + 5)/3);
+            this.groups.count = Math.floor((this.level + 5) / 3);
         } else if (this.characterClass == 'Wise') {
-            this.groups.count = Math.floor((this.level + 5)/3);
+            this.groups.count = Math.floor((this.level + 5) / 3);
         } else if (this.characterClass == 'Brave') {
-            this.groups.count = Math.floor((this.level + 3)/4);
+            this.groups.count = Math.floor((this.level + 3) / 4);
         } else if (this.characterClass == 'Fortunate') {
-            this.groups.count = Math.floor((this.level + 3)/2);
+            this.groups.count = Math.floor((this.level + 3) / 2);
         }
 
         // Calculate number of bonus groups, if any, for low attribute scores.
@@ -504,384 +336,6 @@ class Character {
                 this.groups.bonusCount += 1;
             }
         }
-    }
-
-    updateName() {
-        let prefixes = [
-            'Clubfoot',
-            'Crazy',
-            'Do-Nothing',
-            'One-eyed',
-            'Blind',
-            'Brave',
-            'Accursed',
-            'Bald',
-            'Cruel',
-            'Gentle',
-            'Good',
-            'Grim',
-            'Holy',
-            'Hairy',
-            'Lame',
-            'Mad',
-            'Old',
-            'Pale',
-            'Quiet',
-            'Small',
-            'Strong',
-            'Swift',
-            'Tall',
-            'Terrible',
-            'Wicked',
-            'Wise',
-        ];
-
-        let names = [
-            'Blaine',
-            'Matthew',
-            'Morgan',
-            'Francisco',
-            'James',
-            'Richard',
-            'Dinadan',
-            'Alan',
-            'Aldred',
-            'Eluard',
-            'Arnold',
-            'Henry',
-            'Basil',
-            'Jocelyn',
-            'Cyr',
-            'Balin',
-            'George',
-            'Eliot',
-            'Frederick',
-            'Alexander',
-            'Percival',
-            'Anselm',
-            'Albert',
-            'Urian',
-            'Tristram',
-            'Berenger',
-            'Martin',
-            'Merek',
-            'Herman',
-            'Hildebrand',
-            'Edwin',
-            'Gilbert',
-            'Bliant',
-            'Bennet',
-            'Bryce',
-            'Castor',
-            'Giles',
-            'Gunter',
-            'Bernard',
-            'Arthur',
-            'Nigel',
-            'Lucan',
-            'Lionel',
-            'Bartholomew',
-            'Bardolph',
-            'Barnabas',
-            'Bertram',
-            'Wolfstan',
-            'Hardwin',
-            'Hamond',
-            'Faramond',
-            'Herbert',
-            'Alisander',
-            'Ulric',
-            'Galleron',
-            'Solomon',
-            'Sampson',
-            'Tobias',
-            'Charles',
-            'Diggory',
-            'Drogo',
-            'Hugh',
-            'Baudwin',
-            'Everard',
-            'Nicholas',
-            'Leofwin',
-            'Amis',
-            'Ranulf',
-            'Fulke',
-            'Theobald',
-            'Rowan',
-            'Geoffrey',
-            'Gervase',
-            'Gerard',
-            'Godwyn',
-            'Philip',
-            'Warin',
-            'Warner',
-            'Thomas',
-            'Brom',
-            'Hamon',
-            'Thurstan',
-            'Robert',
-            'Roland',
-            'Rolf',
-            'Walter',
-            'Laurence',
-            'Reginald',
-            'Aglovale',
-            'Sayer',
-            'Timm',
-            'Piers',
-            'Cerdic',
-            'Randel',
-            'Denis',
-            'Elias',
-            'Gabriel',
-            'Hector',
-            'Humphrey',
-            'Gamel',
-            'Gregory',
-            'Jasper',
-            'Jeremy',
-            'Isaac',
-            'Ingram',
-            'Isembard',
-            'Manfred',
-            'Ives',
-            'William',
-            'Lucius',
-            'Wymond',
-            'Lambert',
-            'Blaise',
-            'Griffith',
-            'Mabon',
-            'Hubert',
-            'Gerald',
-            'Eustace',
-            'Emory',
-            'Adam',
-            'Adelard',
-            'Alphonse',
-            'Turstin',
-            'Guy',
-            'Peter',
-            'Osric',
-            'Ogier',
-            'Gareth',
-            'Maynard',
-            'Miles',
-            'Elaine',
-            'Sarah',
-            'Sela',
-            'Sigga',
-            'Susanna',
-            'Althea',
-            'Alma',
-            'Artemisia',
-            'Anne',
-            'Anais',
-            'Acelina',
-            'Aelina',
-            'Aldith',
-            'Audry',
-            'Augusta',
-            'Brangwine',
-            'Bridget',
-            'Genevieve',
-            'Guinevere',
-            'Catelin',
-            'Caterina',
-            'Dionisia',
-            'Mary',
-            'Molly',
-            'Margaret',
-            'Margery',
-            'Martha',
-            'Elizabeth',
-            'Elysande',
-            'Cristina',
-            'Giselle',
-            'Regina',
-            'Ricolda',
-            'Roana',
-            'Barbetta',
-            'Bertha',
-            'Clarice',
-            'Amelina',
-            'Cecily',
-            'Edith',
-            'Elle',
-            'Juliana',
-            'Ivette',
-            'Adelina',
-            'Agnes',
-            'Alis',
-            'Alyson',
-            'Dameta',
-            'Paulina',
-            'Petronilla',
-            'Edeva',
-            'Eglenti',
-            'Evelune',
-            'Emeline',
-            'Emma',
-            'Joan',
-            'Johanna',
-            'Lavina',
-            'Lena',
-            'Lovota',
-            'Lillian',
-            'Maud',
-            'Milicent',
-            'Magdalen',
-            'Isabella',
-            'Caesaria',
-            'Douglas',
-            'Delia',
-            'Sapphira',
-            'Sophronia',
-            'Tephania',
-            'Theda',
-            'Thora',
-            'Odelina',
-            'Oliva',
-            'Orella',
-            'Venetia',
-            'Ysmeine',
-            'Gracia',
-            'Gratia',
-            'Swanhild',
-            'Sybil',
-            'Mathilde',
-            'Ida',
-            'Ingerith',
-            'Isemay',
-            'Celestria',
-            'Constance',
-            'Eleanor',
-            'Amicia',
-            'Avina',
-            'Athelina',
-            'Eva',
-            'Gundred',
-            'Felicia',
-            'Floria',
-            'Isolda',
-            'Linota',
-            'Cassandra',
-            'Lucia',
-            'Helewisa',
-            'Justina',
-            'Joyce',
-            'Joya',
-            'Nesta',
-            'Sabina',
-            'Gisela',
-            'Rosa',
-            'Rosamund',
-            'Evaine',
-            'Viviane',
-            'Laudine',
-            'Letia',
-            'Leticia',
-            'Legarda',
-            'Lia',
-            'Lunete',
-            'Florence',
-            'Gwendolen',
-            'Nicola',
-            'Blanche',
-            'Beatrice',
-            'Marie',
-            'Marion',
-            'Mirielda',
-        ];
-
-        let suffixes = [
-            'the Hard',
-            'the Soft',
-            'of the North',
-            'of the East',
-            'of the South',
-            'of the West',
-            'the Black',
-            'the White',
-            'the Red',
-            'the Yellow',
-            'of the Wood',
-            'of the Mountain',
-            'of the Valley',
-            'of the River',
-            'of the Lake',
-            'the Elder',
-            'the Younger',
-            'the Brave',
-            'the Great',
-            'the Magnificent',
-            'the Able',
-            'the Accursed',
-            'the Bald',
-            'the Bear',
-            'the Cruel',
-            'the Damned',
-            'the Exile',
-            'the Gentle',
-            'the Good',
-            'the Grim',
-            'the Hammer',
-            'the Holy',
-            'the Hairy',
-            'the Impaler',
-            'the Kind',
-            'the Lame',
-            'the Lion',
-            'the Wolf',
-            'the Mad',
-            'the Old',
-            'the Pale',
-            'the Quiet',
-            'the Rose',
-            'the Seer',
-            'the Small',
-            'the Spider',
-            'the Strong',
-            'the Swift',
-            'the Tall',
-            'the Terrible',
-            'the Wicked',
-            'the Wise',
-            'of the Sun',
-            'of the Moon',
-            'Fairhair',
-            'Bloodaxe',
-            'Crookback',
-            'Flatnose',
-            'Forkbeard',
-            'Greyfell',
-            'Greymantle',
-            'Longshanks',
-            'Ironside',
-            'Moneybags',
-            'Oathbreaker',
-            'One-eye',
-            'Ploughpenny',
-            'Roundhead',
-            'Thunderbolt',
-        ];
-
-        let name = '';
-
-        // Random chance for a prefix.
-        if (Math.random() < 0.3) {
-            name += prefixes.random() + ' ';
-        }
-
-        // Everyone has at least a regular old first name.
-        name += names.random();
-
-        // Random chance for a suffix.
-        if (Math.random() < 0.3) {
-            name += ' ' + suffixes.random();
-        }
-
-        this.name = name;
     }
 
     updateVocation() {
@@ -1051,6 +505,10 @@ class Character {
         ];
 
         return affiliations.random();
+    }
+
+    updateName() {
+        this.name = generateName();
     }
 
     buyArmor() {

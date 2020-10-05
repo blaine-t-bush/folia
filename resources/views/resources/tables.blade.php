@@ -3,7 +3,6 @@
 @section('title', 'Random Tables')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
 
 <h1>Random Tables</h1>
 
@@ -23,5 +22,4 @@
 
 @section('footer')
     @parent
-    <script type="text/javascript" src="{{ asset('js/whitehack/app.js') }}"></script>
 @endsection
