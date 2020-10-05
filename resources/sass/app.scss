@@ -1,34 +1,75 @@
+$colorBackground: #eeeeee;
+$colorHeader: #cccccc;
+$colorText: #000000;
+$colorAccentLight: #d22d2d;
+$colorAccentDark: darkred;
+$headerHeight: 3rem;
+$headerTitleFontSize: 1.5rem;
+$headerMenuFontSize: 1.2rem;
 body {
     font-family: 'IM Fell English', serif;
     background-color: #eeeeee;
 }
 
-nav.menu {
+header {
+    // Dimensions.
+    height: $headerHeight;
     width: 100%;
-    background-color: #cccccc;
-    line-height: 2;
-    font-size: 1.2rem;
-    ul {
+    // Colors.
+    background-color: $colorHeader;
+    // Main menu wrapper.
+    div.wrapper {
+        // Display.
         display: flex;
         justify-content: space-around;
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        border-bottom: 1px solid #666666;
-        a {
+        align-items: center;
+        // Don't want it to spread out too much.
+        height: 100%;
+        width: 100%;
+        max-width: 1080px;
+        margin: auto;
+        // Main logo and title.
+        div.sub-wrapper {
+            // Display.
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100%;
             flex-grow: 1;
-            text-align: center;
-            color: inherit;
-            text-decoration: inherit;
-            li {
-                width: 100%;
-                border-left: 1px solid #666666;
+            margin-left: 1rem;
+            img {
+                display: block;
+                height: 50%;
+                margin-right: 0.5rem;
             }
-            li.first {
-                border: none;
+            h1 {
+                margin: 0;
+                padding: 0;
+                font-weight: bold;
+                font-size: $headerTitleFontSize;
+                text-align: center;
             }
-            li.highlighted {
-                background-color: #aaaaaa;
+        }
+        // Main menu contents.
+        nav {
+            flex-grow: 1;
+            ul {
+                display: flex;
+                justify-content: space-evenly;
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                li {
+                    font-size: $headerMenuFontSize;
+                    a {
+                        text-align: center;
+                        color: inherit;
+                        text-decoration: inherit;
+                    }
+                    &.highlighted {
+                        color: $colorAccentDark;
+                    }
+                }
             }
         }
     }
@@ -107,17 +148,16 @@ input.delete-post {
     margin-bottom: 1rem;
 }
 
-footer a {
-    text-decoration: none;
+a {
+    text-decoration: underline;
     font-weight: bold;
-    color: darkred;
+    color: $colorAccentDark;
 }
 
 form.login {
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 1fr 1fr 1fr;
-
     column-gap: 10px;
     row-gap: 10px;
 }
@@ -130,7 +170,6 @@ form.register {
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-
     column-gap: 10px;
     row-gap: 10px;
 }

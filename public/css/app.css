@@ -3,40 +3,69 @@ body {
   background-color: #eeeeee;
 }
 
-nav.menu {
+header {
+  height: 3rem;
   width: 100%;
   background-color: #cccccc;
-  line-height: 2;
-  font-size: 1.2rem;
 }
 
-nav.menu ul {
+header div.wrapper {
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  max-width: 1080px;
+  margin: auto;
+}
+
+header div.wrapper div.sub-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  flex-grow: 1;
+  margin-left: 1rem;
+}
+
+header div.wrapper div.sub-wrapper img {
+  display: block;
+  height: 50%;
+  margin-right: 0.5rem;
+}
+
+header div.wrapper div.sub-wrapper h1 {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+header div.wrapper nav {
+  flex-grow: 1;
+}
+
+header div.wrapper nav ul {
+  display: flex;
+  justify-content: space-evenly;
   list-style-type: none;
   padding: 0;
   margin: 0;
-  border-bottom: 1px solid #666666;
 }
 
-nav.menu ul a {
-  flex-grow: 1;
+header div.wrapper nav ul li {
+  font-size: 1.2rem;
+}
+
+header div.wrapper nav ul li a {
   text-align: center;
   color: inherit;
   text-decoration: inherit;
 }
 
-nav.menu ul a li {
-  width: 100%;
-  border-left: 1px solid #666666;
-}
-
-nav.menu ul a li.first {
-  border: none;
-}
-
-nav.menu ul a li.highlighted {
-  background-color: #aaaaaa;
+header div.wrapper nav ul li.highlighted {
+  color: darkred;
 }
 
 nav.pagination ul {
@@ -121,8 +150,8 @@ input.delete-post {
   margin-bottom: 1rem;
 }
 
-footer a {
-  text-decoration: none;
+a {
+  text-decoration: underline;
   font-weight: bold;
   color: darkred;
 }

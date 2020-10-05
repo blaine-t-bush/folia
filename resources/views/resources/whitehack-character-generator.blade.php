@@ -79,6 +79,6 @@
 </div>
 @endsection
 
-@push('scripts_footer')
+@push('scripts_body')
 <script type="text/javascript" src="{{ asset('js/whitehack/character_generator.js') }}"></script>
 @endpush

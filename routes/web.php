@@ -20,12 +20,12 @@ Route::get('/resources', function() {
     return view('resources');
 });
 
-Route::get('/resources/whitehack/character-generator', function() {
-    return view('resources.whitehack.character-generator');
+Route::get('/resources/whitehack-character-generator', function() {
+    return view('resources.whitehack-character-generator');
 });
 
-Route::get('/resources/whitehack/miracle-generator', function() {
-    return view('resources.whitehack.miracle-generator');
+Route::get('/resources/whitehack-miracle-generator', function() {
+    return view('resources.whitehack-miracle-generator');
 });
 
 Route::get('/resources/tables', function() {
