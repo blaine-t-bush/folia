@@ -8,7 +8,8 @@
 <h1>Resources</h1>
 
 <ul>
-    <li><a href="/resources/whitehack-character-generator">Whitehack Character Generator</a></li>
+    <li><a href="/resources/whitehack/character-generator">Whitehack Character Generator</a></li>
+    <li><a href="/resources/whitehack/miracle-generator">Whitehack Miracle Generator</a></li>
     <li><a href="/resources/tables">Random Tables</a></li>
 </ul>
 

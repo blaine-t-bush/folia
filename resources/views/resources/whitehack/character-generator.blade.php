@@ -3,11 +3,14 @@
 @section('title', 'Whitehack Character Generator')
 
 @section('content')
+
+@push('scripts_head')
 <link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
+@endpush
 
 <h1>Whitehack Character Generator</h1>
 
-<div id="app" class="character">
+<div id="character-generator" class="character">
     <div>
         <button class="character-generate" v-on:click="generateCharacter"><i class="fas fa-dice"></i> Generate Character</button>
 
@@ -59,14 +62,23 @@
 
     <h4>@{{ slots.type }}</h4>
     <ul>
-        <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<span v-if="key < slots.count">*</span></li>
+        <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<span v-if="key < slots.count">†</span></li>
         <li v-for="ability in slots.abilities">@{{ ability }}</li>
-        <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<span v-if="key < slots.count">*</span></li>
+        <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<span v-if="key < slots.count">†</span></li>
+    </ul>
+    <p v-if="slots.type == 'Miracles' || slots.type =='Attunements'">†: active slot</p>
+
+    <h4>Equipment & Items</h4>
+    Either @{{ wealth.starting }} coins, or the following:
+    <ul>
+        <li>@{{ wealth.current }} coins</li>
+        <li>@{{ armor.name }} (AC @{{ armor.armorClass }})</li>
+        <li v-if="hasShield">Shield (AC +1)</li>
+        <li v-for="weapon in weapons">@{{ weapon.name }}</li>
     </ul>
 </div>
 @endsection
 
-@section('footer')
-    @parent
-    <script type="text/javascript" src="{{ asset('js/whitehack/app.js') }}"></script>
-@endsection
+@push('scripts_footer')
+<script type="text/javascript" src="{{ asset('js/whitehack/character_generator.js') }}"></script>
+@endpush

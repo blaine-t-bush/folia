@@ -20,6 +20,6 @@
 
 @endsection
 
-@section('footer')
-    @parent
-@endsection
+@push('scripts_footer')
+<script type="text/javascript" src="{{ asset('js/tables/tables.js') }}"></script>
+@endpush

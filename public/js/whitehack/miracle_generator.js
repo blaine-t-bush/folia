@@ -1,3 +1,18 @@
+// Create prototype function on arrays to allow for inline random selection of one element.
+Array.prototype.random = function() {
+    return this[Math.floor(Math.random() * this.length)];
+}
+
+// Helper function for dice-rolling.
+function d(size, count) {
+    let faces = Array.from(new Array(size), (x, i) => i + 1);
+    let sum = 0;
+    for (let i = 0; i < count; i++) {
+        sum = sum + faces.random();
+    }
+
+    return sum;
+}
 function generateMiracle() {
     let signaturePossessives = [
         'Sophronia\'s',
@@ -213,3 +228,37 @@ function generateMiracle() {
     // Trim any trailing whitespace.
     return name.trim();
 }
+// Create a new Vue instance.
+var app = new Vue({
+    el: '#miracle-generator',
+    data: {
+        miracles: [
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+            generateMiracle(),
+        ],
+    },
+    methods: {
+        generateMiracle: function() {
+            this.miracles = [
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+                generateMiracle(),
+            ];
+        }
+    }
+})

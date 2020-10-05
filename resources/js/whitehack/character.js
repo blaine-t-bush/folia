@@ -72,14 +72,15 @@ class Character {
         };
 
         // Equipment and wealth.
-        this.equipment = [];
+        this.armor = null;
+        this.weapons = [];
+        this.hasShield = false;
         this.wealth = {
             starting: 0,
             current: 0,
         };
 
         // TODO add equipment.
-        // TODO add languages.
         this.generateAttributes();
         this.generateClass();
         this.updateHitDice();
@@ -92,6 +93,17 @@ class Character {
         this.updateVocation();
         this.updateAffiliations();
         this.generateWealth();
+        this.buyArmor();
+        this.buyWeapon();
+        if (Math.random() < 0.5 && this.characterClass == 'Strong') {
+            this.buyShield();
+        }
+        if (Math.random() < 0.5) {
+            this.buyWeapon();
+        }
+        if (Math.random() < 0.5) {
+            this.buyWeapon();
+        }
         this.updateName();
     }
 
@@ -559,100 +571,12 @@ class Character {
 
         // TODO add shields to buyArmor().
 
-        if (this.characterClass == 'Deft') {
-            // Cloth, leather, or studded leather. No shield.
-            // Determine which ones are within price range.
-            if (this.goldPieces >= 20) {
-                // All are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                    armors.studdedLeather,
-                ];
-            } else if (this.goldPieces >= 15) {
-                // Leather and cloth are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                ];
-            } else if (this.goldPieces >= 10) {
-                // Cloth is within budget.
-                var validArmors = [
-                    armors.cloth,
-                ];
-            }
-        } else if (this.characterClass == 'Strong') {
-            // Cloth, leather, studded leather, chainmail, splint mail, full plate. Shield allowed.
-            // Determine which ones are within price range.
-            if (this.goldPieces >= 60) {
-                // All are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                    armors.studdedLeather,
-                    armors.chainmail,
-                    armors.splintMail,
-                    armors.fullPlate,
-                ];
-            } else if (this.goldPieces >= 50) {
-                // All are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                    armors.studdedLeather,
-                    armors.chainmail,
-                    armors.splintMail,
-                ];
-            } else if (this.goldPieces >= 40) {
-                // All are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                    armors.studdedLeather,
-                    armors.chainmail,
-                ];
-            } else if (this.goldPieces >= 20) {
-                // All are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                    armors.studdedLeather,
-                ];
-            } else if (this.goldPieces >= 15) {
-                // Leather and cloth are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                ];
-            } else if (this.goldPieces >= 10) {
-                // Cloth is within budget.
-                var validArmors = [
-                    armors.cloth,
-                ];
-            }
-        } else if (this.characterClass == 'Wise') {
-            // Cloth, leather. No shield.
-            // Determine which ones are within price range.
-            if (this.goldPieces >= 15) {
-                // Leather and cloth are within budget.
-                var validArmors = [
-                    armors.cloth,
-                    armors.leather,
-                ];
-            } else if (this.goldPieces >= 10) {
-                // Cloth is within budget.
-                var validArmors = [
-                    armors.cloth,
-                ];
-            }
-        }
-
         // Determine which weapons are within budget and allowed by character class.
-        var validArmor = [];
+        var validArmors = [];
 
         for (let key in armors) {
             let armor = armors[key];
-            if (this.goldPieces >= armor.cost && armor.allowedClasses.includes(this.characterClass)) {
+            if (this.wealth.current >= armor.cost && armor.allowedClasses.includes(this.characterClass)) {
                 validArmors.push(armor);
             }
         }
@@ -660,9 +584,9 @@ class Character {
         // Choose one in-budget armor at random.
         let armor = validArmors.random();
 
-        this.armor = armor.name;
+        this.armor = armor;
         this.armorClass = armor.armorClass;
-        this.goldPieces -= armor.cost;
+        this.wealth.current -= armor.cost;
         this.weight += armor.weight;
     }
 
@@ -674,165 +598,191 @@ class Character {
                 damage: '1d6+1',
                 weight: 6,
                 cost: 10,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             sword: {
                 name: 'Sword',
                 damage: '1d6+1',
                 weight: 6,
                 cost: 10,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             club: {
                 name: 'Club',
                 damage: '1d6-2',
                 weight: 3,
                 cost: 0,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             crossbow: {
                 name: 'Crossbow',
                 damage: '1d6+1',
                 weight: 8,
                 cost: 30,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             dagger: {
                 name: 'Dagger',
                 damage: '1d6-2',
                 weight: 1,
                 cost: 3,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             darts: {
                 name: 'Darts (10)',
                 damage: '1',
                 weight: 3,
                 cost: 10,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             flail: {
                 name: 'Flail',
                 damage: '1d6',
                 weight: 9,
                 cost: 8,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             greatsword: {
                 name: 'Greatsword',
                 damage: '1d6+2',
                 weight: 15,
                 cost: 15,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             battleAxe: {
                 name: 'Battle axe',
                 damage: '1d6+2',
                 weight: 15,
                 cost: 15,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             halberd: {
                 name: 'Halberd',
                 damage: '1d6+1',
                 weight: 20,
                 cost: 10,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             polearm: {
                 name: 'Polearm',
                 damage: '1d6+1',
                 weight: 20,
                 cost: 10,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             javelin: {
                 name: 'Javelins (5)',
                 damage: '1d6',
                 weight: 10,
                 cost: 10,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             longbow: {
                 name: 'Longbow',
                 damage: '1d6',
                 weight: 5,
                 cost: 40,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             mace: {
                 name: 'Mace',
                 damage: '1d6',
                 weight: 10,
                 cost: 5,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             warhammer: {
                 name: 'Warhammer',
                 damage: '1d6',
                 weight: 10,
                 cost: 5,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             morningstar: {
                 name: 'Morningstar',
                 damage: '1d6',
                 weight: 20,
                 cost: 8,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             musket: {
                 name: 'Musket',
                 damage: '1d6+2',
                 weight: 10,
                 cost: 150,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             pistol: {
                 name: 'Pistol',
                 damage: '1d6+1',
                 weight: 3,
                 cost: 100,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             quarterstaff: {
                 name: 'Quarterstaff',
                 damage: '1d6-1',
                 weight: 4,
                 cost: 1,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             scimitar: {
                 name: 'Scimitar',
                 damage: '1d6',
                 weight: 5,
                 cost: 8,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             shortbow: {
                 name: 'Shortbow',
                 damage: '1d6-1',
                 weight: 4,
                 cost: 25,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             shortsword: {
                 name: 'Shortsword',
                 damage: '1d6',
                 weight: 3,
                 cost: 8,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             sling: {
                 name: 'Sling',
                 damage: '1d6-2',
                 weight: 0.5,
                 cost: 2,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             spear: {
                 name: 'Spear',
                 damage: '1d6',
                 weight: 8,
                 cost: 2,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             throwingKnife: {
                 name: 'Throwing Knives (2)',
                 damage: '1d6-2',
                 weight: 2,
                 cost: 4,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
             throwingAxe: {
                 name: 'Throwing Axes (2)',
                 damage: '1d6-2',
                 weight: 2,
                 cost: 4,
+                classes: ['Deft', 'Strong', 'Wise'],
             },
         };
 
-        // Determine which weapons are within budget.
+        // Determine which weapons are within budget and allowed by class.
         var validWeapons = [];
 
         for (let key in weapons) {
             let weapon = weapons[key];
-            if (this.goldPieces >= weapon.cost) {
+            if (this.wealth.current >= weapon.cost && weapon.classes.includes(this.characterClass)) {
                 validWeapons.push(weapon);
             }
         }
@@ -841,7 +791,15 @@ class Character {
         let weapon = validWeapons.random();
 
         this.weapons.push(weapon);
-        this.goldPieces -= weapon.cost;
+        this.wealth.current -= weapon.cost;
         this.weight += weapon.weight;
+    }
+
+    buyShield() {
+        if (this.wealth.current >= 5) {
+            this.wealth.current -= 5;
+            this.armorClass += 1;
+            this.hasShield = true;
+        }
     }
 }

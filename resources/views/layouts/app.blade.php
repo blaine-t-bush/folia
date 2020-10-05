@@ -7,12 +7,18 @@
 
         <title>{{ config('app.name') }} | @yield('title')</title>
 
+        {{-- Fonts --}}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap">
+
+        {{-- Styles --}}
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+        {{-- Pre-Render Scripts --}}
         <script src="https://kit.fontawesome.com/acd4b236b1.js" crossorigin="anonymous"></script>
+        @stack('scripts_head')
+
     </head>
     <body>
         <nav class="menu">
@@ -28,7 +34,6 @@
             @yield('content')
         </main>
 
-        @section('footer')
         <footer>
             <p>Handmade with <a href="https://laravel.com/"><i class="fab fa-laravel"></i> Laravel</a> and <a href="https://vuejs.org/"><i class="fab fa-vuejs"></i> Vue.js</a>. The Fell Types are digitally reproduced by <a href="https://iginomarini.com/">Igino Marini</a>.</p>
             <p>
@@ -42,7 +47,8 @@
             @endif
         </footer>
         
+        {{-- Post-Render Scripts --}}
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        @show
+        @stack('scripts_footer')
     </body>
 </html>
