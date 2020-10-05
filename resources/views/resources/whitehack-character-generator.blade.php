@@ -11,15 +11,13 @@
 <h1>Whitehack Character Generator</h1>
 
 <div id="character-generator" class="character">
-    <div>
-        <button class="character-generate" v-on:click="generateCharacter"><i class="fas fa-dice"></i> Generate Character</button>
+    <button class="character-generate" v-on:click="generateCharacter"><i class="fas fa-dice" aria-disabled="true"></i> Generate Character</button>
 
-        {{-- <div>
-            <button class="character-level-down" v-bind:class="levelDownObject" v-on:click="decreaseLevel">-</button>
-            <span>Level</span>
-            <button class="character-level-up" v-bind:class="levelUpObject" v-on:click="increaseLevel">+</button>
-        </div> --}}
-    </div>
+    {{-- <div>
+        <button class="character-level-down" v-bind:class="levelDownObject" v-on:click="decreaseLevel">-</button>
+        <span>Level</span>
+        <button class="character-level-up" v-bind:class="levelUpObject" v-on:click="increaseLevel">+</button>
+    </div> --}}
 
     <h3 class="character-name">
         @{{ name }}

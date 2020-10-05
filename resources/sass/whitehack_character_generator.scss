@@ -1,3 +1,14 @@
+@import './vars';
+.character {
+    width: 480px;
+    max-width: 100%;
+    margin: auto;
+    button.character-generate {
+        color: $colorAccentDark;
+        margin: auto;
+    }
+}
+
 button.character-generate {
     margin-bottom: 1em;
 }
