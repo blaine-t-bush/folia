@@ -7,9 +7,15 @@
 
 <h1>Resources</h1>
 
+<h2>Whitehack</h2>
+<p><em>Whitehack</em> is a fantasy roleplaying game in the OSR style by Christian Mehrstam.</p>
 <ul>
-    <li><a href="/resources/whitehack/character-generator">Whitehack Character Generator</a></li>
-    <li><a href="/resources/whitehack/miracle-generator">Whitehack Miracle Generator</a></li>
+    <li><a href="/resources/whitehack/character-generator">Character Generator</a></li>
+    <li><a href="/resources/whitehack/miracle-generator">Miracle Generator</a></li>
+</ul>
+
+<h2>Other</h2>
+<ul>
     <li><a href="/resources/tables">Random Tables</a></li>
 </ul>
 

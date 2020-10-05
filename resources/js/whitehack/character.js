@@ -433,6 +433,9 @@ class Character {
             'Mindbender',
             'Wayfarer',
             'Aristocrat',
+            'Medic',
+            'Doctor',
+            'Surgeon',
         ];
 
         this.vocation = vocations.random();
