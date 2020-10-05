@@ -25,11 +25,8 @@
     </head>
     <body>
         <header>
-            <div class="wrapper">
-                <div class="sub-wrapper">
-                    <img src="{{ asset('images/huckleberry_logo.png') }}" alt="">
-                    <h1>{{ config('app.name')}}</h1>
-                </div>
+            <div class="wrapper" aria-hidden="true">
+                <h1><i class="fas fa-leaf"></i> {{ config('app.name')}}</h1>
                 <nav>
                     <ul>
                         <li @if (Request::is('home*')) class="highlighted" @endif><a href="/home">Home</a></li>

@@ -28,27 +28,14 @@ header {
         width: 100%;
         max-width: 1080px;
         margin: auto;
-        // Main logo and title.
-        div.sub-wrapper {
-            // Display.
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            height: 100%;
+        // Main title.
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            font-size: $headerTitleFontSize;
+            text-align: center;
             flex-grow: 1;
-            margin-left: 1rem;
-            img {
-                display: block;
-                height: 50%;
-                margin-right: 0.5rem;
-            }
-            h1 {
-                margin: 0;
-                padding: 0;
-                font-weight: bold;
-                font-size: $headerTitleFontSize;
-                text-align: center;
-            }
         }
         // Main menu contents.
         nav {
