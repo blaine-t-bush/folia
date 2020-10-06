@@ -1,8 +1,10 @@
 {
     "/js/tables/tables.js": "/js/tables/tables.js",
     "/css/app.css": "/css/app.css",
+    "/css/posts.css": "/css/posts.css",
+    "/css/resources.css": "/css/resources.css",
+    "/css/about.css": "/css/about.css",
     "/css/whitehack_character_generator.css": "/css/whitehack_character_generator.css",
     "/js/whitehack/character_generator.js": "/js/whitehack/character_generator.js",
-    "/js/whitehack/miracle_generator.js": "/js/whitehack/miracle_generator.js",
-    "/css/posts.css": "/css/posts.css"
+    "/js/whitehack/miracle_generator.js": "/js/whitehack/miracle_generator.js"
 }

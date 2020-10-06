@@ -772,6 +772,7 @@ class Character {
         // Equipment and wealth.
         this.armor = null;
         this.weapons = [];
+        this.items = [];
         this.hasShield = false;
         this.wealth = {
             starting: 0,
@@ -791,16 +792,21 @@ class Character {
         this.updateVocation();
         this.updateAffiliations();
         this.generateWealth();
+        // Get one set of armor.
         this.buyArmor();
-        this.buyWeapon();
+        // Get between 1 and 3 weapons.
+        let weaponCount = Math.floor(Math.random() * 2 + 1);
+        for (let i = 0; i < weaponCount; i++) {
+            this.buyWeapon();
+        }
+        // Chance to get a shield, if Strong.
         if (Math.random() < 0.5 && this.characterClass == 'Strong') {
             this.buyShield();
         }
-        if (Math.random() < 0.5) {
-            this.buyWeapon();
-        }
-        if (Math.random() < 0.5) {
-            this.buyWeapon();
+        // Get between 1 and 5 pieces of miscellaneous equipment.
+        let itemCount = Math.floor(Math.random() * 4 + 1);
+        for (let i = 0; i < itemCount; i++) {
+            this.buyItem();
         }
         this.updateName();
     }
@@ -1489,11 +1495,13 @@ class Character {
         }
 
         // Choose one in-budget weapon at random.
-        let weapon = validWeapons.random();
+        if (validWeapons.length > 0) {
+            let weapon = validWeapons.random();
 
-        this.weapons.push(weapon);
-        this.wealth.current -= weapon.cost;
-        this.weight += weapon.weight;
+            this.weapons.push(weapon);
+            this.wealth.current -= weapon.cost;
+            this.weight += weapon.weight;
+        }
     }
 
     buyShield() {
@@ -1501,6 +1509,99 @@ class Character {
             this.wealth.current -= 5;
             this.armorClass += 1;
             this.hasShield = true;
+        }
+    }
+
+    buyItem() {
+        // Define possible items.
+        let items = {
+            backpack: {
+                name: 'Backpack',
+                cost: 5,
+            },
+            bandages: {
+                name: 'Bandages (5)',
+                cost: 2,
+            },
+            boat: {
+                name: 'Boat',
+                cost: 60,
+            },
+            bottleWine: {
+                name: 'Bottle (wine), glass',
+                cost: 1,
+            },
+            cart: {
+                name: 'Cart',
+                cost: 50,
+            },
+            case: {
+                name: 'Case (map or scroll)',
+                cost: 3,
+            },
+            checkers: {
+                name: 'Checkers (game)',
+                cost: 5,
+            },
+            compass: {
+                name: 'Compass',
+                cost: 50,
+            },
+            crowbar: {
+                name: 'Crowbar',
+                cost: 5,
+            },
+            dice: {
+                name: 'Dice',
+                cost: 2,
+            },
+            flintAndSteel: {
+                name: 'Flint & steel',
+                cost: 5,
+            },
+            grapplingHook: {
+                name: 'Grappling hook',
+                cost: 5,
+            },
+            hammerAndStakes: {
+                name: 'Hammer and wooden stakes',
+                cost: 3,
+            },
+            helmet: {
+                name: 'Helmet',
+                cost: 10,
+            },
+            holySymbolWooden: {
+                name: 'Holy symbol, wooden',
+                cost: 2,
+            },
+            holySymbolSilver: {
+                name: 'Holy symbol, silver',
+                cost: 25,
+            },
+            holyWater: {
+                name: 'Holy water, small vial',
+                cost: 15,
+            },
+            // TODO finish equipment list.
+        };
+
+        // Determine which items are in-budget.
+        let validItems = [];
+        for (let key in items) {
+            let item = items[key];
+            if (this.wealth.current >= item.cost) {
+                validItems.push(item);
+            }
+        }
+
+        // Choose one in-budget item at random.
+        if (validItems.length > 0) {
+            let item = validItems.random();
+
+            this.items.push(item);
+            this.wealth.current -= item.cost;
+            this.weight += item.weight;
         }
     }
 }

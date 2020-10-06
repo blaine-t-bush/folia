@@ -16,6 +16,8 @@
         <li v-for="miracle in miracles">@{{ miracle }}</li>
     </ul>
 </div>
+
+<a href="/resources">« All Resources</a>
 @endsection
 
 

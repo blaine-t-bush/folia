@@ -18,6 +18,7 @@
     <d-table :rows="rows"></d-table>
 </div>
 
+<a href="/resources">« All Resources</a>
 @endsection
 
 @push('scripts_body')

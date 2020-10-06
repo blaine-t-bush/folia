@@ -4,7 +4,7 @@
 
 @section('content')
 
-@push('scripts_head')
+@push('styles')
 <link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
 @endpush
 
@@ -73,8 +73,11 @@
         <li>@{{ armor.name }} (AC @{{ armor.armorClass }})</li>
         <li v-if="hasShield">Shield (AC +1)</li>
         <li v-for="weapon in weapons">@{{ weapon.name }}</li>
+        <li v-for="item in items">@{{ item.name }}</li>
     </ul>
 </div>
+
+<a href="/resources">« All Resources</a>
 @endsection
 
 @push('scripts_body')

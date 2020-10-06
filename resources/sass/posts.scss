@@ -25,6 +25,7 @@ ol.posts {
         h2 {
             font-size: 1.2rem;
             font-weight: bold;
+            margin-top: 0;
             margin-bottom: 0.5rem;
         }
         time {
@@ -43,6 +44,7 @@ ol.posts {
             float: right;
             height: 10rem;
             margin-left: 1rem;
+            margin-bottom: 0.5rem;
             @media only screen and (max-width: 800px) {
                 height: 7rem;
             }

@@ -1,15 +1,6 @@
-.character {
-  width: 480px;
-  max-width: 100%;
-  margin: auto;
-}
-
-.character button.character-generate {
+button {
   color: darkred;
   margin: auto;
-}
-
-button.character-generate {
   margin-bottom: 1em;
 }
 

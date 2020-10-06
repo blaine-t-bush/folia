@@ -28,4 +28,6 @@ mix
     ], 'public/js/whitehack/miracle_generator.js') // Miracle generator.
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/posts.scss', 'public/css')
+    .sass('resources/sass/resources.scss', 'public/css')
+    .sass('resources/sass/about.scss', 'public/css')
     .sass('resources/sass/whitehack_character_generator.scss', 'public/css');
