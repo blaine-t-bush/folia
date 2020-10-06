@@ -18,7 +18,7 @@ ol.posts {
         @media only screen and (max-width: 500px) {
             min-height: 5rem;
         }
-        @media only screen and (max-width: 500px) {
+        @media only screen and (max-width: 360px) {
             min-height: none;
         }
         padding: 1rem;
@@ -38,6 +38,7 @@ ol.posts {
         }
         img {
             border: 2px solid $colorAccentDark;
+            box-sizing: border-box;
             display: block;
             float: right;
             height: 10rem;
@@ -48,8 +49,12 @@ ol.posts {
             @media only screen and (max-width: 500px) {
                 height: 5rem;
             }
-            @media only screen and (max-width: 350px) {
-                display: none;
+            @media only screen and (max-width: 360px) {
+                float: none;
+                height: auto;
+                margin-bottom: 1rem;
+                margin-left: 0;
+                width: 100%;
             }
         }
     }

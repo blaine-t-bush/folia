@@ -29,7 +29,7 @@ ol.posts li.post {
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 360px) {
   ol.posts li.post {
     min-height: none;
   }
@@ -54,6 +54,7 @@ ol.posts li.post summary {
 
 ol.posts li.post img {
   border: 2px solid darkred;
+  box-sizing: border-box;
   display: block;
   float: right;
   height: 10rem;
@@ -72,9 +73,13 @@ ol.posts li.post img {
   }
 }
 
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 360px) {
   ol.posts li.post img {
-    display: none;
+    float: none;
+    height: auto;
+    margin-bottom: 1rem;
+    margin-left: 0;
+    width: 100%;
   }
 }
 
