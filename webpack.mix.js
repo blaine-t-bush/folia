@@ -20,11 +20,12 @@ mix
         'resources/js/whitehack/miracle.js',
         'resources/js/whitehack/character.js',
         'resources/js/whitehack/character_generator.js',
-    ], 'public/js/whitehack/character_generator.js')
+    ], 'public/js/whitehack/character_generator.js') // Character generator.
     .scripts([
         'resources/js/whitehack/helpers.js',
         'resources/js/whitehack/miracle.js',
         'resources/js/whitehack/miracle_generator.js',
-    ], 'public/js/whitehack/miracle_generator.js')
+    ], 'public/js/whitehack/miracle_generator.js') // Miracle generator.
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/sass/posts.scss', 'public/css')
     .sass('resources/sass/whitehack_character_generator.scss', 'public/css');

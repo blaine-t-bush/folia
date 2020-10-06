@@ -10,7 +10,7 @@
 
 <p><em>Folium</em> can also refer to the leaf of a book. In that sense, a small leaf is a bite-sized amount of reading. That will have to do, as to my knowledge there is no Latin word for blog.</p>
 
-<p>Parvifolium is the website and playground of Blaine Bush.</p>
+{{-- <p>Parvifolium is the website and playground of Blaine Bush.</p>
 
 @push('footer')
 <p>
@@ -18,6 +18,6 @@
     <a href="https://github.com/blaine-t-bush"><i class="fab fa-github"></i></a>
     <a href="mailto:blaine.bush@gmail.com"><i class="far fa-envelope"></i></a>
 </p>
-@endpush
+@endpush --}}
 
 @endsection

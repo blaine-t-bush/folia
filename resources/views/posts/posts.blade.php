@@ -2,8 +2,11 @@
 
 @section('title', 'Posts')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/posts.css') }}">
+@endpush
+
 @section('content')
-<h1>Posts</h1>
 
 @if (Auth::check() && Auth::user()->can_create_posts)
 <a href="/posts/create"><button class="create-new-post">Create New Post</button></a>
@@ -13,9 +16,9 @@
     @foreach ($posts as $post)
     <a href="/posts/{{ $post->id }}">
         <li class="post">
-            <h2>
-                {{ $post->title }}
-            </h2>
+            <img src="{{ asset('images/huckleberry_BW_1.png') }}" alt="">
+
+            <h2>{{ $post->title }}</h2>
 
             <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
 
@@ -27,6 +30,10 @@
                 @method('DELETE')
                 <input class="delete-post" type="submit" value="Delete">
             </form>
+            @endif
+
+            @if (Auth::check() && Auth::user()->can_edit_posts)
+            <a href="/posts/{{ $post->id }}/edit"><button class="edit-post">Edit</button></a>
             @endif
         </li>
     </a>

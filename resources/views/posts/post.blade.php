@@ -10,4 +10,6 @@
 
     {!! parsedown($post->body) !!}
 </article>
+
+<a href="/posts">« All Posts</a>
 @endsection

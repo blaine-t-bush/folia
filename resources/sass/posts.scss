@@ -1,0 +1,66 @@
+@import './vars';
+ol.posts {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    a {
+        color: inherit;
+        text-decoration: inherit;
+    }
+    li.post {
+        background-color: $colorBackgroundHeader;
+        box-shadow: 4px 4px 4px $colorBackgroundMid;
+        margin-bottom: 1.5rem;
+        min-height: 10rem;
+        @media only screen and (max-width: 800px) {
+            min-height: 7rem;
+        }
+        @media only screen and (max-width: 500px) {
+            min-height: 5rem;
+        }
+        @media only screen and (max-width: 500px) {
+            min-height: none;
+        }
+        padding: 1rem;
+        h2 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        time {
+            color: $colorTextLight;
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+        summary {
+            font-weight: normal;
+            margin-top: 1rem;
+        }
+        img {
+            border: 2px solid $colorAccentDark;
+            display: block;
+            float: right;
+            height: 10rem;
+            margin-left: 1rem;
+            @media only screen and (max-width: 800px) {
+                height: 7rem;
+            }
+            @media only screen and (max-width: 500px) {
+                height: 5rem;
+            }
+            @media only screen and (max-width: 350px) {
+                display: none;
+            }
+        }
+    }
+}
+
+nav.pagination {
+    ul {
+        display: flex;
+        justify-content: space-around;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+}

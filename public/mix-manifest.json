@@ -3,5 +3,6 @@
     "/css/app.css": "/css/app.css",
     "/css/whitehack_character_generator.css": "/css/whitehack_character_generator.css",
     "/js/whitehack/character_generator.js": "/js/whitehack/character_generator.js",
-    "/js/whitehack/miracle_generator.js": "/js/whitehack/miracle_generator.js"
+    "/js/whitehack/miracle_generator.js": "/js/whitehack/miracle_generator.js",
+    "/css/posts.css": "/css/posts.css"
 }

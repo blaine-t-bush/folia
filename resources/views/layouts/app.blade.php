@@ -15,8 +15,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap">
 
         {{-- Styles --}}
-        <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        @stack('styles')
 
         {{-- Pre-Render Scripts --}}
         <script src="https://kit.fontawesome.com/acd4b236b1.js" crossorigin="anonymous"></script>
@@ -26,8 +27,8 @@
     <body>
         <header>
             <div class="wrapper" aria-hidden="true">
-                <div class="sub-wrapper">
-                    <img src="{{ asset('images/huckleberry_logo.png') }}" alt="">
+                <div class="sub-wrapper" aria-hidden="true">
+                    <img src="{{ asset('images/huckleberry_logo.png') }}" alt="A stylized red-and-green logo of a huckleberry and two leaves">
                     <h1>{{ config('app.name')}}</h1>
                 </div>
                 <nav>

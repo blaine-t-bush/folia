@@ -1,0 +1,88 @@
+ol.posts {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+ol.posts a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+ol.posts li.post {
+  background-color: #cccccc;
+  box-shadow: 4px 4px 4px #888888;
+  margin-bottom: 1.5rem;
+  min-height: 10rem;
+  padding: 1rem;
+}
+
+@media only screen and (max-width: 800px) {
+  ol.posts li.post {
+    min-height: 7rem;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  ol.posts li.post {
+    min-height: 5rem;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  ol.posts li.post {
+    min-height: none;
+  }
+}
+
+ol.posts li.post h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+ol.posts li.post time {
+  color: #444444;
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+
+ol.posts li.post summary {
+  font-weight: normal;
+  margin-top: 1rem;
+}
+
+ol.posts li.post img {
+  border: 2px solid darkred;
+  display: block;
+  float: right;
+  height: 10rem;
+  margin-left: 1rem;
+}
+
+@media only screen and (max-width: 800px) {
+  ol.posts li.post img {
+    height: 7rem;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  ol.posts li.post img {
+    height: 5rem;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  ol.posts li.post img {
+    display: none;
+  }
+}
+
+nav.pagination ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
