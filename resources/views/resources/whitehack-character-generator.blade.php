@@ -69,11 +69,7 @@
     <h4>Equipment & Items</h4>
     Either @{{ wealth.starting }} coins, or the following:
     <ul>
-        <li>@{{ wealth.current }} coins</li>
-        <li>@{{ armor.name }} (AC @{{ armor.armorClass }})</li>
-        <li v-if="hasShield">Shield (AC +1)</li>
-        <li v-for="weapon in weapons">@{{ weapon.name }}</li>
-        <li v-for="item in items">@{{ item.name }}</li>
+        <li v-for="item in inventory">@{{ item.name }}</li>
     </ul>
 </div>
 

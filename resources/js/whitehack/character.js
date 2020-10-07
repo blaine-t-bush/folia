@@ -77,7 +77,8 @@ class Character {
         // Equipment and wealth.
         this.armor = null;
         this.weapons = [];
-        this.items = [];
+        this.inventorySlots = 0;
+        this.inventory = [];
         this.hasShield = false;
         this.wealth = {
             starting: 0,
@@ -86,6 +87,7 @@ class Character {
 
         // TODO add equipment.
         this.generateAttributes();
+        this.inventorySlots = Math.min(this.attributes.strength.score, 10);
         this.generateClass();
         this.updateHitDice();
         this.updateHitPoints();
@@ -97,22 +99,28 @@ class Character {
         this.updateVocation();
         this.updateAffiliations();
         this.generateWealth();
+
         // Get one set of armor.
         this.buyArmor();
-        // Get between 1 and 3 weapons.
-        let weaponCount = Math.floor(Math.random() * 2 + 1);
+
+        // Get 1 or 2 weapons.
+        let weaponCount = Math.floor(Math.random() * 1 + 1);
         for (let i = 0; i < weaponCount; i++) {
             this.buyWeapon();
         }
-        // Chance to get a shield, if Strong.
+
+        // Strong characters are allowed to use shields. Chance that they have one.
         if (Math.random() < 0.5 && this.characterClass == 'Strong') {
             this.buyShield();
         }
-        // Get between 1 and 5 pieces of miscellaneous equipment.
-        let itemCount = Math.floor(Math.random() * 4 + 1);
+
+        // Get some items.
+        let itemCount = this.remainingSlots();
         for (let i = 0; i < itemCount; i++) {
             this.buyItem();
         }
+
+        // Most importantly, a name!
         this.updateName();
     }
 
@@ -517,15 +525,20 @@ class Character {
             'Order of the Sphinx',
             'Order of the Rose',
             'Order of the Basilisk',
-            'The Skylords',
-            'The Blackhands',
+            'Skylords',
+            'Blackhands',
             'Thieves\' Guild',
-            'The Bloody Cabal',
+            'Bloody Cabal',
+            'Shadow Cult',
             'Guild of Sorcerers',
-            'Scrutinous Scholars\' Society',
-            'Gardeners\' Society',
+            'Society of Scrutinous Scholars',
+            'Royal Gardeners\' Society',
             'The Sulfur Company',
             'Merchants\' Guild',
+            'Royal Arcane Institute',
+            'Institute of the Arcane',
+            'Aldred\'s Two Hundred',
+            'Highpeak Clan',
         ];
 
         return affiliations.random();
@@ -540,55 +553,47 @@ class Character {
             cloth: {
                 name: 'Cloth armor',
                 armorClass: 1,
-                weight: 10,
-                cost: 10,
+                slots: 1,
                 allowedClasses: ['Deft', 'Strong', 'Wise'],
             },
             leather: {
                 name: 'Leather armor',
                 armorClass: 2,
-                weight: 15,
-                cost: 15,
+                slots: 1,
                 allowedClasses: ['Deft', 'Strong', 'Wise'],
             },
             studdedLeather: {
                 name: 'Studded leather armor',
                 armorClass: 3,
-                weight: 20,
-                cost: 20,
+                slots: 1,
                 allowedClasses: ['Deft', 'Strong'],
             },
             chainmail: {
                 name: 'Chainmail',
                 armorClass: 4,
-                weight: 40,
-                cost: 30,
+                slots: 2,
                 allowedClasses: ['Strong'],
             },
             splintMail: {
                 name: 'Splint mail',
                 armorClass: 5,
-                weight: 50,
-                cost: 40,
+                slots: 2,
                 allowedClasses: ['Strong'],
             },
             fullPlate: {
                 name: 'Full plate',
                 armorClass: 6,
-                weight: 60,
-                cost: 50,
+                slots: 3,
                 allowedClasses: ['Strong'],
             },
         };
 
-        // TODO add shields to buyArmor().
-
-        // Determine which weapons are within budget and allowed by character class.
+        // Determine which armors are allowed by character class.
         var validArmors = [];
 
         for (let key in armors) {
             let armor = armors[key];
-            if (this.wealth.current >= armor.cost && armor.allowedClasses.includes(this.characterClass)) {
+            if (armor.allowedClasses.includes(this.characterClass) && this.remainingSlots() >= armor.slots) {
                 validArmors.push(armor);
             }
         }
@@ -596,317 +601,254 @@ class Character {
         // Choose one in-budget armor at random.
         let armor = validArmors.random();
 
-        this.armor = armor;
         this.armorClass = armor.armorClass;
-        this.wealth.current -= armor.cost;
-        this.weight += armor.weight;
+        this.inventory.push({ name: armor.name, slots: armor.slots });
     }
 
     buyWeapon() {
         // Define all possible weapons.
-        let weapons = {
-            axe: {
+        let weapons = [{
                 name: 'Axe',
                 damage: '1d6+1',
-                weight: 6,
-                cost: 10,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            sword: {
+            {
                 name: 'Sword',
                 damage: '1d6+1',
-                weight: 6,
-                cost: 10,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            club: {
+            {
                 name: 'Club',
                 damage: '1d6-2',
-                weight: 3,
-                cost: 0,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            crossbow: {
+            {
                 name: 'Crossbow',
                 damage: '1d6+1',
-                weight: 8,
-                cost: 30,
+                slots: 2,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            dagger: {
+            {
                 name: 'Dagger',
                 damage: '1d6-2',
-                weight: 1,
-                cost: 3,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            darts: {
+            {
                 name: 'Darts (10)',
                 damage: '1',
-                weight: 3,
-                cost: 10,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            flail: {
+            {
                 name: 'Flail',
                 damage: '1d6',
-                weight: 9,
-                cost: 8,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            greatsword: {
+            {
                 name: 'Greatsword',
                 damage: '1d6+2',
-                weight: 15,
-                cost: 15,
-                classes: ['Deft', 'Strong', 'Wise'],
+                slots: 2,
+                classes: ['Deft', 'Strong'],
             },
-            battleAxe: {
+            {
                 name: 'Battle axe',
                 damage: '1d6+2',
-                weight: 15,
-                cost: 15,
-                classes: ['Deft', 'Strong', 'Wise'],
+                slots: 2,
+                classes: ['Deft', 'Strong'],
             },
-            halberd: {
+            {
                 name: 'Halberd',
                 damage: '1d6+1',
-                weight: 20,
-                cost: 10,
-                classes: ['Deft', 'Strong', 'Wise'],
+                slots: 2,
+                classes: ['Deft', 'Strong'],
             },
-            polearm: {
+            {
                 name: 'Polearm',
                 damage: '1d6+1',
-                weight: 20,
-                cost: 10,
-                classes: ['Deft', 'Strong', 'Wise'],
+                slots: 2,
+                classes: ['Deft', 'Strong'],
             },
-            javelin: {
+            {
                 name: 'Javelins (5)',
                 damage: '1d6',
-                weight: 10,
-                cost: 10,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            longbow: {
+            {
                 name: 'Longbow',
                 damage: '1d6',
-                weight: 5,
-                cost: 40,
-                classes: ['Deft', 'Strong', 'Wise'],
+                slots: 2,
+                classes: ['Deft', 'Strong'],
             },
-            mace: {
+            {
                 name: 'Mace',
                 damage: '1d6',
-                weight: 10,
-                cost: 5,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            warhammer: {
+            {
                 name: 'Warhammer',
                 damage: '1d6',
-                weight: 10,
-                cost: 5,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            morningstar: {
+            {
                 name: 'Morningstar',
                 damage: '1d6',
-                weight: 20,
-                cost: 8,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            musket: {
+            {
                 name: 'Musket',
                 damage: '1d6+2',
-                weight: 10,
-                cost: 150,
+                slots: 2,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            pistol: {
+            {
                 name: 'Pistol',
                 damage: '1d6+1',
-                weight: 3,
-                cost: 100,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            quarterstaff: {
+            {
                 name: 'Quarterstaff',
                 damage: '1d6-1',
-                weight: 4,
-                cost: 1,
+                slots: 2,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            scimitar: {
+            {
                 name: 'Scimitar',
                 damage: '1d6',
-                weight: 5,
-                cost: 8,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            shortbow: {
+            {
                 name: 'Shortbow',
                 damage: '1d6-1',
-                weight: 4,
-                cost: 25,
-                classes: ['Deft', 'Strong', 'Wise'],
+                slots: 2,
+                classes: ['Deft', 'Strong'],
             },
-            shortsword: {
+            {
                 name: 'Shortsword',
                 damage: '1d6',
-                weight: 3,
-                cost: 8,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            sling: {
+            {
                 name: 'Sling',
                 damage: '1d6-2',
-                weight: 0.5,
-                cost: 2,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            spear: {
+            {
                 name: 'Spear',
                 damage: '1d6',
-                weight: 8,
-                cost: 2,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            throwingKnife: {
+            {
                 name: 'Throwing Knives (2)',
                 damage: '1d6-2',
-                weight: 2,
-                cost: 4,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-            throwingAxe: {
+            {
                 name: 'Throwing Axes (2)',
                 damage: '1d6-2',
-                weight: 2,
-                cost: 4,
+                slots: 1,
                 classes: ['Deft', 'Strong', 'Wise'],
             },
-        };
+        ];
 
-        // Determine which weapons are within budget and allowed by class.
+        // Determine which weapons are allowed by class.
         var validWeapons = [];
 
-        for (let key in weapons) {
-            let weapon = weapons[key];
-            if (this.wealth.current >= weapon.cost && weapon.classes.includes(this.characterClass)) {
+        for (let i = 0; i < weapons.length; i++) {
+            let weapon = weapons[i];
+            if (weapon.classes.includes(this.characterClass) && !this.inventory.some(a => a.name === weapon.name) && this.remainingSlots() >= weapon.slots) {
                 validWeapons.push(weapon);
             }
         }
 
-        // Choose one in-budget weapon at random.
-        if (validWeapons.length > 0) {
+        // Choose one weapon at random.
+        if (this.inventorySlots > this.inventory.length && validWeapons.length > 0) {
             let weapon = validWeapons.random();
-
-            this.weapons.push(weapon);
-            this.wealth.current -= weapon.cost;
-            this.weight += weapon.weight;
+            this.inventory.push({ name: weapon.name, slots: weapon.slots });
         }
     }
 
     buyShield() {
-        if (this.wealth.current >= 5) {
-            this.wealth.current -= 5;
+        if (this.inventorySlots > this.inventory.length) {
             this.armorClass += 1;
             this.hasShield = true;
+            this.inventory.push({ name: 'Shield', slots: 1 });
         }
     }
 
     buyItem() {
         // Define possible items.
-        let items = {
-            backpack: {
-                name: 'Backpack',
-                cost: 5,
-            },
-            bandages: {
-                name: 'Bandages (5)',
-                cost: 2,
-            },
-            boat: {
-                name: 'Boat',
-                cost: 60,
-            },
-            bottleWine: {
-                name: 'Bottle (wine), glass',
-                cost: 1,
-            },
-            cart: {
-                name: 'Cart',
-                cost: 50,
-            },
-            case: {
-                name: 'Case (map or scroll)',
-                cost: 3,
-            },
-            checkers: {
-                name: 'Checkers (game)',
-                cost: 5,
-            },
-            compass: {
-                name: 'Compass',
-                cost: 50,
-            },
-            crowbar: {
-                name: 'Crowbar',
-                cost: 5,
-            },
-            dice: {
-                name: 'Dice',
-                cost: 2,
-            },
-            flintAndSteel: {
-                name: 'Flint & steel',
-                cost: 5,
-            },
-            grapplingHook: {
-                name: 'Grappling hook',
-                cost: 5,
-            },
-            hammerAndStakes: {
-                name: 'Hammer and wooden stakes',
-                cost: 3,
-            },
-            helmet: {
-                name: 'Helmet',
-                cost: 10,
-            },
-            holySymbolWooden: {
-                name: 'Holy symbol, wooden',
-                cost: 2,
-            },
-            holySymbolSilver: {
-                name: 'Holy symbol, silver',
-                cost: 25,
-            },
-            holyWater: {
-                name: 'Holy water, small vial',
-                cost: 15,
-            },
-            // TODO finish equipment list.
-        };
+        let items = [
+            { name: 'Waterskin', slots: 1 },
+            { name: 'Rations (1 week)', slots: 1 },
+            { name: 'Bedroll', slots: 1 },
+            { name: 'Tent', slots: 1 },
+            { name: 'Bandages (5)', slots: 1 },
+            { name: 'Flint and steel', slots: 1 },
+            { name: 'Grappling hook', slots: 1 },
+            { name: 'Shovel', slots: 1 },
+            { name: 'Hammer', slots: 1 },
+            { name: 'Crowbar', slots: 1 },
+            { name: 'Stakes, wooden (12)', slots: 1 },
+            { name: 'Spikes, iron (12)', slots: 1 },
+            { name: 'Pitons, iron (12)', slots: 1 },
+            { name: 'Acid, flask', slots: 1 },
+            { name: 'Oil, flask', slots: 1 },
+            { name: 'Holy water, vial', slots: 1 },
+            { name: 'Holy symbol', slots: 1 },
+            { name: 'Snare', slots: 1 },
+            { name: 'Beartrap', slots: 1 },
+            { name: 'Scroll', slots: 1 },
+            { name: 'Map', slots: 1 },
+            { name: 'Book', slots: 1 },
+            { name: 'Lantern', slots: 1 },
+            { name: 'Torches (5)', slots: 1 },
+            { name: 'Compass', slots: 1 },
+            { name: 'Lockpicks', slots: 1 },
+            { name: 'Mirror', slots: 1 },
+            { name: 'Ten-foot pole', slots: 1 },
+            { name: 'Chalk', slots: 1 },
+            { name: 'Twine (50 feet)', slots: 1 },
+            { name: 'Rope, silk (50 feet)', slots: 1 },
+            { name: 'Rope, hemp (50 feet)', slots: 1 },
+        ];
 
-        // Determine which items are in-budget.
-        let validItems = [];
-        for (let key in items) {
-            let item = items[key];
-            if (this.wealth.current >= item.cost) {
-                validItems.push(item);
+        // Choose an item at random that isn't already in inventory.
+        let itemFound = false;
+        while (!itemFound) {
+            let item = items.random();
+            if (!this.inventory.some(a => a.name === item.name)) {
+                this.inventory.push(item);
+                itemFound = true;
             }
         }
+    }
 
-        // Choose one in-budget item at random.
-        if (validItems.length > 0) {
-            let item = validItems.random();
-
-            this.items.push(item);
-            this.wealth.current -= item.cost;
-            this.weight += item.weight;
+    currentSlots() {
+        let currentSlots = 0;
+        for (let i = 0; i < this.inventory.length; i++) {
+            let item = this.inventory[i];
+            currentSlots += item.slots;
         }
+
+        return currentSlots;
+    }
+
+    remainingSlots() {
+        return Math.max(this.inventorySlots - this.currentSlots(), 0);
     }
 }

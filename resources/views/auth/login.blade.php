@@ -2,6 +2,10 @@
 
 @section('title', 'Login')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endpush
+
 @section('content')
 
 <h1>Login</h1>

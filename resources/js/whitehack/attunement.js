@@ -1,3 +1,5 @@
+// TODO if attunement is item, add it to inventory
+
 function generateAttunement() {
     let weapons = [
         'Axe',
