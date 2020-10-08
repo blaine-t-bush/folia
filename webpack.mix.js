@@ -18,14 +18,14 @@ mix
         'resources/js/whitehack/name.js',
         'resources/js/whitehack/attunement.js',
         'resources/js/whitehack/miracle.js',
+        'resources/js/whitehack/inventory.js',
         'resources/js/whitehack/character.js',
         'resources/js/whitehack/character_generator.js',
     ], 'public/js/whitehack/character_generator.js') // Character generator.
     .scripts([
         'resources/js/whitehack/helpers.js',
-        'resources/js/whitehack/miracle.js',
-        'resources/js/whitehack/miracle_generator.js',
-    ], 'public/js/whitehack/miracle_generator.js') // Miracle generator.
+        'resources/js/whitehack/inventory.js',
+    ], 'public/js/whitehack/inventory.js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/posts.scss', 'public/css')
     .sass('resources/sass/resources.scss', 'public/css')

@@ -64,18 +64,31 @@
         <li v-for="ability in slots.abilities">@{{ ability }}</li>
         <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<span v-if="key < slots.count">†</span></li>
     </ul>
-    <p v-if="slots.type == 'Miracles' || slots.type =='Attunements'">†: active slot</p>
 
     <h4>Equipment & Items</h4>
-    Either @{{ wealth.starting }} coins, or the following:
     <ul>
-        <li v-for="item in inventory">@{{ item.name }}</li>
+        <li v-for="container in inventory">
+            @{{ container.name }}
+            <ul>
+                <li v-for="item in container.items">@{{ item.name }}</li>
+            </ul>
+        </li>
     </ul>
 </div>
+
+{{--
+<p><strong>Inventory Slots.</strong> Characters have a number of inventory slots equal to their strength score or their constitution score, whichever is higher. Items, except containers and very small things such as coins, dice, or chalk, generally take up one slot. The exceptions are two-handed weapons,
+which take up two slots, chainmail and splint mail, which take up two slots, and full plate, which takes up three slots. Items that typically come in multiples take up one slot collectively, within reason (e.g. a week of rations, a quiver of 30 arrows, a bundle of 6 torches).
+For each slot occupied beyond their maximum, characters have their speed reduced by 5'.</p>
+
+<p><strong>Item Selection.</strong> Armor is selected randomly from the types available to that class. One melee weapon and one ranged weapon are also randomly selected. Each character has food, water, torches, 6d10 coins, and some type of container.
+Additional items are selected randomly.</p>
+--}}
 
 <a href="/resources">« All Resources</a>
 @endsection
 
 @push('scripts_body')
 <script type="text/javascript" src="{{ asset('js/whitehack/character_generator.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/whitehack/inventory.js') }}"></script>
 @endpush

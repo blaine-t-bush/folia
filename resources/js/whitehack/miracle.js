@@ -48,8 +48,9 @@ function generateMiracle() {
         'Embers',
         'Ice',
         'Icefloes',
-        'Rime',
         'Frost',
+        'Rain',
+        'Hail',
         'Hellfrost',
         'the North Wind',
         'the East Wind',
@@ -78,9 +79,10 @@ function generateMiracle() {
         'Cinder',
         'Ember',
         'Torrential',
-        'Iceflow',
-        'Rime',
+        'Icefloe',
         'Frost',
+        'Rain',
+        'Hail',
         'Hellfrost',
         'North Wind',
         'East Wind',
@@ -96,6 +98,7 @@ function generateMiracle() {
         'Evil',
         'Healing',
         'Haste',
+        'Mind',
     ];
 
     let suffixesForm = [
@@ -111,6 +114,8 @@ function generateMiracle() {
         'Wall',
         'Shield',
         'Blade',
+        'Spike',
+        'Pulse',
     ];
 
     let suffixesPossessive = [

@@ -24,14 +24,6 @@ Route::get('/resources/whitehack-character-generator', function() {
     return view('resources.whitehack-character-generator');
 });
 
-Route::get('/resources/whitehack-miracle-generator', function() {
-    return view('resources.whitehack-miracle-generator');
-});
-
-Route::get('/resources/tables', function() {
-    return view('resources.tables');
-});
-
 Route::get('/about', function() {
     return view('about');
 });
