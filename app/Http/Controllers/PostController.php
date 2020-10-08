@@ -37,6 +37,24 @@ class PostController extends Controller
         ]);
     }
 
+    public function edit(int $id) {
+        $post = Post::where('id', $id)->firstOrFail();
+
+        return view('posts.edit', [
+            'post' => $post,
+        ]);
+    }
+
+    public function update(Request $request) {
+        $post = Post::where('id', $request->id)->first();
+        $post->title = $request->input()['title'];
+        $post->summary = $request->input()['summary'];
+        $post->body = $request->input()['body'];
+        $post->save();
+
+        return redirect('posts');
+    }
+
     public function destroy(int $id) {
         $post = Post::where('id', $id)->firstOrFail();
         $post->delete();

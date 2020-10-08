@@ -35,6 +35,12 @@ ol.posts li.post {
   }
 }
 
+ol.posts li.post a.post-link {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 ol.posts li.post h2 {
   font-size: 1.2rem;
   font-weight: bold;
@@ -95,5 +101,30 @@ nav.pagination ul {
 
 nav.pagination ul li.disabled {
   visibility: hidden;
+}
+
+button.create-new-post {
+  margin-bottom: 1em;
+}
+
+button.edit-post {
+  margin-top: 0.5em;
+}
+
+input.delete-post {
+  margin-top: 0.5em;
+}
+
+form.create-new-post {
+  display: flex;
+  flex-direction: column;
+}
+
+form.create-new-post label {
+  padding-top: 0.5em;
+}
+
+form.create-new-post input.submit-post {
+  margin-top: 1em;
 }
 

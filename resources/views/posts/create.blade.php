@@ -2,15 +2,20 @@
 
 @section('title', 'New Post')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/posts.css') }}">
+@endpush
+
 @section('content')
 <h1>Create New Post</h1>
-<form id="create" method="POST" action="/posts">
+<form class="create-new-post" id="create" method="POST" action="/posts">
     @csrf
-    <label for="title">Title</label><br>
-    <input name="title" type="text"><br>
-    <label for="title">Summary</label><br>
-    <input name="summary" type="text"><br>
-    <input type="submit" value="Submit">
+    <label for="title">Title</label>
+    <input name="title" type="text">
+    <label for="title">Summary</label>
+    <textarea class="create-post-summary" name="summary" rows="7" form="create"></textarea>
+    <label for="title">Post</label>
+    <textarea class="create-post-body" name="body" rows="21" form="create"></textarea>
+    <input class="submit-post" type="submit" value="Create">
 </form>
-<textarea name="body" cols="100" rows="30" form="create"></textarea>
 @endsection

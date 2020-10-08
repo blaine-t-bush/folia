@@ -90,5 +90,4 @@ Additional items are selected randomly.</p>
 
 @push('scripts_body')
 <script type="text/javascript" src="{{ asset('js/whitehack/character_generator.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/whitehack/inventory.js') }}"></script>
 @endpush

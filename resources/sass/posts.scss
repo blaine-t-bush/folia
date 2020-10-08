@@ -22,6 +22,11 @@ ol.posts {
             min-height: none;
         }
         padding: 1rem;
+        a.post-link {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
         h2 {
             font-size: 1.2rem;
             font-weight: bold;
@@ -72,5 +77,28 @@ nav.pagination {
         li.disabled {
             visibility: hidden;
         }
+    }
+}
+
+button.create-new-post {
+    margin-bottom: 1em;
+}
+
+button.edit-post {
+    margin-top: 0.5em;
+}
+
+input.delete-post {
+    margin-top: 0.5em;
+}
+
+form.create-new-post {
+    display: flex;
+    flex-direction: column;
+    label {
+        padding-top: 0.5em;
+    }
+    input.submit-post {
+        margin-top: 1em;
     }
 }
