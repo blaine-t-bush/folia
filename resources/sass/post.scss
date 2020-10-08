@@ -1,0 +1,15 @@
+@import 'vars';
+main img {
+    width: 360px;
+    max-width: 90%;
+    display: block;
+    margin: auto;
+    border: 2px solid $colorAccentDark;
+}
+
+h1 {
+    margin-bottom: 0.25em;
+    p {
+        margin: inherit;
+    }
+}

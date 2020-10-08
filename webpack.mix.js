@@ -16,6 +16,7 @@ mix
     .scripts([
         'resources/js/whitehack/helpers.js',
         'resources/js/whitehack/name.js',
+        'resources/js/whitehack/vocation.js',
         'resources/js/whitehack/attunement.js',
         'resources/js/whitehack/miracle.js',
         'resources/js/whitehack/inventory.js',
@@ -24,6 +25,7 @@ mix
     ], 'public/js/whitehack/character_generator.js') // Character generator.
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/posts.scss', 'public/css')
+    .sass('resources/sass/post.scss', 'public/css')
     .sass('resources/sass/resources.scss', 'public/css')
     .sass('resources/sass/about.scss', 'public/css')
     .sass('resources/sass/auth.scss', 'public/css')

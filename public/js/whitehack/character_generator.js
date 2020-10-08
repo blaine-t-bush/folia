@@ -402,6 +402,96 @@ function generateName(allowPrefix = true, allowSuffix = true) {
 
     return name.trim();
 }
+function generateVocation() {
+    // Choose a vocation at random.
+    let vocations = [
+        'Barbarian',
+        'Crusader',
+        'Knight',
+        'Warrior',
+        'Spellsword',
+        'Witchhunter',
+        'Valkyrie',
+        'Shieldmaiden',
+        'Pit Fighter',
+        'Vigilante',
+        'Outrider',
+        'Paladin',
+        'Inquisitor',
+        'Oracle',
+        'Entropomancer',
+        'Geomancer',
+        'Templar',
+        'Exorcist',
+        'Warpriest',
+        'Hexblade',
+        'Battlemage',
+        'Healer',
+        'Mage',
+        'Warlock',
+        'Demonologist',
+        'Sorcerer',
+        'Priest',
+        'Cleric',
+        'Druid',
+        'Summoner',
+        'Elementalist',
+        'Soothsayer',
+        'Shaman',
+        'Pyromancer',
+        'Cryomancer',
+        'Necromancer',
+        'Illusionist',
+        'Wizard',
+        'Alchemist',
+        'Apothecary',
+        'Conjurer',
+        'Mystic',
+        'Spellthief',
+        'Warmage',
+        'Invoker',
+        'Psion',
+        'Thaumaturgist',
+        'Bard',
+        'Acrobat',
+        'Agent',
+        'Spy',
+        'Assassin',
+        'Rogue',
+        'Scout',
+        'Thief',
+        'Ranger',
+        'Hunter',
+        'Marksman',
+        'Duelist',
+        'Fencer',
+        'Archer',
+        'Monk',
+        'Nightblade',
+        'Pilgrim',
+        'Sailor',
+        'Pirate',
+        'Bounty Hunter',
+        'Ninja',
+        'Pugilist',
+        'Merchant',
+        'Footpad',
+        'Orator',
+        'Skald',
+        'Beastmaster',
+        'Alienist',
+        'Bloodmage',
+        'Fateweaver',
+        'Mindbender',
+        'Wayfarer',
+        'Aristocrat',
+        'Medic',
+        'Doctor',
+        'Surgeon',
+    ];
+
+    return vocations.random();
+}
 // TODO if attunement is item, add it to inventory
 
 function generateAttunement() {
@@ -471,18 +561,6 @@ function generateAttunement() {
         'Horse',
     ];
 
-    let people = [
-        'Swordmaster',
-        'Spearmaster',
-        'Bowmaster',
-        'Ringleader',
-        'Hedgemage',
-        'Petty Wizard',
-        'Sensei',
-        'Expert Thief',
-        'Acrobat Extraordinaire',
-    ];
-
     // 30% for a weapon, 30% for a different item, 20% for an animal, 20% for a person.
     let randomChance = Math.random();
     if (randomChance < 0.3) {
@@ -492,7 +570,7 @@ function generateAttunement() {
     } else if (randomChance < 0.8) {
         return generateName(false, false) + ' the ' + animals.random();
     } else {
-        return generateName() + ', ' + people.random();
+        return generateName() + ', ' + generateVocation();
     }
 }
 function generateMiracle() {
@@ -1559,94 +1637,7 @@ class Character {
     }
 
     updateVocation() {
-        // Choose a vocation at random.
-        let vocations = [
-            'Barbarian',
-            'Crusader',
-            'Knight',
-            'Warrior',
-            'Spellsword',
-            'Witchhunter',
-            'Valkyrie',
-            'Shieldmaiden',
-            'Pit Fighter',
-            'Vigilante',
-            'Outrider',
-            'Paladin',
-            'Inquisitor',
-            'Oracle',
-            'Entropomancer',
-            'Geomancer',
-            'Templar',
-            'Exorcist',
-            'Warpriest',
-            'Hexblade',
-            'Battlemage',
-            'Healer',
-            'Mage',
-            'Warlock',
-            'Demonologist',
-            'Sorcerer',
-            'Priest',
-            'Cleric',
-            'Druid',
-            'Summoner',
-            'Elementalist',
-            'Soothsayer',
-            'Shaman',
-            'Pyromancer',
-            'Cryomancer',
-            'Necromancer',
-            'Illusionist',
-            'Wizard',
-            'Alchemist',
-            'Apothecary',
-            'Conjurer',
-            'Mystic',
-            'Spellthief',
-            'Warmage',
-            'Invoker',
-            'Psion',
-            'Thaumaturgist',
-            'Bard',
-            'Acrobat',
-            'Agent',
-            'Spy',
-            'Assassin',
-            'Rogue',
-            'Scout',
-            'Thief',
-            'Ranger',
-            'Hunter',
-            'Marksman',
-            'Duelist',
-            'Fencer',
-            'Archer',
-            'Monk',
-            'Nightblade',
-            'Pilgrim',
-            'Sailor',
-            'Pirate',
-            'Bounty Hunter',
-            'Ninja',
-            'Pugilist',
-            'Merchant',
-            'Footpad',
-            'Orator',
-            'Skald',
-            'Beastmaster',
-            'Alienist',
-            'Bloodmage',
-            'Fateweaver',
-            'Mindbender',
-            'Wayfarer',
-            'Aristocrat',
-            'Medic',
-            'Doctor',
-            'Surgeon',
-        ];
-
-        this.vocation = vocations.random();
+        this.vocation = generateVocation();
 
         // Unless character is Deft, the vocation is tied to a specific attribute.
         if (this.characterClass != 'Deft') {

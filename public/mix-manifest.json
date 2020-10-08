@@ -2,6 +2,7 @@
     "/js/tables/tables.js": "/js/tables/tables.js",
     "/css/app.css": "/css/app.css",
     "/css/posts.css": "/css/posts.css",
+    "/css/post.css": "/css/post.css",
     "/css/resources.css": "/css/resources.css",
     "/css/about.css": "/css/about.css",
     "/css/auth.css": "/css/auth.css",

@@ -67,18 +67,6 @@ function generateAttunement() {
         'Horse',
     ];
 
-    let people = [
-        'Swordmaster',
-        'Spearmaster',
-        'Bowmaster',
-        'Ringleader',
-        'Hedgemage',
-        'Petty Wizard',
-        'Sensei',
-        'Expert Thief',
-        'Acrobat Extraordinaire',
-    ];
-
     // 30% for a weapon, 30% for a different item, 20% for an animal, 20% for a person.
     let randomChance = Math.random();
     if (randomChance < 0.3) {
@@ -88,6 +76,6 @@ function generateAttunement() {
     } else if (randomChance < 0.8) {
         return generateName(false, false) + ' the ' + animals.random();
     } else {
-        return generateName() + ', ' + people.random();
+        return generateName() + ', ' + generateVocation();
     }
 }
