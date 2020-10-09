@@ -46,6 +46,12 @@ ol.posts {
             font-weight: normal;
             margin-top: 1rem;
         }
+        .read-more {
+            margin-bottom: 0;
+            text-decoration: underline;
+            font-weight: bold;
+            color: $colorAccentDark;
+        }
         img {
             border: 2px solid $colorAccentDark;
             box-sizing: border-box;
@@ -104,5 +110,8 @@ form.create-new-post {
     }
     input.submit-post {
         margin-top: 1em;
+    }
+    .input-text {
+        font-family: 'Nanum Gothic Coding', monospace;
     }
 }

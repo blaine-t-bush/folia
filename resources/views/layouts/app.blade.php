@@ -13,6 +13,8 @@
         {{-- Fonts --}}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap">
 
         {{-- Styles --}}
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">

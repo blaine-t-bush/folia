@@ -10,7 +10,7 @@ function generateAttunement() {
         'Dart',
         'Flail',
         'Greatsword',
-        'Battle Axe',
+        'Battle axe',
         'Halberd',
         'Polearm',
         'Javelin',
@@ -26,45 +26,45 @@ function generateAttunement() {
         'Shortsword',
         'Sling',
         'Spear',
-        'Throwing Knife',
-        'Throwing Axe',
+        'Throwing knife',
+        'Throwing axe',
     ];
 
     let items = [
-        'Grappling Hook',
-        'Dice Set',
+        'Grappling hook',
+        'Dice set',
         'Lockpicks',
-        'Ten-Foot Pole',
-        'Elven Rope',
+        '10-foot pole',
+        'Elven rope',
         'Dinghy',
         'Cart',
         'Wagon',
-        'Walking Staff',
-        'Wizard Staff',
+        'Walking staff',
+        'Wizard staff',
         'Spellbook',
-        'Crystal Ball',
-        'Alchemist\'s Lab',
-        'Disguise Kit',
+        'Crystal ball',
+        'Alchemist\'s lab',
+        'Disguise kit',
     ];
 
     let animals = [
-        'Mastiff',
-        'Hound',
-        'Sheepdog',
-        'Housecat',
-        'Bobcat',
-        'Lynx',
-        'Fox',
-        'Wolf',
-        'Raccoon',
-        'Rat',
-        'Mouse',
-        'Badger',
-        'Ferret',
-        'Weasel',
-        'Mule',
-        'Donkey',
-        'Horse',
+        'mastiff',
+        'hound',
+        'sheepdog',
+        'housecat',
+        'bobcat',
+        'kynx',
+        'fox',
+        'wolf',
+        'raccoon',
+        'rat',
+        'mouse',
+        'badger',
+        'ferret',
+        'weasel',
+        'mule',
+        'donkey',
+        'horse',
     ];
 
     // 30% for a weapon, 30% for a different item, 20% for an animal, 20% for a person.
@@ -74,8 +74,8 @@ function generateAttunement() {
     } else if (randomChance < 0.6) {
         return items.random();
     } else if (randomChance < 0.8) {
-        return generateName(false, false) + ' the ' + animals.random();
+        return generateName(false, false) + ' the ' + animals.random().toLowerCase();
     } else {
-        return generateName() + ', ' + generateVocation();
+        return generateName() + ', ' + generateVocation().toLowerCase();
     }
 }

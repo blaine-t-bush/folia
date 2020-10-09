@@ -23,6 +23,8 @@
             <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
 
             <summary>{!! parsedown($post->summary) !!}</summary>
+
+            <p class="read-more">Read More »</p>
             
             @if (Auth::check() && Auth::user()->can_edit_posts)
             <a href="/posts/{{ $post->id }}/edit"><button class="edit-post">Edit</button></a>

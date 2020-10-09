@@ -11,31 +11,37 @@ class Character {
         this.attributes = {
             strength: {
                 name: 'Strength',
+                abbreviation: 'STR',
                 score: 0,
                 groups: [],
             },
             dexterity: {
                 name: 'Dexterity',
+                abbreviation: 'DEX',
                 score: 0,
                 groups: [],
             },
             constitution: {
                 name: 'Constitution',
+                abbreviation: 'CON',
                 score: 0,
                 groups: [],
             },
             intelligence: {
                 name: 'Intelligence',
+                abbreviation: 'INT',
                 score: 0,
                 groups: [],
             },
             wisdom: {
                 name: 'Wisdom',
+                abbreviation: 'WIS',
                 score: 0,
                 groups: [],
             },
             charisma: {
                 name: 'Charisma',
+                abbreviation: 'CHA',
                 score: 0,
                 groups: [],
             },

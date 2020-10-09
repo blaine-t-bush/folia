@@ -11,11 +11,11 @@
 <form class="create-new-post" id="create" method="POST" action="/posts">
     @csrf
     <label for="title">Title</label>
-    <input name="title" type="text">
+    <input class="input-text" name="title" type="text">
     <label for="title">Summary</label>
-    <textarea class="create-post-summary" name="summary" rows="7" form="create"></textarea>
+    <textarea class="create-post-summary input-text" name="summary" rows="7" form="create"></textarea>
     <label for="title">Post</label>
-    <textarea class="create-post-body" name="body" rows="21" form="create"></textarea>
+    <textarea class="create-post-body input-text" name="body" rows="21" form="create"></textarea>
     <input class="submit-post" type="submit" value="Create">
 </form>
 @endsection

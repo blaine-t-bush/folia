@@ -64,6 +64,13 @@ ol.posts li.post summary {
   margin-top: 1rem;
 }
 
+ol.posts li.post .read-more {
+  margin-bottom: 0;
+  text-decoration: underline;
+  font-weight: bold;
+  color: darkred;
+}
+
 ol.posts li.post img {
   border: 2px solid darkred;
   box-sizing: border-box;
@@ -131,5 +138,9 @@ form.create-new-post label {
 
 form.create-new-post input.submit-post {
   margin-top: 1em;
+}
+
+form.create-new-post .input-text {
+  font-family: "Nanum Gothic Coding", monospace;
 }
 

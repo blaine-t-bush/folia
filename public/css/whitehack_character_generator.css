@@ -14,10 +14,35 @@ table.attributes {
 }
 
 col.attributes-col-1 {
-  width: 7em;
+  width: 6em;
 }
 
 col.attributes-col-2 {
-  width: 2em;
+  width: 4em;
+}
+
+.sheet-typed {
+  font-family: "Special Elite", "Courier New", Courier, monospace;
+}
+
+.sheet-handwritten {
+  font-family: "Beth Ellen", cursive;
+  font-size: 0.9rem;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul ul {
+  list-style-type: "- ";
+}
+
+ul ul li {
+  padding-bottom: 0.1em;
+}
+
+ul li {
+  padding-bottom: 0.1em;
 }
 
