@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
 @endpush
 
-<h1>Whitehack Character Generator</h1>
+<h1 class="resource-title">Whitehack Character Generator</h1>
 
 <div id="character-generator" class="character">
     <button class="character-generate" v-on:click="generateCharacter"><i class="fas fa-dice" aria-disabled="true"></i> Generate Character</button>
@@ -19,69 +19,80 @@
         <button class="character-level-up" v-bind:class="levelUpObject" v-on:click="increaseLevel">+</button>
     </div> --}}
 
-    <h3 class="character-name sheet-handwritten" style="margin-bottom:0; padding-bottom:0.2em;">
+    <div class="character-name handwritten">
         @{{ name }}
-    </h3>
-    <div style="margin-bottom:0.2rem; width:100%; height:1px; background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)), url(/images/noise.svg);"></div>
-    <div class="sheet-typed" style="font-size:0.8rem;">NAME</div>
+    </div>
+    
+    <div class="character-name-form typed">
+        NAME
+    </div>
 
-    <h4 class="character-summary sheet-handwritten" style="margin-top:0.5rem; margin-bottom:0.2em; padding-bottom:0.2em; border-bottom:1px solid black;">
+    <div class="character-summary handwritten">
         Level @{{ level }} @{{ characterClass }} @{{ vocation }}
-    </h4>
-    <div class="sheet-typed" style="font-size:0.8rem;">CLASS & LEVEL</div>
+    </div>
 
-    <table class="vitals" style="margin-top:0.5rem;">
-        <tr class="sheet-typed">
-            <td>HP</td>
-            <td>AV</td>
-            <td>ST</td>
-            <td>AC</td>
-        </tr>
-        
-        <tr class="sheet-handwritten">
-            <td>@{{ hitPoints }}</td>
-            <td>@{{ attackValue }}</td>
-            <td>@{{ savingThrow }}</td>
-            <td>@{{ armorClass }}</td>
-        </tr>
-    </table>
+    <div class="character-summary-form typed">
+        LEVEL / CLASS / VOCATION
+    </div>
 
-    <table class="attributes">
-        <colgroup>
-            <col class="attributes-col-1">
-            <col class="attributes-col-2">
-            <col>
-        </colgroup>
-        <tr class="sheet-typed">
-            <td>Attribute</td>
-            <td>Score</td>
-            <td>Groups</td>
-        </tr>
-        <tr v-for="attribute in attributes">
-            <td class="sheet-typed">@{{ attribute.abbreviation }}</td>
-            <td class="sheet-handwritten" style="text-align: right;">@{{ attribute.score }}</td>
-            <td class="sheet-handwritten">
-                <span v-for="(group, key, index) in attribute.groups">@{{ group }}<span v-if="key != Object.keys(attribute.groups).length - 1">, </span></span>
-            </td>
-        </tr>
-    </table>
+    <div class="character-vitals">
+        <div class="character-vitals-label label-1 typed">HP</div>
+        <div class="character-vitals-label label-2 typed">AV</div>
+        <div class="character-vitals-label label-3 typed">ST</div>
+        <div class="character-vitals-label label-4 typed">AC</div>
+        <div class="character-vitals-label label-5 typed">MV</div>
+        <div class="character-vitals-value value-1 handwritten">@{{ hitPoints }}</div>
+        <div class="character-vitals-value value-2 handwritten">@{{ attackValue }}</div>
+        <div class="character-vitals-value value-3 handwritten">@{{ savingThrow }}</div>
+        <div class="character-vitals-value value-4 handwritten">@{{ armorClass }}</div>
+        <div class="character-vitals-value value-5 handwritten">30</div>
+    </div>
 
-    <h4 class="sheet-typed">Slots <span class="sheet-handwritten">(@{{ slots.type }})</span></h4>
-    <ul class="sheet-handwritten">
-        <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<span v-if="key < slots.count">†</span></li>
-        <li v-for="ability in slots.abilities">@{{ ability }}</li>
-        <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<span v-if="key < slots.count">†</span></li>
-    </ul>
+    <div class="character-attributes">
+        <div class="character-attributes-label label-1 typed">STR</div>
+        <div class="character-attributes-label label-2 typed">DEX</div>
+        <div class="character-attributes-label label-3 typed">CON</div>
+        <div class="character-attributes-label label-4 typed">INT</div>
+        <div class="character-attributes-label label-5 typed">WIS</div>
+        <div class="character-attributes-label label-6 typed">CHA</div>
+        <div class="character-attributes-value value-1 handwritten">@{{ attributes.strength.score }}</div>
+        <div class="character-attributes-value value-2 handwritten">@{{ attributes.dexterity.score }}</div>
+        <div class="character-attributes-value value-3 handwritten">@{{ attributes.constitution.score }}</div>
+        <div class="character-attributes-value value-4 handwritten">@{{ attributes.intelligence.score }}</div>
+        <div class="character-attributes-value value-5 handwritten">@{{ attributes.wisdom.score }}</div>
+        <div class="character-attributes-value value-6 handwritten">@{{ attributes.charisma.score }}</div>
+        <div class="character-attributes-groups groups-1 handwritten"><span v-for="(group, key, index) in attributes.strength.groups">@{{ group }}<span v-if="key != Object.keys(attributes.strength.groups).length - 1">, </span></span></div>
+        <div class="character-attributes-groups groups-2 handwritten"><span v-for="(group, key, index) in attributes.dexterity.groups">@{{ group }}<span v-if="key != Object.keys(attributes.dexterity.groups).length - 1">, </span></span></div>
+        <div class="character-attributes-groups groups-3 handwritten"><span v-for="(group, key, index) in attributes.constitution.groups">@{{ group }}<span v-if="key != Object.keys(attributes.constitution.groups).length - 1">, </span></span></div>
+        <div class="character-attributes-groups groups-4 handwritten"><span v-for="(group, key, index) in attributes.intelligence.groups">@{{ group }}<span v-if="key != Object.keys(attributes.intelligence.groups).length - 1">, </span></span></div>
+        <div class="character-attributes-groups groups-5 handwritten"><span v-for="(group, key, index) in attributes.wisdom.groups">@{{ group }}<span v-if="key != Object.keys(attributes.wisdom.groups).length - 1">, </span></span></div>
+        <div class="character-attributes-groups groups-6 handwritten"><span v-for="(group, key, index) in attributes.charisma.groups">@{{ group }}<span v-if="key != Object.keys(attributes.charisma.groups).length - 1">, </span></span></div>
+    </div>
 
-    <h4 class="sheet-typed">Equipment</h4>
-    <ul class="sheet-handwritten">
-        <li v-for="container in inventory">
-            @{{ container.name }}
-            <ul>
-                <li v-for="item in container.items">@{{ item.name }}</li>
-            </ul>
-        </li>
-    </ul>
+    <div class="character-slots">
+        <div class="character-slots-header typed">
+            CLASS SLOTS <span class="handwritten">- @{{ slots.type }}</span>
+        </div>
+        <ul class="character-slots-list handwritten">
+            <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<sup v-if="key < slots.count">*</sup></li>
+            <li v-for="ability in slots.abilities">@{{ ability }}</li>
+            <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<sup v-if="key < slots.count">*</sup></li>
+        </ul>
+    </div>
+
+    <div class="character-inventory">
+        <div class="character-inventory-header typed">
+            INVENTORY
+        </div>
+        <ul class="character-inventory-list handwritten">
+            <li v-for="container in inventory">
+                @{{ container.name }}
+                <ul>
+                    <li v-for="item in container.items">@{{ item.name }}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <!-- Add button to switch to dyslexic-friendly font. -->
