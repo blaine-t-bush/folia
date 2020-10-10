@@ -6,6 +6,7 @@
     "/css/resources.css": "/css/resources.css",
     "/css/about.css": "/css/about.css",
     "/css/auth.css": "/css/auth.css",
+    "/css/test.css": "/css/test.css",
     "/css/whitehack_character_generator.css": "/css/whitehack_character_generator.css",
     "/js/whitehack/character_generator.js": "/js/whitehack/character_generator.js"
 }

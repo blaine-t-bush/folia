@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Whitehack Character Generator')
-
-@section('content')
-
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
 @endpush
+
+@section('title', 'Whitehack Character Generator')
+
+@section('content')
 
 <h1 class="page-title">Whitehack Character Generator</h1>
 

@@ -214,6 +214,17 @@ new Vue({
 
 /***/ }),
 
+/***/ "./resources/sass/test.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/test.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/whitehack_character_generator.scss":
 /*!***********************************************************!*\
   !*** ./resources/sass/whitehack_character_generator.scss ***!
@@ -226,20 +237,21 @@ new Vue({
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/tables/tables.js ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ./resources/sass/whitehack_character_generator.scss ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************/
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/tables/tables.js ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ./resources/sass/test.scss ./resources/sass/whitehack_character_generator.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\tables\tables.js */"./resources/js/tables/tables.js");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\posts.scss */"./resources/sass/posts.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\whitehack_character_generator.scss */"./resources/sass/whitehack_character_generator.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\js\tables\tables.js */"./resources/js/tables/tables.js");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\posts.scss */"./resources/sass/posts.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\test.scss */"./resources/sass/test.scss");
+module.exports = __webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\whitehack_character_generator.scss */"./resources/sass/whitehack_character_generator.scss");
 
 
 /***/ })
