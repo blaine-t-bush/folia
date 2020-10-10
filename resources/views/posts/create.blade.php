@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-<h1>Create New Post</h1>
+<h1 class="page-title">Create New Post</h1>
 <form class="create-new-post" id="create" method="POST" action="/posts">
     @csrf
     <label for="title">Title</label>

@@ -9,7 +9,7 @@
 
 @section('content')
 <article>
-    <h1>{!! parsedown($post->title) !!}</h1>
+    <h1 class="page-title">{!! parsedown($post->title) !!}</h1>
 
     <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
             

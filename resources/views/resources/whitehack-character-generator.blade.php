@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
 @endpush
 
-<h1 class="resource-title">Whitehack Character Generator</h1>
+<h1 class="page-title">Whitehack Character Generator</h1>
 
 <div id="character-generator" class="character">
     <button class="character-generate" v-on:click="generateCharacter"><i class="fas fa-dice" aria-disabled="true"></i> Generate Character</button>

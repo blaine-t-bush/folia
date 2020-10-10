@@ -6,11 +6,8 @@ main img {
   border: 2px solid darkred;
 }
 
-h1 {
-  margin-bottom: 0.25em;
-}
-
 h1 p {
   margin: inherit;
+  margin-bottom: 0;
 }
 

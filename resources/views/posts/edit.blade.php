@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-<h1>Edit Post</h1>
+<h1 class="page-title">Edit Post</h1>
 <form class="create-new-post" id="edit" method="POST" action="/posts/{{ $post->id }}">
     @csrf
     @method('PUT')

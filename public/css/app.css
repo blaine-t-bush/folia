@@ -3,6 +3,10 @@ body {
   background-color: #eeeeee;
 }
 
+.page-title {
+  border-bottom: 2px solid darkred;
+}
+
 header {
   background-color: #cccccc;
   box-shadow: 0px 4px 4px #888888;
