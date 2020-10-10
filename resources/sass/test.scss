@@ -16,8 +16,10 @@
     padding: 1rem;
     max-width: 360px;
     &-name {
-        &-value {
-            padding-left: min(8%, 2em);
+        &-label {
+            border-top: 1px solid black;
+            margin-top: 0.1rem;
+            padding-top: 0.1rem;
         }
     }
     &-statblock {

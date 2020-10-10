@@ -21,8 +21,8 @@
 
 <div class="monster">
     <div class="monster-name">
-        <div class="monster-name-label typed">NAME</div>
         <div class="monster-name-value handwritten">Lizardman Warrior</div>
+        <div class="monster-name-label typed">NAME</div>
     </div>
 
     <div class="monster-statblock">
@@ -44,6 +44,16 @@
             <ul>
                 <li>Ability 1</li>
                 <li>Ability 2</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="monster-special">
+        <div class="monster-special-label typed">EQUIPMENT</div>
+        <div class="monster-special-value handwritten">
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
             </ul>
         </div>
     </div>

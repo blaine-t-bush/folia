@@ -16,8 +16,10 @@
   max-width: 360px;
 }
 
-.monster-name-value {
-  padding-left: min(8%, 2em);
+.monster-name-label {
+  border-top: 1px solid black;
+  margin-top: 0.1rem;
+  padding-top: 0.1rem;
 }
 
 .monster-statblock {
