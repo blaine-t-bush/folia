@@ -237,7 +237,16 @@ table {
             border-right: 1px dashed black;
             font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 0.8rem;
+            position: relative;
             text-align: center;
+            img {
+                display: none;
+                position: absolute;
+                top: calc(50% - 1rem);
+                left: 15%;
+                width: 2rem;
+                height: 2rem;
+            }
         }
         &:nth-child(n+2) {
             font-family: 'Beth Ellen', cursive;
@@ -248,5 +257,8 @@ table {
     }
     tr:nth-child(odd) {
         background-image: linear-gradient(160deg, #dddddd, #e0e0e0);
+    }
+    tr.selected {
+        background-image: linear-gradient(160deg, $colorAccentMuted, $colorAccentMutedMore) !important;
     }
 }

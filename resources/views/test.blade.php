@@ -72,15 +72,15 @@
         <th>RESULT</th>
     </tr>
     <tr>
-        <td>1</td>
+        <td>1<img src="https://parvifolium.net/images/brush-circled.svg" alt=""></td>
         <td>Something something lizardmen</td>
     </tr>
     <tr>
-        <td>2</td>
+        <td>2<img src="https://parvifolium.net/images/brush-circled.svg" alt=""></td>
         <td>Something something lizardmen</td>
     </tr>
     <tr>
-        <td>3</td>
+        <td>3<img src="https://parvifolium.net/images/brush-circled.svg" alt=""></td>
         <td>Something something lizardmen with a really long entry so I can see what it looks like with line breaks and such</td>
     </tr>
     <tr>

@@ -269,7 +269,17 @@ table td:nth-child(1) {
   border-right: 1px dashed black;
   font-family: "Special Elite", "Courier New", Courier, monospace;
   font-size: 0.8rem;
+  position: relative;
   text-align: center;
+}
+
+table td:nth-child(1) img {
+  display: none;
+  position: absolute;
+  top: calc(50% - 1rem);
+  left: 15%;
+  width: 2rem;
+  height: 2rem;
 }
 
 table td:nth-child(n+2) {
@@ -281,5 +291,9 @@ table td:nth-child(n+2) {
 
 table tr:nth-child(odd) {
   background-image: linear-gradient(160deg, #dddddd, #e0e0e0);
+}
+
+table tr.selected {
+  background-image: linear-gradient(160deg, rgba(139, 80, 80, 0.5), rgba(139, 110, 110, 0.5)) !important;
 }
 
