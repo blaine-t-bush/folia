@@ -217,13 +217,16 @@ table {
     width: 95%;
     th {
         background-image: linear-gradient(160deg, #cccccc, #d0d0d0);
+        border-bottom: 1px dashed black;
         font-family: 'Special Elite', 'Courier New', Courier, monospace;
         font-size: 0.8rem;
         font-weight: normal;
         padding: 0.5em;
         &:nth-child(1) {
             border-right: 1px dashed black;
+            cursor: pointer;
             text-align: center;
+            user-select: none;
             width: 2rem;
         }
         &:nth-child(n+2) {
@@ -237,16 +240,8 @@ table {
             border-right: 1px dashed black;
             font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 0.8rem;
-            position: relative;
+            height: 39px;
             text-align: center;
-            img {
-                display: none;
-                position: absolute;
-                top: calc(50% - 1rem);
-                left: 15%;
-                width: 2rem;
-                height: 2rem;
-            }
         }
         &:nth-child(n+2) {
             font-family: 'Beth Ellen', cursive;
@@ -259,6 +254,12 @@ table {
         background-image: linear-gradient(160deg, #dddddd, #e0e0e0);
     }
     tr.selected {
-        background-image: linear-gradient(160deg, $colorAccentMuted, $colorAccentMutedMore) !important;
+        td {
+            &:nth-child(1) {
+                background-image: url(https://parvifolium.net/images/brush-circled.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+        }
     }
 }

@@ -68,34 +68,51 @@
 
 <table>
     <tr>
-        <th>1D6</th>
+        <th onclick="selectRandomTableResult()"><i class="fas fa-dice" aria-disabled="true"></i> 1D6</th>
         <th>RESULT</th>
     </tr>
     <tr>
-        <td>1<img src="https://parvifolium.net/images/brush-circled.svg" alt=""></td>
-        <td>Something something lizardmen</td>
+        <td>1</td>
+        <td>Raiding party, looking for caravans. 2d6 warriors and 1 captain.</td>
     </tr>
     <tr>
-        <td>2<img src="https://parvifolium.net/images/brush-circled.svg" alt=""></td>
-        <td>Something something lizardmen</td>
+        <td>2</td>
+        <td>Raiding party, returning from a mostly-successful caravan attack. 2d6 warriors (half of whom are injured), 1d6 captives, and 1 captain.</td>
     </tr>
     <tr>
-        <td>3<img src="https://parvifolium.net/images/brush-circled.svg" alt=""></td>
-        <td>Something something lizardmen with a really long entry so I can see what it looks like with line breaks and such</td>
+        <td>3</td>
+        <td>Scouting party, patrolling the borders of lizardfolk land. 1d6+2 hunters.</td>
     </tr>
     <tr>
         <td>4</td>
-        <td>Something something lizardmen</td>
+        <td>Hunting party, searching for dire game. 1d6 hunters and 1d6 lizard-lions. 1d6 to determine activity (1-2: tracking; 3-4: taking down game; 5-6: butchering a kill).</td>
     </tr>
     <tr>
         <td>5</td>
-        <td>Something something lizardmen</td>
+        <td>Young warrior on a rite of passage. He will challenge the strongest-looking character to a duel to first blood. The loser takes a trophy (e.g. weapon, ear, tail) from the other.</td>
     </tr>
     <tr>
         <td>6</td>
-        <td>Something something lizardmen</td>
+        <td>Shaman, tracking a leyline toward a place of power.</td>
     </tr>
 </table>
+
+<script>
+    function selectRandomTableResult() {
+        // Get the triggered table. Start from th -> tr -> tbody -> table.
+        let table = event.srcElement.parentElement.parentElement.parentElement;
+
+        // Remove "selected" class from all rows, to clear previous result.
+        for (let i = 0; i < table.rows.length; i++) {
+            table.rows[i].classList.remove("selected");
+        }
+
+        // Add "selected" class to a random result.
+        let rowCount = table.rows.length - 1;
+        let randomIndex = Math.floor(Math.random()*rowCount + 1);
+        table.rows[randomIndex].classList.add("selected");
+    }
+</script>
 
 @endsection
 
