@@ -38,30 +38,64 @@
         <div class="monster-statblock-value value-5 handwritten">30</div>
     </div>
 
-    <div class="monster-special">
-        <div class="monster-special-label typed">SPECIAL(S)</div>
-        <div class="monster-special-value handwritten">
-            <ul>
-                <li>Ability 1</li>
-                <li>Ability 2</li>
-            </ul>
+    <div class="monster-optional">
+        <div class="monster-optional-special">
+            <div class="monster-optional-special-label typed">SPECIAL(S)</div>
+            <div class="monster-optional-special-value handwritten">
+                <ul>
+                    <li>Ability 1</li>
+                    <li>Ability 2</li>
+                </ul>
+            </div>
         </div>
-    </div>
+    
+        <div class="monster-optional-special">
+            <div class="monster-optional-special-label typed">EQUIPMENT</div>
+            <div class="monster-optional-special-value handwritten">
+                <ul>
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                </ul>
+            </div>
+        </div>
 
-    <div class="monster-special">
-        <div class="monster-special-label typed">EQUIPMENT</div>
-        <div class="monster-special-value handwritten">
-            <ul>
-                <li>Item 1</li>
-                <li>Item 2</li>
-            </ul>
-        </div>
     </div>
 </div>
 
 <p>
     And here's another paragraph, demonstrating that I can display a monster statblock in the middle of a post.
 </p>
+
+<table>
+    <tr>
+        <th>1D6</th>
+        <th>RESULT</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Something something lizardmen</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Something something lizardmen</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Something something lizardmen with a really long entry so I can see what it looks like with line breaks and such</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Something something lizardmen</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>Something something lizardmen</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Something something lizardmen</td>
+    </tr>
+</table>
 
 @endsection
 

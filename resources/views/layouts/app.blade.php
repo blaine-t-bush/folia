@@ -27,6 +27,8 @@
 
     </head>
     <body>
+        <!-- Add button to switch to easier-to-read font -->
+        <!-- Add button to switch to dark mode -->
         <header>
             <div class="wrapper" aria-hidden="true">
                 <div class="sub-wrapper" aria-hidden="true">
