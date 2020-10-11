@@ -93,58 +93,39 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-Vue.component('d-table', {
-  props: ['rows'],
-  template: '<table><tr v-for="row in rows"><td>{{ row.roll }}</td><td>{{ row.result }}</td></tr></table>'
-});
-new Vue({
-  el: '#d6-table-encounters-lizardmen',
-  data: {
-    rows: [{
-      roll: 1,
-      result: 'Raiding party, on the prowl: 3d6 warriors and 1 captain.'
-    }, {
-      roll: 2,
-      result: 'Raiding party, returning with captives: 2d6 warriors, 1d6 injured warriors, 1d6 captives, and 1 captain.'
-    }, {
-      roll: 3,
-      result: 'Scouting party, patrolling borders: 2d6 scouts.'
-    }, {
-      roll: 4,
-      result: 'Hunting party, searching for game: 2d6 hunters and 1d6+2 lizard-lions.'
-    }, {
-      roll: 5,
-      result: 'Apprentice shaman, searching for rare herbs, roots, and mushrooms.'
-    }, {
-      roll: 6,
-      result: 'Wandering exile, covered in scars and missing a tail and an arm.'
-    }]
-  }
-});
-new Vue({
-  el: '#d6-table-encounters-froglings',
-  data: {
-    rows: [{
-      roll: 1,
-      result: 'Raiding party, on the prowl: 3d6 warriors and 1 captain.'
-    }, {
-      roll: 2,
-      result: 'Warriors, performing a croaking ritual: 2d6 warriors, 1 captain, and 1 shaman.'
-    }, {
-      roll: 3,
-      result: 'Refugees, fleeing encroaching enemies: 1d6 warriors, 2d6 women, 2d6 children.'
-    }, {
-      roll: 4,
-      result: 'Caretakers transporting eggs: 2d6 caretakers.'
-    }, {
-      roll: 5,
-      result: 'Toad-herders, looking for pasture: 1d6 herders and 3d6 giant toads.'
-    }, {
-      roll: 6,
-      result: 'Hunting party: 2d6 hunters.'
-    }]
-  }
-});
+// Add click event listener to all first column of header of all tables.
+var tables = document.getElementsByTagName('table');
+
+for (var i = 0; i < tables.length; i++) {
+  var firstRow = tables[i].rows[0];
+  var firstHeader = firstRow.children[0];
+  firstHeader.addEventListener('click', selectRandomTableResult);
+}
+
+function selectRandomTableResult() {
+  // Get the triggered table. Start from th -> tr -> tbody -> table.
+  var table = event.srcElement.parentElement.parentElement.parentElement; // Remove "selected" class from all rows, to clear previous result.
+
+  for (var _i = 0; _i < table.rows.length; _i++) {
+    table.rows[_i].classList.remove("selected");
+  } // Add "selected" class to a random result.
+
+
+  var rowCount = table.rows.length - 1;
+  var randomIndex = Math.floor(Math.random() * rowCount + 1);
+  table.rows[randomIndex].classList.add("selected");
+}
+
+/***/ }),
+
+/***/ "./resources/sass/about.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/about.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -152,6 +133,50 @@ new Vue({
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
   \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/auth.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/auth.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/post.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/post.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/posts.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/posts.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/resources.scss":
+/*!***************************************!*\
+  !*** ./resources/sass/resources.scss ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -171,15 +196,20 @@ new Vue({
 /***/ }),
 
 /***/ 0:
-/*!*****************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/whitehack_character_generator.scss ***!
-  \*****************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ./resources/sass/whitehack_character_generator.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\whitehack_character_generator.scss */"./resources/sass/whitehack_character_generator.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\posts.scss */"./resources/sass/posts.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
+__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
+module.exports = __webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\whitehack_character_generator.scss */"./resources/sass/whitehack_character_generator.scss");
 
 
 /***/ })

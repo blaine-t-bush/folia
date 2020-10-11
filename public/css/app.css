@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 body {
   font-family: "IM Fell English", serif;
   background-color: #eeeeee;
@@ -260,6 +262,13 @@ table th:nth-child(1) {
       -ms-user-select: none;
           user-select: none;
   width: 2rem;
+}
+
+table th:nth-child(1):before {
+  content: "\F522";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
 }
 
 table th:nth-child(n+2) {
