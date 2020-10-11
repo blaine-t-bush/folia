@@ -40,7 +40,7 @@ Route::get('/about', function() {
 // Login and registration are taken care of by Fortify. Just need to add a route for logout.
 Route::get('/logout', function() {
     Auth::logout();
-    return view('home');
+    return back();
 });
 
 /*

@@ -52,7 +52,9 @@ class PostController extends Controller
         $post->body = $request->input()['body'];
         $post->save();
 
-        return redirect('posts');
+        return view('posts.post', [
+            'post' => $post,
+        ]);
     }
 
     public function destroy(int $id) {
