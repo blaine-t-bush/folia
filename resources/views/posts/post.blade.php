@@ -15,12 +15,12 @@
             
     @if (Auth::check() && Auth::user()->can_edit_posts)
     <br>
-    <a href="/posts/{{ $post->id }}/edit"><button class="edit-post">Edit</button></a>
+    <a href="/posts/{{ $post->slug }}/edit"><button class="edit-post">Edit</button></a>
     @endif
 
     @if (Auth::check() && Auth::user()->can_delete_posts)
     <br>
-    <form method="POST" action="/posts/{{ $post->id }}">
+    <form method="POST" action="/posts/{{ $post->slug }}">
         @csrf
         @method('DELETE')
         <input class="delete-post" type="submit" value="Delete">

@@ -15,7 +15,7 @@
 <ol class="posts">
     @foreach ($posts as $post)
     <li class="post">
-        <a href="/posts/{{ $post->id }}" class="post-link">
+        <a href="/posts/{{ $post->slug }}" class="post-link">
             <img src="{{ asset('images/huckleberry_BW_1.png') }}" alt="">
 
             <h2>{!! parsedown($post->title) !!}</h2>
@@ -27,11 +27,11 @@
             <p class="read-more">Read More »</p>
             
             @if (Auth::check() && Auth::user()->can_edit_posts)
-            <a href="/posts/{{ $post->id }}/edit"><button class="edit-post">Edit</button></a>
+            <a href="/posts/{{ $post->slug }}/edit"><button class="edit-post">Edit</button></a>
             @endif
 
             @if (Auth::check() && Auth::user()->can_delete_posts)
-            <form method="POST" action="/posts/{{ $post->id }}">
+            <form method="POST" action="/posts/{{ $post->slug }}">
                 @csrf
                 @method('DELETE')
                 <input class="delete-post" type="submit" value="Delete">

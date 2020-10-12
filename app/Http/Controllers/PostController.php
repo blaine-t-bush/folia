@@ -29,16 +29,16 @@ class PostController extends Controller
         return redirect('posts');
     }
 
-    public function show(int $id) {
-        $post = Post::where('id', $id)->firstOrFail();
+    public function show(string $slug) {
+        $post = Post::where('slug', $slug)->firstOrFail();
 
         return view('posts.post', [
             'post' => $post,
         ]);
     }
 
-    public function edit(int $id) {
-        $post = Post::where('id', $id)->firstOrFail();
+    public function edit(string $slug) {
+        $post = Post::where('slug', $slug)->firstOrFail();
 
         return view('posts.edit', [
             'post' => $post,
@@ -46,7 +46,7 @@ class PostController extends Controller
     }
 
     public function update(Request $request) {
-        $post = Post::where('id', $request->id)->first();
+        $post = Post::where('slug', $request->slug)->first();
         $post->title = $request->input()['title'];
         $post->summary = $request->input()['summary'];
         $post->body = $request->input()['body'];
@@ -57,8 +57,8 @@ class PostController extends Controller
         ]);
     }
 
-    public function destroy(int $id) {
-        $post = Post::where('id', $id)->firstOrFail();
+    public function destroy(string $slug) {
+        $post = Post::where('slug', $slug)->firstOrFail();
         $post->delete();
 
         return redirect('posts');

@@ -8,10 +8,10 @@
 
 @section('content')
 <h1 class="page-title">Edit Post</h1>
-<form class="create-new-post" id="edit" method="POST" action="/posts/{{ $post->id }}">
+<form class="create-new-post" id="edit" method="POST" action="/posts/{{ $post->slug }}">
     @csrf
     @method('PUT')
-    <input type="hidden" id="id" value="{{ $post->id }}">
+    <input type="hidden" id="slug" value="{{ $post->slug }}">
     <label for="title">Title</label>
     <input class="input-text" name="title" type="text" value="{{ $post->title }}">
     <label for="title">Summary</label>

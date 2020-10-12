@@ -64,21 +64,21 @@ Route::post('/posts', [
 ])->middleware('auth.create_posts');
 
 // Display a single post.
-Route::get('/posts/{id}', [
+Route::get('/posts/{slug}', [
     PostController::class, 'show'
 ]);
 
 // Display form for editing a post.
-Route::get('/posts/{id}/edit', [
+Route::get('/posts/{slug}/edit', [
     PostController::class, 'edit'
 ])->middleware('auth.edit_posts');
 
 // Store data for newly-edited post.
-Route::put('/posts/{id}', [
+Route::put('/posts/{slug}', [
     PostController::class, 'update'
 ])->middleware('auth.edit_posts');
 
 // Delete a single post.
-Route::delete('/posts/{id}', [
+Route::delete('/posts/{slug}', [
     PostController::class, 'destroy'
 ])->middleware('auth.delete_posts');
