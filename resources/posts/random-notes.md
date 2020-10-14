@@ -1,0 +1,1 @@
+Elves have horns and hooves, like Lorwyn.

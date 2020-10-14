@@ -1,8 +1,9 @@
 @charset "UTF-8";
 
 body {
-  font-family: "IM Fell English", serif;
   background-color: #eeeeee;
+  font-family: "IM Fell English", serif;
+  overflow-x: hidden;
 }
 
 .page-title {
@@ -241,11 +242,13 @@ table {
   border-collapse: collapse;
   border: 1px dashed black;
   margin: auto;
-  width: 95%;
+  table-layout: fixed;
+  width: 100%;
 }
 
 table th {
   background-image: linear-gradient(160deg, #cccccc, #d0d0d0);
+  border-right: 1px dashed black;
   border-bottom: 1px dashed black;
   font-family: "Special Elite", "Courier New", Courier, monospace;
   font-size: 0.8rem;
@@ -277,20 +280,20 @@ table th:nth-child(n+2) {
 }
 
 table td {
+  border-right: 1px dashed black;
   padding: 0.5em;
 }
 
 table td:nth-child(1) {
-  border-right: 1px dashed black;
   font-family: "Special Elite", "Courier New", Courier, monospace;
   font-size: 0.8rem;
-  height: 39px;
+  height: 26px;
   text-align: center;
 }
 
 table td:nth-child(n+2) {
-  font-family: "Beth Ellen", cursive;
-  font-size: 0.9rem;
+  font-family: "Special Elite", "Courier New", Courier, monospace;
+  font-size: 0.8rem;
   padding-left: 2%;
   text-align: left;
 }
@@ -303,5 +306,9 @@ table tr.selected td:nth-child(1) {
   background-image: url(https://parvifolium.net/images/brush-circled.svg);
   background-repeat: no-repeat;
   background-position: center;
+}
+
+ul {
+  list-style-type: "- ";
 }
 

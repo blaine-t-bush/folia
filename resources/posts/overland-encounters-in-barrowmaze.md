@@ -50,22 +50,22 @@ Like many OSR games, this leads to an encounter on a roll of 1. The difference i
 ### Lizardfolk
 | 1d6 | RESULT |
 | --- | --- |
-| 1 | Raiding party, looking for caravans. 2d6 warriors and 1 captain. |
-| 2 | Raiding party, returning from a mostly-successful caravan attack. 2d6 warriors (half of whom are injured), 1d6 captives, and 1 captain. |
-| 3 | Scouting party, patrolling the borders of lizardfolk land. 1d6+2 hunters. |
-| 4 | Hunting party, searching for dire game. 1d6 hunters and 1d6 lizard-lions. 1d6 to determine activity (1-2: tracking; 3-4: taking down game; 5-6: butchering a kill). |
+| 1 | 2d6 warriors and 1 captain, looking for caravans to raid. |
+| 2 | 2d6 warriors (half of whom are injured), 1d6 captives, and 1 captain, returning from a mostly-successful caravan attack. |
+| 3 | 1d6+2 hunters patrolling the borders of lizardfolk land. |
+| 4 | 1d6 hunters with 1d6 lizard-lions, searching for dire game. 1d6 to determine activity (1-2: tracking; 3-4: taking down game; 5-6: butchering a kill). |
 | 5 | Young warrior on a rite of passage. He will challenge the strongest-looking character to a duel to first blood. The loser takes a trophy (e.g. weapon, ear, tail) from the other. |
 | 6 | Shaman, tracking a leyline toward a place of power. |
 
 ### Froglings
 | 1d6 | RESULT |
 | --- | --- |
-| 1 | Raiding party, laying in ambush. 2d6 warriors. |
-| 2 | Cacophony of warriors, performing a croaking ritual. 2d6 warriors and 1 chief. |
-| 3 | Exiles with handcarts, emigrating to a different swamp. 1d6 warriors escorting 3d6 noncombatants. |
-| 4 | Caretakers herding livestock. 1d6 froglings, 1 druid, and 1d6+2 giant toads. |
-| 5 | Caretakers transporting baskets of frogling eggs. 1d6+2 froglings. |
-| 6 | Hunting party, searching for small game. 1d6 hunters. |
+| 1 | 2d6 warriors laying in ambush. They use hit-and-run tactics. |
+| 2 | 2d6 warriors and 1 chief, performing a croaking ritual. |
+| 3 | 1d6 warriors escorting 3d6 noncombatants with handcarts, emigrating to a new swamp. |
+| 4 | 1d6 froglings and 1 druid, herding 1d6+2 giant toads. The toads are bound for a feast in celebration of a new chief. |
+| 5 | 1d6+2 froglings, transporting baskets of eggs to bigger ponds. |
+| 6 | 1d6 hunters, looking for small game. |
 
 ### Bandits
 | 1d6 | RESULT |
@@ -80,12 +80,12 @@ Like many OSR games, this leads to an encounter on a roll of 1. The difference i
 ### Travelers
 | 1d6 | RESULT |
 | --- | --- |
-| 1 | 1d6+2 dwarf merchants, down from Karnak to sell ore and worked metal in Ironguard Motte. |
-| 2 | 1d6+2 would-be adventurers. [Roll for hirelings](http://barrowmaze.com/meatshields/) |
-| 3 | 1d6+2 farmers heading to or from market at Ironguard Motte. |
-| 4 | 1d6+2 elves dashing through the woods. |
-| 5 | 1d6+2 sheriff's men, patrolling on horseback. |
-| 6 | 1d6 guards escorting a Silver Standard Merchant Caravan with 1d6 merchants. |
+| 1 | 2d4 dwarf merchants, down from Karnak to sell ore and worked metal in Ironguard Motte. |
+| 2 | 1d6+2 brazen would-be adventurers, looking for gold and glory. [Roll for hirelings](http://barrowmaze.com/meatshields/). |
+| 3 | 2d6 farmers heading to market at Ironguard Motte. They're herding a few pigs, and their carts are laden with produce. |
+| 4 | 1d6+2 elves, trying to stay out of sight. They dash away like deer unless they see another elf. |
+| 5 | 1d6+2 sheriff's men, patrolling on horseback.  |
+| 6 | 1d6+2 guards and 1d6 merchants--a Silver Standard Merchant Company caravan. |
 
 ### Animals
 | 1d6 | RESULT |

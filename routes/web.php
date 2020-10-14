@@ -6,31 +6,28 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostController;
 
 /*
- * 
- * Main pages
+ *
+ * Test pages
  * 
  */
-Route::redirect('/', '/home');
-
-Route::get('/home', function() {
-    return view('home');
-});
-
 Route::get('/test', function() {
     return view('test');
 });
 
-Route::get('/resources', function() {
-    return view('resources');
-});
 
-Route::get('/resources/whitehack-character-generator', function() {
-    return view('resources.whitehack-character-generator');
-});
+
+/*
+ * 
+ * Main pages
+ * 
+ */
+Route::redirect('/', '/posts');
 
 Route::get('/about', function() {
     return view('about');
 });
+
+
 
 /*
  * 
@@ -42,6 +39,22 @@ Route::get('/logout', function() {
     Auth::logout();
     return back();
 });
+
+
+/*
+ *
+ * Resources
+ * 
+ */
+Route::get('/resources', function() {
+    return view('resources');
+});
+
+Route::get('/resources/whitehack-character-generator', function() {
+    return view('resources.whitehack-character-generator');
+});
+
+
 
 /*
  * 
