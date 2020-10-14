@@ -61,7 +61,7 @@
         
         {{-- Post-Render Scripts --}}
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/randomTables.js') }}"></script>
         @stack('scripts_body')
     </body>
 </html>

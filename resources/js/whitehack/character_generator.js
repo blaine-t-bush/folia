@@ -1,9 +1,5 @@
-// TODO hireling generator
-// TODO move groups off of attributes to separate object {group: 'name', attribute: 'strength'}
-// TODO fix leveling
-// TODO add toggle for HP houserule (HP increases by at least 1 each level)
-// TODO add button to re-roll HP
-// TODO break names up into primary, optional secondary, and optional epithets
+// TODO add generator
+// TODO add leveling
 
 // Instantiate a new character on pageload.
 var character = new Character;

@@ -86,10 +86,10 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
+/***/ "./resources/js/randomTables.js":
+/*!**************************************!*\
+  !*** ./resources/js/randomTables.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -196,20 +196,20 @@ function selectRandomTableResult() {
 /***/ }),
 
 /***/ 0:
-/*!***************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ./resources/sass/whitehack_character_generator.scss ***!
-  \***************************************************************************************************************************************************************************************************************************************************************/
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/randomTables.js ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ./resources/sass/whitehack_character_generator.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\posts.scss */"./resources/sass/posts.scss");
-__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
-__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
-__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
-__webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
-module.exports = __webpack_require__(/*! C:\Users\blaine.bush\dev\blog\resources\sass\whitehack_character_generator.scss */"./resources/sass/whitehack_character_generator.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\randomTables.js */"./resources/js/randomTables.js");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\posts.scss */"./resources/sass/posts.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
+module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\whitehack_character_generator.scss */"./resources/sass/whitehack_character_generator.scss");
 
 
 /***/ })

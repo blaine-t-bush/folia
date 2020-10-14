@@ -19,9 +19,11 @@
     <input class="login-submit" type="submit" value="Submit">
 </form>
 
-<!--
-TODO pipe in login errors, if any
--->
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <div style="color:red; padding:0.5em; text-align:center;">{{ $error }}</div>
+    @endforeach
+@endif
 
 @endsection
 

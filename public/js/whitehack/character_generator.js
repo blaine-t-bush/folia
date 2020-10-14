@@ -492,9 +492,8 @@ function generateVocation() {
 
     return vocations.random();
 }
-// TODO if attunement is item, add it to inventory
-
 function generateAttunement() {
+    // FIXME get weapon/item lists from inventory.js
     let weapons = [
         'Axe',
         'Sword',
@@ -832,7 +831,7 @@ function createInventory(characterClass, strengthScore, constitutionScore, attun
     let inventory = [];
     let maximumSlots = Math.max(strengthScore, constitutionScore);
 
-    // TODO add attuned items for Deft.
+    // FIXME if deft and attuned to weapon/item, add to inventory
 
     // Add the items that everyone gets in some variation.
     // First, armor.
@@ -1296,7 +1295,6 @@ function populateContainers(containers, inventory) {
 }
 
 createInventory('Strong', 10);
-// TODO consider giving up on the "generate wealth and then buy based on budget" approach. just generate items randomly.
 // TODO parse the Great Net Equipment List
 
 class Character {
@@ -1736,12 +1734,8 @@ class Character {
         this.name = generateName();
     }
 }
-// TODO hireling generator
-// TODO move groups off of attributes to separate object {group: 'name', attribute: 'strength'}
-// TODO fix leveling
-// TODO add toggle for HP houserule (HP increases by at least 1 each level)
-// TODO add button to re-roll HP
-// TODO break names up into primary, optional secondary, and optional epithets
+// TODO add generator
+// TODO add leveling
 
 // Instantiate a new character on pageload.
 var character = new Character;

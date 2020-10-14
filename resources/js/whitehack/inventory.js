@@ -37,7 +37,7 @@ function createInventory(characterClass, strengthScore, constitutionScore, attun
     let inventory = [];
     let maximumSlots = Math.max(strengthScore, constitutionScore);
 
-    // TODO add attuned items for Deft.
+    // FIXME if deft and attuned to weapon/item, add to inventory
 
     // Add the items that everyone gets in some variation.
     // First, armor.

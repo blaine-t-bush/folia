@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .js('resources/js/app.js', 'public/js')
+    .js('resources/js/randomTables.js', 'public/js/randomTables.js')
     .scripts([
         'resources/js/whitehack/helpers.js',
         'resources/js/whitehack/name.js',

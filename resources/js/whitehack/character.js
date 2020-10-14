@@ -1,4 +1,3 @@
-// TODO consider giving up on the "generate wealth and then buy based on budget" approach. just generate items randomly.
 // TODO parse the Great Net Equipment List
 
 class Character {

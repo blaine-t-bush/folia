@@ -23,9 +23,11 @@
     <input class="register-submit" type="submit" value="Submit">
 </form>
 
-<!--
-TODO pipe in registration errors, if any
--->
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <div style="color:red; padding:0.5em; text-align:center;">{{ $error }}</div>
+    @endforeach
+@endif
 
 @endsection
 

@@ -1,6 +1,5 @@
-// TODO if attunement is item, add it to inventory
-
 function generateAttunement() {
+    // FIXME get weapon/item lists from inventory.js
     let weapons = [
         'Axe',
         'Sword',
