@@ -64,6 +64,7 @@ Route::post('/posts', [
 ])->middleware('auth.create_posts');
 
 // Display a single post.
+// Overwrites for special posts go here.
 Route::get('/posts/{slug}', [
     PostController::class, 'show'
 ]);
