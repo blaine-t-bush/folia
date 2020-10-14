@@ -94,14 +94,6 @@ button.create-new-post {
     margin-bottom: 1em;
 }
 
-button.edit-post {
-    margin-top: 0.5em;
-}
-
-input.delete-post {
-    margin-top: 0.5em;
-}
-
 form.create-new-post {
     display: flex;
     flex-direction: column;
@@ -113,5 +105,16 @@ form.create-new-post {
     }
     .input-text {
         font-family: 'Nanum Gothic Coding', monospace;
+    }
+}
+
+.post-admin {
+    display: flex;
+    margin-top: 0.5em;
+    &-edit {
+        margin-right: 0.5em;
+    }
+    &-delete {
+        margin-right: 0.5em;
     }
 }

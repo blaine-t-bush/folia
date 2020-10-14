@@ -25,19 +25,23 @@
             <summary>{!! parsedown($post->summary) !!}</summary>
 
             <p class="read-more">Read More »</p>
-            
-            @if (Auth::check() && Auth::user()->can_edit_posts)
-            <a href="/posts/{{ $post->slug }}/edit"><button class="edit-post">Edit</button></a>
-            @endif
-
-            @if (Auth::check() && Auth::user()->can_delete_posts)
-            <form method="POST" action="/posts/{{ $post->slug }}">
-                @csrf
-                @method('DELETE')
-                <input class="delete-post" type="submit" value="Delete">
-            </form>
-            @endif
         </a>
+            
+        @if (Auth::check())
+            <div class="post-admin">
+                @if (Auth::user()->can_edit_posts)
+                    <a href="/posts/{{ $post->slug }}/edit"><button class="post-admin-edit">Edit</button></a>
+                @endif
+    
+                @if (Auth::user()->can_delete_posts)
+                    <form method="POST" action="/posts/{{ $post->slug }}">
+                        @csrf
+                        @method('DELETE')
+                        <input class="post-admin-delete" type="submit" value="Delete">
+                    </form>
+                @endif
+            </div>
+        @endif
     </li>
     @endforeach
 </ol>

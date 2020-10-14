@@ -488,6 +488,12 @@ function generateVocation() {
         'Medic',
         'Doctor',
         'Surgeon',
+        'Medium',
+        'Philosopher',
+        'Diviner',
+        'Numerologist',
+        'Professor',
+        'Shepherd',
     ];
 
     return vocations.random();

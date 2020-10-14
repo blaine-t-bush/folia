@@ -1,3 +1,10 @@
+# Title
+Overland Encounters in Barrowmaze
+
+# Summary
+Barrowmaze is a great megadungeon, but my players are more interested in wilderness exploration and overland adventures. I created random encounter tables to layer flavor and interesting scenarios onto the region's most common monsters.
+
+# Post
 I'm running a [Whitehack](https://whitehackrpg.wordpress.com/) game which originally focused on [Barrowmaze](https://www.drivethrurpg.com/product/139762/Barrowmaze-Complete), but which has slowly morphed into a series of small adventures anywhere but the eponymous megadungeon.
 
 To keep things exciting when wandering the wilds, I've developed a few tables of random encounters. The goal here is to provide interesting encounters which are focused on a few specific factions and creature types, rather than sprawling tables of unrelated monsters. Each entry should have a built-in scenario. I don't want my players to encounter 1d6 bandits--I want them to encounter 1d6 bandits *doing something*.
