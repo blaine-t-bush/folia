@@ -183,6 +183,18 @@
         margin-top: 0.2rem;
         li {
             padding-bottom: 0.2rem;
+            ul {
+                li {
+                    list-style: "- ";
+                }
+            }
         }
+    }
+}
+
+.character-quirks-list {
+    margin-top: 0.2rem;
+    li {
+        padding-bottom: 0.2rem;
     }
 }

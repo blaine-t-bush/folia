@@ -1,3 +1,407 @@
+// Create prototype function on arrays to allow for inline random selection of one element.
+Array.prototype.random = function() {
+    return this[Math.floor(Math.random() * this.length)];
+}
+
+// Create prototype function on arrays to shuffle the order of their elements and return it as a new array.
+// This implements the Fisher-Yates shuffle algorithm.
+Array.prototype.shuffle = function() {
+    let newArray = this;
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+
+    return newArray;
+}
+
+// Helper function for dice-rolling.
+function d(size, count) {
+    let faces = Array.from(new Array(size), (x, i) => i + 1);
+    let sum = 0;
+    for (let i = 0; i < count; i++) {
+        sum = sum + faces.random();
+    }
+
+    return sum;
+}
+function generateName(allowPrefix = true, allowSuffix = true) {
+    let prefixes = [
+        'Clubfoot',
+        'Crazy',
+        'Do-Nothing',
+        'One-Eyed',
+        'Blind',
+        'Brave',
+        'Accursed',
+        'Bald',
+        'Cruel',
+        'Gentle',
+        'Good',
+        'Grim',
+        'Holy',
+        'Hairy',
+        'Lame',
+        'Mad',
+        'Old',
+        'Pale',
+        'Quiet',
+        'Small',
+        'Strong',
+        'Swift',
+        'Tall',
+        'Terrible',
+        'Wicked',
+        'Wise',
+    ];
+
+    let names = [
+        'Blaine',
+        'Matthew',
+        'Morgan',
+        'Francisco',
+        'James',
+        'Richard',
+        'Dinadan',
+        'Alan',
+        'Aldred',
+        'Eluard',
+        'Arnold',
+        'Henry',
+        'Basil',
+        'Jocelyn',
+        'Cyr',
+        'Balin',
+        'George',
+        'Eliot',
+        'Frederick',
+        'Alexander',
+        'Percival',
+        'Anselm',
+        'Albert',
+        'Urian',
+        'Tristram',
+        'Berenger',
+        'Martin',
+        'Merek',
+        'Herman',
+        'Hildebrand',
+        'Edwin',
+        'Gilbert',
+        'Bliant',
+        'Bennet',
+        'Bryce',
+        'Castor',
+        'Giles',
+        'Gunter',
+        'Bernard',
+        'Arthur',
+        'Nigel',
+        'Lucan',
+        'Lionel',
+        'Bartholomew',
+        'Bardolph',
+        'Barnabas',
+        'Bertram',
+        'Wolfstan',
+        'Hardwin',
+        'Hamond',
+        'Faramond',
+        'Herbert',
+        'Alisander',
+        'Ulric',
+        'Galleron',
+        'Solomon',
+        'Sampson',
+        'Tobias',
+        'Charles',
+        'Diggory',
+        'Drogo',
+        'Hugh',
+        'Baudwin',
+        'Everard',
+        'Nicholas',
+        'Leofwin',
+        'Amis',
+        'Ranulf',
+        'Fulke',
+        'Theobald',
+        'Rowan',
+        'Geoffrey',
+        'Gervase',
+        'Gerard',
+        'Godwyn',
+        'Philip',
+        'Warin',
+        'Warner',
+        'Thomas',
+        'Brom',
+        'Hamon',
+        'Thurstan',
+        'Robert',
+        'Roland',
+        'Rolf',
+        'Walter',
+        'Laurence',
+        'Reginald',
+        'Aglovale',
+        'Sayer',
+        'Timm',
+        'Piers',
+        'Cerdic',
+        'Randel',
+        'Denis',
+        'Elias',
+        'Gabriel',
+        'Hector',
+        'Humphrey',
+        'Gamel',
+        'Gregory',
+        'Jasper',
+        'Jeremy',
+        'Isaac',
+        'Ingram',
+        'Isembard',
+        'Manfred',
+        'Ives',
+        'William',
+        'Lucius',
+        'Wymond',
+        'Lambert',
+        'Blaise',
+        'Griffith',
+        'Mabon',
+        'Hubert',
+        'Gerald',
+        'Eustace',
+        'Emory',
+        'Adam',
+        'Adelard',
+        'Alphonse',
+        'Turstin',
+        'Guy',
+        'Peter',
+        'Osric',
+        'Ogier',
+        'Gareth',
+        'Maynard',
+        'Miles',
+        'Elaine',
+        'Sarah',
+        'Sela',
+        'Sigga',
+        'Susanna',
+        'Althea',
+        'Alma',
+        'Artemisia',
+        'Anne',
+        'Anais',
+        'Acelina',
+        'Aelina',
+        'Aldith',
+        'Audry',
+        'Augusta',
+        'Brangwine',
+        'Bridget',
+        'Genevieve',
+        'Guinevere',
+        'Catelin',
+        'Caterina',
+        'Dionisia',
+        'Mary',
+        'Molly',
+        'Margaret',
+        'Margery',
+        'Martha',
+        'Elizabeth',
+        'Elysande',
+        'Cristina',
+        'Giselle',
+        'Regina',
+        'Ricolda',
+        'Roana',
+        'Barbetta',
+        'Bertha',
+        'Clarice',
+        'Amelina',
+        'Cecily',
+        'Edith',
+        'Elle',
+        'Juliana',
+        'Ivette',
+        'Adelina',
+        'Agnes',
+        'Alis',
+        'Alyson',
+        'Dameta',
+        'Paulina',
+        'Petronilla',
+        'Edeva',
+        'Eglenti',
+        'Evelune',
+        'Emeline',
+        'Emma',
+        'Joan',
+        'Johanna',
+        'Lavina',
+        'Lena',
+        'Lovota',
+        'Lillian',
+        'Maud',
+        'Milicent',
+        'Magdalen',
+        'Isabella',
+        'Caesaria',
+        'Douglas',
+        'Delia',
+        'Sapphira',
+        'Sophronia',
+        'Tephania',
+        'Theda',
+        'Thora',
+        'Odelina',
+        'Oliva',
+        'Orella',
+        'Venetia',
+        'Ysmeine',
+        'Gracia',
+        'Gratia',
+        'Swanhild',
+        'Sybil',
+        'Mathilde',
+        'Ida',
+        'Ingerith',
+        'Isemay',
+        'Celestria',
+        'Constance',
+        'Eleanor',
+        'Amicia',
+        'Avina',
+        'Athelina',
+        'Eva',
+        'Gundred',
+        'Felicia',
+        'Floria',
+        'Isolda',
+        'Linota',
+        'Cassandra',
+        'Lucia',
+        'Helewisa',
+        'Justina',
+        'Joyce',
+        'Joya',
+        'Nesta',
+        'Sabina',
+        'Gisela',
+        'Rosa',
+        'Rosamund',
+        'Evaine',
+        'Viviane',
+        'Laudine',
+        'Letia',
+        'Leticia',
+        'Legarda',
+        'Lia',
+        'Lunete',
+        'Florence',
+        'Gwendolen',
+        'Nicola',
+        'Blanche',
+        'Beatrice',
+        'Marie',
+        'Marion',
+        'Mirielda',
+    ];
+
+    let suffixes = [
+        'the Hard',
+        'the Soft',
+        'of the North',
+        'of the East',
+        'of the South',
+        'of the West',
+        'the Black',
+        'the White',
+        'the Red',
+        'the Yellow',
+        'of the Wood',
+        'of the Mountain',
+        'of the Valley',
+        'of the River',
+        'of the Lake',
+        'the Elder',
+        'the Younger',
+        'the Brave',
+        'the Great',
+        'the Magnificent',
+        'the Able',
+        'the Accursed',
+        'the Bald',
+        'the Bear',
+        'the Cruel',
+        'the Damned',
+        'the Exile',
+        'the Gentle',
+        'the Good',
+        'the Grim',
+        'the Hammer',
+        'the Holy',
+        'the Hairy',
+        'the Impaler',
+        'the Kind',
+        'the Lame',
+        'the Lion',
+        'the Wolf',
+        'the Mad',
+        'the Old',
+        'the Pale',
+        'the Quiet',
+        'the Rose',
+        'the Seer',
+        'the Small',
+        'the Spider',
+        'the Strong',
+        'the Swift',
+        'the Tall',
+        'the Terrible',
+        'the Wicked',
+        'the Wise',
+        'of the Sun',
+        'of the Moon',
+        'Fairhair',
+        'Bloodaxe',
+        'Crookback',
+        'Flatnose',
+        'Forkbeard',
+        'Greyfell',
+        'Greymantle',
+        'Longshanks',
+        'Ironside',
+        'Moneybags',
+        'Oathbreaker',
+        'One-Eye',
+        'Ploughpenny',
+        'Roundhead',
+        'Thunderbolt',
+    ];
+
+    let name = '';
+
+    // Random chance for a prefix.
+    if (allowPrefix && Math.random() < 0.3) {
+        name += prefixes.random() + ' ';
+    }
+
+    // Everyone has at least a regular old first name.
+    name += names.random();
+
+    // Random chance for a suffix.
+    if (allowSuffix && Math.random() < 0.3) {
+        name += ' ' + suffixes.random();
+    }
+
+    return name.trim();
+}
 /* 
  * Determine inventory.
 
@@ -507,3 +911,88 @@ function populateContainers(containers, inventory) {
 }
 
 createInventory('Strong', 10);
+function generateQuirk() {
+    let quirks = [
+        'Used to be a farmer',
+        'Family eaten by trolls',
+        'Wants to learn how to use magic',
+        'Terribly afraid of undead',
+        'Always sharpening or polishing weapons',
+        'Constantly looks over their shoulder',
+        'Extremely forgetful',
+        'Scion to an ancient empire',
+        'Always singing sea shanties',
+        'Hates the dark',
+        'Collects small shiny objects',
+        'Composes poems',
+        'Composes ballads',
+        'Has a map of an ancient lost civilization',
+        'Has a scroll in a lost tongue',
+        'Teeth stained from chewing tobacco',
+    ];
+
+    return quirks.random();
+}
+class Hireling {
+    constructor() {
+        this.generate();
+    }
+
+    generate() {
+        // Determine basics.
+        this.name = generateName();
+
+        let types = [
+            'Mercenary',
+            'Porter',
+        ];
+        this.type = types.random();
+
+        // Determine vitals. They don't need full stats.
+        this.hitDice = 1;
+        if (this.type == 'Mercenary') {
+            this.hitPoints = d(6, 1) + 2;
+        } else {
+            this.hitPoints = d(6, 1);
+        }
+        this.attackValue = 11;
+        this.savingThrow = 6;
+
+        // Determine equipment.
+        // Use the existing character inventory generation. Since that depends on class and attribute scores,
+        // make some assumptions. For example, men-at-arms count as Strong so they have access to all weapons and armor.
+        // On the other hand, torchbearers and such count as Wise so they have access to very few weapons and armor.
+        if (this.type == 'Mercenary') {
+            var inventoryInfo = createInventory('Strong', 13, 13, [], true);
+        } else {
+            var inventoryInfo = createInventory('Wise', 10, 10, [], true);
+        }
+        this.inventory = inventoryInfo.containers;
+        this.armorClass = inventoryInfo.armorClass;
+
+        // Give them some unique features.
+        let remainingQuirkCount = d(3, 1);
+        let i = 0;
+        this.quirks = [];
+        while (i < remainingQuirkCount) {
+            let quirk = generateQuirk();
+            if (!this.quirks.includes(quirk)) {
+                this.quirks.push(quirk);
+                i++;
+            }
+        }
+    }
+}
+// Instantiate a new hireling on page load.
+var hireling = new Hireling;
+
+// Tie the hireling object to a Vue instance.
+var app = new Vue({
+    el: '#hireling-generator',
+    data: hireling,
+    methods: {
+        generateHireling: function() {
+            hireling.generate();
+        }
+    }
+})

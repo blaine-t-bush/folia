@@ -54,6 +54,10 @@ Route::get('/resources/whitehack-character-generator', function() {
     return view('resources.whitehack-character-generator');
 });
 
+Route::get('/resources/whitehack-hireling-generator', function() {
+    return view('resources.whitehack-hireling-generator');
+});
+
 
 
 /*

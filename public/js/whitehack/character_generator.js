@@ -831,7 +831,7 @@ function generateMiracle() {
  * @param  {Array}  attunedItems --- Attuned items, if Deft. These items will be added to inventory.
  * @return {Array} ----------------- Array of objects. Each element in array represents one item in inventory. Each item contains the name, number of slots it takes up, and the name of the container it's in, if any.
  */
-function createInventory(characterClass, strengthScore, constitutionScore, attunedItems = []) {
+function createInventory(characterClass, strengthScore, constitutionScore, attunedItems = [], isHireling = false) {
     // Instantiate an empty inventory.
     let carried = [];
     let inventory = [];
@@ -887,13 +887,19 @@ function createInventory(characterClass, strengthScore, constitutionScore, attun
     }
 
     // Add some random items.
-    inventory = inventory.concat(getItems(carried, inventory, maximumSlots));
+    if (isHireling) {
+        inventory = inventory.concat(getItems(carried, inventory, maximumSlots, 2));
+    } else {
+        inventory = inventory.concat(getItems(carried, inventory, maximumSlots));
+    }
 
     // Populate chosen containers with inventory items.
     containers = populateContainers(containers, inventory);
 
     // Everyone gets a pouch with 6d10 coins.
-    containers.unshift({ name: 'Pouch', maximumSlots: 0, items: [{ name: d(10, 6) + ' coins', slots: 0 }] });
+    if (!isHireling) {
+        containers.unshift({ name: 'Pouch', maximumSlots: 0, items: [{ name: d(10, 6) + ' coins', slots: 0 }] });
+    }
 
     // Add carried items as their own "container".
     containers.unshift({
@@ -1177,7 +1183,7 @@ function getRangedWeapon(carried, inventory, maximumSlots, characterClass) {
     return validWeapons.random();
 }
 
-function getItems(carried, inventory, maximumSlots) {
+function getItems(carried, inventory, maximumSlots, maxItems = 20) {
     // Define possible items.
     let possibleItems = [
         { name: 'Bedroll', slots: 1 },
@@ -1215,7 +1221,7 @@ function getItems(carried, inventory, maximumSlots) {
 
     // Choose items randomly (that haven't already been selected) until a random threshold has been met.
     // The number of slots to fill is either a random number from 2 to 5, or the number of remaining empty slots, whichever is lower.
-    let availableSlots = Math.min(remainingSlots(carried, inventory, maximumSlots), Math.floor(Math.random() * 3 + 2));
+    let availableSlots = Math.min(remainingSlots(carried, inventory, maximumSlots), Math.floor(Math.random() * 3 + 2), maxItems);
     while (availableSlots > 0) {
         let item = possibleItems.random();
         if (!items.some(a => a.name === item.name)) {
@@ -1740,7 +1746,6 @@ class Character {
         this.name = generateName();
     }
 }
-// TODO add generator
 // TODO add leveling
 
 // Instantiate a new character on pageload.

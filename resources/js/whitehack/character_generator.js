@@ -1,4 +1,3 @@
-// TODO add generator
 // TODO add leveling
 
 // Instantiate a new character on pageload.

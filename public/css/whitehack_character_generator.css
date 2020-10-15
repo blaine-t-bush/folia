@@ -227,3 +227,15 @@
   padding-bottom: 0.2rem;
 }
 
+.character-inventory ul li ul li {
+  list-style: "- ";
+}
+
+.character-quirks-list {
+  margin-top: 0.2rem;
+}
+
+.character-quirks-list li {
+  padding-bottom: 0.2rem;
+}
+

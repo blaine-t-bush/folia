@@ -16,13 +16,21 @@ mix
     .scripts([
         'resources/js/whitehack/helpers.js',
         'resources/js/whitehack/name.js',
+        'resources/js/whitehack/inventory.js',
+        'resources/js/whitehack/quirks.js',
+        'resources/js/whitehack/hireling.js',
+        'resources/js/whitehack/hireling_generator.js',
+    ], 'public/js/whitehack/hireling_generator.js') // Whitehack hireling generator.
+    .scripts([
+        'resources/js/whitehack/helpers.js',
+        'resources/js/whitehack/name.js',
         'resources/js/whitehack/vocation.js',
         'resources/js/whitehack/attunement.js',
         'resources/js/whitehack/miracle.js',
         'resources/js/whitehack/inventory.js',
         'resources/js/whitehack/character.js',
         'resources/js/whitehack/character_generator.js',
-    ], 'public/js/whitehack/character_generator.js') // Character generator.
+    ], 'public/js/whitehack/character_generator.js') // Whitehack character generator.
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/posts.scss', 'public/css')
     .sass('resources/sass/post.scss', 'public/css')

@@ -8,11 +8,20 @@
 
 @section('content')
 
-<h2>Whitehack</h2>
-<p><em>Whitehack</em> is a fantasy roleplaying game in the OSR style by Christian Mehrstam.</p>
+<h2 class="page-title">Whitehack</h1>
+
+<p>
+    <a href="https://whitehackrpg.wordpress.com/">Whitehack</a> is an excellent game in the OSR style by Christian Mehrstam.
+    The game is structured in a way that encourages collaboration between everyone at the table,
+    both in world-building and in game mechanics.
+</p>
+
 <ul class="resources">
     <li><a href="/resources/whitehack-character-generator">Character Generator</a></li>
+    <li><a href="/resources/whitehack-hireling-generator">Hireling Generator</a></li>
 </ul>
+
+<h2 class="page-title">Encounters</h2>
 
 @endsection
 
