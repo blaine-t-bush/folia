@@ -37,7 +37,7 @@
                 </div>
                 <nav>
                     <ul>
-                        <li @if (Request::is('home*')) class="highlighted" @endif><a href="/home">Home</a></li>
+                        {{-- <li @if (Request::is('home*')) class="highlighted" @endif><a href="/home">Home</a></li> --}}
                         <li @if (Request::is('posts*')) class="highlighted" @endif><a href="/posts">Posts</a></li>
                         <li @if (Request::is('resources*')) class="highlighted" @endif><a href="/resources">Resources</a></li>
                         <li @if (Request::is('about*')) class="highlighted" @endif><a href="/about">About</a></li>
@@ -52,7 +52,6 @@
 
         <footer>
             @stack('footer')
-            <p>Handmade with <a href="https://laravel.com/">Laravel</a> and <a href="https://vuejs.org/">Vue.js</a>. The Fell Types are digitally reproduced by <a href="https://iginomarini.com/">Igino Marini</a>.</p>
 
             @if (Auth::check())
             <a href="/logout"><button>Logout</button></a>
