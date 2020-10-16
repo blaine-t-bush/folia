@@ -13,4 +13,8 @@ Hirelings
 From last time
 - Debt?
 
+# Possible Happenings
+- A group of armed soldiers approach. They are sent by Lord Ironguard who wishes to speak with them. If they agree, the soldiers take their weapons, escort them to Ironguard Motte and Lord Ironguard greets them.
+- Lord Ironguard wants a group of adventurers to retrieve an ancient sword from the Barrows.
+
 # Notes
