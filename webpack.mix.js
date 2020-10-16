@@ -36,5 +36,4 @@ mix
     .sass('resources/sass/post.scss', 'public/css')
     .sass('resources/sass/resources.scss', 'public/css')
     .sass('resources/sass/about.scss', 'public/css')
-    .sass('resources/sass/auth.scss', 'public/css')
-    .sass('resources/sass/whitehack_character_generator.scss', 'public/css');
+    .sass('resources/sass/auth.scss', 'public/css');

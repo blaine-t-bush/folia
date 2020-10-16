@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
-@endpush
-
 @section('title', 'Whitehack Hireling Generator')
 
 @section('content')

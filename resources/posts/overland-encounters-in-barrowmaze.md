@@ -9,7 +9,7 @@ I'm running a [Whitehack](https://whitehackrpg.wordpress.com/) game which origin
 
 To keep things exciting when wandering the wilds, I've developed a few tables of random encounters. The goal here is to provide interesting encounters which are focused on a few specific factions and creature types, rather than sprawling tables of unrelated monsters. Each entry should have a built-in scenario. I don't want my players to encounter 1d6 bandits--I want them to encounter 1d6 bandits *doing something*.
 
-For context, I like to use a modified form of the [overloaded encounter die](http://www.necropraxis.com/2014/02/03/overloading-the-encounter-die/). For overland travel, it looks like this:
+For context, I like to use a modified form of the [overloaded encounter die](http://www.necropraxis.com/2014/02/03/overloading-the-encounter-die/). Rolling the encounter die should never result in nothing. Whether dungeoneering or trailblazing, every roll should have a result--it just might be something other than a traditional encounter. For overland travel, it looks like this:
 
 | 1d6 | RESULT |
 | --- | --- |
@@ -20,12 +20,13 @@ For context, I like to use a modified form of the [overloaded encounter die](htt
 | 5 | Vignette |
 | 6 | Location |
 
-Like many OSR games, this leads to an encounter on a roll of 1. The difference is that something always happens, even on other results.
-- **Spoor** is a hint of an upcoming encounter, like the scream of a mountain lion echoing through the hills, giant spiders' cobwebs, or the skeletal remains of a troll's meal. Roll for an encounter. That determines what the next encounter will be and what the spoor should hint at.
+- **Spoor** is a hint of an upcoming encounter, like giant spiders' cobwebs, the skeletal remains of a troll's meal, or the screams of a mountain lion echoing through the hills. Roll for an encounter. That determines what the next encounter will be and what the spoor should hint at.
 - **Hazard** is an encounter, but not with creatures. It should include things like pits of quicksand, hard-to-cross raging rivers, and intoxicating poppy fields.
-- **Weather** is straightforward. Roll to determine a shift in the weather.
+- **Weather** is straightforward. Roll to determine a shift in the weather. For the Barrowmaze region, I use the simple table below which takes season into account.
 - **Vignette** is more of a scene than a hazard or encounter. Things like a mysterious old man selling "magical" beans or a witch flying across the night sky. I take a lot of inspiration from fairy tales and [d4 Caltrops's Wilderness Hexes](https://blog.d4caltrops.com/2018/03/wilderness-hexes-version-10.html).
-- **Location** gives a chance to find an interesting place off the beaten path: an abandoned village, a dragon's lair, an enchanted fairy ring, and so forth.
+- **Location** gives a chance to find an interesting place off the beaten path: an abandoned village, a dragon's lair, an enchanted fairy ring, and so forth. The above Wilderness Hexes are great for this too.
+
+Hazard, Vignette, and Location are all similar to encounters in that they present an obstacle, complication, or opportunity--it's just much less likely to end in combat.
 
 ## Weather
 | 1d6 | SPRING | SUMMER | AUTUMN | WINTER |
@@ -38,6 +39,7 @@ Like many OSR games, this leads to an encounter on a roll of 1. The difference i
 | 6 | Warm, sunny          | Sweltering, sunny | Warm, breezy   | Mild, sunny |
 
 ## Random Encounters
+When an encounter is triggered, I first roll on the following table to determine the type or category. Then, I roll on the corresponding sub-table to determine the exact encounter.
 | 1d6 | RESULT |
 | --- | --- |
 | 1 | Lizardfolk |

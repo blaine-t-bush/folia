@@ -2,10 +2,6 @@
 
 @section('title', 'Test')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/test.css') }}">
-@endpush
-
 @section('content')
 
 <h1 class="page-title">Test Page</h1>
@@ -100,6 +96,38 @@
         </tr>
     </tbody>
 </table>
+
+<p>
+    And here's another paragraph before I test these little character sheets.
+</p>
+
+<x-character
+    name="Droog the Hammer"
+    level="1"
+    character-class="Deft"
+    vocation="Ranger"
+    hit-points="6"
+    attack-value="10"
+    saving-throw="7"
+    armor-class="3"
+    movement="30"
+    strength-score="7"
+    dexterity-score="10"
+    constitution-score="10"
+    intelligence-score="8"
+    wisdom-score="10"
+    charisma-score="12"
+    strength-groups=""
+    dexterity-groups=""
+    constitution-groups="(Orc)"
+    intelligence-groups=""
+    wisdom-groups=""
+    charisma-groups="(Orc)"
+    slot-type="Attunements"
+    :slots="['Musket','Horse']"
+    :inventory="['Musket, spear, scimitar', 'Breastplate & helmet', 'Leather coat', 'Duchess the Horse']"
+    :notes="['Gruff bounty hunter', 'Loves his horse more than anything']"
+    />
 
 @endsection
 

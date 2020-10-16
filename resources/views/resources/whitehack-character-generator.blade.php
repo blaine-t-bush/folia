@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/whitehack_character_generator.css') }}">
-@endpush
-
 @section('title', 'Whitehack Character Generator')
 
 @section('content')
@@ -95,7 +91,7 @@
     </div>
 </div>
 
-<!-- Add button to switch to dyslexic-friendly font. -->
+<!-- TODO Add button to switch to dyslexic-friendly font. -->
 
 {{--
 <p><strong>Inventory Slots.</strong> Characters have a number of inventory slots equal to their strength score or their constitution score, whichever is higher. Items, except containers and very small things such as coins, dice, or chalk, generally take up one slot. The exceptions are two-handed weapons,
