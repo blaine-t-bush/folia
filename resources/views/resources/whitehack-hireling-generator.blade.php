@@ -22,7 +22,7 @@
     </div>
 
     <div class="character-summary handwritten">
-        @{{ type }}
+        @{{ type }} (@{{ subtype}})
     </div>
 
     <div class="character-summary-form typed">

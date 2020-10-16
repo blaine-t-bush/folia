@@ -356,6 +356,7 @@ function generateName(allowPrefix = true, allowSuffix = true) {
         'Ploughpenny',
         'Roundhead',
         'Thunderbolt',
+        'Oakeshott',
     ];
 
     let name = '';

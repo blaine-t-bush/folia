@@ -9,9 +9,74 @@ class Hireling {
 
         let types = [
             'Mercenary',
-            'Porter',
+            'Specialist',
+            'Drudge',
         ];
         this.type = types.random();
+
+        let subtypes_mercenary = [
+            // Warriors
+            'Knight-errant',
+            'Hedge knight',
+            'Squire',
+            'Man-at-arms',
+            'Knife fighter',
+            'Shield-maiden',
+            'Fencer',
+            'Pit fighter',
+            'Knife thrower',
+            'Spearman',
+            'Halberdier',
+            'Pikeman',
+            'Guard',
+            // Ranged
+            'Longbowman',
+            'Crossbowman',
+            'Musketeer',
+            'Pistoleer',
+            'Slinger',
+            // Magicians
+        ];
+
+        let subtypes_specialist = [
+            // Scouts
+            'Scout',
+            'Tracker',
+            'Hunter',
+            'Spy',
+            // Engineers
+            // Scientists
+            'Apothecary',
+            'Alchemist',
+            'Astronomer',
+            // Doctors
+            'Doctor',
+            'Medic',
+            'Surgeon',
+            // Craftsmen
+            'Blacksmith',
+            'Armorer',
+            // Other
+            'Houndmaster',
+            'Scribe',
+        ];
+
+        let subtypes_drudge = [
+            'Torch-bearer',
+            'Porter',
+            'Laborer',
+            'Footman',
+            'Valet',
+            'Page',
+        ];
+
+        if (this.type == 'Mercenary') {
+            this.subtype = subtypes_mercenary.random();
+        } else if (this.type == 'Specialist') {
+            this.subtype = subtypes_specialist.random();
+        } else if (this.type == 'Drudge') {
+            this.subtype = subtypes_drudge.random();
+        }
 
         // Determine vitals. They don't need full stats.
         this.hitDice = 1;
