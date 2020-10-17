@@ -21,7 +21,11 @@ Route::get('/test', function() {
  * Main pages
  * 
  */
-Route::redirect('/', '/posts');
+Route::redirect('/', '/home');
+
+Route::get('/home', function() {
+    return view('home');
+});
 
 Route::get('/about', function() {
     return view('about');

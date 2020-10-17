@@ -14,11 +14,11 @@
     Hello. My name is Blaine, and Parvifolium is my workbench, sandbox, and notebook. I'm a full-stack web developer, advertising researcher, data analyst, and roleplaying game enthusiast.
 </p>
 
-<p style="text-align:center;">
+{{-- <p style="text-align:center;">
     <a href="https://www.linkedin.com/in/blainetbush/"><i class="fab fa-linkedin-in"></i></a>
     <a href="https://github.com/blaine-t-bush"><i class="fab fa-github"></i></a>
     <a href="mailto:blaine.bush@gmail.com"><i class="far fa-envelope"></i></a>
-</p>
+</p> --}}
 
 <h2 class="page-title">The Name</h2>
 

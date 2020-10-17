@@ -37,7 +37,7 @@
                 </div>
                 <nav>
                     <ul>
-                        {{-- <li @if (Request::is('home*')) class="highlighted" @endif><a href="/home">Home</a></li> --}}
+                        <li @if (Request::is('home*')) class="highlighted" @endif><a href="/home">Home</a></li>
                         <li @if (Request::is('posts*')) class="highlighted" @endif><a href="/posts">Posts</a></li>
                         <li @if (Request::is('resources*')) class="highlighted" @endif><a href="/resources">Resources</a></li>
                         <li @if (Request::is('about*')) class="highlighted" @endif><a href="/about">About</a></li>
