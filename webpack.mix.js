@@ -24,6 +24,7 @@ mix
     .scripts([
         'resources/js/whitehack/helpers.js',
         'resources/js/whitehack/name.js',
+        'resources/js/whitehack/affiliation.js',
         'resources/js/whitehack/vocation.js',
         'resources/js/whitehack/attunement.js',
         'resources/js/whitehack/miracle.js',

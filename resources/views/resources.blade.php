@@ -19,6 +19,7 @@
 <ul class="resources">
     <li><a href="/resources/whitehack-character-generator">Character Generator</a></li>
     <li><a href="/resources/whitehack-hireling-generator">Hireling Generator</a></li>
+    <li><a href="/resources/whitehack-houserules">Houserules</a></li>
 </ul>
 
 <h2 class="page-title">Encounters</h2>

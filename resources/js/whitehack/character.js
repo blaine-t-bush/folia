@@ -245,7 +245,7 @@ class Character {
         // Calculate any bonus slots for high wisdom (Wise only).
         if (this.characterClass == 'Wise' && this.attributes.wisdom.score >= 16) {
             this.slots.bonusInactiveCount = 2;
-        } else if (this.characterClass == 'Wise' && this.attributes.wisdom.score >= 16) {
+        } else if (this.characterClass == 'Wise' && this.attributes.wisdom.score >= 13) {
             this.slots.bonusInactiveCount = 1;
         } else {
             this.slots.bonusInactiveCount = 0;
@@ -374,7 +374,7 @@ class Character {
 
         while (remainingAffiliationGroups > 0) {
             let randomAttributeNum = d(6, 1);
-            let randomAffiliation = this.getAffiliation();
+            let randomAffiliation = getAffiliation();
             if (this.groups.affiliations.includes(randomAffiliation)) {
                 continue;
             }
@@ -398,39 +398,6 @@ class Character {
             this.groups.affiliations.push(randomAffiliation);
             remainingAffiliationGroups--;
         }
-    }
-
-    getAffiliation() {
-        let affiliations = [
-            'Wicker Men',
-            'Circle of Cernunnos',
-            'Church of Crom',
-            'Church of Mitra',
-            'Temple of Brighid',
-            'Cult of Set',
-            'Cult of Nergal',
-            'Merry Men',
-            'Cult of the Black Amphora',
-            'Order of the Sphinx',
-            'Order of the Rose',
-            'Order of the Basilisk',
-            'Skylords',
-            'Blackhands',
-            'Thieves\' Guild',
-            'Bloody Cabal',
-            'Shadow Cult',
-            'Guild of Sorcerers',
-            'Society of Scrutinous Scholars',
-            'Royal Gardeners\' Society',
-            'The Sulfur Company',
-            'Merchants\' Guild',
-            'Royal Arcane Institute',
-            'Institute of the Arcane',
-            'Aldred\'s Two Hundred',
-            'Highpeak Clan',
-        ];
-
-        return affiliations.random();
     }
 
     updateName() {

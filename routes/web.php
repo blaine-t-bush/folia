@@ -62,6 +62,10 @@ Route::get('/resources/whitehack-hireling-generator', function() {
     return view('resources.whitehack-hireling-generator');
 });
 
+Route::get('/resources/whitehack-houserules', function() {
+    return view('resources.whitehack-houserules');
+});
+
 
 
 /*
