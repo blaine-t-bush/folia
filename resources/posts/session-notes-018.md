@@ -23,3 +23,23 @@ From last time
 - Lord Ironguard wants a group of adventurers to retrieve an ancient sword.
 
 # Notes
+- Lucian borrowed money from Tuck and has cleared his debt to Krothos.
+- Gilgamesh still owes money.
+- Could make a bowstring or crossbowstring with the silk. It adds 20 feet to the range. If you make the bow out of a correspondingly cool wood, it also adds +1 damage.
+- Gilgamesh: rope, banana hammock, pajama set
+- Lucian: sari (for someone else)
+- Saving the rest
+- Plithe discovers properties of dagger: +1 AV/damage, causes unnatural bleeding.
+- At IM
+- At the Leaky Barrel; Vandal Whitebeard
+- Steward. He's a dick. Lord needs treasure hunters. Doesn't see them himself until they succeed.
+- Lord has cousin in exile in the land of Florin
+- Scholar identified potion: Potion of inner fire: When drank, you feel really hot, and you feel your blood boiling. For the next 6 hour, you become resistant to fire damage, you when you are hit by an attack, every creature 5 feet around you must make a DC12 Dexterity save, or take 1d6 fire damage, and half on a success.
+- Leave tablet with scholar to identify/study.
+- Can expand herbal knowledge through downtime.
+- Explore barrow mound 6. Try to smoke out the rats. Discovered clockwork cobra (going to come back later to capture).
+    - 8 pp, 1 gp, 4 sp, 12 cp
+    - Scroll tube with 3 arcane scrolls
+    - Grabbed the two golden jackals
+    - Pried all gemstones except the black opals
+    - Toppled the big statue from outside, safely triggering the gas trap
