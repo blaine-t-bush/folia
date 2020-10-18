@@ -7,6 +7,8 @@
 @endpush
 
 @section('content')
+<!-- TODO add validation and image
+-->
 <h1 class="page-title">Edit Post</h1>
 <form class="create-new-post" id="edit" method="POST" action="/posts/{{ $post->slug }}">
     @csrf
