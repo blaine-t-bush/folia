@@ -16,7 +16,7 @@
     @foreach ($posts as $post)
     <li class="post">
         <a href="/posts/{{ $post->slug }}" class="post-link">
-            <img src="{{ asset('images/huckleberry_BW_1.png') }}" alt="">
+            <img src="{{ $post->image_url }}" alt="">
 
             <h2>{!! parsedown($post->title) !!}</h2>
 

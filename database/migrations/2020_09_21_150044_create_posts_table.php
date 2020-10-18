@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->softDeletes();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('image_url');
             $table->text('summary');
             $table->text('body');
         });

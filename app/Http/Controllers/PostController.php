@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -20,8 +21,15 @@ class PostController extends Controller
     }
 
     public function store(Request $request) {
+        // TODO add validation.
+
+        // Save the uploaded image.
+        $path = Storage::url($request->file('image')->store('public'));
+
+        // Save the post to DB.
         $post = new Post;
         $post->title = $request->input()['title'];
+        $post->image_url = $path;
         $post->summary = $request->input()['summary'];
         $post->body = $request->input()['body'];
         $post->save();

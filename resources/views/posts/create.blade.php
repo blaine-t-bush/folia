@@ -8,10 +8,12 @@
 
 @section('content')
 <h1 class="page-title">Create New Post</h1>
-<form class="create-new-post" id="create" method="POST" action="/posts">
+<form class="create-new-post" id="create" method="POST" action="/posts" enctype="multipart/form-data">
     @csrf
     <label for="title">Title</label>
     <input class="input-text" name="title" type="text">
+    <label for="image">Image</label>
+    <input type="file" name="image" id="image">
     <label for="title">Summary</label>
     <textarea class="create-post-summary input-text" name="summary" rows="7" form="create"></textarea>
     <label for="title">Post</label>

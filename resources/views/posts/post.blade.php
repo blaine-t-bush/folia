@@ -13,6 +13,8 @@
 
     <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
     
+    <img src="{{ asset($post->image_url) }}" alt="">
+    
     @if (Auth::check())
         <div class="post-admin">
             @if (Auth::user()->can_edit_posts)

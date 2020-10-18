@@ -5,7 +5,7 @@ Session Recap: Barrowmaze #17
 The party makes its way to Ironguard Motte before returning to the Barrows for the first time in a while.
 
 # Post
-## Characters
+## Party
 - Sir Lucian Dawnbringer
 - Plithe and Wolf
 - Friar Tuck

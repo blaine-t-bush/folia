@@ -21,9 +21,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->boolean('can_create_posts')->default(false);
-            $table->boolean('can_edit_posts')->default(false);
-            $table->boolean('can_delete_posts')->default(false);
+            $table->boolean('can_create_posts')->default(true);
+            $table->boolean('can_edit_posts')->default(true);
+            $table->boolean('can_delete_posts')->default(true);
         });
     }
 
