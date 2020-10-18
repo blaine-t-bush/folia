@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 use App\Models\Post;
 
 class PostController extends Controller
@@ -21,7 +23,17 @@ class PostController extends Controller
     }
 
     public function store(Request $request) {
-        // TODO add validation.
+        // Validate inputs.
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:posts',
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif,svg',
+            'summary' => 'required',
+            'body' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         // Save the uploaded image.
         $path = Storage::url($request->file('image')->store('public'));
