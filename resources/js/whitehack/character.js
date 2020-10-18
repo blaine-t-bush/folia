@@ -96,6 +96,18 @@ class Character {
         this.inventory = inventoryInfo.containers;
         this.armorClass = inventoryInfo.armorClass;
 
+        // Give them some unique features.
+        let remainingQuirkCount = d(3, 1);
+        let i = 0;
+        this.quirks = [];
+        while (i < remainingQuirkCount) {
+            let quirk = generateQuirk();
+            if (!this.quirks.includes(quirk)) {
+                this.quirks.push(quirk);
+                i++;
+            }
+        }
+
         // Most importantly, a name!
         this.updateName();
     }

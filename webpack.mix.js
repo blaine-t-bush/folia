@@ -29,6 +29,7 @@ mix
         'resources/js/whitehack/attunement.js',
         'resources/js/whitehack/miracle.js',
         'resources/js/whitehack/inventory.js',
+        'resources/js/whitehack/quirks.js',
         'resources/js/whitehack/character.js',
         'resources/js/whitehack/character_generator.js',
     ], 'public/js/whitehack/character_generator.js') // Whitehack character generator.

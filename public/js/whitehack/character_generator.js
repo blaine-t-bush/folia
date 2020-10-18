@@ -1374,6 +1374,28 @@ function populateContainers(containers, inventory) {
 }
 
 createInventory('Strong', 10);
+function generateQuirk() {
+    let quirks = [
+        'Used to be a farmer',
+        'Family eaten by trolls',
+        'Wants to learn how to use magic',
+        'Terribly afraid of undead',
+        'Always sharpening or polishing weapons',
+        'Constantly looks over their shoulder',
+        'Extremely forgetful',
+        'Scion to an ancient empire',
+        'Always singing sea shanties',
+        'Hates the dark',
+        'Collects small shiny objects',
+        'Composes poems',
+        'Composes ballads',
+        'Has a map of an ancient lost civilization',
+        'Has a scroll in a lost tongue',
+        'Teeth stained from chewing tobacco',
+    ];
+
+    return quirks.random();
+}
 // TODO parse the Great Net Equipment List
 
 class Character {
@@ -1471,6 +1493,18 @@ class Character {
         let inventoryInfo = createInventory(this.characterClass, this.attributes.strength.score, this.attributes.constitution.score);
         this.inventory = inventoryInfo.containers;
         this.armorClass = inventoryInfo.armorClass;
+
+        // Give them some unique features.
+        let remainingQuirkCount = d(3, 1);
+        let i = 0;
+        this.quirks = [];
+        while (i < remainingQuirkCount) {
+            let quirk = generateQuirk();
+            if (!this.quirks.includes(quirk)) {
+                this.quirks.push(quirk);
+                i++;
+            }
+        }
 
         // Most importantly, a name!
         this.updateName();

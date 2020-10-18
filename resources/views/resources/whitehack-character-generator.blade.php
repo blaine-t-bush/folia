@@ -67,12 +67,23 @@
 
     <div class="character-slots">
         <div class="character-slots-header typed">
-            CLASS SLOTS <span class="handwritten">- @{{ slots.type }}</span>
+            SLOTS <span class="handwritten">- @{{ slots.type }}</span>
         </div>
         <ul class="character-slots-list handwritten">
             <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<sup v-if="key < slots.count">*</sup></li>
             <li v-for="ability in slots.abilities">@{{ ability }}</li>
             <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<sup v-if="key < slots.count">*</sup></li>
+        </ul>
+    </div>
+
+    <div class="character-inventory">
+        <div class="character-inventory-header typed">
+            APPEARANCE / PERSONALITY / BACKGROUND
+        </div>
+        <ul class="character-inventory-list handwritten">
+            <li v-for="quirk in quirks">
+                @{{ quirk }}
+            </li>
         </ul>
     </div>
 
