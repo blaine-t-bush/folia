@@ -45,9 +45,20 @@ function getAffiliation() {
         'Blackdogs',
         'Sword of St. Tristan',
         'House of Red',
-        'Dark Star Society',
+        'Harbingers of the Dark Star',
         'Children of the Moon Mountains',
         'Dire Wolves',
+        'Shield-Maidens of Veborg',
+        'Canso Witch-Hunters',
+        'Sun Warriors',
+        'Valkyries of Sigyn',
+        'The Wild Boars',
+        'Nightblades',
+        'Masters of the Universe',
+        'Wheel of Fire',
+        'Royal Metallurgists',
+        'The Alloy Supreme',
+        'Zenith\'s Hammer',
     ];
 
     return affiliations.random();
