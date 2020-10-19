@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('image_url');
+            $table->string('resource_url')->nullable(); // If clicking on the hero image in the post should redirect somewhere, this is the URL it redirects to.
             $table->text('summary');
             $table->text('body');
         });

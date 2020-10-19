@@ -14,6 +14,8 @@
     <time datetime="">{{ date_format($post->created_at, 'F j, Y') }}</time>
     
     <img src="{{ asset($post->image_url) }}" alt="">
+
+    {!! parsedown($post->summary) !!}
     
     @if (Auth::check())
         <div class="post-admin">
@@ -29,6 +31,12 @@
                 </form>
             @endif
         </div>
+    @endif
+
+    @if ($post->resource_url)
+        <!-- TODO move styling to css
+        -->
+        <iframe src="{{ $post->resource_url }}" frameborder="0" style="width:100%; height:100vh; max-height:720px; border:2px solid darkred; margin-top:1rem; box-sizing:border-box;"></iframe>
     @endif
 
     {!! parsedown($post->body) !!}

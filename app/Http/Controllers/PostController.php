@@ -42,6 +42,7 @@ class PostController extends Controller
         $post = new Post;
         $post->title = $request->input()['title'];
         $post->image_url = $path;
+        $post->resource_url = $request->input()['resource_url'];
         $post->summary = $request->input()['summary'];
         $post->body = $request->input()['body'];
         $post->save();
@@ -66,8 +67,22 @@ class PostController extends Controller
     }
 
     public function update(Request $request) {
+        // Validate inputs.
+        // TODO make sure validation rules are updated.
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'summary' => 'required',
+            'body' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Save the post to DB.        
         $post = Post::where('slug', $request->slug)->first();
         $post->title = $request->input()['title'];
+        $post->resource_url = $request->input()['resource_url'];
         $post->summary = $request->input()['summary'];
         $post->body = $request->input()['body'];
         $post->save();

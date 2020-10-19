@@ -327,6 +327,9 @@ ul {
 
 .character-generate {
   color: darkred;
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
 }
 
 .character-name {

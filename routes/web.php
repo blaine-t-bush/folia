@@ -54,6 +54,10 @@ Route::get('/resources', function() {
     return view('resources');
 });
 
+Route::get('/resources/whitehack-character-generator/min', function() {
+    return view('resources.whitehack-character-generator-min');
+});
+
 Route::get('/resources/whitehack-character-generator', function() {
     return view('resources.whitehack-character-generator');
 });

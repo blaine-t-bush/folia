@@ -1,13 +1,16 @@
 @import 'vars';
 main img {
     width: 360px;
-    max-width: 90%;
+    max-width: 100%;
     display: block;
     margin: auto;
+    margin-top: 1rem;
     border: 2px solid $colorAccentDark;
+    box-sizing: border-box;
 }
 
 h1 {
+    margin-bottom: 0.25em;
     p {
         margin: inherit;
         margin-bottom: 0;

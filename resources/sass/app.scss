@@ -293,6 +293,9 @@ ul {
 
 .character-generate {
     color: $colorAccentDark;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
 }
 
 .character-name {

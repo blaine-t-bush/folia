@@ -37,7 +37,6 @@ function loadFile(event) {
     </div>
     <input class="input-text @error('title') input-error @enderror" name="title" type="text" value="{{ old('title') }}">
     
-
     <div style="display:flex; justify-content:space-between;">
         <div style="display:flex; flex-direction:column;">
             <label for="image">Image</label>
@@ -48,6 +47,14 @@ function loadFile(event) {
         </div>
         <img id="image-preview" height="128" style="border:2px solid darkred; visibility:hidden; margin-top:0.5em; min-width:128px;">
     </div>
+
+    <div style="display:flex;">
+        <label for="resource_url">Resource URL</label>
+        @error('resource_url')
+            <span class="error-message">{{ $message }}</span>
+        @enderror
+    </div>
+    <input class="input-text @error('resource_url') input-error @enderror" name="resource_url" type="text" value="{{ old('resource_url') }}">
 
     <div style="display:flex;">
         <label for="summary">Summary</label>
