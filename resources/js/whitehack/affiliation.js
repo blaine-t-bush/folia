@@ -59,6 +59,7 @@ function getAffiliation() {
         'Royal Metallurgists',
         'The Alloy Supreme',
         'Zenith\'s Hammer',
+        'The Transcendants',
     ];
 
     return affiliations.random();

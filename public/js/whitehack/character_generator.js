@@ -464,6 +464,7 @@ function getAffiliation() {
         'Royal Metallurgists',
         'The Alloy Supreme',
         'Zenith\'s Hammer',
+        'The Transcendants',
     ];
 
     return affiliations.random();
@@ -801,6 +802,12 @@ function generateMiracle() {
         'Bend Mind',
         'Crumble',
         'Magnetism',
+        'Magnetic Resonance',
+        'Bless',
+        'Curse',
+        'Hex',
+        'Lightning Conduit',
+        'Thunderstep',
     ];
 
     // Choose either a prefix or a suffix or neither.

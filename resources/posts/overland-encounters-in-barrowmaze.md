@@ -9,7 +9,7 @@ I'm running a [Whitehack](https://whitehackrpg.wordpress.com/) game which origin
 
 To keep things exciting when wandering the wilds, I've developed a few tables of random encounters. The goal here is to provide interesting encounters which are focused on a few specific factions and creature types, rather than sprawling tables of unrelated monsters. Each entry should have a built-in scenario. I don't want my players to encounter 1d6 bandits--I want them to encounter 1d6 bandits *doing something*.
 
-For context, I like to use a modified form of the [overloaded encounter die](http://www.necropraxis.com/2014/02/03/overloading-the-encounter-die/). For overland travel, it looks like this:
+For context, I like to use a modified form of the [overloaded encounter die](http://www.necropraxis.com/2014/02/03/overloading-the-encounter-die/). For overland travel, it looks like this (click the dice to roll!):
 
 | 1d6 | RESULT |
 | --- | --- |
