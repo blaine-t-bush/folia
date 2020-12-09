@@ -8,7 +8,7 @@ for (let i = 0; i < tables.length; i++) {
 
 function selectRandomTableResult() {
     // Get the triggered table. Start from th -> tr -> tbody -> table.
-    let table = event.srcElement.parentElement.parentElement.parentElement;
+    let table = event.target.parentElement.parentElement.parentElement;
 
     // Remove "selected" class from all rows, to clear previous result.
     for (let i = 0; i < table.rows.length; i++) {
