@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -104,7 +104,7 @@ for (var i = 0; i < tables.length; i++) {
 
 function selectRandomTableResult() {
   // Get the triggered table. Start from th -> tr -> tbody -> table.
-  var table = event.srcElement.parentElement.parentElement.parentElement; // Remove "selected" class from all rows, to clear previous result.
+  var table = event.target.parentElement.parentElement.parentElement; // Remove "selected" class from all rows, to clear previous result.
 
   for (var _i = 0; _i < table.rows.length; _i++) {
     table.rows[_i].classList.remove("selected");
@@ -118,86 +118,14 @@ function selectRandomTableResult() {
 
 /***/ }),
 
-/***/ "./resources/sass/about.scss":
-/*!***********************************!*\
-  !*** ./resources/sass/about.scss ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/auth.scss":
-/*!**********************************!*\
-  !*** ./resources/sass/auth.scss ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/post.scss":
-/*!**********************************!*\
-  !*** ./resources/sass/post.scss ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/posts.scss":
-/*!***********************************!*\
-  !*** ./resources/sass/posts.scss ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/sass/resources.scss":
-/*!***************************************!*\
-  !*** ./resources/sass/resources.scss ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 0:
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/randomTables.js ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ***!
-  \********************************************************************************************************************************************************************************************************************/
+/***/ 1:
+/*!********************************************!*\
+  !*** multi ./resources/js/randomTables.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\randomTables.js */"./resources/js/randomTables.js");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\posts.scss */"./resources/sass/posts.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
-__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
+module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\randomTables.js */"./resources/js/randomTables.js");
 
 
 /***/ })

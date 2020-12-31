@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix
+    .js('resources/js/osrs-slayer-tasks/app.js', 'public/js/osrs-slayer-tasks/app.js')
     .js('resources/js/randomTables.js', 'public/js/randomTables.js')
     .scripts([
         'resources/js/whitehack/helpers.js',

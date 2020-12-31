@@ -1,11 +1,12 @@
 {
-    "/js/randomTables.js": "/js/randomTables.js",
+    "/js/osrs-slayer-tasks/app.js": "/js/osrs-slayer-tasks/app.js",
     "/css/app.css": "/css/app.css",
     "/css/posts.css": "/css/posts.css",
     "/css/post.css": "/css/post.css",
     "/css/resources.css": "/css/resources.css",
     "/css/about.css": "/css/about.css",
     "/css/auth.css": "/css/auth.css",
+    "/js/randomTables.js": "/js/randomTables.js",
     "/js/whitehack/hireling_generator.js": "/js/whitehack/hireling_generator.js",
     "/js/whitehack/character_generator.js": "/js/whitehack/character_generator.js"
 }

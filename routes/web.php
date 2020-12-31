@@ -54,6 +54,10 @@ Route::get('/resources', function() {
     return view('resources');
 });
 
+Route::get('/resources/osrs-slayer-tasks', function() {
+    return view('resources.osrs-slayer-tasks');
+});
+
 Route::get('/resources/whitehack-character-generator/min', function() {
     return view('resources.whitehack-character-generator-min');
 });

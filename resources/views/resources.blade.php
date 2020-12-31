@@ -22,6 +22,18 @@
     <li><a href="/resources/whitehack-houserules">Houserules</a></li>
 </ul>
 
+<h2 class="page-title">Old-School RuneScape</h1>
+
+    <p>
+        <a href="https://whitehackrpg.wordpress.com/">Whitehack</a> is an excellent game in the OSR style by Christian Mehrstam.
+        The game is structured in a way that encourages collaboration between everyone at the table,
+        both in world-building and in game mechanics.
+    </p>
+
+<ul class="resources">
+    <li><a href="/resources/osrs-slayer-tasks">Slayer task assignment calculator</a></li>
+</ul>
+
 <h2 class="page-title">Encounters</h2>
 
 @endsection

@@ -1,0 +1,302 @@
+.slide-fade-enter-active {
+    transition: all 0.3s ease;
+}
+
+.slide-fade-leave-active {
+    transition: all 1.3s ease-in;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.error-message {
+    position: absolute;
+    background-color: rgb(245, 150, 133);
+    border: 1px solid rgb(243, 85, 57);
+    color: 1px solid rgb(243, 85, 57);
+    padding: 5px;
+    border-radius: 4px;
+}
+
+button {
+    font-family: inherit;
+    background-color: rgb(253, 234, 213);
+    border: 1px solid rgb(199, 183, 165);
+}
+
+input {
+    font-family: inherit;
+}
+
+select {
+    font-family: inherit;
+}
+
+.unselectable {
+    user-select: none;
+}
+
+#app {
+    max-width: 640px;
+    margin: auto;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+}
+
+.stat {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.stat img {
+    height: 20px;
+    width: 24px;
+    object-fit: contain;
+    margin-right: 5px;
+}
+
+.stat input {
+    background-color: rgb(253, 234, 213);
+    border: 1px solid rgb(199, 183, 165);
+    border-radius: 0;
+    width: 50px;
+}
+
+.unlocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 8px;
+    row-gap: 6px;
+}
+
+@media only screen and (max-width: 620px) {
+    .unlocks {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .unlocks {
+        grid-template-columns: 1fr;
+    }
+}
+
+.unlock {
+    box-sizing: border-box;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: rgb(245, 150, 133);
+    border: 1px solid rgb(243, 85, 57);
+    padding-top: 5px;
+    border-radius: 4px;
+}
+
+.unlock span {
+    text-align: center;
+}
+
+.unlock.selected {
+    background-color: rgb(178, 226, 175);
+    border: 1px solid rgb(56, 134, 56);
+}
+
+.unlock-image {
+    height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.unlock-image img {
+    display: block;
+}
+
+.unlock>input[type="checkbox"] {
+    appearance: none;
+    display: none;
+}
+
+.quests {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 8px;
+    row-gap: 6px;
+}
+
+@media only screen and (max-width: 620px) {
+    .quests {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .quests {
+        grid-template-columns: 1fr;
+    }
+}
+
+.quest {
+    background-color: rgb(245, 150, 133);
+    border: 1px solid rgb(243, 85, 57);
+    border-radius: 4px;
+}
+
+.quest-label>input[type="checkbox"] {
+    appearance: none;
+    display: none;
+}
+
+.quest.selected {
+    background-color: rgb(178, 226, 175);
+    border: 1px solid rgb(56, 134, 56);
+}
+
+.quest-name {
+    padding: 5px;
+}
+
+.other-label {
+    background-color: rgb(245, 150, 133);
+    border: 1px solid rgb(243, 85, 57);
+    border-radius: 4px;
+    display: flex;
+    width: fit-content;
+}
+
+.other-label>input[type="checkbox"] {
+    appearance: none;
+    display: none;
+}
+
+.other-label.selected {
+    background-color: rgb(178, 226, 175);
+    border: 1px solid rgb(56, 134, 56);
+}
+
+.other-name {
+    padding: 5px;
+}
+
+.masters {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 6px;
+}
+
+@media only screen and (max-width: 380px) {
+    .masters {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 280px) {
+    .masters {
+        grid-template-columns: 1fr;
+    }
+}
+
+.master {
+    box-sizing: border-box;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 4px;
+}
+
+.master.selected {
+    background-color: rgb(178, 226, 175);
+    border: 1px solid rgb(56, 134, 56);
+}
+
+.master-image {
+    height: 128px;
+    display: flex;
+    align-items: center;
+}
+
+.master-image img {
+    display: block;
+    height: 80%;
+}
+
+.master>input[type="radio"] {
+    appearance: none;
+}
+
+table {
+    border-spacing: 0px;
+    width: 100%;
+}
+
+tr.unavailable {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: rgba(50, 50, 50, 1);
+}
+
+tr.unavailableHidden {
+    display: none;
+}
+
+tr.unavailable td.probability span {
+    visibility: hidden;
+}
+
+tr.blocked {
+    background-color: rgba(255, 0, 0, 0.5);
+    color: rgba(150, 0, 0, 1);
+}
+
+tr.blockedHidden {
+    display: none;
+}
+
+tr.blocked td.probability span {
+    visibility: hidden;
+}
+
+td {
+    padding-right: 4px;
+}
+
+.blocklist {
+    display: flex;
+    flex-direction: column;
+}
+
+.blocklist-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.blocklist-item select {
+    background-color: rgb(253, 234, 213);
+    border: 1px solid rgb(199, 183, 165);
+    border-radius: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.display {
+    background-color: rgb(245, 150, 133);
+    border: 1px solid rgb(243, 85, 57);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    max-width: 200px;
+}
+
+.display.selected {
+    background-color: rgb(178, 226, 175);
+    border: 1px solid rgb(56, 134, 56);
+}
