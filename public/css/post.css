@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 main img {
   width: 360px;
   max-width: 100%;
@@ -15,5 +17,83 @@ h1 {
 h1 p {
   margin: inherit;
   margin-bottom: 0;
+}
+
+article {
+  margin-bottom: 2rem;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px dashed black;
+  margin: auto;
+  table-layout: fixed;
+  width: 100%;
+}
+
+table th {
+  background-image: linear-gradient(160deg, #cccccc, #d0d0d0);
+  border-right: 1px dashed black;
+  border-bottom: 1px dashed black;
+  font-family: "Special Elite", "Courier New", Courier, monospace;
+  font-size: 0.8rem;
+  font-weight: normal;
+  padding: 0.5em;
+}
+
+table th:nth-child(1) {
+  border-right: 1px dashed black;
+  cursor: pointer;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 2rem;
+}
+
+table th:nth-child(1):before {
+  content: "\F522";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+table th:nth-child(n+2) {
+  padding-left: 2%;
+  text-align: left;
+}
+
+table td {
+  border-right: 1px dashed black;
+  padding: 0.5em;
+}
+
+table td:nth-child(1) {
+  font-family: "Special Elite", "Courier New", Courier, monospace;
+  font-size: 0.8rem;
+  height: 26px;
+  text-align: center;
+}
+
+table td:nth-child(n+2) {
+  font-family: "Special Elite", "Courier New", Courier, monospace;
+  font-size: 0.8rem;
+  padding-left: 2%;
+  text-align: left;
+}
+
+table tr:nth-child(odd) {
+  background-image: linear-gradient(160deg, #dddddd, #e0e0e0);
+}
+
+table tr.selected td:nth-child(1) {
+  background-image: url(https://parvifolium.net/images/brush-circled.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+ul {
+  list-style-type: "- ";
 }
 

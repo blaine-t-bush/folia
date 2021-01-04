@@ -38,5 +38,6 @@ mix
     .sass('resources/sass/posts.scss', 'public/css')
     .sass('resources/sass/post.scss', 'public/css')
     .sass('resources/sass/resources.scss', 'public/css')
+    .sass('resources/sass/osrs-slayer-tasks.scss', 'public/css')
     .sass('resources/sass/about.scss', 'public/css')
     .sass('resources/sass/auth.scss', 'public/css');

@@ -44,3 +44,7 @@
 
 <a href="/posts">« All Posts</a>
 @endsection
+
+@push('scripts_body')
+<script src="{{ asset('js/randomTables.js') }}"></script>
+@endpush
