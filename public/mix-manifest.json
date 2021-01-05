@@ -1,13 +1,13 @@
 {
-    "/js/osrs-slayer-tasks/app.js": "/js/osrs-slayer-tasks/app.js",
+    "/js/app.js": "/js/app.js",
+    "/css/osrs-slayer-tasks.css": "/css/osrs-slayer-tasks.css",
+    "/css/whitehack-character-generator.css": "/css/whitehack-character-generator.css",
     "/css/app.css": "/css/app.css",
     "/css/posts.css": "/css/posts.css",
     "/css/post.css": "/css/post.css",
     "/css/resources.css": "/css/resources.css",
-    "/css/osrs-slayer-tasks.css": "/css/osrs-slayer-tasks.css",
     "/css/about.css": "/css/about.css",
     "/css/auth.css": "/css/auth.css",
-    "/js/randomTables.js": "/js/randomTables.js",
-    "/js/whitehack/hireling_generator.js": "/js/whitehack/hireling_generator.js",
-    "/js/whitehack/character_generator.js": "/js/whitehack/character_generator.js"
+    "/js/osrs-slayer-tasks.js": "/js/osrs-slayer-tasks.js",
+    "/js/whitehack-character-generator.js": "/js/whitehack-character-generator.js"
 }

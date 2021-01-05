@@ -53,7 +53,6 @@
 
             <table>
                 <tr>
-                    <td />
                     <td>Monster</td>
                     <td>Probability</td>
                 </tr>
@@ -69,8 +68,7 @@
                     <td>
                         <button v-if="task.blocked" @click="unblock(task.monsterId, $event)">Unblock</button>
                         <button v-else-if="!task.unavailable" @click="block(task.monsterId, $event)">Block</button>
-                    </td>
-                    <td>@{{ task.monster }}</td>
+                        @{{ task.monster }}</td>
                     <td>
                         <span v-if="!task.blocked && !task.unavailable">@{{ ((100 * task.weight) / totalWeight).toFixed(1) + "%" }}</span>
                     </td>
@@ -266,5 +264,5 @@
 @endsection
 
 @push('scripts_body')
-<script type="text/javascript" src="{{ asset('js/osrs-slayer-tasks/app.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/osrs-slayer-tasks.js') }}"></script>
 @endpush

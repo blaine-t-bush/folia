@@ -2,6 +2,10 @@
 
 @section('title', 'Whitehack Character Generator')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/whitehack-character-generator.css') }}">
+@endpush
+
 @section('content')
 
 <h1 class="page-title">Whitehack Character Generator</h1>
@@ -81,9 +85,7 @@
             APPEARANCE / PERSONALITY / BACKGROUND
         </div>
         <ul class="character-inventory-list handwritten">
-            <li v-for="quirk in quirks">
-                @{{ quirk }}
-            </li>
+            <li>Placeholder</li>
         </ul>
     </div>
 
@@ -92,12 +94,7 @@
             INVENTORY
         </div>
         <ul class="character-inventory-list handwritten">
-            <li v-for="container in inventory">
-                @{{ container.name }}
-                <ul>
-                    <li v-for="item in container.items">@{{ item.name }}</li>
-                </ul>
-            </li>
+            <li>Placeholder</li>
         </ul>
     </div>
 </div>
@@ -117,5 +114,5 @@ Additional items are selected randomly.</p>
 @endsection
 
 @push('scripts_body')
-<script type="text/javascript" src="{{ asset('js/whitehack/character_generator.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/whitehack-character-generator.js') }}"></script>
 @endpush

@@ -60,5 +60,6 @@
         
         {{-- Post-Render Scripts --}}
         @stack('scripts_body')
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

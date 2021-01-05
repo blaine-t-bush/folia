@@ -12,32 +12,14 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .js('resources/js/osrs-slayer-tasks/app.js', 'public/js/osrs-slayer-tasks/app.js')
-    .js('resources/js/randomTables.js', 'public/js/randomTables.js')
-    .scripts([
-        'resources/js/whitehack/helpers.js',
-        'resources/js/whitehack/name.js',
-        'resources/js/whitehack/inventory.js',
-        'resources/js/whitehack/quirks.js',
-        'resources/js/whitehack/hireling.js',
-        'resources/js/whitehack/hireling_generator.js',
-    ], 'public/js/whitehack/hireling_generator.js') // Whitehack hireling generator.
-    .scripts([
-        'resources/js/whitehack/helpers.js',
-        'resources/js/whitehack/name.js',
-        'resources/js/whitehack/affiliation.js',
-        'resources/js/whitehack/vocation.js',
-        'resources/js/whitehack/attunement.js',
-        'resources/js/whitehack/miracle.js',
-        'resources/js/whitehack/inventory.js',
-        'resources/js/whitehack/quirks.js',
-        'resources/js/whitehack/character.js',
-        'resources/js/whitehack/character_generator.js',
-    ], 'public/js/whitehack/character_generator.js') // Whitehack character generator.
+    .js('resources/js/app.js', 'public/js/app.js')
+    .js('resources/js/osrs-slayer-tasks/app.js', 'public/js/osrs-slayer-tasks.js')
+    .js('resources/js/whitehack-character-generator/app.js', 'public/js/whitehack-character-generator.js')
+    .sass('resources/sass/osrs-slayer-tasks.scss', 'public/css')
+    .sass('resources/sass/whitehack-character-generator.scss', 'public/css')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/posts.scss', 'public/css')
     .sass('resources/sass/post.scss', 'public/css')
     .sass('resources/sass/resources.scss', 'public/css')
-    .sass('resources/sass/osrs-slayer-tasks.scss', 'public/css')
     .sass('resources/sass/about.scss', 'public/css')
     .sass('resources/sass/auth.scss', 'public/css');

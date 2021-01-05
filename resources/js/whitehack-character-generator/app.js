@@ -1,4 +1,5 @@
-// TODO add leveling
+import { Character } from './character';
+import Vue from 'vue';
 
 // Instantiate a new character on pageload.
 var character = new Character;
@@ -30,4 +31,4 @@ var app = new Vue({
             character.decreaseLevel();
         }
     }
-})
+});

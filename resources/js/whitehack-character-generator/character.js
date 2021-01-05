@@ -1,6 +1,46 @@
-// TODO parse the Great Net Equipment List
+import {
+    affiliations,
+    attunements,
+    abilities,
+    miracles,
+    vocations,
+    armors,
+    weapons,
+    items,
+    namesPrefixes,
+    namesPrimary,
+    namesSuffixes,
+ } from "./data";
 
-class Character {
+// Create prototype function on arrays to allow for inline random selection of one element.
+Array.prototype.random = function() {
+    return this[Math.floor(Math.random() * this.length)];
+}
+
+// Create prototype function on arrays to shuffle the order of their elements and return it as a new array.
+// This implements the Fisher-Yates shuffle algorithm.
+Array.prototype.shuffle = function() {
+    let newArray = this;
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+
+    return newArray;
+}
+
+// Helper function for dice-rolling.
+function d(size, count) {
+    let faces = Array.from(new Array(size), (x, i) => i + 1);
+    let sum = 0;
+    for (let i = 0; i < count; i++) {
+        sum = sum + faces.random();
+    }
+
+    return sum;
+}
+
+export class Character {
     constructor() {
         this.generate();
     }
@@ -9,38 +49,38 @@ class Character {
         // Attribute scores.
         this.attributes = {
             strength: {
-                name: 'Strength',
-                abbreviation: 'STR',
+                name: "Strength",
+                abbreviation: "STR",
                 score: 0,
                 groups: [],
             },
             dexterity: {
-                name: 'Dexterity',
-                abbreviation: 'DEX',
+                name: "Dexterity",
+                abbreviation: "DEX",
                 score: 0,
                 groups: [],
             },
             constitution: {
-                name: 'Constitution',
-                abbreviation: 'CON',
+                name: "Constitution",
+                abbreviation: "CON",
                 score: 0,
                 groups: [],
             },
             intelligence: {
-                name: 'Intelligence',
-                abbreviation: 'INT',
+                name: "Intelligence",
+                abbreviation: "INT",
                 score: 0,
                 groups: [],
             },
             wisdom: {
-                name: 'Wisdom',
-                abbreviation: 'WIS',
+                name: "Wisdom",
+                abbreviation: "WIS",
                 score: 0,
                 groups: [],
             },
             charisma: {
-                name: 'Charisma',
-                abbreviation: 'CHA',
+                name: "Charisma",
+                abbreviation: "CHA",
                 score: 0,
                 groups: [],
             },
@@ -91,23 +131,6 @@ class Character {
         this.updateVocation();
         this.updateAffiliations();
 
-        // Get one set of armor.
-        let inventoryInfo = createInventory(this.characterClass, this.attributes.strength.score, this.attributes.constitution.score);
-        this.inventory = inventoryInfo.containers;
-        this.armorClass = inventoryInfo.armorClass;
-
-        // Give them some unique features.
-        let remainingQuirkCount = d(3, 1);
-        let i = 0;
-        this.quirks = [];
-        while (i < remainingQuirkCount) {
-            let quirk = generateQuirk();
-            if (!this.quirks.includes(quirk)) {
-                this.quirks.push(quirk);
-                i++;
-            }
-        }
-
         // Most importantly, a name!
         this.updateName();
     }
@@ -150,11 +173,11 @@ class Character {
 
     generateClass() {
         var classes = [
-            'Deft',
-            'Strong',
-            'Wise',
-            // 'Brave',
-            // 'Fortunate',
+            "Deft",
+            "Strong",
+            "Wise",
+            // "Brave",
+            // "Fortunate",
         ];
 
         this.characterClass = classes.random();
@@ -162,41 +185,41 @@ class Character {
 
     updateHitDice() {
         // Calculate base HD based on class and level.
-        if (this.characterClass == 'Deft') {
+        if (this.characterClass == "Deft") {
             this.hitDice.base = Math.floor(this.level / 2) + 1;
-        } else if (this.characterClass == 'Strong') {
+        } else if (this.characterClass == "Strong") {
             this.hitDice.base = this.level;
-        } else if (this.characterClass == 'Wise') {
+        } else if (this.characterClass == "Wise") {
             this.hitDice.base = Math.floor((this.level + 1) / 1.5);
-        } else if (this.characterClass == 'Brave') {
+        } else if (this.characterClass == "Brave") {
             this.hitDice.base = this.level;
-        } else if (this.characterClass == 'Fortunate') {
+        } else if (this.characterClass == "Fortunate") {
             this.hitDice.base = Math.floor(this.level / 2) + 1;
         }
 
         // Calculate any bonus to HP based on class and level.
-        if (this.characterClass == 'Deft') {
+        if (this.characterClass == "Deft") {
             this.hitDice.bonus = (this.level > 1 ? this.level % 2 : 0);
-        } else if (this.characterClass == 'Strong') {
+        } else if (this.characterClass == "Strong") {
             this.hitDice.bonus = (this.level == 1 ? 2 : 0);
-        } else if (this.characterClass == 'Wise') {
+        } else if (this.characterClass == "Wise") {
             if (this.level == 1 || this.level == 3 || this.level == 6 || this.level == 9) {
                 this.hitDice.bonus = 1;
             } else {
                 this.hitDice.bonus = 0;
             }
-        } else if (this.characterClass == 'Brave') {
+        } else if (this.characterClass == "Brave") {
             this.hitDice.bonus = 0;
-        } else if (this.characterClass == 'Fortunate') {
+        } else if (this.characterClass == "Fortunate") {
             this.hitDice.bonus = (this.level > 1 ? this.level % 2 : 0);
         }
     }
 
     updateHitPoints() {
         let newHitPoints = d(6, this.hitDice.base) + this.hitDice.bonus;
-        if (this.characterClass == 'Strong' && this.attributes.constitution.score >= 16) {
+        if (this.characterClass == "Strong" && this.attributes.constitution.score >= 16) {
             newHitPoints += 2;
-        } else if (this.characterClass == 'Strong' && this.attributes.constitution.score >= 13) {
+        } else if (this.characterClass == "Strong" && this.attributes.constitution.score >= 13) {
             newHitPoints += 1;
         }
 
@@ -207,57 +230,57 @@ class Character {
 
     updateAttackValue() {
         // Calculate attack value based on class and level.
-        if (this.characterClass == 'Deft') {
+        if (this.characterClass == "Deft") {
             this.attackValue = Math.floor(this.level / 2) + 10;
-        } else if (this.characterClass == 'Strong') {
+        } else if (this.characterClass == "Strong") {
             this.attackValue = Math.floor((this.level - 1) / 1.5) + 11;
-        } else if (this.characterClass == 'Wise') {
+        } else if (this.characterClass == "Wise") {
             this.attackValue = Math.floor((this.level + 1) / 3) + 10;
-        } else if (this.characterClass == 'Brave') {
+        } else if (this.characterClass == "Brave") {
             this.attackValue = Math.floor((this.level + 1) / 3) + 10;
-        } else if (this.characterClass == 'Fortunate') {
+        } else if (this.characterClass == "Fortunate") {
             this.attackValue = Math.floor((this.level - 1) / 3) + 10;
         }
 
         // Calculate any bonus to AV based on high strength (Strong only).
-        if (this.characterClass == 'Strong' && this.attributes.strength.score >= 13) {
+        if (this.characterClass == "Strong" && this.attributes.strength.score >= 13) {
             this.attackValue += 1;
         }
     }
 
     updateSavingThrow() {
         // Calculate saving throw based on class and level.
-        if (this.characterClass == 'Deft') {
+        if (this.characterClass == "Deft") {
             this.savingThrow = this.level + 6;
-        } else if (this.characterClass == 'Strong') {
+        } else if (this.characterClass == "Strong") {
             this.savingThrow = this.level + 4;
-        } else if (this.characterClass == 'Wise') {
+        } else if (this.characterClass == "Wise") {
             this.savingThrow = this.level + 5;
-        } else if (this.characterClass == 'Brave') {
+        } else if (this.characterClass == "Brave") {
             this.savingThrow = this.level + 8;
-        } else if (this.characterClass == 'Fortunate') {
+        } else if (this.characterClass == "Fortunate") {
             this.savingThrow = this.level + 5;
         }
     }
 
     updateSlotCount() {
         // Calculate number of slots based on class and level.
-        if (this.characterClass == 'Deft') {
+        if (this.characterClass == "Deft") {
             this.slots.count = Math.floor((this.level + 2) / 3);
-        } else if (this.characterClass == 'Strong') {
+        } else if (this.characterClass == "Strong") {
             this.slots.count = Math.floor((this.level + 2) / 3);
-        } else if (this.characterClass == 'Wise') {
+        } else if (this.characterClass == "Wise") {
             this.slots.count = Math.floor((this.level + 1) / 2);
-        } else if (this.characterClass == 'Brave') {
+        } else if (this.characterClass == "Brave") {
             this.slots.count = Math.floor((this.level + 2) / 3);
-        } else if (this.characterClass == 'Fortunate') {
+        } else if (this.characterClass == "Fortunate") {
             this.slots.count = Math.floor((this.level + 2) / 3);
         }
 
         // Calculate any bonus slots for high wisdom (Wise only).
-        if (this.characterClass == 'Wise' && this.attributes.wisdom.score >= 16) {
+        if (this.characterClass == "Wise" && this.attributes.wisdom.score >= 16) {
             this.slots.bonusInactiveCount = 2;
-        } else if (this.characterClass == 'Wise' && this.attributes.wisdom.score >= 13) {
+        } else if (this.characterClass == "Wise" && this.attributes.wisdom.score >= 13) {
             this.slots.bonusInactiveCount = 1;
         } else {
             this.slots.bonusInactiveCount = 0;
@@ -265,15 +288,15 @@ class Character {
     }
 
     updateSlots() {
-        if (this.characterClass == 'Deft') {
-            this.slots.type = 'Attunements';
+        if (this.characterClass == "Deft") {
+            this.slots.type = "Attunements";
             let remainingAttunements = 2 * this.slots.count;
             while (remainingAttunements > 0) {
                 // Randomly select an attunement.
-                let randomAttunement = generateAttunement();
+                let randomAttunement = attunements.random();
 
                 if (this.slots.attunements.includes(randomAttunement)) {
-                    // Ensure same attunement isn't selected more than once.
+                    // Ensure same attunement isn"t selected more than once.
                     continue;
                 } else {
                     // If the attunement is new, add it to the list.
@@ -281,15 +304,15 @@ class Character {
                     remainingAttunements--;
                 }
             }
-        } else if (this.characterClass == 'Strong') {
-            this.slots.type = 'Abilities';
+        } else if (this.characterClass == "Strong") {
+            this.slots.type = "Abilities";
             let remainingAbilities = this.slots.count;
             while (remainingAbilities > 0) {
                 // Randomly select an ability.
-                let randomAbility = this.getAbility();
+                let randomAbility = abilities.random();
 
                 if (this.slots.abilities.includes(randomAbility)) {
-                    // Ensure same ability isn't selected more than once.
+                    // Ensure same ability isn"t selected more than once.
                     continue;
                 } else {
                     // If the ability is new, add it to the list.
@@ -297,15 +320,15 @@ class Character {
                     remainingAbilities--;
                 }
             }
-        } else if (this.characterClass == 'Wise') {
-            this.slots.type = 'Miracles';
+        } else if (this.characterClass == "Wise") {
+            this.slots.type = "Miracles";
             let remainingMiracles = 2 * this.slots.count + this.slots.bonusInactiveCount; // Wise may get extra slots for high wisdom scores.
             while (remainingMiracles > 0) {
                 // Randomly select an miracle.
-                let randomMiracle = generateMiracle();
+                let randomMiracle = miracles.random();
 
                 if (this.slots.miracles.includes(randomMiracle)) {
-                    // Ensure same miracle isn't selected more than once.
+                    // Ensure same miracle isn"t selected more than once.
                     continue;
                 } else {
                     // If the miracle is new, add it to the list.
@@ -316,32 +339,17 @@ class Character {
         }
     }
 
-    getAbility() {
-        let abilities = [
-            '1. Protect ally from harm',
-            '2. Push enemy after successful attack',
-            '3. Cling to large foe',
-            '4. Work up battle frenzy',
-            '5. Give tactical instruction to ally',
-            '6. Encourage allies or strike fear in enemies',
-            '7. Double attack with melee and ranged weapons',
-            '8. Parry',
-        ];
-
-        return abilities.random();
-    }
-
     updateGroupCount() {
         // Calculate number of groups based on class and level.
-        if (this.characterClass == 'Deft') {
+        if (this.characterClass == "Deft") {
             this.groups.count = Math.floor((this.level + 3) / 2);
-        } else if (this.characterClass == 'Strong') {
+        } else if (this.characterClass == "Strong") {
             this.groups.count = Math.floor((this.level + 5) / 3);
-        } else if (this.characterClass == 'Wise') {
+        } else if (this.characterClass == "Wise") {
             this.groups.count = Math.floor((this.level + 5) / 3);
-        } else if (this.characterClass == 'Brave') {
+        } else if (this.characterClass == "Brave") {
             this.groups.count = Math.floor((this.level + 3) / 4);
-        } else if (this.characterClass == 'Fortunate') {
+        } else if (this.characterClass == "Fortunate") {
             this.groups.count = Math.floor((this.level + 3) / 2);
         }
 
@@ -356,10 +364,10 @@ class Character {
     }
 
     updateVocation() {
-        this.vocation = generateVocation();
+        this.vocation = vocations.random();
 
         // Unless character is Deft, the vocation is tied to a specific attribute.
-        if (this.characterClass != 'Deft') {
+        if (this.characterClass != "Deft") {
             let randomAttributeNum = d(6, 1);
             if (randomAttributeNum == 1) {
                 this.attributes.strength.groups.push(this.vocation);
@@ -386,7 +394,7 @@ class Character {
 
         while (remainingAffiliationGroups > 0) {
             let randomAttributeNum = d(6, 1);
-            let randomAffiliation = getAffiliation();
+            let randomAffiliation = affiliations.random();
             if (this.groups.affiliations.includes(randomAffiliation)) {
                 continue;
             }
@@ -412,7 +420,22 @@ class Character {
         }
     }
 
-    updateName() {
-        this.name = generateName();
+    updateName(allowPrefix = true, allowSuffix = false) {
+        let name = "";
+
+        // Random chance for a prefix.
+        if (allowPrefix && Math.random() < 0.3) {
+            name += namesPrefixes.random() + ' ';
+        }
+
+        // Everyone has at least a regular old first name.
+        name += namesPrimary.random();
+
+        // Random chance for a suffix.
+        if (allowSuffix && Math.random() < 0.3) {
+            name += ' ' + namesSuffixes.random();
+        }
+
+        this.name = name;
     }
 }

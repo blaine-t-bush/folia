@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/randomTables.js":
-/*!**************************************!*\
-  !*** ./resources/js/randomTables.js ***!
-  \**************************************/
+/***/ "./resources/js/app.js":
+/*!*****************************!*\
+  !*** ./resources/js/app.js ***!
+  \*****************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -118,14 +118,110 @@ function selectRandomTableResult() {
 
 /***/ }),
 
-/***/ 1:
-/*!********************************************!*\
-  !*** multi ./resources/js/randomTables.js ***!
-  \********************************************/
+/***/ "./resources/sass/about.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/about.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/app.scss":
+/*!*********************************!*\
+  !*** ./resources/sass/app.scss ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/auth.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/auth.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/osrs-slayer-tasks.scss":
+/*!***********************************************!*\
+  !*** ./resources/sass/osrs-slayer-tasks.scss ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/post.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/post.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/posts.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/posts.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/resources.scss":
+/*!***************************************!*\
+  !*** ./resources/sass/resources.scss ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/whitehack-character-generator.scss":
+/*!***********************************************************!*\
+  !*** ./resources/sass/whitehack-character-generator.scss ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 0:
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/osrs-slayer-tasks.scss ./resources/sass/whitehack-character-generator.scss ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\randomTables.js */"./resources/js/randomTables.js");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\osrs-slayer-tasks.scss */"./resources/sass/osrs-slayer-tasks.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\whitehack-character-generator.scss */"./resources/sass/whitehack-character-generator.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\posts.scss */"./resources/sass/posts.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
+module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
 
 
 /***/ })
