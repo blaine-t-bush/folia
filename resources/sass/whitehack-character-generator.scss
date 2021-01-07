@@ -1,14 +1,20 @@
 @import 'vars';
 
-.character-container {
-    background-image: linear-gradient(160deg, #dddddd, #eaeaea);
-    border: 1px dashed black;
-    padding: 1rem 1rem 0 1rem;
+.commaAfter::after {
+    content: ",";
 }
 
 .character {
     margin: auto;
     margin-bottom: 2rem;
+    position: relative;
+
+    background-image: url('https://www.parvifolium.net/images/whitehack/sheet_background.jpg');
+    background-size: cover;
+
+    padding: 1rem 0.5rem;
+
+    border: 1px dashed black;
 }
 
 .character-container .character {
@@ -25,8 +31,11 @@
 .character-name {
     font-size: 1.2rem;
     margin-top: 2rem;
+    &.handwritten {
+        padding-left: 3px;
+    }
     &-form {
-        border-top: 1px solid black;
+        border-top: 1px solid gray;
         margin-top: 0.1rem;
         padding-top: 0.1rem;
     }
@@ -36,10 +45,52 @@
     margin-top: 0;
 }
 
+.character-summary-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 15px;
+
+    .characterclass {
+        grid-column: 1 / span 3;
+    }
+
+    .charactervocation {
+        grid-column: 4 / span 5;
+    }
+
+    @media (max-width: 540px) {
+        grid-template-rows: 1fr 1fr;
+
+        .characterclass {
+            grid-column: 1 / span 6;
+            grid-row: 1 / span 1;
+        }
+
+        .characterxp {
+            grid-column: 7 / span 2;
+            grid-row: 1 / span 1;
+        }
+
+        .characterlevel {
+            grid-column: 9 / span 2;
+            grid-row: 1 / span 1;
+        }
+    
+        .charactervocation {
+            grid-column: 1 / span 10;
+            grid-row: 2 / span 1;
+        }
+    }
+}
+
 .character-summary {
     font-size: 1.2rem;
+    &.handwritten {
+        padding-left: 3px;
+    }
+
     &-form {
-        border-top: 1px solid black;
+        border-top: 1px solid gray;
         margin-top: 0.1rem;
         padding-top: 0.1rem;
     }
@@ -75,6 +126,17 @@
         align-self: center;
         justify-self: center;
         grid-row: 1 / span 2;
+
+        border-right: 1px solid gray;
+        height: 100%;
+        padding-left: 30%;
+        width: 70%;
+
+        @media (max-width: 480px) {
+            padding-left: 40%;
+            width: 60%;
+        }
+
         &.value-1 {
             grid-column: 1 / span 1;
         }
@@ -89,6 +151,7 @@
         }
         &.value-5 {
             grid-column: 5 / span 1;
+            border-right: none;
         }
     }
 }
@@ -101,7 +164,11 @@
     margin-top: 1.5rem;
     max-width: 720px;
     row-gap: 3px;
-    width: 100vw;
+
+    @media (max-width: 480px) {
+        column-gap: 0px;
+    }
+
     &-label {
         align-self: center;
         grid-column: 1 / span 1;
@@ -129,6 +196,11 @@
         align-self: center;
         grid-column: 2 / span 1;
         justify-self: center;
+
+        @media (max-width: 480px) {
+            justify-self: left;
+        }
+
         &.value-1 {
             grid-row: 1 / span 1;
         }
@@ -176,10 +248,30 @@
 .character-slots {
     margin-top: 1.5rem;
     ul {
-        list-style: none;
-        margin-top: 0.2rem;
+        margin: 0;
+        padding: 0;
+
+        margin-left: 1rem;
         li {
+            list-style: "-";
             padding-bottom: 0.2rem;
+            padding-left: 0.2rem;
+        }
+    }
+}
+
+.character-quirks {
+    margin-top: 1.5rem;
+    ul {
+        margin: 0;
+        padding: 0;
+        li {
+            list-style: "-";
+            padding-bottom: 0.2rem;
+            padding-left: 1.2rem;
+
+            text-indent: -1rem;
+            margin-left: 1rem;
         }
     }
 }
@@ -187,22 +279,13 @@
 .character-inventory {
     margin-top: 1.5rem;
     ul {
-        list-style: none;
-        margin-top: 0.2rem;
+        margin: 0;
+        padding: 0;
+        margin-left: 1rem;
         li {
+            list-style: "-";
             padding-bottom: 0.2rem;
-            ul {
-                li {
-                    list-style: "- ";
-                }
-            }
+            padding-left: 0.2rem;
         }
-    }
-}
-
-.character-quirks-list {
-    margin-top: 0.2rem;
-    li {
-        padding-bottom: 0.2rem;
     }
 }

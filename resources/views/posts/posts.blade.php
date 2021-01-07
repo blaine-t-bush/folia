@@ -30,7 +30,9 @@
         @if (Auth::check())
             <div class="post-admin">
                 @if (Auth::user()->can_edit_posts)
-                    <a href="/posts/{{ $post->slug }}/edit"><button class="post-admin-edit">Edit</button></a>
+                    <a href="/posts/{{ $post->slug }}/edit">
+                        <button class="post-admin-edit">Edit</button>
+                    </a>
                 @endif
     
                 @if (Auth::user()->can_delete_posts)

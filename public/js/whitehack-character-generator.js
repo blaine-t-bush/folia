@@ -12629,6 +12629,18 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Character", function() { return Character; });
 /* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./resources/js/whitehack-character-generator/data.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -12721,6 +12733,7 @@ var Character = /*#__PURE__*/function () {
       }; // Vital statistics.
 
       this.level = 1;
+      this.xp = 0;
       this.characterClass = null;
       this.hitPoints = 0;
       this.hitDice = {
@@ -12747,6 +12760,7 @@ var Character = /*#__PURE__*/function () {
         species: null,
         affiliations: []
       };
+      this.inventory = [];
       this.generateAttributes();
       this.generateClass();
       this.updateHitDice();
@@ -12757,9 +12771,10 @@ var Character = /*#__PURE__*/function () {
       this.updateSlots();
       this.updateGroupCount();
       this.updateVocation();
-      this.updateAffiliations(); // Most importantly, a name!
-
+      this.updateAffiliations();
       this.updateName();
+      this.updateQuirks();
+      this.updateInventory();
     }
   }, {
     key: "increaseLevel",
@@ -12927,16 +12942,31 @@ var Character = /*#__PURE__*/function () {
         var remainingAttunements = 2 * this.slots.count;
 
         while (remainingAttunements > 0) {
-          // Randomly select an attunement.
-          var randomAttunement = _data__WEBPACK_IMPORTED_MODULE_0__["attunements"].random();
+          // Randomly select either an item or something else.
+          if (d(2, 1) == 1) {
+            var randomAttunement = _data__WEBPACK_IMPORTED_MODULE_0__["attunementsItems"].random();
 
-          if (this.slots.attunements.includes(randomAttunement)) {
-            // Ensure same attunement isn"t selected more than once.
-            continue;
+            if (this.slots.attunements.includes(randomAttunement)) {
+              // Ensure same attunement isn"t selected more than once.
+              continue;
+            } else {
+              // If the attunement is new, add it to the list.
+              this.slots.attunements.push(randomAttunement);
+              remainingAttunements--; // Since it's an item, add it to the inventory.
+
+              this.inventory.push(randomAttunement);
+            }
           } else {
-            // If the attunement is new, add it to the list.
-            this.slots.attunements.push(randomAttunement);
-            remainingAttunements--;
+            var _randomAttunement = _data__WEBPACK_IMPORTED_MODULE_0__["attunementsOther"].random();
+
+            if (this.slots.attunements.includes(_randomAttunement)) {
+              // Ensure same attunement isn"t selected more than once.
+              continue;
+            } else {
+              // If the attunement is new, add it to the list.
+              this.slots.attunements.push(_randomAttunement);
+              remainingAttunements--;
+            }
           }
         }
       } else if (this.characterClass == "Strong") {
@@ -13065,21 +13095,156 @@ var Character = /*#__PURE__*/function () {
     key: "updateName",
     value: function updateName() {
       var allowPrefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      var allowSuffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var name = ""; // Random chance for a prefix.
+      var allowSuffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var name = ""; // A name can have a prefix or a suffix, but not both.
 
-      if (allowPrefix && Math.random() < 0.3) {
+      var randomNum = Math.random();
+
+      if (allowPrefix && randomNum < 0.3) {
+        var usePrefix = true;
+      } else if (allowSuffix && randomNum > 0.7) {
+        var useSuffix = true;
+      } // Random chance for a prefix.
+
+
+      if (usePrefix) {
         name += _data__WEBPACK_IMPORTED_MODULE_0__["namesPrefixes"].random() + ' ';
       } // Everyone has at least a regular old first name.
 
 
       name += _data__WEBPACK_IMPORTED_MODULE_0__["namesPrimary"].random(); // Random chance for a suffix.
 
-      if (allowSuffix && Math.random() < 0.3) {
+      if (useSuffix) {
         name += ' ' + _data__WEBPACK_IMPORTED_MODULE_0__["namesSuffixes"].random();
       }
 
       this.name = name;
+    }
+  }, {
+    key: "getAppearances",
+    value: function getAppearances() {
+      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
+      // Generate 1 to maxNum random appearance traits.
+      var temp = [];
+      var count = d(maxNum, 1);
+
+      for (var i = 0; i < count; i++) {
+        var appearance = void 0;
+
+        if (i == 0) {
+          appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesHair"].random();
+
+          while (temp.includes(appearance)) {
+            appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesHair"].random();
+          }
+        } else if (i == 1) {
+          appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesBuild"].random();
+
+          while (temp.includes(appearance)) {
+            appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesBuild"].random();
+          }
+        } else {
+          appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearances"].random();
+
+          while (temp.includes(appearance)) {
+            appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearances"].random();
+          }
+        }
+
+        temp.push(appearance);
+      }
+
+      return temp;
+    }
+  }, {
+    key: "getPersonalities",
+    value: function getPersonalities() {
+      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
+      // Generate 1 to maxNum random personality traits.
+      var temp = [];
+      var count = d(maxNum, 1);
+
+      for (var i = 0; i < count; i++) {
+        var personality = personalities.random();
+
+        while (temp.includes(personality)) {
+          personality = personalities.random();
+        }
+
+        temp.push(personality);
+      }
+
+      return temp;
+    }
+  }, {
+    key: "getBackgrounds",
+    value: function getBackgrounds() {
+      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
+      // Generate 1 to maxNum random bits of background.
+      var temp = [];
+      var count = d(3, 1);
+
+      for (var i = 0; i < count; i++) {
+        var background = backgrounds.random();
+
+        while (temp.includes(background)) {
+          background = backgrounds.random();
+        }
+
+        temp.push(background);
+      }
+
+      return temp;
+    }
+  }, {
+    key: "getQuirks",
+    value: function getQuirks() {
+      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
+      // Generate 1 to maxNum random quirks.
+      var temp = [];
+      var count = d(3, 1);
+
+      for (var i = 0; i < count; i++) {
+        var quirk = _data__WEBPACK_IMPORTED_MODULE_0__["quirks"].random();
+
+        while (temp.includes(quirk)) {
+          quirk = _data__WEBPACK_IMPORTED_MODULE_0__["quirks"].random();
+        }
+
+        temp.push(quirk);
+      }
+
+      return temp;
+    }
+  }, {
+    key: "updateQuirks",
+    value: function updateQuirks() {
+      var temp = [];
+      temp = temp.concat(this.getAppearances(3));
+      temp = temp.concat(this.getQuirks(3));
+      this.quirks = _toConsumableArray(new Set(temp)).shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
+    }
+  }, {
+    key: "updateInventory",
+    value: function updateInventory() {
+      var _this = this;
+
+      // Everyone gets some basic adventuring gear.
+      this.inventory = this.inventory.concat(["Backpack", "Rations (3)", "Torch", "Flint & steel", "Rope", "Waterskin"]); // Add some armor that they're capable of wearing.
+
+      var validArmors = _data__WEBPACK_IMPORTED_MODULE_0__["armors"].filter(function (armor) {
+        return armor.allowedClasses.includes(_this.characterClass);
+      });
+      var armor = validArmors.random();
+      this.inventory.push(armor.name);
+      this.armorClass = armor.armorClass; // Add a weapon they can use.
+
+      var validWeapons = _data__WEBPACK_IMPORTED_MODULE_0__["weapons"].filter(function (weapon) {
+        return weapon.allowedClasses.includes(_this.characterClass);
+      });
+      var weapon = validWeapons.random();
+      this.inventory.push(weapon.name);
+      this.inventory = _toConsumableArray(new Set(this.inventory)).shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
     }
   }]);
 
@@ -13092,13 +13257,14 @@ var Character = /*#__PURE__*/function () {
 /*!************************************************************!*\
   !*** ./resources/js/whitehack-character-generator/data.js ***!
   \************************************************************/
-/*! exports provided: affiliations, attunements, abilities, miracles, armors, weapons, items, namesPrefixes, namesPrimary, namesSuffixes, vocations, quirks */
+/*! exports provided: affiliations, attunementsItems, attunementsOther, abilities, miracles, armors, weapons, items, namesPrefixes, namesPrimary, namesSuffixes, vocations, appearances, appearancesHair, appearancesBuild, quirks, genders */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "affiliations", function() { return affiliations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attunements", function() { return attunements; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attunementsItems", function() { return attunementsItems; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attunementsOther", function() { return attunementsOther; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "abilities", function() { return abilities; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "miracles", function() { return miracles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "armors", function() { return armors; });
@@ -13108,11 +13274,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "namesPrimary", function() { return namesPrimary; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "namesSuffixes", function() { return namesSuffixes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "vocations", function() { return vocations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appearances", function() { return appearances; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appearancesHair", function() { return appearancesHair; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appearancesBuild", function() { return appearancesBuild; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quirks", function() { return quirks; });
-var affiliations = ["Wicker Men", "Circle of Cernunnos", "Church of Crom", "Church of Mitra", "Temple of Brighid", "Cult of Set", "Cult of Nergal", "Merry Men", "Cult of the Black Amphora", "Order of the Sphinx", "Order of the Rose", "Order of the Basilisk", "Order of the Candle", "Order of the Lantern", "Order of the Hearth", "Skylords", "Blackhands", "Thieves' Guild", "Bloody Cabal", "Shadow Cult", "Guild of Sorcerers", "Society of Scrutinous Scholars", "Royal Gardeners' Society", "The Sulfur Company", "Merchants' Guild", "Royal Arcane Institute", "Institute of the Arcane", "Aldred's Two Hundred", "Highpeak Clan", "Barrett's Privateers", "Northwest Passage Explorers", "Finch's Giants", "Bramble Bastards", "Witches of the Westmorland", "The Night Guard", "Scarborough Sorcerers", "Herbal Guild", "Barrow Delvers' Society", "The Lock Keepers", "Marduk's Last Watch", "Woodbridge Dogs", "House of the Holy", "Blackdogs", "Sword of St. Tristan", "House of Red", "Harbingers of the Dark Star", "Children of the Moon Mountains", "Dire Wolves", "Shield-Maidens of Veborg", "Canso Witch-Hunters", "Sun Warriors", "Valkyries of Sigyn", "The Wild Boars", "Nightblades", "Masters of the Universe", "Wheel of Fire", "Royal Metallurgists", "The Alloy Supreme", "Zenith's Hammer", "The Transcendants"];
-var attunements = ["Random attunement 1", "Random attunement 2", "Random attunement 3", "Random attunement 4", "Random attunement 5", "Random attunement 6"];
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "genders", function() { return genders; });
+var affiliations = ["Coalition of the Formerly Living", "Wicker Men", "Circle of Cernunnos", "Church of Crom", "Church of Mitra", "Temple of Brighid", "Cult of Set", "Cult of Nergal", "Merry Men", "Cult of the Black Amphora", "Order of the Sphinx", "Order of the Rose", "Order of the Basilisk", "Order of the Candle", "Order of the Lantern", "Order of the Hearth", "Skylords", "Blackhands", "Thieves' Guild", "Bloody Cabal", "Shadow Cult", "Guild of Sorcerers", "Society of Scrutinous Scholars", "Royal Gardeners' Society", "The Sulfur Company", "Merchants' Guild", "Royal Arcane Institute", "Institute of the Arcane", "Aldred's Two Hundred", "Highpeak Clan", "Barrett's Privateers", "Northwest Passage Explorers", "Finch's Giants", "Bramble Bastards", "Witches of the Westmorland", "The Night Guard", "Scarborough Sorcerers", "Herbal Guild", "Barrow Delvers' Society", "The Lock Keepers", "Marduk's Last Watch", "Woodbridge Dogs", "House of the Holy", "Blackdogs", "Sword of St. Tristan", "House of Red", "Harbingers of the Dark Star", "Children of the Moon Mountains", "Dire Wolves", "Shield-Maidens of Veborg", "Canso Witch-Hunters", "Sun Warriors", "Valkyries of Sigyn", "The Wild Boars", "Nightblades", "Masters of the Universe", "Wheel of Fire", "Royal Metallurgists", "The Alloy Supreme", "Zenith's Hammer", "The Transcendants"];
+var attunementsItems = [// Magical instruments
+"Crystal ball", "Magic wand", "Magic rod", "Wizard's staff", // Religious items
+"Holy symbol", "Reliquary", // Texts
+"Magic scroll", "Spellbook", "Necronomicon", // Weapons
+"Axe", "Sword", "Club", "Crossbow", "Dagger", "Dart", "Flail", "Greatsword", "Battle axe", "Halberd", "Pole arm", "Javelin", "Longbow", "Mace", "Warhammer", "Morning star", "Musket", "Pistol", "Quarterstaff", "Scimitar", "Shortbow", "Shortsword", "Sling", "Spear", "Throwing knife", "Throwing axe", // "Exotic" weapons
+"Throwing star", "Spiked chain", "Kukri", "Nunchaku", "Two-bladed sword", "Bolas", "Net", "Parrying dagger", "Rapier", "Blowpipe", "Shield", // Mundane items
+"Walking stick", // Adventuring items
+"Sledgehammer", "Ten-foot pole", "Rope", "Elven cloak", "Dueling cloak", "Alchemy kit", "Grappling hook", "Playing cards", "Dice set"];
+var attunementsOther = [// Animals
+"Dog", "Hound", "Jackal", "Wolf", "Fox", "Horse", "Mule", "Donkey", "Monkey", "Cat", "Bobcat", "Lynx", "Raccoon", "Cougar", "Elk", "Bear", "Badger", "Mole", "Weasel", "Ferret", "Mongoose", "Rat", "Mouse", "Bat", "Raven", "Parrot", "Hawk", "Falcon", "Eagle", "Owl", "Magpie", // People
+"Archery master", "Sword master", "Master monk", "Ringleader", "Bandit king", "Master ninja", "Scholar of history", "Scholar of botany", "Scholar of naturalism", "Scholar of magic"];
 var abilities = ["1. Protect ally from harm", "2. Push enemy after successful attack", "3. Cling to large foe", "4. Work up battle frenzy", "5. Give tactical instruction to ally", "6. Encourage allies or strike fear in enemies", "7. Double attack with melee and ranged weapons", "8. Parry"];
-var miracles = ["Pyroclastic Flow", "Animate Dead", "Open Mind", "Bend Mind", "Crumble", "Magnetism", "Magnetic Resonance", "Bless", "Curse", "Hex", "Lightning Conduit", "Thunderstep", "Hellfrost", "Demonfire", "Light", "Darkness", "Healing Water", "Cleansing Fire", "Haste", "Sophronia's East Wind", "Berenger's Blessing", "Mirror Walking", "Shadowstep", "Psychosomatism", "Illusory Demons", "Hallow", "Corrupt", "Sanctify", "Envenom", "Speak with Animals"];
+var miracles = ["Pyroclastic Flow", "Animate Dead", "Open Mind", "Bend Mind", "Crumble", "Magnetism", "Magnetic Resonance", "Bless", "Curse", "Hex", "Lightning Conduit", "Thunderstep", "Hellfrost", "Demonfire", "Light", "Darkness", "Healing Water", "Cleansing Fire", "Haste", "Sophronia's East Wind", "Berenger's Blessing", "Mirror Walking", "Shadowstep", "Psychosomatism", "Illusory Demons", "Hallow", "Corrupt", "Sanctify", "Envenom", "Speak with Animals", "Sacred Geometry", "Magic Number", "Air Bubble", "Acid Arrow", "Sanguinomancy", "Charm", "Detect Water", "Spider Shape", "Speak with Ants", "Speak with Plants", "Animate Plants", "Animate Rope", "Apathy", "Clarion Call", "Defenestrate", "Animate Construct", "Truesight", "Nightvision", "Visions of Night", "Battle Trance", "Bilocation", "Mirror Image", "Time Warp", "Gust", "Control Wind", "Blink", "Blur", "Bookwalking", "Libromancy", "Burning Hands", "Conflagrate", "Calm Emotions", "Cause Fear", "Summon Chains", "Static Charge", "Imbue Charge", "Electrify", "Halcyon Days", "Cleanse", "Identify", "Chill Metal", "Heat Metal", "Warp Metal", "Entropy", "Reverse Thermodynamics", "Bend Time", "Commune with Nature", "Summon Bird", "False Life", "Cone of Cold", "Conjure Food", "Pestilence", "Contagion", "Speak with Wind", "Cosmic Ray", "Neutrino Burst", "Conjure Weapon", "Conjure Armor", "Golden Glory", "Despair", "Reincarnate", "Daze", "Ward Death", "Ward Magic", "Suppress Pain", "Decapitate", "Detect", "Detect Secrets", "Read Thoughts", "Clairvoyance", "Devolve", "Invoke Divinity", "Dream", "Dreamwalk", "Alter Lore", "Echo", "Earthquake", "Ectoplasm", "Enervate", "Entangle", "Enthrall", "Mind Slave", "Explosive Runes", "Faerie Fire", "Faerie Flight", "Acorn of Far Travel", "Feather Fall", "Finger of Death", "Fireball", "Petrify", "Warp Flesh", "Winged Feet", "Forbiddance", "Divination", "Foresight", "Slumber", "Feeblemind", "Ghost Form", "Lycanthropy", "Word of Power", "Wind Walk", "Web", "Banshee Wail", "Control Vermin", "Part the Veil", "Vampirism", "Create Revenant", "Divine Prophecy", "Undeath", "Unholy Grasp", "Hand of Mercy", "Magical Tattoo", "Telepathy", "Mindwipe", "Stop Time", "Toxic Blood", "Truespeak", "Sympathy", "Synesthesia", "Anesthetize", "Summon Demon", "Summon Angel", "Suppress Magic", "Sunburst", "Crown of God", "Control Weather", "Summon Storm", "Silence", "Amplify Noise", "Engender Hatred", "Sever Soul", "Astral Projection", "Slow", "Protection from Evil", "Shield of Faith", "Mind's Eye", "Share Senses", "Possess", "Fury of the Sea", "Deep One's Blessing", "Sacred Seal", "Rage", "Ray of Frost", "Shrink", "Regenerate", "Cure Disease", "Pyrotechnics", "Protection from Spells", "Panacea", "Polymorph", "Plane Shift", "Phantom Foe", "Binding Oath", "Aura of Wisdom", "Aura of Courage", "Aura of Protection", "Aura of Fear", "Mirage", "Illusion", "Lunar Blessing", "Solar Blessing", "Mutagenic Blood", "Magic Jar", "Locate Person", "Locate Object", "Litany against Fear", "Lock", "Invisibility", "Shape Stone", "X-Ray Vision", "Infravision", "Judgement of Light", "Judgement of Darkness", "Holy Judgement", "Unholy Judgement", "Irresistible Dance", "Hideous Laughter", "Zone of Truth", "Icy Veins", "Coldsnap", "Illusory Wall", "Hide Between Worlds", "Terrible Visage", "Grease", "Commune with Stars", "Tentacle Arm", "Gills", "Retractable Claws", "Grow Organ", "Bifurcate"];
 var armors = [{
   name: "Cloth armor",
   armorClass: 1,
@@ -13143,157 +13323,157 @@ var weapons = [{
   namePlural: "Axes",
   damage: "1d6+1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Sword",
   namePlural: "Swords",
   damage: "1d6+1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Club",
   namePlural: "Clubs",
   damage: "1d6-2",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Dagger",
   namePlural: "Daggers",
   damage: "1d6-2",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Flail",
   namePlural: "Flails",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Greatsword",
   namePlural: "Greatswords",
   damage: "1d6+2",
   quantityDefault: 1,
-  classes: ["Deft", "Strong"]
+  allowedClasses: ["Deft", "Strong"]
 }, {
   name: "Battle axe",
   namePlural: "Battle axes",
   damage: "1d6+2",
   quantityDefault: 1,
-  classes: ["Deft", "Strong"]
+  allowedClasses: ["Deft", "Strong"]
 }, {
   name: "Halberd",
   namePlural: "Halberds",
   damage: "1d6+1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong"]
+  allowedClasses: ["Deft", "Strong"]
 }, {
   name: "Polearm",
   namePlural: "Polearms",
   damage: "1d6+1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong"]
+  allowedClasses: ["Deft", "Strong"]
 }, {
   name: "Mace",
   namePlural: "Maces",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Warhammer",
   namePlural: "Warhammers",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Morningstar",
   namePlural: "Morningstars",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Quarterstaff",
   namePlural: "Quarterstaves",
   damage: "1d6-1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Scimitar",
   namePlural: "Scimitars",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Shortsword",
   namePlural: "Shortswords",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Spear",
   namePlural: "Spears",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Crossbow",
   namePlural: "Crossbows",
   damage: "1d6+1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Dart",
   namePlural: "Darts",
   damage: "1",
   quantityDefault: 12,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Javelin",
   namePlural: "Javelins",
   damage: "1d6",
   quantityDefault: 3,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Longbow",
   namePlural: "Longbows",
   damage: "1d6",
   quantityDefault: 1,
-  classes: ["Deft", "Strong"]
+  allowedClasses: ["Deft", "Strong"]
 }, {
   name: "Musket",
   namePlural: "Muskets",
   damage: "1d6+2",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Pistol",
   namePlural: "Pistols",
   damage: "1d6+1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Shortbow",
   namePlural: "Shortbows",
   damage: "1d6-1",
   quantityDefault: 1,
-  classes: ["Deft", "Strong"]
+  allowedClasses: ["Deft", "Strong"]
 }, {
   name: "Sling",
   namePlural: "Slings",
   damage: "1d6-2",
   quantityDefault: 1,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Throwing knife",
   namePlural: "Throwing knives",
   damage: "1d6-2",
   quantityDefault: 6,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }, {
   name: "Throwing axe",
   namePlural: "Throwing axes",
   damage: "1d6-2",
   quantityDefault: 3,
-  classes: ["Deft", "Strong", "Wise"]
+  allowedClasses: ["Deft", "Strong", "Wise"]
 }];
 var items = [{
   name: "Backpack",
@@ -13412,7 +13592,7 @@ var items = [{
   defaultQuantity: 1
 }];
 var namesPrefixes = ["Clubfoot", "Crazy", "Do-Nothing", "One-Eyed", "Blind", "Brave", "Accursed", "Bald", "Cruel", "Gentle", "Good", "Grim", "Holy", "Hairy", "Lame", "Mad", "Old", "Pale", "Quiet", "Small", "Strong", "Swift", "Tall", "Terrible", "Wicked", "Wise"];
-var namesPrimary = ["Blaine", "Matthew", "Morgan", "Francisco", "James", "Richard", "Dinadan", "Alan", "Aldred", "Eluard", "Arnold", "Henry", "Basil", "Jocelyn", "Cyr", "Balin", "George", "Eliot", "Frederick", "Alexander", "Percival", "Anselm", "Albert", "Urian", "Tristram", "Berenger", "Martin", "Merek", "Herman", "Hildebrand", "Edwin", "Gilbert", "Bliant", "Bennet", "Bryce", "Castor", "Giles", "Gunter", "Bernard", "Arthur", "Nigel", "Lucan", "Lionel", "Bartholomew", "Bardolph", "Barnabas", "Bertram", "Wolfstan", "Hardwin", "Hamond", "Faramond", "Herbert", "Alisander", "Ulric", "Galleron", "Solomon", "Sampson", "Tobias", "Charles", "Diggory", "Drogo", "Hugh", "Baudwin", "Everard", "Nicholas", "Leofwin", "Amis", "Ranulf", "Fulke", "Theobald", "Rowan", "Geoffrey", "Gervase", "Gerard", "Godwyn", "Philip", "Warin", "Warner", "Thomas", "Brom", "Hamon", "Thurstan", "Robert", "Roland", "Rolf", "Walter", "Laurence", "Reginald", "Aglovale", "Sayer", "Timm", "Piers", "Cerdic", "Randel", "Denis", "Elias", "Gabriel", "Hector", "Humphrey", "Gamel", "Gregory", "Jasper", "Jeremy", "Isaac", "Ingram", "Isembard", "Manfred", "Ives", "William", "Lucius", "Wymond", "Lambert", "Blaise", "Griffith", "Mabon", "Hubert", "Gerald", "Eustace", "Emory", "Adam", "Adelard", "Alphonse", "Turstin", "Guy", "Peter", "Osric", "Ogier", "Gareth", "Maynard", "Miles", "Elaine", "Sarah", "Sela", "Sigga", "Susanna", "Althea", "Alma", "Artemisia", "Anne", "Anais", "Acelina", "Aelina", "Aldith", "Audry", "Augusta", "Brangwine", "Bridget", "Genevieve", "Guinevere", "Catelin", "Caterina", "Dionisia", "Mary", "Molly", "Margaret", "Margery", "Martha", "Elizabeth", "Elysande", "Cristina", "Giselle", "Regina", "Ricolda", "Roana", "Barbetta", "Bertha", "Clarice", "Amelina", "Cecily", "Edith", "Elle", "Juliana", "Ivette", "Adelina", "Agnes", "Alis", "Alyson", "Dameta", "Paulina", "Petronilla", "Edeva", "Eglenti", "Evelune", "Emeline", "Emma", "Joan", "Johanna", "Lavina", "Lena", "Lovota", "Lillian", "Maud", "Milicent", "Magdalen", "Isabella", "Caesaria", "Douglas", "Delia", "Sapphira", "Sophronia", "Tephania", "Theda", "Thora", "Odelina", "Oliva", "Orella", "Venetia", "Ysmeine", "Gracia", "Gratia", "Swanhild", "Sybil", "Mathilde", "Ida", "Ingerith", "Isemay", "Celestria", "Constance", "Eleanor", "Amicia", "Avina", "Athelina", "Eva", "Gundred", "Felicia", "Floria", "Isolda", "Linota", "Cassandra", "Lucia", "Helewisa", "Justina", "Joyce", "Joya", "Nesta", "Sabina", "Gisela", "Rosa", "Rosamund", "Evaine", "Viviane", "Laudine", "Letia", "Leticia", "Legarda", "Lia", "Lunete", "Florence", "Gwendolen", "Nicola", "Blanche", "Beatrice", "Marie", "Marion", "Mirielda"];
+var namesPrimary = ["Blaine", "Matthew", "Morgan", "Francisco", "James", "Richard", "Dinadan", "Alan", "Aldred", "Eluard", "Arnold", "Henry", "Basil", "Jocelyn", "Cyr", "Balin", "George", "Eliot", "Frederick", "Alexander", "Percival", "Anselm", "Albert", "Urian", "Tristram", "Berenger", "Martin", "Merek", "Herman", "Hildebrand", "Edwin", "Gilbert", "Bliant", "Bennet", "Bryce", "Castor", "Giles", "Gunter", "Bernard", "Arthur", "Nigel", "Lucan", "Lionel", "Bartholomew", "Bardolph", "Barnabas", "Bertram", "Wolfstan", "Hardwin", "Hamond", "Faramond", "Herbert", "Alisander", "Ulric", "Galleron", "Solomon", "Sampson", "Tobias", "Charles", "Diggory", "Drogo", "Hugh", "Baudwin", "Everard", "Nicholas", "Leofwin", "Amis", "Ranulf", "Fulke", "Theobald", "Rowan", "Geoffrey", "Gervase", "Gerard", "Godwyn", "Philip", "Warin", "Warner", "Thomas", "Brom", "Hamon", "Thurstan", "Robert", "Roland", "Rolf", "Walter", "Laurence", "Reginald", "Aglovale", "Sayer", "Timm", "Piers", "Cedric", "Randel", "Denis", "Elias", "Gabriel", "Hector", "Humphrey", "Gamel", "Gregory", "Jasper", "Jeremy", "Isaac", "Ingram", "Isembard", "Manfred", "Ives", "William", "Lucius", "Wymond", "Lambert", "Blaise", "Griffith", "Mabon", "Hubert", "Gerald", "Eustace", "Emory", "Adam", "Adelard", "Alphonse", "Turstin", "Guy", "Peter", "Osric", "Ogier", "Gareth", "Maynard", "Miles", "Elaine", "Sarah", "Sela", "Sigga", "Susanna", "Althea", "Alma", "Artemisia", "Anne", "Anais", "Acelina", "Aelina", "Aldith", "Audry", "Augusta", "Brangwine", "Bridget", "Genevieve", "Guinevere", "Catelin", "Caterina", "Dionisia", "Mary", "Molly", "Margaret", "Margery", "Martha", "Elizabeth", "Elysande", "Cristina", "Giselle", "Regina", "Ricolda", "Roana", "Barbetta", "Bertha", "Clarice", "Amelina", "Cecily", "Edith", "Elle", "Juliana", "Ivette", "Adelina", "Agnes", "Alis", "Alyson", "Dameta", "Paulina", "Petronilla", "Edeva", "Eglenti", "Evelune", "Emeline", "Emma", "Joan", "Johanna", "Lavina", "Lena", "Lovota", "Lillian", "Maud", "Milicent", "Magdalen", "Isabella", "Caesaria", "Douglas", "Delia", "Sapphira", "Sophronia", "Tephania", "Theda", "Thora", "Odelina", "Oliva", "Orella", "Venetia", "Ysmeine", "Gracia", "Gratia", "Swanhild", "Sybil", "Mathilde", "Ida", "Ingerith", "Isemay", "Celestria", "Constance", "Eleanor", "Amicia", "Avina", "Athelina", "Eva", "Gundred", "Felicia", "Floria", "Isolda", "Linota", "Cassandra", "Lucia", "Helewisa", "Justina", "Joyce", "Joya", "Nesta", "Sabina", "Gisela", "Rosa", "Rosamund", "Evaine", "Viviane", "Laudine", "Letia", "Leticia", "Legarda", "Lia", "Lunete", "Florence", "Gwendolen", "Nicola", "Blanche", "Beatrice", "Marie", "Marion", "Mirielda"];
 var namesSuffixes = ["the Hard", "the Soft", "of the North", "of the East", "of the South", "of the West", "the Black", "the White", "the Red", "the Yellow", "of the Wood", "of the Mountain", "of the Valley", "of the River", "of the Lake", "the Elder", "the Younger", "the Brave", "the Great", "the Magnificent", "the Able", "the Accursed", "the Bald", "the Bear", "the Cruel", "the Damned", "the Exile", "the Gentle", "the Good", "the Grim", "the Hammer", "the Holy", "the Hairy", "the Impaler", "the Kind", "the Lame", "the Lion", "the Wolf", "the Mad", "the Old", "the Pale", "the Quiet", "the Rose", "the Seer", "the Small", "the Spider", "the Strong", "the Swift", "the Tall", "the Terrible", "the Wicked", "the Wise", "of the Sun", "of the Moon", "Fairhair", "Bloodaxe", "Crookback", "Flatnose", "Forkbeard", "Greyfell", "Greymantle", "Longshanks", "Ironside", "Moneybags", "Oathbreaker", "One-Eye", "Ploughpenny", "Roundhead", "Thunderbolt", "Oakeshott"];
 var vocations = [// Warriors
 "Barbarian", "Bounty Hunter", "Crusader", "Gladiator", "Knight", "Outrider", "Pit Fighter", "Pugilist", "Templar", "Vigilante", "Warrior", // Warrior-Mages
@@ -13420,10 +13600,48 @@ var vocations = [// Warriors
 "Cleric", "Conjurer", "Demonologist", "Diviner", "Druid", "Elementalist", "Exorcist", "Healer", "Illusionist", "Mage", "Medium", "Mystic", "Necromancer", "Oracle", "Priest", "Psion", "Psychic", "Shaman", "Soothsayer", "Sorcerer", "Summoner", "Thaumaturgist", "Warlock", "Warmage", "Wizard", // Mage-Rogues
 // Rogues
 "Acrobat", "Agent", "Archer", "Assassin", "Bard", "Duelist", "Fencer", "Hunter", "Marksman", "Monk", "Ninja", "Ranger", "Rogue", "Scout", "Spy", "Thief", // Scholars
-"Alchemist", "Apothecary", "Astronomer", "Doctor", "Engineer", "Medic", "Numerologist", "Philosopher", "Surgeon", // Mundane
-"Aristocrat", "Merchant", "Orator", "Pilgrim", "Pirate", "Sailor", // Other
+"Alchemist", "Apothecary", "Astronomer", "Astrologist", "Doctor", "Engineer", "Medic", "Numerologist", "Philosopher", "Surgeon", "Physicker", "Mathematician", "Naturalist", "Botanist", // Mundane
+"Aristocrat", "Merchant", "Orator", "Pilgrim", "Pirate", "Sailor", "Woodsman", // Other
 "Inquisitor"];
-var quirks = ["Used to be a farmer", "Family eaten by trolls", "Wants to learn how to use magic", "Terribly afraid of undead", "Always sharpening or polishing weapons", "Constantly looks over their shoulder", "Extremely forgetful", "Scion to an ancient empire", "Always singing sea shanties", "Hates the dark", "Collects small shiny objects", "Composes poems", "Composes ballads", "Has a map of an ancient lost civilization", "Has a scroll in a lost tongue", "Teeth stained from chewing tobacco"];
+var appearances = [// Complexion
+"Pale as a ghost", "Covered in freckles", "Skin has a blue tint", "Jet-black skin", // Scars
+"Single long scar across one eye", "Web of scars from lightning strike", "Three long scars, from the claws of a beast", "Numerous battle scars", "Burn marks on hands", "Burn marks on half of face", "Covered in pox marks", // Congenital
+"Hunchback", "Clubfoot", "Has six fingers on each hand", "Cleft lip"];
+var appearancesHair = ["Shock of white hair", "Flame-red hair", "White-blonde hair", "Night-black hair", "Tonsured hair, like a friar", "Shaved head", "Long, braided hair", "Close-cropped hair", "Long, curly hair"];
+var appearancesBuild = ["Tall and muscular", "Tall and lanky", "Short but slim", "Short and stout", "Broad-shouldered and barrel-chested", "Skeletally thin", "Tall and fat"];
+var quirks = [// Background
+"Used to be a farmer", "Used to be a cobbler", "Used to be a blacksmith", "Used to be a brewer", // Studies
+"Studied magic in their youth", "Very curious about magic", "Not a big fan of magic", // Family
+"Family eaten by trolls", "Family eaten by ghouls", "Family killed by inquisitors", "Family killed by crusaders", "Family killed by orcs", // Phobias
+"Deathly afraid of spiders", "Deathly afraid of undead", "Hates the dark", // Personality
+"Extremely forgetful", "Quick to anger", "Never forgets a slight", "Quick to forgive", "Very easygoing", "Makes friends with everyone", "Absent-minded--always thinking about something else", // Arts
+"Always singing sea shanties", "Composes poems", "Composes ballads", "Writes love stories", "Whistles incessantly", "Illiterate and self-conscious about it", // Drugs
+"Teeth stained from chewing tobacco", "Smokes pipe at every chance", "Too fond of drink", "Loves wine more than anything", "Despises drinking", // Food
+"Always stopping to forage for food", "Eats whenever they have the opportunity", "Passionate about mushrooms", "Doesn't eat meat", // Outdoorsmanship
+"Loves to hunt", "Excellent at lighting fires", "Likes fire a little too much", "Knows how to set a snare", // Habits
+"Always sharpening or polishing weapons", "Constantly looks over their shoulder", "Mutters under their breath", "Collects small shiny objects", "Knows a lot about coins"];
+var genders = [{
+  gender: "Male",
+  pronounSubject: "he",
+  pronounObject: "him",
+  pronounPossessiveDependent: "his",
+  pronounPossessiveIndependent: "his",
+  pronounReflexive: "himself"
+}, {
+  gender: "Female",
+  pronounSubject: "she",
+  pronounObject: "her",
+  pronounPossessiveDependent: "her",
+  pronounPossessiveIndependent: "hers",
+  pronounReflexive: "herself"
+}, {
+  gender: "Other",
+  pronounSubject: "they",
+  pronounObject: "them",
+  pronounPossessiveDependent: "their",
+  pronounPossessiveIndependent: "theirs",
+  pronounReflexive: "themself"
+}];
 
 /***/ }),
 

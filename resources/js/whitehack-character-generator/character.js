@@ -1,6 +1,7 @@
 import {
     affiliations,
-    attunements,
+    attunementsItems,
+    attunementsOther,
     abilities,
     miracles,
     vocations,
@@ -10,6 +11,10 @@ import {
     namesPrefixes,
     namesPrimary,
     namesSuffixes,
+    appearances,
+    appearancesHair,
+    appearancesBuild,
+    quirks,
  } from "./data";
 
 // Create prototype function on arrays to allow for inline random selection of one element.
@@ -88,6 +93,7 @@ export class Character {
 
         // Vital statistics.
         this.level = 1;
+        this.xp = 0;
         this.characterClass = null;
 
         this.hitPoints = 0;
@@ -119,6 +125,8 @@ export class Character {
             affiliations: [],
         };
 
+        this.inventory = [];
+
         this.generateAttributes();
         this.generateClass();
         this.updateHitDice();
@@ -131,8 +139,10 @@ export class Character {
         this.updateVocation();
         this.updateAffiliations();
 
-        // Most importantly, a name!
         this.updateName();
+
+        this.updateQuirks();
+        this.updateInventory();
     }
 
     increaseLevel() {
@@ -292,16 +302,33 @@ export class Character {
             this.slots.type = "Attunements";
             let remainingAttunements = 2 * this.slots.count;
             while (remainingAttunements > 0) {
-                // Randomly select an attunement.
-                let randomAttunement = attunements.random();
+                // Randomly select either an item or something else.
+                if (d(2, 1) == 1) {
+                    let randomAttunement = attunementsItems.random();
 
-                if (this.slots.attunements.includes(randomAttunement)) {
-                    // Ensure same attunement isn"t selected more than once.
-                    continue;
+                    if (this.slots.attunements.includes(randomAttunement)) {
+                        // Ensure same attunement isn"t selected more than once.
+                        continue;
+                    } else {
+                        // If the attunement is new, add it to the list.
+                        this.slots.attunements.push(randomAttunement);
+                        remainingAttunements--;
+
+                        // Since it's an item, add it to the inventory.
+                        this.inventory.push(randomAttunement);
+                    }
                 } else {
-                    // If the attunement is new, add it to the list.
-                    this.slots.attunements.push(randomAttunement);
-                    remainingAttunements--;
+                    let randomAttunement = attunementsOther.random();
+
+                    if (this.slots.attunements.includes(randomAttunement)) {
+                        // Ensure same attunement isn"t selected more than once.
+                        continue;
+                    } else {
+                        // If the attunement is new, add it to the list.
+                        this.slots.attunements.push(randomAttunement);
+                        remainingAttunements--;
+                    }
+
                 }
             }
         } else if (this.characterClass == "Strong") {
@@ -420,11 +447,19 @@ export class Character {
         }
     }
 
-    updateName(allowPrefix = true, allowSuffix = false) {
+    updateName(allowPrefix = true, allowSuffix = true) {
         let name = "";
 
+        // A name can have a prefix or a suffix, but not both.
+        let randomNum = Math.random();
+        if (allowPrefix && randomNum < 0.3) {
+            var usePrefix = true;
+        } else if (allowSuffix && randomNum > 0.7) {
+            var useSuffix = true;
+        }
+
         // Random chance for a prefix.
-        if (allowPrefix && Math.random() < 0.3) {
+        if (usePrefix) {
             name += namesPrefixes.random() + ' ';
         }
 
@@ -432,10 +467,122 @@ export class Character {
         name += namesPrimary.random();
 
         // Random chance for a suffix.
-        if (allowSuffix && Math.random() < 0.3) {
+        if (useSuffix) {
             name += ' ' + namesSuffixes.random();
         }
 
         this.name = name;
+    }
+
+    getAppearances(maxNum = 3) {
+        // Generate 1 to maxNum random appearance traits.
+        let temp = [];
+        let count = d(maxNum, 1);
+        for (let i = 0; i < count; i++) {
+            let appearance;
+            if (i == 0) {
+                appearance = appearancesHair.random();
+                while (temp.includes(appearance)) {
+                    appearance = appearancesHair.random()
+                }
+            } else if (i == 1) {
+                appearance = appearancesBuild.random();
+                while (temp.includes(appearance)) {
+                    appearance = appearancesBuild.random()
+                }
+            } else {
+                appearance = appearances.random();
+                while (temp.includes(appearance)) {
+                    appearance = appearances.random()
+                }
+            }
+
+            temp.push(appearance);
+        }
+
+        return temp;
+    }
+
+    getPersonalities(maxNum = 3) {
+        // Generate 1 to maxNum random personality traits.
+        let temp = [];
+        let count = d(maxNum, 1);
+        for (let i = 0; i < count; i++) {
+            let personality = personalities.random();
+            while (temp.includes(personality)) {
+                personality = personalities.random()
+            }
+
+            temp.push(personality);
+        }
+
+        return temp;
+    }
+
+    getBackgrounds(maxNum = 3) {
+        // Generate 1 to maxNum random bits of background.
+        let temp = [];
+        let count = d(3, 1);
+        for (let i = 0; i < count; i++) {
+            let background = backgrounds.random();
+            while (temp.includes(background)) {
+                background = backgrounds.random()
+            }
+
+            temp.push(background);
+        }
+
+        return temp;
+    }
+
+    getQuirks(maxNum = 3) {
+        // Generate 1 to maxNum random quirks.
+        let temp = [];
+        let count = d(3, 1);
+        for (let i = 0; i < count; i++) {
+            let quirk = quirks.random();
+            while (temp.includes(quirk)) {
+                quirk = quirks.random();
+            }
+
+            temp.push(quirk);
+        }
+
+        return temp;
+    }
+
+    updateQuirks() {
+        let temp = [];
+        temp = temp.concat(this.getAppearances(3));
+        temp = temp.concat(this.getQuirks(3));
+
+        this.quirks = [...new Set(temp)].shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
+    }
+
+    updateInventory() {
+        // Everyone gets some basic adventuring gear.
+        this.inventory = this.inventory.concat([
+            "Backpack",
+            "Rations (3)",
+            "Torch",
+            "Flint & steel",
+            "Rope",
+            "Waterskin",
+        ]);
+
+        // Add some armor that they're capable of wearing.
+        let validArmors = armors.filter(armor => armor.allowedClasses.includes(this.characterClass));
+
+        let armor = validArmors.random();
+        this.inventory.push(armor.name);
+        this.armorClass = armor.armorClass;
+
+        // Add a weapon they can use.
+        let validWeapons = weapons.filter(weapon => weapon.allowedClasses.includes(this.characterClass));
+
+        let weapon = validWeapons.random();
+        this.inventory.push(weapon.name);
+
+        this.inventory = [...new Set(this.inventory)].shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
     }
 }

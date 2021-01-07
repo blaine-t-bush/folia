@@ -14,7 +14,6 @@ ol.posts li.post {
   box-shadow: 4px 4px 4px #888888;
   margin-bottom: 1.5rem;
   min-height: 10rem;
-  padding: 1rem;
 }
 
 @media only screen and (max-width: 800px) {
@@ -37,8 +36,8 @@ ol.posts li.post {
 
 ol.posts li.post a.post-link {
   display: block;
-  height: 100%;
-  width: 100%;
+  padding: 1rem;
+  min-height: 10rem;
 }
 
 ol.posts li.post h2 {
