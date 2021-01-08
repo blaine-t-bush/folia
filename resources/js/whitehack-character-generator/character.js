@@ -1,20 +1,19 @@
 import {
-    affiliations,
-    attunementsItems,
-    attunementsOther,
     abilities,
-    miracles,
-    vocations,
+    affiliations,
+    attunements,
     armors,
-    weapons,
+    classes,
+    descriptors,
     items,
+    languages,
+    miracles,
     namesPrefixes,
     namesPrimary,
     namesSuffixes,
-    appearances,
-    appearancesHair,
-    appearancesBuild,
-    quirks,
+    species,
+    vocations,
+    weapons,
  } from "./data";
 
 // Create prototype function on arrays to allow for inline random selection of one element.
@@ -47,11 +46,50 @@ function d(size, count) {
 
 export class Character {
     constructor() {
+        this.speciesChance = 0.1; // Probability, out of 1, to assign a non-standard (i.e. non-human) species.
+        this.shieldChance = 0.7; // Probability, out of 1, to give a shield to a Strong character.
         this.generate();
     }
 
     generate() {
-        // Attribute scores.
+        this.level = 1;
+        this.xp = 0;
+        this.inventory = [];
+        this.languages = ["Common"];
+
+        this.generateAttributes();
+        this.generateClass();
+
+        this.calculateHitDice();
+        this.calculateHitPoints();
+        this.calculateAttackValue();
+        this.calculateSavingThrow();
+
+        this.generateSlots();
+        this.generateGroups();
+        this.generateName();
+        this.generateDescriptors();
+        this.generateLanguages();
+
+        this.generateInventory();
+        this.generateCurrency();
+    }
+
+    increaseLevel() {
+        if (this.level < 10) {
+            this.level = this.level + 1;
+            // TODO populate level-up function.
+        }
+    }
+
+    decreaseLevel() {
+        if (this.level > 1) {
+            this.level = this.level - 1;
+            // TODO populate level-down function.
+        }
+    }
+
+    generateAttributes() {
         this.attributes = {
             strength: {
                 name: "Strength",
@@ -91,87 +129,6 @@ export class Character {
             },
         };
 
-        // Vital statistics.
-        this.level = 1;
-        this.xp = 0;
-        this.characterClass = null;
-
-        this.hitPoints = 0;
-        this.hitDice = {
-            base: 0,
-            bonus: 0,
-        };
-
-        this.attackValue = 0;
-        this.savingThrow = 0;
-        this.armorClass = 0;
-
-        // Class slots.
-        this.slots = {
-            type: null,
-            count: 0,
-            bonusInactiveCount: 0,
-            attunements: [],
-            abilities: [],
-            miracles: [],
-        };
-
-        // Groups: vocation, species, and affiliations.
-        this.groups = {
-            count: 0,
-            bonusCount: 0,
-            vocation: null,
-            species: null,
-            affiliations: [],
-        };
-
-        this.inventory = [];
-
-        this.generateAttributes();
-        this.generateClass();
-        this.updateHitDice();
-        this.updateHitPoints();
-        this.updateAttackValue();
-        this.updateSavingThrow();
-        this.updateSlotCount();
-        this.updateSlots();
-        this.updateGroupCount();
-        this.updateVocation();
-        this.updateAffiliations();
-
-        this.updateName();
-
-        this.updateQuirks();
-        this.updateInventory();
-    }
-
-    increaseLevel() {
-        if (this.level < 10) {
-            this.level = this.level + 1;
-            this.updateHitPoints();
-            this.updateAttackValue();
-            this.updateSavingThrow();
-            this.updateSlots();
-            this.updateGroups();
-        }
-    }
-
-    decreaseLevel() {
-        if (this.level > 1) {
-            this.level = this.level - 1;
-            this.updateHitPoints();
-            this.updateAttackValue();
-            this.updateSavingThrow();
-            this.updateSlots();
-            this.updateGroups();
-        }
-    }
-
-    generateWealth() {
-        this.wealth.starting = this.wealth.current = 10 * d(6, 3);
-    }
-
-    generateAttributes() {
         // Roll 3d6 for each attribute to determine its score.
         this.attributes.strength.score = d(6, 3);
         this.attributes.dexterity.score = d(6, 3);
@@ -182,18 +139,15 @@ export class Character {
     }
 
     generateClass() {
-        var classes = [
-            "Deft",
-            "Strong",
-            "Wise",
-            // "Brave",
-            // "Fortunate",
-        ];
-
         this.characterClass = classes.random();
     }
 
-    updateHitDice() {
+    calculateHitDice() {
+        this.hitDice = {
+            base: 0,
+            bonus: 0,
+        };
+
         // Calculate base HD based on class and level.
         if (this.characterClass == "Deft") {
             this.hitDice.base = Math.floor(this.level / 2) + 1;
@@ -225,20 +179,19 @@ export class Character {
         }
     }
 
-    updateHitPoints() {
-        let newHitPoints = d(6, this.hitDice.base) + this.hitDice.bonus;
+    calculateHitPoints() {
+        // Use hit dice to roll hit points.
+        let hitPoints = d(6, this.hitDice.base) + this.hitDice.bonus;
         if (this.characterClass == "Strong" && this.attributes.constitution.score >= 16) {
-            newHitPoints += 2;
+            hitPoints += 2;
         } else if (this.characterClass == "Strong" && this.attributes.constitution.score >= 13) {
-            newHitPoints += 1;
+            hitPoints += 1;
         }
 
-        if (newHitPoints > this.hitPoints) {
-            this.hitPoints = newHitPoints;
-        }
+        this.hitPoints = hitPoints; // TODO ensure HP increases by minimum 1 on level-up.
     }
 
-    updateAttackValue() {
+    calculateAttackValue() {
         // Calculate attack value based on class and level.
         if (this.characterClass == "Deft") {
             this.attackValue = Math.floor(this.level / 2) + 10;
@@ -258,7 +211,7 @@ export class Character {
         }
     }
 
-    updateSavingThrow() {
+    calculateSavingThrow() {
         // Calculate saving throw based on class and level.
         if (this.characterClass == "Deft") {
             this.savingThrow = this.level + 6;
@@ -273,7 +226,16 @@ export class Character {
         }
     }
 
-    updateSlotCount() {
+    generateSlots() {
+        this.slots = {
+            type: null,
+            count: 0,
+            bonusInactiveCount: 0,
+            attunements: [],
+            abilities: [],
+            miracles: [],
+        };
+        
         // Calculate number of slots based on class and level.
         if (this.characterClass == "Deft") {
             this.slots.count = Math.floor((this.level + 2) / 3);
@@ -295,78 +257,77 @@ export class Character {
         } else {
             this.slots.bonusInactiveCount = 0;
         }
-    }
 
-    updateSlots() {
+        // Populate slots with random attunements, abilities, or miracles, depending on class.
         if (this.characterClass == "Deft") {
             this.slots.type = "Attunements";
             let remainingAttunements = 2 * this.slots.count;
-            while (remainingAttunements > 0) {
-                // Randomly select either an item or something else.
-                if (d(2, 1) == 1) {
-                    let randomAttunement = attunementsItems.random();
+            let excludedCategories = [];
+            let attunementItemCategories = ["magic", "religious", "book", "weapon", "exoticWeapon", "mundane"];
 
-                    if (this.slots.attunements.includes(randomAttunement)) {
-                        // Ensure same attunement isn"t selected more than once.
-                        continue;
-                    } else {
-                        // If the attunement is new, add it to the list.
-                        this.slots.attunements.push(randomAttunement);
-                        remainingAttunements--;
+            for (let i = 0; i < remainingAttunements; i++) {
+                // Get a random attunement.
+                let attunement = attunements.random();
 
-                        // Since it's an item, add it to the inventory.
-                        this.inventory.push(randomAttunement);
-                    }
-                } else {
-                    let randomAttunement = attunementsOther.random();
+                // If an attunement of that type (e.g. weapon or animal) has already been selected, select a new one.
+                // This is to give the character a bit of diversity.
+                while (excludedCategories.includes(attunement.type)) {
+                    attunement = attunements.random()
+                }
 
-                    if (this.slots.attunements.includes(randomAttunement)) {
-                        // Ensure same attunement isn"t selected more than once.
-                        continue;
-                    } else {
-                        // If the attunement is new, add it to the list.
-                        this.slots.attunements.push(randomAttunement);
-                        remainingAttunements--;
-                    }
+                // Add the trait and its associated category to our respective arrays.
+                this.slots.attunements.push(attunement.value);
+                excludedCategories.push(attunement.type);
 
+                // If an item was added, make a note of it so we can include it in the inventory.
+                if (attunementItemCategories.includes(attunement.type) && !this.inventory) {
+                    // If the inventory hasn't been instantiated yet, create it and insert the item.
+                    this.inventory = [attunement.value];
+                } else if (attunementItemCategories.includes(attunement.type)) {
+                    // If the inventory has been instantiated, just append the item.
+                    this.inventory.push(attunement.value);
                 }
             }
         } else if (this.characterClass == "Strong") {
             this.slots.type = "Abilities";
-            let remainingAbilities = this.slots.count;
-            while (remainingAbilities > 0) {
-                // Randomly select an ability.
-                let randomAbility = abilities.random();
 
-                if (this.slots.abilities.includes(randomAbility)) {
-                    // Ensure same ability isn"t selected more than once.
-                    continue;
-                } else {
-                    // If the ability is new, add it to the list.
-                    this.slots.abilities.push(randomAbility);
-                    remainingAbilities--;
+            for (let i = 0; i < this.slots.count; i++) {
+                // Randomly select an ability.
+                let ability = abilities.random();
+
+                while (this.slots.abilities.includes(ability)) {
+                    // This ability has already been chosen. Randomly select again.
+                    ability = abilities.random()
                 }
+
+                this.slots.abilities.push(ability);
             }
         } else if (this.characterClass == "Wise") {
             this.slots.type = "Miracles";
-            let remainingMiracles = 2 * this.slots.count + this.slots.bonusInactiveCount; // Wise may get extra slots for high wisdom scores.
-            while (remainingMiracles > 0) {
-                // Randomly select an miracle.
-                let randomMiracle = miracles.random();
 
-                if (this.slots.miracles.includes(randomMiracle)) {
-                    // Ensure same miracle isn"t selected more than once.
-                    continue;
-                } else {
-                    // If the miracle is new, add it to the list.
-                    this.slots.miracles.push(randomMiracle);
-                    remainingMiracles--;
+            for (let i = 0; i < 2 * this.slots.count + this.slots.bonusInactiveCount; i++) { // Wise may get extra slots for high wisdom scores.
+                // Randomly select an ability.
+                let miracle = miracles.random();
+
+                while (this.slots.miracles.includes(miracle)) {
+                    // This ability has already been chosen. Randomly select again.
+                    miracle = miracles.random()
                 }
+
+                this.slots.miracles.push(miracle);
             }
         }
     }
 
-    updateGroupCount() {
+    generateGroups() {
+        this.groups = {
+            count: 0,
+            bonusCount: 0,
+            vocation: null,
+            species: null,
+            affiliations: [],
+        };
+
         // Calculate number of groups based on class and level.
         if (this.characterClass == "Deft") {
             this.groups.count = Math.floor((this.level + 3) / 2);
@@ -388,36 +349,78 @@ export class Character {
                 this.groups.bonusCount += 1;
             }
         }
+
+        
+        // Randomly determine whether to assign a species.
+        if (Math.random() <= this.speciesChance) {
+            this.generateSpecies();
+        }
+
+        // Assign a vocation.
+        this.generateVocation();
+
+        // Assign affiliation groups.
+        this.generateAffiliations();
     }
 
-    updateVocation() {
-        this.vocation = vocations.random();
+    generateSpecies() {
+        // Select a species at random.
+        let specie = species.random()
+        this.groups.species = specie.name;
+
+        // Unlike other groups, species is assigned to two attributes, rather than one.
+        for (let i = 0; i < 2; i++) {
+            let randomAttributeNum = d(6, 1);
+            if (randomAttributeNum == 1) {
+                this.attributes.strength.groups.push(this.groups.species);
+            } else if (randomAttributeNum == 2) {
+                this.attributes.dexterity.groups.push(this.groups.species);
+            } else if (randomAttributeNum == 3) {
+                this.attributes.constitution.groups.push(this.groups.species);
+            } else if (randomAttributeNum == 4) {
+                this.attributes.intelligence.groups.push(this.groups.species);
+            } else if (randomAttributeNum == 5) {
+                this.attributes.wisdom.groups.push(this.groups.species);
+            } else if (randomAttributeNum == 6) {
+                this.attributes.charisma.groups.push(this.groups.species);
+            }
+        }
+
+        // Each species has its own language, which the character automatically knows.
+        this.languages.push(specie.language);
+    }
+
+    generateVocation() {
+        // Select a vocation at random.
+        this.groups.vocation = vocations.random();
 
         // Unless character is Deft, the vocation is tied to a specific attribute.
         if (this.characterClass != "Deft") {
             let randomAttributeNum = d(6, 1);
             if (randomAttributeNum == 1) {
-                this.attributes.strength.groups.push(this.vocation);
+                this.attributes.strength.groups.push(this.groups.vocation);
             } else if (randomAttributeNum == 2) {
-                this.attributes.dexterity.groups.push(this.vocation);
+                this.attributes.dexterity.groups.push(this.groups.vocation);
             } else if (randomAttributeNum == 3) {
-                this.attributes.constitution.groups.push(this.vocation);
+                this.attributes.constitution.groups.push(this.groups.vocation);
             } else if (randomAttributeNum == 4) {
-                this.attributes.intelligence.groups.push(this.vocation);
+                this.attributes.intelligence.groups.push(this.groups.vocation);
             } else if (randomAttributeNum == 5) {
-                this.attributes.wisdom.groups.push(this.vocation);
+                this.attributes.wisdom.groups.push(this.groups.vocation);
             } else if (randomAttributeNum == 6) {
-                this.attributes.charisma.groups.push(this.vocation);
+                this.attributes.charisma.groups.push(this.groups.vocation);
             }
         }
     }
 
-    updateAffiliations() {
+    generateAffiliations() {
         // First, get the total number of groups, add any bonus groups for low attribute scores, and subtract 1
         // for the vocation that every character has to select.
         // Then randomly assign one at a time until that number has been met.
         // However, make sure that no one attribute has more than 2 groups on it.
-        let remainingAffiliationGroups = this.groups.count + this.groups.bonusCount - 1;
+        let vocationCount = this.groups.vocation ? 1 : 0;
+        let speciesCount = this.groups.species ? 1 : 0;
+        let remainingAffiliationGroups = this.groups.count + this.groups.bonusCount - vocationCount - speciesCount;
 
         while (remainingAffiliationGroups > 0) {
             let randomAttributeNum = d(6, 1);
@@ -447,7 +450,7 @@ export class Character {
         }
     }
 
-    updateName(allowPrefix = true, allowSuffix = true) {
+    generateName(allowPrefix = true, allowSuffix = true) {
         let name = "";
 
         // A name can have a prefix or a suffix, but not both.
@@ -474,101 +477,76 @@ export class Character {
         this.name = name;
     }
 
-    getAppearances(maxNum = 3) {
-        // Generate 1 to maxNum random appearance traits.
-        let temp = [];
-        let count = d(maxNum, 1);
+    generateDescriptors(min = 3, max = 5) {
+        // Get 3 to 5 random descriptors.
+        let count = Math.floor(min + ((max - min + 1) * Math.random()));
+        let traits = [];
+        let excludedCategories = [];
+
         for (let i = 0; i < count; i++) {
-            let appearance;
-            if (i == 0) {
-                appearance = appearancesHair.random();
-                while (temp.includes(appearance)) {
-                    appearance = appearancesHair.random()
-                }
-            } else if (i == 1) {
-                appearance = appearancesBuild.random();
-                while (temp.includes(appearance)) {
-                    appearance = appearancesBuild.random()
-                }
-            } else {
-                appearance = appearances.random();
-                while (temp.includes(appearance)) {
-                    appearance = appearances.random()
-                }
+            // Get a random descriptor trait.
+            let descriptor = descriptors.random();
+
+            // If a trait of that type (e.g. complexion or family) has already been selected, select a new one.
+            while (excludedCategories.includes(descriptor.type)) {
+                descriptor = descriptors.random()
             }
 
-            temp.push(appearance);
+            // Add the trait and its associated category to our respective arrays.
+            traits.push(descriptor.value);
+            excludedCategories.push(descriptor.type);
         }
 
-        return temp;
+        this.descriptors = [...new Set(traits)].shuffle(); // Convert to a set (to filter out any duplicate values) then back to an array.
     }
 
-    getPersonalities(maxNum = 3) {
-        // Generate 1 to maxNum random personality traits.
-        let temp = [];
-        let count = d(maxNum, 1);
+    generateLanguages() {
+        // Common is already granted to everyone (in the generate() function).
+        // Racial language is already granted to non-humans (in the generateSpecies() function).
+        // These languages are just for high intelligence: 1 for 13+, or 2 for 16+.
+        if (this.attributes.intelligence.score >= 16) {
+            var count = 2;
+        } else if (this.attributes.intelligence.score >= 13) {
+            var count = 1;
+        } else {
+            var count = 0;
+        }
+
         for (let i = 0; i < count; i++) {
-            let personality = personalities.random();
-            while (temp.includes(personality)) {
-                personality = personalities.random()
+            // Randomly choose a language.
+            let language = languages.random();
+
+            while (this.languages.includes(language)) {
+                // This language is already in the character's lexicon. Choose a new one.
+                language = languages.random();
             }
 
-            temp.push(personality);
+            this.languages.push(language);
+        }
+    }
+
+    generateInventory() {
+        // Inventory may have already been created, if a Deft character was given an item.
+        // If it hasn't been created, then do so now.
+        if (!this.inventory) {
+            this.inventory = [];
         }
 
-        return temp;
-    }
-
-    getBackgrounds(maxNum = 3) {
-        // Generate 1 to maxNum random bits of background.
-        let temp = [];
-        let count = d(3, 1);
-        for (let i = 0; i < count; i++) {
-            let background = backgrounds.random();
-            while (temp.includes(background)) {
-                background = backgrounds.random()
-            }
-
-            temp.push(background);
-        }
-
-        return temp;
-    }
-
-    getQuirks(maxNum = 3) {
-        // Generate 1 to maxNum random quirks.
-        let temp = [];
-        let count = d(3, 1);
-        for (let i = 0; i < count; i++) {
-            let quirk = quirks.random();
-            while (temp.includes(quirk)) {
-                quirk = quirks.random();
-            }
-
-            temp.push(quirk);
-        }
-
-        return temp;
-    }
-
-    updateQuirks() {
-        let temp = [];
-        temp = temp.concat(this.getAppearances(3));
-        temp = temp.concat(this.getQuirks(3));
-
-        this.quirks = [...new Set(temp)].shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
-    }
-
-    updateInventory() {
         // Everyone gets some basic adventuring gear.
         this.inventory = this.inventory.concat([
             "Backpack",
             "Rations (3)",
             "Torch",
-            "Flint & steel",
             "Rope",
             "Waterskin",
         ]);
+
+        // Add 1 to 3 other items.
+        let itemCount = Math.floor(Math.random()*2 + 1);
+        for (let i = 0; i < itemCount; i++) {
+            this.inventory.push(items.random().name);
+        }
+
 
         // Add some armor that they're capable of wearing.
         let validArmors = armors.filter(armor => armor.allowedClasses.includes(this.characterClass));
@@ -577,12 +555,26 @@ export class Character {
         this.inventory.push(armor.name);
         this.armorClass = armor.armorClass;
 
+        // If Strong, potentially add a shield.
+        if (this.characterClass === "Strong" && Math.random() <= this.shieldChance) {
+            this.inventory.push("Shield");
+            this.armorClass += 1;
+        }
+
         // Add a weapon they can use.
         let validWeapons = weapons.filter(weapon => weapon.allowedClasses.includes(this.characterClass));
 
         let weapon = validWeapons.random();
         this.inventory.push(weapon.name);
 
-        this.inventory = [...new Set(this.inventory)].shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
+        this.inventory = [...new Set(this.inventory)].shuffle(); // Convert to a set (to filter out duplicate values) then back to an array, and randomize the order for display.
+    }
+
+    generateCurrency() {
+        this.currency = {
+            large: Math.floor(Math.random()*5),
+            medium: Math.floor(Math.random()*10),
+            small: Math.floor(Math.random()*100),
+        }
     }
 }

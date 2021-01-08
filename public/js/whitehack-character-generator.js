@@ -12686,13 +12686,51 @@ var Character = /*#__PURE__*/function () {
   function Character() {
     _classCallCheck(this, Character);
 
+    this.speciesChance = 0.1; // Probability, out of 1, to assign a non-standard (i.e. non-human) species.
+
+    this.shieldChance = 0.7; // Probability, out of 1, to give a shield to a Strong character.
+
     this.generate();
   }
 
   _createClass(Character, [{
     key: "generate",
     value: function generate() {
-      // Attribute scores.
+      this.level = 1;
+      this.xp = 0;
+      this.inventory = [];
+      this.languages = ["Common"];
+      this.generateAttributes();
+      this.generateClass();
+      this.calculateHitDice();
+      this.calculateHitPoints();
+      this.calculateAttackValue();
+      this.calculateSavingThrow();
+      this.generateSlots();
+      this.generateGroups();
+      this.generateName();
+      this.generateDescriptors();
+      this.generateLanguages();
+      this.generateInventory();
+      this.generateCurrency();
+    }
+  }, {
+    key: "increaseLevel",
+    value: function increaseLevel() {
+      if (this.level < 10) {
+        this.level = this.level + 1; // TODO populate level-up function.
+      }
+    }
+  }, {
+    key: "decreaseLevel",
+    value: function decreaseLevel() {
+      if (this.level > 1) {
+        this.level = this.level - 1; // TODO populate level-down function.
+      }
+    }
+  }, {
+    key: "generateAttributes",
+    value: function generateAttributes() {
       this.attributes = {
         strength: {
           name: "Strength",
@@ -12730,85 +12768,8 @@ var Character = /*#__PURE__*/function () {
           score: 0,
           groups: []
         }
-      }; // Vital statistics.
+      }; // Roll 3d6 for each attribute to determine its score.
 
-      this.level = 1;
-      this.xp = 0;
-      this.characterClass = null;
-      this.hitPoints = 0;
-      this.hitDice = {
-        base: 0,
-        bonus: 0
-      };
-      this.attackValue = 0;
-      this.savingThrow = 0;
-      this.armorClass = 0; // Class slots.
-
-      this.slots = {
-        type: null,
-        count: 0,
-        bonusInactiveCount: 0,
-        attunements: [],
-        abilities: [],
-        miracles: []
-      }; // Groups: vocation, species, and affiliations.
-
-      this.groups = {
-        count: 0,
-        bonusCount: 0,
-        vocation: null,
-        species: null,
-        affiliations: []
-      };
-      this.inventory = [];
-      this.generateAttributes();
-      this.generateClass();
-      this.updateHitDice();
-      this.updateHitPoints();
-      this.updateAttackValue();
-      this.updateSavingThrow();
-      this.updateSlotCount();
-      this.updateSlots();
-      this.updateGroupCount();
-      this.updateVocation();
-      this.updateAffiliations();
-      this.updateName();
-      this.updateQuirks();
-      this.updateInventory();
-    }
-  }, {
-    key: "increaseLevel",
-    value: function increaseLevel() {
-      if (this.level < 10) {
-        this.level = this.level + 1;
-        this.updateHitPoints();
-        this.updateAttackValue();
-        this.updateSavingThrow();
-        this.updateSlots();
-        this.updateGroups();
-      }
-    }
-  }, {
-    key: "decreaseLevel",
-    value: function decreaseLevel() {
-      if (this.level > 1) {
-        this.level = this.level - 1;
-        this.updateHitPoints();
-        this.updateAttackValue();
-        this.updateSavingThrow();
-        this.updateSlots();
-        this.updateGroups();
-      }
-    }
-  }, {
-    key: "generateWealth",
-    value: function generateWealth() {
-      this.wealth.starting = this.wealth.current = 10 * d(6, 3);
-    }
-  }, {
-    key: "generateAttributes",
-    value: function generateAttributes() {
-      // Roll 3d6 for each attribute to determine its score.
       this.attributes.strength.score = d(6, 3);
       this.attributes.dexterity.score = d(6, 3);
       this.attributes.constitution.score = d(6, 3);
@@ -12819,15 +12780,16 @@ var Character = /*#__PURE__*/function () {
   }, {
     key: "generateClass",
     value: function generateClass() {
-      var classes = ["Deft", "Strong", "Wise" // "Brave",
-      // "Fortunate",
-      ];
-      this.characterClass = classes.random();
+      this.characterClass = _data__WEBPACK_IMPORTED_MODULE_0__["classes"].random();
     }
   }, {
-    key: "updateHitDice",
-    value: function updateHitDice() {
-      // Calculate base HD based on class and level.
+    key: "calculateHitDice",
+    value: function calculateHitDice() {
+      this.hitDice = {
+        base: 0,
+        bonus: 0
+      }; // Calculate base HD based on class and level.
+
       if (this.characterClass == "Deft") {
         this.hitDice.base = Math.floor(this.level / 2) + 1;
       } else if (this.characterClass == "Strong") {
@@ -12858,23 +12820,22 @@ var Character = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "updateHitPoints",
-    value: function updateHitPoints() {
-      var newHitPoints = d(6, this.hitDice.base) + this.hitDice.bonus;
+    key: "calculateHitPoints",
+    value: function calculateHitPoints() {
+      // Use hit dice to roll hit points.
+      var hitPoints = d(6, this.hitDice.base) + this.hitDice.bonus;
 
       if (this.characterClass == "Strong" && this.attributes.constitution.score >= 16) {
-        newHitPoints += 2;
+        hitPoints += 2;
       } else if (this.characterClass == "Strong" && this.attributes.constitution.score >= 13) {
-        newHitPoints += 1;
+        hitPoints += 1;
       }
 
-      if (newHitPoints > this.hitPoints) {
-        this.hitPoints = newHitPoints;
-      }
+      this.hitPoints = hitPoints; // TODO ensure HP increases by minimum 1 on level-up.
     }
   }, {
-    key: "updateAttackValue",
-    value: function updateAttackValue() {
+    key: "calculateAttackValue",
+    value: function calculateAttackValue() {
       // Calculate attack value based on class and level.
       if (this.characterClass == "Deft") {
         this.attackValue = Math.floor(this.level / 2) + 10;
@@ -12894,8 +12855,8 @@ var Character = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "updateSavingThrow",
-    value: function updateSavingThrow() {
+    key: "calculateSavingThrow",
+    value: function calculateSavingThrow() {
       // Calculate saving throw based on class and level.
       if (this.characterClass == "Deft") {
         this.savingThrow = this.level + 6;
@@ -12910,9 +12871,17 @@ var Character = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "updateSlotCount",
-    value: function updateSlotCount() {
-      // Calculate number of slots based on class and level.
+    key: "generateSlots",
+    value: function generateSlots() {
+      this.slots = {
+        type: null,
+        count: 0,
+        bonusInactiveCount: 0,
+        attunements: [],
+        abilities: [],
+        miracles: []
+      }; // Calculate number of slots based on class and level.
+
       if (this.characterClass == "Deft") {
         this.slots.count = Math.floor((this.level + 2) / 3);
       } else if (this.characterClass == "Strong") {
@@ -12932,83 +12901,78 @@ var Character = /*#__PURE__*/function () {
         this.slots.bonusInactiveCount = 1;
       } else {
         this.slots.bonusInactiveCount = 0;
-      }
-    }
-  }, {
-    key: "updateSlots",
-    value: function updateSlots() {
+      } // Populate slots with random attunements, abilities, or miracles, depending on class.
+
+
       if (this.characterClass == "Deft") {
         this.slots.type = "Attunements";
         var remainingAttunements = 2 * this.slots.count;
+        var excludedCategories = [];
+        var attunementItemCategories = ["magic", "religious", "book", "weapon", "exoticWeapon", "mundane"];
 
-        while (remainingAttunements > 0) {
-          // Randomly select either an item or something else.
-          if (d(2, 1) == 1) {
-            var randomAttunement = _data__WEBPACK_IMPORTED_MODULE_0__["attunementsItems"].random();
+        for (var i = 0; i < remainingAttunements; i++) {
+          // Get a random attunement.
+          var attunement = _data__WEBPACK_IMPORTED_MODULE_0__["attunements"].random(); // If an attunement of that type (e.g. weapon or animal) has already been selected, select a new one.
+          // This is to give the character a bit of diversity.
 
-            if (this.slots.attunements.includes(randomAttunement)) {
-              // Ensure same attunement isn"t selected more than once.
-              continue;
-            } else {
-              // If the attunement is new, add it to the list.
-              this.slots.attunements.push(randomAttunement);
-              remainingAttunements--; // Since it's an item, add it to the inventory.
+          while (excludedCategories.includes(attunement.type)) {
+            attunement = _data__WEBPACK_IMPORTED_MODULE_0__["attunements"].random();
+          } // Add the trait and its associated category to our respective arrays.
 
-              this.inventory.push(randomAttunement);
-            }
-          } else {
-            var _randomAttunement = _data__WEBPACK_IMPORTED_MODULE_0__["attunementsOther"].random();
 
-            if (this.slots.attunements.includes(_randomAttunement)) {
-              // Ensure same attunement isn"t selected more than once.
-              continue;
-            } else {
-              // If the attunement is new, add it to the list.
-              this.slots.attunements.push(_randomAttunement);
-              remainingAttunements--;
-            }
+          this.slots.attunements.push(attunement.value);
+          excludedCategories.push(attunement.type); // If an item was added, make a note of it so we can include it in the inventory.
+
+          if (attunementItemCategories.includes(attunement.type) && !this.inventory) {
+            // If the inventory hasn't been instantiated yet, create it and insert the item.
+            this.inventory = [attunement.value];
+          } else if (attunementItemCategories.includes(attunement.type)) {
+            // If the inventory has been instantiated, just append the item.
+            this.inventory.push(attunement.value);
           }
         }
       } else if (this.characterClass == "Strong") {
         this.slots.type = "Abilities";
-        var remainingAbilities = this.slots.count;
 
-        while (remainingAbilities > 0) {
+        for (var _i = 0; _i < this.slots.count; _i++) {
           // Randomly select an ability.
-          var randomAbility = _data__WEBPACK_IMPORTED_MODULE_0__["abilities"].random();
+          var ability = _data__WEBPACK_IMPORTED_MODULE_0__["abilities"].random();
 
-          if (this.slots.abilities.includes(randomAbility)) {
-            // Ensure same ability isn"t selected more than once.
-            continue;
-          } else {
-            // If the ability is new, add it to the list.
-            this.slots.abilities.push(randomAbility);
-            remainingAbilities--;
+          while (this.slots.abilities.includes(ability)) {
+            // This ability has already been chosen. Randomly select again.
+            ability = _data__WEBPACK_IMPORTED_MODULE_0__["abilities"].random();
           }
+
+          this.slots.abilities.push(ability);
         }
       } else if (this.characterClass == "Wise") {
         this.slots.type = "Miracles";
-        var remainingMiracles = 2 * this.slots.count + this.slots.bonusInactiveCount; // Wise may get extra slots for high wisdom scores.
 
-        while (remainingMiracles > 0) {
-          // Randomly select an miracle.
-          var randomMiracle = _data__WEBPACK_IMPORTED_MODULE_0__["miracles"].random();
+        for (var _i2 = 0; _i2 < 2 * this.slots.count + this.slots.bonusInactiveCount; _i2++) {
+          // Wise may get extra slots for high wisdom scores.
+          // Randomly select an ability.
+          var miracle = _data__WEBPACK_IMPORTED_MODULE_0__["miracles"].random();
 
-          if (this.slots.miracles.includes(randomMiracle)) {
-            // Ensure same miracle isn"t selected more than once.
-            continue;
-          } else {
-            // If the miracle is new, add it to the list.
-            this.slots.miracles.push(randomMiracle);
-            remainingMiracles--;
+          while (this.slots.miracles.includes(miracle)) {
+            // This ability has already been chosen. Randomly select again.
+            miracle = _data__WEBPACK_IMPORTED_MODULE_0__["miracles"].random();
           }
+
+          this.slots.miracles.push(miracle);
         }
       }
     }
   }, {
-    key: "updateGroupCount",
-    value: function updateGroupCount() {
-      // Calculate number of groups based on class and level.
+    key: "generateGroups",
+    value: function generateGroups() {
+      this.groups = {
+        count: 0,
+        bonusCount: 0,
+        vocation: null,
+        species: null,
+        affiliations: []
+      }; // Calculate number of groups based on class and level.
+
       if (this.characterClass == "Deft") {
         this.groups.count = Math.floor((this.level + 3) / 2);
       } else if (this.characterClass == "Strong") {
@@ -13029,39 +12993,80 @@ var Character = /*#__PURE__*/function () {
         if (this.attributes[attribute].score <= 5) {
           this.groups.bonusCount += 1;
         }
-      }
+      } // Randomly determine whether to assign a species.
+
+
+      if (Math.random() <= this.speciesChance) {
+        this.generateSpecies();
+      } // Assign a vocation.
+
+
+      this.generateVocation(); // Assign affiliation groups.
+
+      this.generateAffiliations();
     }
   }, {
-    key: "updateVocation",
-    value: function updateVocation() {
-      this.vocation = _data__WEBPACK_IMPORTED_MODULE_0__["vocations"].random(); // Unless character is Deft, the vocation is tied to a specific attribute.
+    key: "generateSpecies",
+    value: function generateSpecies() {
+      // Select a species at random.
+      var specie = _data__WEBPACK_IMPORTED_MODULE_0__["species"].random();
+      this.groups.species = specie.name; // Unlike other groups, species is assigned to two attributes, rather than one.
+
+      for (var i = 0; i < 2; i++) {
+        var randomAttributeNum = d(6, 1);
+
+        if (randomAttributeNum == 1) {
+          this.attributes.strength.groups.push(this.groups.species);
+        } else if (randomAttributeNum == 2) {
+          this.attributes.dexterity.groups.push(this.groups.species);
+        } else if (randomAttributeNum == 3) {
+          this.attributes.constitution.groups.push(this.groups.species);
+        } else if (randomAttributeNum == 4) {
+          this.attributes.intelligence.groups.push(this.groups.species);
+        } else if (randomAttributeNum == 5) {
+          this.attributes.wisdom.groups.push(this.groups.species);
+        } else if (randomAttributeNum == 6) {
+          this.attributes.charisma.groups.push(this.groups.species);
+        }
+      } // Each species has its own language, which the character automatically knows.
+
+
+      this.languages.push(specie.language);
+    }
+  }, {
+    key: "generateVocation",
+    value: function generateVocation() {
+      // Select a vocation at random.
+      this.groups.vocation = _data__WEBPACK_IMPORTED_MODULE_0__["vocations"].random(); // Unless character is Deft, the vocation is tied to a specific attribute.
 
       if (this.characterClass != "Deft") {
         var randomAttributeNum = d(6, 1);
 
         if (randomAttributeNum == 1) {
-          this.attributes.strength.groups.push(this.vocation);
+          this.attributes.strength.groups.push(this.groups.vocation);
         } else if (randomAttributeNum == 2) {
-          this.attributes.dexterity.groups.push(this.vocation);
+          this.attributes.dexterity.groups.push(this.groups.vocation);
         } else if (randomAttributeNum == 3) {
-          this.attributes.constitution.groups.push(this.vocation);
+          this.attributes.constitution.groups.push(this.groups.vocation);
         } else if (randomAttributeNum == 4) {
-          this.attributes.intelligence.groups.push(this.vocation);
+          this.attributes.intelligence.groups.push(this.groups.vocation);
         } else if (randomAttributeNum == 5) {
-          this.attributes.wisdom.groups.push(this.vocation);
+          this.attributes.wisdom.groups.push(this.groups.vocation);
         } else if (randomAttributeNum == 6) {
-          this.attributes.charisma.groups.push(this.vocation);
+          this.attributes.charisma.groups.push(this.groups.vocation);
         }
       }
     }
   }, {
-    key: "updateAffiliations",
-    value: function updateAffiliations() {
+    key: "generateAffiliations",
+    value: function generateAffiliations() {
       // First, get the total number of groups, add any bonus groups for low attribute scores, and subtract 1
       // for the vocation that every character has to select.
       // Then randomly assign one at a time until that number has been met.
       // However, make sure that no one attribute has more than 2 groups on it.
-      var remainingAffiliationGroups = this.groups.count + this.groups.bonusCount - 1;
+      var vocationCount = this.groups.vocation ? 1 : 0;
+      var speciesCount = this.groups.species ? 1 : 0;
+      var remainingAffiliationGroups = this.groups.count + this.groups.bonusCount - vocationCount - speciesCount;
 
       while (remainingAffiliationGroups > 0) {
         var randomAttributeNum = d(6, 1);
@@ -13092,8 +13097,8 @@ var Character = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "updateName",
-    value: function updateName() {
+    key: "generateName",
+    value: function generateName() {
       var allowPrefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       var allowSuffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var name = ""; // A name can have a prefix or a suffix, but not both.
@@ -13121,130 +13126,105 @@ var Character = /*#__PURE__*/function () {
       this.name = name;
     }
   }, {
-    key: "getAppearances",
-    value: function getAppearances() {
-      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
-      // Generate 1 to maxNum random appearance traits.
-      var temp = [];
-      var count = d(maxNum, 1);
+    key: "generateDescriptors",
+    value: function generateDescriptors() {
+      var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
+      var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
+      // Get 3 to 5 random descriptors.
+      var count = Math.floor(min + (max - min + 1) * Math.random());
+      var traits = [];
+      var excludedCategories = [];
 
       for (var i = 0; i < count; i++) {
-        var appearance = void 0;
+        // Get a random descriptor trait.
+        var descriptor = _data__WEBPACK_IMPORTED_MODULE_0__["descriptors"].random(); // If a trait of that type (e.g. complexion or family) has already been selected, select a new one.
 
-        if (i == 0) {
-          appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesHair"].random();
+        while (excludedCategories.includes(descriptor.type)) {
+          descriptor = _data__WEBPACK_IMPORTED_MODULE_0__["descriptors"].random();
+        } // Add the trait and its associated category to our respective arrays.
 
-          while (temp.includes(appearance)) {
-            appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesHair"].random();
-          }
-        } else if (i == 1) {
-          appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesBuild"].random();
 
-          while (temp.includes(appearance)) {
-            appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearancesBuild"].random();
-          }
-        } else {
-          appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearances"].random();
-
-          while (temp.includes(appearance)) {
-            appearance = _data__WEBPACK_IMPORTED_MODULE_0__["appearances"].random();
-          }
-        }
-
-        temp.push(appearance);
+        traits.push(descriptor.value);
+        excludedCategories.push(descriptor.type);
       }
 
-      return temp;
+      this.descriptors = _toConsumableArray(new Set(traits)).shuffle(); // Convert to a set (to filter out any duplicate values) then back to an array.
     }
   }, {
-    key: "getPersonalities",
-    value: function getPersonalities() {
-      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
-      // Generate 1 to maxNum random personality traits.
-      var temp = [];
-      var count = d(maxNum, 1);
+    key: "generateLanguages",
+    value: function generateLanguages() {
+      // Common is already granted to everyone (in the generate() function).
+      // Racial language is already granted to non-humans (in the generateSpecies() function).
+      // These languages are just for high intelligence: 1 for 13+, or 2 for 16+.
+      if (this.attributes.intelligence.score >= 16) {
+        var count = 2;
+      } else if (this.attributes.intelligence.score >= 13) {
+        var count = 1;
+      } else {
+        var count = 0;
+      }
 
       for (var i = 0; i < count; i++) {
-        var personality = personalities.random();
+        // Randomly choose a language.
+        var language = _data__WEBPACK_IMPORTED_MODULE_0__["languages"].random();
 
-        while (temp.includes(personality)) {
-          personality = personalities.random();
+        while (this.languages.includes(language)) {
+          // This language is already in the character's lexicon. Choose a new one.
+          language = _data__WEBPACK_IMPORTED_MODULE_0__["languages"].random();
         }
 
-        temp.push(personality);
+        this.languages.push(language);
       }
-
-      return temp;
     }
   }, {
-    key: "getBackgrounds",
-    value: function getBackgrounds() {
-      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
-      // Generate 1 to maxNum random bits of background.
-      var temp = [];
-      var count = d(3, 1);
-
-      for (var i = 0; i < count; i++) {
-        var background = backgrounds.random();
-
-        while (temp.includes(background)) {
-          background = backgrounds.random();
-        }
-
-        temp.push(background);
-      }
-
-      return temp;
-    }
-  }, {
-    key: "getQuirks",
-    value: function getQuirks() {
-      var maxNum = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
-      // Generate 1 to maxNum random quirks.
-      var temp = [];
-      var count = d(3, 1);
-
-      for (var i = 0; i < count; i++) {
-        var quirk = _data__WEBPACK_IMPORTED_MODULE_0__["quirks"].random();
-
-        while (temp.includes(quirk)) {
-          quirk = _data__WEBPACK_IMPORTED_MODULE_0__["quirks"].random();
-        }
-
-        temp.push(quirk);
-      }
-
-      return temp;
-    }
-  }, {
-    key: "updateQuirks",
-    value: function updateQuirks() {
-      var temp = [];
-      temp = temp.concat(this.getAppearances(3));
-      temp = temp.concat(this.getQuirks(3));
-      this.quirks = _toConsumableArray(new Set(temp)).shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
-    }
-  }, {
-    key: "updateInventory",
-    value: function updateInventory() {
+    key: "generateInventory",
+    value: function generateInventory() {
       var _this = this;
 
-      // Everyone gets some basic adventuring gear.
-      this.inventory = this.inventory.concat(["Backpack", "Rations (3)", "Torch", "Flint & steel", "Rope", "Waterskin"]); // Add some armor that they're capable of wearing.
+      // Inventory may have already been created, if a Deft character was given an item.
+      // If it hasn't been created, then do so now.
+      if (!this.inventory) {
+        this.inventory = [];
+      } // Everyone gets some basic adventuring gear.
+
+
+      this.inventory = this.inventory.concat(["Backpack", "Rations (3)", "Torch", "Rope", "Waterskin"]); // Add 1 to 3 other items.
+
+      var itemCount = Math.floor(Math.random() * 2 + 1);
+
+      for (var i = 0; i < itemCount; i++) {
+        this.inventory.push(_data__WEBPACK_IMPORTED_MODULE_0__["items"].random().name);
+      } // Add some armor that they're capable of wearing.
+
 
       var validArmors = _data__WEBPACK_IMPORTED_MODULE_0__["armors"].filter(function (armor) {
         return armor.allowedClasses.includes(_this.characterClass);
       });
       var armor = validArmors.random();
       this.inventory.push(armor.name);
-      this.armorClass = armor.armorClass; // Add a weapon they can use.
+      this.armorClass = armor.armorClass; // If Strong, potentially add a shield.
+
+      if (this.characterClass === "Strong" && Math.random() <= this.shieldChance) {
+        this.inventory.push("Shield");
+        this.armorClass += 1;
+      } // Add a weapon they can use.
+
 
       var validWeapons = _data__WEBPACK_IMPORTED_MODULE_0__["weapons"].filter(function (weapon) {
         return weapon.allowedClasses.includes(_this.characterClass);
       });
       var weapon = validWeapons.random();
       this.inventory.push(weapon.name);
-      this.inventory = _toConsumableArray(new Set(this.inventory)).shuffle(); // Convert to a set (to filter out duplicate values) then back to an array.
+      this.inventory = _toConsumableArray(new Set(this.inventory)).shuffle(); // Convert to a set (to filter out duplicate values) then back to an array, and randomize the order for display.
+    }
+  }, {
+    key: "generateCurrency",
+    value: function generateCurrency() {
+      this.currency = {
+        large: Math.floor(Math.random() * 5),
+        medium: Math.floor(Math.random() * 10),
+        small: Math.floor(Math.random() * 100)
+      };
     }
   }]);
 
@@ -13257,14 +13237,16 @@ var Character = /*#__PURE__*/function () {
 /*!************************************************************!*\
   !*** ./resources/js/whitehack-character-generator/data.js ***!
   \************************************************************/
-/*! exports provided: affiliations, attunementsItems, attunementsOther, abilities, miracles, armors, weapons, items, namesPrefixes, namesPrimary, namesSuffixes, vocations, appearances, appearancesHair, appearancesBuild, quirks, genders */
+/*! exports provided: classes, species, languages, affiliations, attunements, abilities, miracles, armors, weapons, items, namesPrefixes, namesPrimary, namesSuffixes, vocations, descriptors, genders */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "classes", function() { return classes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "species", function() { return species; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "languages", function() { return languages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "affiliations", function() { return affiliations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attunementsItems", function() { return attunementsItems; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attunementsOther", function() { return attunementsOther; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attunements", function() { return attunements; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "abilities", function() { return abilities; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "miracles", function() { return miracles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "armors", function() { return armors; });
@@ -13274,25 +13256,371 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "namesPrimary", function() { return namesPrimary; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "namesSuffixes", function() { return namesSuffixes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "vocations", function() { return vocations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appearances", function() { return appearances; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appearancesHair", function() { return appearancesHair; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appearancesBuild", function() { return appearancesBuild; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quirks", function() { return quirks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "descriptors", function() { return descriptors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "genders", function() { return genders; });
-var affiliations = ["Coalition of the Formerly Living", "Wicker Men", "Circle of Cernunnos", "Church of Crom", "Church of Mitra", "Temple of Brighid", "Cult of Set", "Cult of Nergal", "Merry Men", "Cult of the Black Amphora", "Order of the Sphinx", "Order of the Rose", "Order of the Basilisk", "Order of the Candle", "Order of the Lantern", "Order of the Hearth", "Skylords", "Blackhands", "Thieves' Guild", "Bloody Cabal", "Shadow Cult", "Guild of Sorcerers", "Society of Scrutinous Scholars", "Royal Gardeners' Society", "The Sulfur Company", "Merchants' Guild", "Royal Arcane Institute", "Institute of the Arcane", "Aldred's Two Hundred", "Highpeak Clan", "Barrett's Privateers", "Northwest Passage Explorers", "Finch's Giants", "Bramble Bastards", "Witches of the Westmorland", "The Night Guard", "Scarborough Sorcerers", "Herbal Guild", "Barrow Delvers' Society", "The Lock Keepers", "Marduk's Last Watch", "Woodbridge Dogs", "House of the Holy", "Blackdogs", "Sword of St. Tristan", "House of Red", "Harbingers of the Dark Star", "Children of the Moon Mountains", "Dire Wolves", "Shield-Maidens of Veborg", "Canso Witch-Hunters", "Sun Warriors", "Valkyries of Sigyn", "The Wild Boars", "Nightblades", "Masters of the Universe", "Wheel of Fire", "Royal Metallurgists", "The Alloy Supreme", "Zenith's Hammer", "The Transcendants"];
-var attunementsItems = [// Magical instruments
-"Crystal ball", "Magic wand", "Magic rod", "Wizard's staff", // Religious items
-"Holy symbol", "Reliquary", // Texts
-"Magic scroll", "Spellbook", "Necronomicon", // Weapons
-"Axe", "Sword", "Club", "Crossbow", "Dagger", "Dart", "Flail", "Greatsword", "Battle axe", "Halberd", "Pole arm", "Javelin", "Longbow", "Mace", "Warhammer", "Morning star", "Musket", "Pistol", "Quarterstaff", "Scimitar", "Shortbow", "Shortsword", "Sling", "Spear", "Throwing knife", "Throwing axe", // "Exotic" weapons
-"Throwing star", "Spiked chain", "Kukri", "Nunchaku", "Two-bladed sword", "Bolas", "Net", "Parrying dagger", "Rapier", "Blowpipe", "Shield", // Mundane items
-"Walking stick", // Adventuring items
-"Sledgehammer", "Ten-foot pole", "Rope", "Elven cloak", "Dueling cloak", "Alchemy kit", "Grappling hook", "Playing cards", "Dice set"];
-var attunementsOther = [// Animals
-"Dog", "Hound", "Jackal", "Wolf", "Fox", "Horse", "Mule", "Donkey", "Monkey", "Cat", "Bobcat", "Lynx", "Raccoon", "Cougar", "Elk", "Bear", "Badger", "Mole", "Weasel", "Ferret", "Mongoose", "Rat", "Mouse", "Bat", "Raven", "Parrot", "Hawk", "Falcon", "Eagle", "Owl", "Magpie", // People
-"Archery master", "Sword master", "Master monk", "Ringleader", "Bandit king", "Master ninja", "Scholar of history", "Scholar of botany", "Scholar of naturalism", "Scholar of magic"];
+var classes = ["Deft", "Strong", "Wise"];
+var species = [{
+  name: "Elf",
+  language: "Low Elvish"
+}, {
+  name: "Dwarf",
+  language: "Dwarven"
+}, {
+  name: "Hobbit",
+  language: "Hobbit"
+}];
+var languages = ["High Elvish", "Low Elvish", "Dwarven", "Deep Dwarven", "Hobbit", "Hill Giant", "Orcish", "Goblin", "Wizards' runes", "Necromancers' runes", "Dragon tongue", "Beast speech"];
+var affiliations = ["Coalition of the Formerly Living", "Wicker Men", "Circle of Cernunnos", "Church of Crom", "Church of Mitra", "Temple of Brighid", "Cult of Set", "Cult of Nergal", "Merry Men", "Cult of the Black Amphora", "Order of the Sphinx", "Order of the Rose", "Order of the Basilisk", "Order of the Candle", "Order of the Lantern", "Order of the Hearth", "Skylords", "Blackhands", "Thieves' Guild", "Bloody Cabal", "Shadow Cult", "Guild of Sorcerers", "Society of Scrutinous Scholars", "Royal Gardeners' Society", "Sulfur Company", "Merchants' Guild", "Royal Arcane Institute", "Institute of the Arcane", "Aldred's Two Hundred", "Highpeak Clan", "Barrett's Privateers", "Northwest Passage Explorers", "Finch's Giants", "Bramble Bastards", "Westmoor Witches", "Scarborough Sorcerers", "Herbal Guild", "Barrow Delvers' Society", "Lock Keepers", "Marduk's Last Watch", "Woodbridge Dogs", "House of the Holy", "Blackdogs", "Sword of St. Tristan", "House of Red", "Harbingers of the Dark Star", "Children of the Moon", "Dire Wolves", "Shield-Maidens of Veborg", "Canso Witch-Hunters", "Sun Warriors", "Valkyries of Sigyn", "Wild Boars", "Nightblades", "Wheel of Fire", "Royal Metallurgists", "Alloy Supreme", "Zenith's Hammer", "Transcendants", "Aethernauts", "Merchants' Alliance", "The Path", "The Way", "Green Ones", "Fog Walkers", "Church of St. Lune"];
+var attunements = [// Magical items
+{
+  type: "magic",
+  value: "Crystal ball"
+}, {
+  type: "magic",
+  value: "Magic wand"
+}, {
+  type: "magic",
+  value: "Magic rod"
+}, {
+  type: "magic",
+  value: "Wizard's staff"
+}, {
+  type: "magic",
+  value: "Magic scroll"
+}, {
+  type: "magic",
+  value: "Book of spells"
+}, {
+  type: "magic",
+  value: "Unholy spellbook"
+}, // Religious items
+{
+  type: "religious",
+  value: "Holy symbol"
+}, {
+  type: "religious",
+  value: "Reliquary"
+}, {
+  type: "religious",
+  value: "Saint's bone"
+}, {
+  type: "religious",
+  value: "Blessed shroud"
+}, // Texts
+{
+  type: "book",
+  value: "Bestiary"
+}, {
+  type: "book",
+  value: "Botanical reference"
+}, {
+  type: "book",
+  value: "Treatise on local fauna"
+}, // Weapons
+{
+  type: "weapon",
+  value: "Axe"
+}, {
+  type: "weapon",
+  value: "Sword"
+}, {
+  type: "weapon",
+  value: "Club"
+}, {
+  type: "weapon",
+  value: "Crossbow"
+}, {
+  type: "weapon",
+  value: "Dagger"
+}, {
+  type: "weapon",
+  value: "Dart"
+}, {
+  type: "weapon",
+  value: "Flail"
+}, {
+  type: "weapon",
+  value: "Greatsword"
+}, {
+  type: "weapon",
+  value: "Battle axe"
+}, {
+  type: "weapon",
+  value: "Halberd"
+}, {
+  type: "weapon",
+  value: "Pole arm"
+}, {
+  type: "weapon",
+  value: "Javelin"
+}, {
+  type: "weapon",
+  value: "Longbow"
+}, {
+  type: "weapon",
+  value: "Mace"
+}, {
+  type: "weapon",
+  value: "Warhammer"
+}, {
+  type: "weapon",
+  value: "Morning star"
+}, {
+  type: "weapon",
+  value: "Musket"
+}, {
+  type: "weapon",
+  value: "Pistol"
+}, {
+  type: "weapon",
+  value: "Quarterstaff"
+}, {
+  type: "weapon",
+  value: "Scimitar"
+}, {
+  type: "weapon",
+  value: "Shortbow"
+}, {
+  type: "weapon",
+  value: "Shortsword"
+}, {
+  type: "weapon",
+  value: "Sling"
+}, {
+  type: "weapon",
+  value: "Spear"
+}, {
+  type: "weapon",
+  value: "Throwing knife"
+}, {
+  type: "weapon",
+  value: "Throwing axe"
+}, // "Exotic" weapons (i.e. not on the normal Whitehack inventory list)
+{
+  type: "exoticWeapon",
+  value: "Throwing star"
+}, {
+  type: "exoticWeapon",
+  value: "Spiked chain"
+}, {
+  type: "exoticWeapon",
+  value: "Kukri"
+}, {
+  type: "exoticWeapon",
+  value: "Nunchaku"
+}, {
+  type: "exoticWeapon",
+  value: "Two-bladed sword"
+}, {
+  type: "exoticWeapon",
+  value: "Bolas"
+}, {
+  type: "exoticWeapon",
+  value: "Net"
+}, {
+  type: "exoticWeapon",
+  value: "Parrying dagger"
+}, {
+  type: "exoticWeapon",
+  value: "Rapier"
+}, {
+  type: "exoticWeapon",
+  value: "Blowpipe"
+}, {
+  type: "exoticWeapon",
+  value: "Shield"
+}, // Mundane and adventuring items
+{
+  type: "mundane",
+  value: "Walking stick"
+}, {
+  type: "mundane",
+  value: "Sledgehammer"
+}, {
+  type: "mundane",
+  value: "Ten-foot pole"
+}, {
+  type: "mundane",
+  value: "Rope"
+}, {
+  type: "mundane",
+  value: "Elven cloak"
+}, {
+  type: "mundane",
+  value: "Dueling cloak"
+}, {
+  type: "mundane",
+  value: "Alchemy kit"
+}, {
+  type: "mundane",
+  value: "Grappling hook"
+}, {
+  type: "mundane",
+  value: "Playing cards"
+}, {
+  type: "mundane",
+  value: "Dice set"
+}, // Animals
+{
+  type: "animal",
+  value: "Dog"
+}, {
+  type: "animal",
+  value: "Hound"
+}, {
+  type: "animal",
+  value: "Jackal"
+}, {
+  type: "animal",
+  value: "Wolf"
+}, {
+  type: "animal",
+  value: "Fox"
+}, {
+  type: "animal",
+  value: "Horse"
+}, {
+  type: "animal",
+  value: "Mule"
+}, {
+  type: "animal",
+  value: "Donkey"
+}, {
+  type: "animal",
+  value: "Monkey"
+}, {
+  type: "animal",
+  value: "Cat"
+}, {
+  type: "animal",
+  value: "Bobcat"
+}, {
+  type: "animal",
+  value: "Lynx"
+}, {
+  type: "animal",
+  value: "Raccoon"
+}, {
+  type: "animal",
+  value: "Cougar"
+}, {
+  type: "animal",
+  value: "Elk"
+}, {
+  type: "animal",
+  value: "Bear"
+}, {
+  type: "animal",
+  value: "Badger"
+}, {
+  type: "animal",
+  value: "Mole"
+}, {
+  type: "animal",
+  value: "Weasel"
+}, {
+  type: "animal",
+  value: "Ferret"
+}, {
+  type: "animal",
+  value: "Mongoose"
+}, {
+  type: "animal",
+  value: "Rat"
+}, {
+  type: "animal",
+  value: "Mouse"
+}, {
+  type: "animal",
+  value: "Bat"
+}, {
+  type: "animal",
+  value: "Raven"
+}, {
+  type: "animal",
+  value: "Parrot"
+}, {
+  type: "animal",
+  value: "Hawk"
+}, {
+  type: "animal",
+  value: "Falcon"
+}, {
+  type: "animal",
+  value: "Eagle"
+}, {
+  type: "animal",
+  value: "Owl"
+}, {
+  type: "animal",
+  value: "Magpie"
+}, // People
+{
+  type: "person",
+  value: "Archery master"
+}, {
+  type: "person",
+  value: "Sword master"
+}, {
+  type: "person",
+  value: "Master monk"
+}, {
+  type: "person",
+  value: "Ringleader"
+}, {
+  type: "person",
+  value: "Bandit king"
+}, {
+  type: "person",
+  value: "Master ninja"
+}, {
+  type: "person",
+  value: "Scholar of history"
+}, {
+  type: "person",
+  value: "Scholar of botany"
+}, {
+  type: "person",
+  value: "Scholar of naturalism"
+}, {
+  type: "person",
+  value: "Scholar of magic"
+}, {
+  type: "person",
+  value: "Liege of leaves"
+}, {
+  type: "person",
+  value: "Beggar prince"
+}, {
+  type: "person",
+  value: "Elf king"
+}, {
+  type: "person",
+  value: "Archmage"
+}, {
+  type: "person",
+  value: "Hedgemage"
+}, {
+  type: "person",
+  value: "Queen of flowers"
+}, {
+  type: "person",
+  value: "Tattooed monk"
+}, {
+  type: "person",
+  value: "Strongman"
+}, {
+  type: "person",
+  value: "Spymaster"
+}, {
+  type: "person",
+  value: "Executioner"
+}, {
+  type: "person",
+  value: "Torturer"
+}];
 var abilities = ["1. Protect ally from harm", "2. Push enemy after successful attack", "3. Cling to large foe", "4. Work up battle frenzy", "5. Give tactical instruction to ally", "6. Encourage allies or strike fear in enemies", "7. Double attack with melee and ranged weapons", "8. Parry"];
-var miracles = ["Pyroclastic Flow", "Animate Dead", "Open Mind", "Bend Mind", "Crumble", "Magnetism", "Magnetic Resonance", "Bless", "Curse", "Hex", "Lightning Conduit", "Thunderstep", "Hellfrost", "Demonfire", "Light", "Darkness", "Healing Water", "Cleansing Fire", "Haste", "Sophronia's East Wind", "Berenger's Blessing", "Mirror Walking", "Shadowstep", "Psychosomatism", "Illusory Demons", "Hallow", "Corrupt", "Sanctify", "Envenom", "Speak with Animals", "Sacred Geometry", "Magic Number", "Air Bubble", "Acid Arrow", "Sanguinomancy", "Charm", "Detect Water", "Spider Shape", "Speak with Ants", "Speak with Plants", "Animate Plants", "Animate Rope", "Apathy", "Clarion Call", "Defenestrate", "Animate Construct", "Truesight", "Nightvision", "Visions of Night", "Battle Trance", "Bilocation", "Mirror Image", "Time Warp", "Gust", "Control Wind", "Blink", "Blur", "Bookwalking", "Libromancy", "Burning Hands", "Conflagrate", "Calm Emotions", "Cause Fear", "Summon Chains", "Static Charge", "Imbue Charge", "Electrify", "Halcyon Days", "Cleanse", "Identify", "Chill Metal", "Heat Metal", "Warp Metal", "Entropy", "Reverse Thermodynamics", "Bend Time", "Commune with Nature", "Summon Bird", "False Life", "Cone of Cold", "Conjure Food", "Pestilence", "Contagion", "Speak with Wind", "Cosmic Ray", "Neutrino Burst", "Conjure Weapon", "Conjure Armor", "Golden Glory", "Despair", "Reincarnate", "Daze", "Ward Death", "Ward Magic", "Suppress Pain", "Decapitate", "Detect", "Detect Secrets", "Read Thoughts", "Clairvoyance", "Devolve", "Invoke Divinity", "Dream", "Dreamwalk", "Alter Lore", "Echo", "Earthquake", "Ectoplasm", "Enervate", "Entangle", "Enthrall", "Mind Slave", "Explosive Runes", "Faerie Fire", "Faerie Flight", "Acorn of Far Travel", "Feather Fall", "Finger of Death", "Fireball", "Petrify", "Warp Flesh", "Winged Feet", "Forbiddance", "Divination", "Foresight", "Slumber", "Feeblemind", "Ghost Form", "Lycanthropy", "Word of Power", "Wind Walk", "Web", "Banshee Wail", "Control Vermin", "Part the Veil", "Vampirism", "Create Revenant", "Divine Prophecy", "Undeath", "Unholy Grasp", "Hand of Mercy", "Magical Tattoo", "Telepathy", "Mindwipe", "Stop Time", "Toxic Blood", "Truespeak", "Sympathy", "Synesthesia", "Anesthetize", "Summon Demon", "Summon Angel", "Suppress Magic", "Sunburst", "Crown of God", "Control Weather", "Summon Storm", "Silence", "Amplify Noise", "Engender Hatred", "Sever Soul", "Astral Projection", "Slow", "Protection from Evil", "Shield of Faith", "Mind's Eye", "Share Senses", "Possess", "Fury of the Sea", "Deep One's Blessing", "Sacred Seal", "Rage", "Ray of Frost", "Shrink", "Regenerate", "Cure Disease", "Pyrotechnics", "Protection from Spells", "Panacea", "Polymorph", "Plane Shift", "Phantom Foe", "Binding Oath", "Aura of Wisdom", "Aura of Courage", "Aura of Protection", "Aura of Fear", "Mirage", "Illusion", "Lunar Blessing", "Solar Blessing", "Mutagenic Blood", "Magic Jar", "Locate Person", "Locate Object", "Litany against Fear", "Lock", "Invisibility", "Shape Stone", "X-Ray Vision", "Infravision", "Judgement of Light", "Judgement of Darkness", "Holy Judgement", "Unholy Judgement", "Irresistible Dance", "Hideous Laughter", "Zone of Truth", "Icy Veins", "Coldsnap", "Illusory Wall", "Hide Between Worlds", "Terrible Visage", "Grease", "Commune with Stars", "Tentacle Arm", "Gills", "Retractable Claws", "Grow Organ", "Bifurcate"];
+var miracles = ["Pyroclastic Flow", "Animate Dead", "Open Mind", "Bend Mind", "Crumble", "Magnetism", "Magnetic Resonance", "Bless", "Curse", "Hex", "Lightning Conduit", "Thunderstep", "Hellfrost", "Demonfire", "Light", "Darkness", "Healing Water", "Cleansing Fire", "Haste", "Sophronia's East Wind", "Berenger's Blessing", "Mirror Walking", "Shadowstep", "Psychosomatism", "Illusory Demons", "Hallow", "Corrupt", "Sanctify", "Envenom", "Speak with Animals", "Sacred Geometry", "Magic Number", "Air Bubble", "Acid Arrow", "Sanguinomancy", "Charm", "Detect Water", "Spider Shape", "Speak with Ants", "Speak with Plants", "Animate Plants", "Animate Rope", "Apathy", "Clarion Call", "Defenestrate", "Animate Construct", "Truesight", "Nightvision", "Visions of Night", "Battle Trance", "Bilocation", "Mirror Image", "Time Warp", "Gust", "Control Wind", "Blink", "Blur", "Bookwalking", "Libromancy", "Burning Hands", "Conflagrate", "Calm Emotions", "Cause Fear", "Summon Chains", "Static Charge", "Imbue Charge", "Electrify", "Halcyon Days", "Cleanse", "Identify", "Chill Metal", "Heat Metal", "Warp Metal", "Entropy", "Reverse Thermodynamics", "Bend Time", "Commune with Nature", "Summon Bird", "False Life", "Cone of Cold", "Conjure Food", "Pestilence", "Contagion", "Speak with Wind", "Cosmic Ray", "Neutrino Burst", "Conjure Weapon", "Conjure Armor", "Golden Glory", "Despair", "Reincarnate", "Daze", "Ward Death", "Ward Magic", "Suppress Pain", "Decapitate", "Detect", "Detect Secrets", "Read Thoughts", "Clairvoyance", "Devolve", "Invoke Divinity", "Dream", "Dreamwalk", "Alter Lore", "Echo", "Earthquake", "Ectoplasm", "Enervate", "Entangle", "Enthrall", "Mind Slave", "Explosive Runes", "Faerie Fire", "Faerie Flight", "Acorn of Far Travel", "Feather Fall", "Finger of Death", "Fireball", "Petrify", "Warp Flesh", "Winged Feet", "Forbiddance", "Divination", "Foresight", "Slumber", "Feeblemind", "Ghost Form", "Lycanthropy", "Word of Power", "Wind Walk", "Web", "Banshee Wail", "Control Vermin", "Part the Veil", "Vampirism", "Create Revenant", "Divine Prophecy", "Undeath", "Unholy Grasp", "Hand of Mercy", "Magical Tattoo", "Telepathy", "Mindwipe", "Stop Time", "Toxic Blood", "Truespeak", "Sympathy", "Synesthesia", "Anesthetize", "Summon Demon", "Summon Angel", "Suppress Magic", "Sunburst", "Crown of God", "Control Weather", "Summon Storm", "Silence", "Amplify Noise", "Engender Hatred", "Sever Soul", "Astral Projection", "Slow", "Protection from Evil", "Shield of Faith", "Mind's Eye", "Share Senses", "Possess", "Fury of the Sea", "Deep One's Blessing", "Sacred Seal", "Rage", "Ray of Frost", "Shrink", "Regenerate", "Cure Disease", "Pyrotechnics", "Protection from Spells", "Panacea", "Polymorph", "Plane Shift", "Phantom Foe", "Binding Oath", "Aura of Wisdom", "Aura of Courage", "Aura of Protection", "Aura of Fear", "Mirage", "Illusion", "Lunar Blessing", "Solar Blessing", "Mutagenic Blood", "Magic Jar", "Locate Person", "Locate Object", "Litany against Fear", "Lock", "Invisibility", "Shape Stone", "X-Ray Vision", "Infravision", "Judgement of Light", "Judgement of Darkness", "Holy Judgement", "Unholy Judgement", "Irresistible Dance", "Hideous Laughter", "Zone of Truth", "Icy Veins", "Coldsnap", "Illusory Wall", "Hide Between Worlds", "Terrible Visage", "Grease", "Commune with Stars", "Tentacle Arm", "Gills", "Retractable Claws", "Grow Organ", "Bifurcate", "Teleport"];
 var armors = [{
   name: "Cloth armor",
   armorClass: 1,
@@ -13603,23 +13931,253 @@ var vocations = [// Warriors
 "Alchemist", "Apothecary", "Astronomer", "Astrologist", "Doctor", "Engineer", "Medic", "Numerologist", "Philosopher", "Surgeon", "Physicker", "Mathematician", "Naturalist", "Botanist", // Mundane
 "Aristocrat", "Merchant", "Orator", "Pilgrim", "Pirate", "Sailor", "Woodsman", // Other
 "Inquisitor"];
-var appearances = [// Complexion
-"Pale as a ghost", "Covered in freckles", "Skin has a blue tint", "Jet-black skin", // Scars
-"Single long scar across one eye", "Web of scars from lightning strike", "Three long scars, from the claws of a beast", "Numerous battle scars", "Burn marks on hands", "Burn marks on half of face", "Covered in pox marks", // Congenital
-"Hunchback", "Clubfoot", "Has six fingers on each hand", "Cleft lip"];
-var appearancesHair = ["Shock of white hair", "Flame-red hair", "White-blonde hair", "Night-black hair", "Tonsured hair, like a friar", "Shaved head", "Long, braided hair", "Close-cropped hair", "Long, curly hair"];
-var appearancesBuild = ["Tall and muscular", "Tall and lanky", "Short but slim", "Short and stout", "Broad-shouldered and barrel-chested", "Skeletally thin", "Tall and fat"];
-var quirks = [// Background
-"Used to be a farmer", "Used to be a cobbler", "Used to be a blacksmith", "Used to be a brewer", // Studies
-"Studied magic in their youth", "Very curious about magic", "Not a big fan of magic", // Family
-"Family eaten by trolls", "Family eaten by ghouls", "Family killed by inquisitors", "Family killed by crusaders", "Family killed by orcs", // Phobias
-"Deathly afraid of spiders", "Deathly afraid of undead", "Hates the dark", // Personality
-"Extremely forgetful", "Quick to anger", "Never forgets a slight", "Quick to forgive", "Very easygoing", "Makes friends with everyone", "Absent-minded--always thinking about something else", // Arts
-"Always singing sea shanties", "Composes poems", "Composes ballads", "Writes love stories", "Whistles incessantly", "Illiterate and self-conscious about it", // Drugs
-"Teeth stained from chewing tobacco", "Smokes pipe at every chance", "Too fond of drink", "Loves wine more than anything", "Despises drinking", // Food
-"Always stopping to forage for food", "Eats whenever they have the opportunity", "Passionate about mushrooms", "Doesn't eat meat", // Outdoorsmanship
-"Loves to hunt", "Excellent at lighting fires", "Likes fire a little too much", "Knows how to set a snare", // Habits
-"Always sharpening or polishing weapons", "Constantly looks over their shoulder", "Mutters under their breath", "Collects small shiny objects", "Knows a lot about coins"];
+var descriptors = [// Complexion
+{
+  type: "complexion",
+  value: "Pale as a ghost"
+}, {
+  type: "complexion",
+  value: "Covered in freckles"
+}, {
+  type: "complexion",
+  value: "Skin has a blue tint"
+}, {
+  type: "complexion",
+  value: "Jet-black skin"
+}, // Scars
+{
+  type: "scar",
+  value: "Single long scar across one eye"
+}, {
+  type: "scar",
+  value: "Web of scars from lightning strike"
+}, {
+  type: "scar",
+  value: "Three long scars, from the claws of a beast"
+}, {
+  type: "scar",
+  value: "Numerous battle scars"
+}, {
+  type: "scar",
+  value: "Burn marks on hands"
+}, {
+  type: "scar",
+  value: "Burn marks on half of face"
+}, {
+  type: "scar",
+  value: "Covered in pox marks"
+}, // Congenital
+{
+  type: "congenital",
+  value: "Hunchback"
+}, {
+  type: "congenital",
+  value: "Clubfoot"
+}, {
+  type: "congenital",
+  value: "Has six fingers on each hand"
+}, {
+  type: "congenital",
+  value: "Cleft lip"
+}, // Hair
+{
+  type: "hair",
+  value: "Shock of white hair"
+}, {
+  type: "hair",
+  value: "Flame-red hair"
+}, {
+  type: "hair",
+  value: "White-blonde hair"
+}, {
+  type: "hair",
+  value: "Night-black hair"
+}, {
+  type: "hair",
+  value: "Tonsured hair, like a friar"
+}, {
+  type: "hair",
+  value: "Shaved head"
+}, {
+  type: "hair",
+  value: "Long, braided hair"
+}, {
+  type: "hair",
+  value: "Close-cropped hair"
+}, {
+  type: "hair",
+  value: "Long, curly hair"
+}, // Body type
+{
+  type: "build",
+  value: "Tall and muscular"
+}, {
+  type: "build",
+  value: "Tall and lanky"
+}, {
+  type: "build",
+  value: "Short but slim"
+}, {
+  type: "build",
+  value: "Short and stout"
+}, {
+  type: "build",
+  value: "Broad-shouldered and barrel-chested"
+}, {
+  type: "build",
+  value: "Skeletally thin"
+}, {
+  type: "build",
+  value: "Tall and fat"
+}, // Background
+{
+  type: "background",
+  value: "Used to be a farmer"
+}, {
+  type: "background",
+  value: "Used to be a cobbler"
+}, {
+  type: "background",
+  value: "Used to be a blacksmith"
+}, {
+  type: "background",
+  value: "Used to be a brewer"
+}, // Studies
+{
+  type: "studies",
+  value: "Studied magic in their youth"
+}, {
+  type: "studies",
+  value: "Very curious about magic"
+}, {
+  type: "studies",
+  value: "Not a big fan of magic"
+}, // Family
+{
+  type: "family",
+  value: "Family eaten by trolls"
+}, {
+  type: "family",
+  value: "Family eaten by ghouls"
+}, {
+  type: "family",
+  value: "Family killed by inquisitors"
+}, {
+  type: "family",
+  value: "Family killed by crusaders"
+}, {
+  type: "family",
+  value: "Family killed by orcs"
+}, // Phobias
+{
+  type: "phobias",
+  value: "Deathly afraid of spiders"
+}, {
+  type: "phobias",
+  value: "Deathly afraid of undead"
+}, {
+  type: "phobias",
+  value: "Hates the dark"
+}, // Personality
+{
+  type: "personality",
+  value: "Extremely forgetful"
+}, {
+  type: "personality",
+  value: "Quick to anger"
+}, {
+  type: "personality",
+  value: "Never forgets a slight"
+}, {
+  type: "personality",
+  value: "Quick to forgive"
+}, {
+  type: "personality",
+  value: "Very easygoing"
+}, {
+  type: "personality",
+  value: "Makes friends with everyone"
+}, {
+  type: "personality",
+  value: "Absent-minded--always thinking about something else"
+}, // Arts
+{
+  type: "arts",
+  value: "Always singing sea shanties"
+}, {
+  type: "arts",
+  value: "Composes poems"
+}, {
+  type: "arts",
+  value: "Composes ballads"
+}, {
+  type: "arts",
+  value: "Writes love stories"
+}, {
+  type: "arts",
+  value: "Whistles incessantly"
+}, {
+  type: "arts",
+  value: "Illiterate and self-conscious about it"
+}, // Drugs
+{
+  type: "drugs",
+  value: "Teeth stained from chewing tobacco"
+}, {
+  type: "drugs",
+  value: "Smokes pipe at every chance"
+}, {
+  type: "drugs",
+  value: "Too fond of drink"
+}, {
+  type: "drugs",
+  value: "Loves wine more than anything"
+}, {
+  type: "drugs",
+  value: "Despises drinking"
+}, // Food
+{
+  type: "food",
+  value: "Always stopping to forage for food"
+}, {
+  type: "food",
+  value: "Eats whenever they have the opportunity"
+}, {
+  type: "food",
+  value: "Passionate about mushrooms"
+}, {
+  type: "food",
+  value: "Doesn't eat meat"
+}, // Outdoorsmanship
+{
+  type: "outdoorsmanship",
+  value: "Loves to hunt"
+}, {
+  type: "outdoorsmanship",
+  value: "Excellent at lighting fires"
+}, {
+  type: "outdoorsmanship",
+  value: "Likes fire a little too much"
+}, {
+  type: "outdoorsmanship",
+  value: "Knows how to set a snare"
+}, // Habits
+{
+  type: "habits",
+  value: "Always sharpening or polishing weapons"
+}, {
+  type: "habits",
+  value: "Constantly looks over their shoulder"
+}, {
+  type: "habits",
+  value: "Mutters under their breath"
+}, {
+  type: "habits",
+  value: "Collects small shiny objects"
+}, {
+  type: "habits",
+  value: "Knows a lot about coins"
+}];
 var genders = [{
   gender: "Male",
   pronounSubject: "he",

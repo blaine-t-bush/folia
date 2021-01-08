@@ -479,6 +479,7 @@ export let slayerMonsters = [
 
 export let rewards = [
     { unlock: 'Watch the birdie', unlockId: 'watchTheBirdie', unlockIcon: 'https://parvifolium.net/images/osrs/unlock_aviansie.png' },
+    { unlock: 'Hot stuff', unlockId: 'hotStuff', unlockIcon: 'https://parvifolium.net/images/osrs/unlock_tzHaar.png' },
     { unlock: 'I hope you mith me', unlockId: 'iHopeYouMithMe', unlockIcon: 'https://parvifolium.net/images/osrs/unlock_mithrilDragon.png' },
     { unlock: 'Seeing red', unlockId: 'seeingRed', unlockIcon: 'https://parvifolium.net/images/osrs/unlock_redDragon.png' },
     { unlock: 'Basilocked', unlockId: 'basilocked', unlockIcon: 'https://parvifolium.net/images/osrs/unlock_basilisk.png' },

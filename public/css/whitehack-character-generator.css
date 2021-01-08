@@ -1,15 +1,15 @@
-.commaAfter::after {
-  content: ",";
-}
-
 .character {
   margin: auto;
   margin-bottom: 2rem;
   position: relative;
+  background-clip: content-box;
   background-image: url("https://www.parvifolium.net/images/whitehack/sheet_background.jpg");
   background-size: cover;
-  padding: 1rem 0.5rem;
-  border: 1px dashed black;
+  border: 30px solid;
+  border-image-source: url("https://www.parvifolium.net/images/border-test-updated.png");
+  border-image-slice: 60;
+  border-image-width: 4;
+  border-image-repeat: round;
 }
 
 .character-container .character {
@@ -21,6 +21,7 @@
   left: 50%;
   position: relative;
   transform: translateX(-50%);
+  margin-top: 1rem;
 }
 
 .character-name {
@@ -50,14 +51,49 @@
 }
 
 .character-summary-container .characterclass {
-  grid-column: 1/span 3;
+  grid-column: 1/span 2;
+}
+
+.character-summary-container .characterspecies {
+  grid-column: 3/span 2;
 }
 
 .character-summary-container .charactervocation {
-  grid-column: 4/span 5;
+  grid-column: 5/span 4;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 580px) {
+  .character-summary-container {
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .character-summary-container .characterclass {
+    grid-column: 1/span 3;
+    grid-row: 1/span 1;
+  }
+
+  .character-summary-container .characterspecies {
+    grid-column: 4/span 3;
+    grid-row: 1/span 1;
+  }
+
+  .character-summary-container .characterxp {
+    grid-column: 7/span 2;
+    grid-row: 1/span 1;
+  }
+
+  .character-summary-container .characterlevel {
+    grid-column: 9/span 2;
+    grid-row: 1/span 1;
+  }
+
+  .character-summary-container .charactervocation {
+    grid-column: 1/span 10;
+    grid-row: 2/span 1;
+  }
+}
+
+@media (max-width: 430px) {
   .character-summary-container {
     grid-template-rows: 1fr 1fr;
   }
@@ -77,9 +113,45 @@
     grid-row: 1/span 1;
   }
 
+  .character-summary-container .characterspecies {
+    grid-column: 1/span 4;
+    grid-row: 2/span 1;
+  }
+
   .character-summary-container .charactervocation {
+    grid-column: 5/span 6;
+    grid-row: 2/span 1;
+  }
+}
+
+@media (max-width: 380px) {
+  .character-summary-container {
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+
+  .character-summary-container .characterclass {
+    grid-column: 1/span 6;
+    grid-row: 1/span 1;
+  }
+
+  .character-summary-container .characterxp {
+    grid-column: 7/span 2;
+    grid-row: 1/span 1;
+  }
+
+  .character-summary-container .characterlevel {
+    grid-column: 9/span 2;
+    grid-row: 1/span 1;
+  }
+
+  .character-summary-container .characterspecies {
     grid-column: 1/span 10;
     grid-row: 2/span 1;
+  }
+
+  .character-summary-container .charactervocation {
+    grid-column: 1/span 10;
+    grid-row: 3/span 1;
   }
 }
 
@@ -284,52 +356,88 @@
   grid-row: 6/span 1;
 }
 
-.character-slots {
+.subcontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 760px) {
+  .subcontainer {
+    display: block;
+  }
+}
+
+.subcontainer .character-slots {
   margin-top: 1.5rem;
 }
 
-.character-slots ul {
+.subcontainer .character-slots ul {
   margin: 0;
   padding: 0;
   margin-left: 1rem;
 }
 
-.character-slots ul li {
+.subcontainer .character-slots ul li {
   list-style: "-";
-  padding-bottom: 0.2rem;
+  line-height: 1.4em;
   padding-left: 0.2rem;
 }
 
-.character-quirks {
+.subcontainer .character-languages {
   margin-top: 1.5rem;
 }
 
-.character-quirks ul {
+.subcontainer .character-languages ul {
+  margin: 0;
+  padding: 0;
+  margin-left: 1rem;
+}
+
+.subcontainer .character-languages ul li {
+  list-style: "-";
+  line-height: 1.4em;
+  padding-left: 0.2rem;
+}
+
+.subcontainer .character-quirks {
+  margin-top: 1.5rem;
+}
+
+.subcontainer .character-quirks ul {
   margin: 0;
   padding: 0;
 }
 
-.character-quirks ul li {
+.subcontainer .character-quirks ul li {
   list-style: "-";
-  padding-bottom: 0.2rem;
+  line-height: 1.4em;
   padding-left: 1.2rem;
   text-indent: -1rem;
   margin-left: 1rem;
 }
 
-.character-inventory {
+.subcontainer .character-inventory {
   margin-top: 1.5rem;
 }
 
-.character-inventory ul {
+.subcontainer .character-inventory ul {
+  -moz-columns: 2;
+       columns: 2;
   margin: 0;
   padding: 0;
   margin-left: 1rem;
 }
 
-.character-inventory ul li {
+@media (max-width: 540px) {
+  .subcontainer .character-inventory ul {
+    -moz-columns: 1;
+         columns: 1;
+  }
+}
+
+.subcontainer .character-inventory ul li {
   list-style: "-";
-  padding-bottom: 0.2rem;
+  line-height: 1.4em;
   padding-left: 0.2rem;
 }
 

@@ -11,7 +11,8 @@
 <h2 class="page-title">The Author</h2>
 
 <p>
-    Hello. My name is Blaine, and Parvifolium is my workbench, sandbox, and notebook. I'm a full-stack web developer, advertising researcher, data analyst, and roleplaying game enthusiast.
+    Hello. My name is Blaine, and Parvifolium is my workbench, sandbox, and notebook.
+    I'm a full-stack web developer, data analyst, and roleplaying game enthusiast.
 </p>
 
 {{-- <p style="text-align:center;">
@@ -43,11 +44,6 @@
     This site is built with Laravel.
     Some components, like the <a href="/resources/whitehack-character-generator">Whitehack character generator</a>, use Vue.js.
     Rollable tables, like you see in my <a href="/posts/overland-encounters-in-barrowmaze">overland Barrowmaze encounters</a> post, use a little bit of vanilla JavaScript.
-    Generally, I try to lean on the basics as much as possible and let the content and design take center stage.
-</p>
-
-<p>
-    All of the source code for this website is available on my <a href="https://github.com/blaine-t-bush/blog">GitHub</a>.
 </p>
 
 <p>

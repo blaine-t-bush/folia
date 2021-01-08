@@ -1,20 +1,22 @@
 @import 'vars';
 
-.commaAfter::after {
-    content: ",";
-}
-
 .character {
     margin: auto;
     margin-bottom: 2rem;
     position: relative;
 
+    background-clip: content-box;
     background-image: url('https://www.parvifolium.net/images/whitehack/sheet_background.jpg');
     background-size: cover;
 
-    padding: 1rem 0.5rem;
+    // padding: 1rem 0.5rem;
+    // border: 1px dashed black;
 
-    border: 1px dashed black;
+    border: 30px solid;
+    border-image-source: url('https://www.parvifolium.net/images/border-test-updated.png');
+    border-image-slice: 60;
+    border-image-width: 4;
+    border-image-repeat: round;
 }
 
 .character-container .character {
@@ -26,6 +28,7 @@
     left: 50%;
     position: relative;
     transform: translateX(-50%);
+    margin-top: 1rem;
 }
 
 .character-name {
@@ -51,14 +54,47 @@
     column-gap: 15px;
 
     .characterclass {
-        grid-column: 1 / span 3;
+        grid-column: 1 / span 2;
+    }
+
+    .characterspecies {
+        grid-column: 3 / span 2;
     }
 
     .charactervocation {
-        grid-column: 4 / span 5;
+        grid-column: 5 / span 4;
     }
 
-    @media (max-width: 540px) {
+    @media (max-width: 580px) {
+        grid-template-rows: 1fr 1fr;
+
+        .characterclass {
+            grid-column: 1 / span 3;
+            grid-row: 1 / span 1;
+        }
+    
+        .characterspecies {
+            grid-column: 4 / span 3;
+            grid-row: 1 / span 1;
+        }
+
+        .characterxp {
+            grid-column: 7 / span 2;
+            grid-row: 1 / span 1;
+        }
+
+        .characterlevel {
+            grid-column: 9 / span 2;
+            grid-row: 1 / span 1;
+        }
+
+        .charactervocation {
+            grid-column: 1 / span 10;
+            grid-row: 2 / span 1;
+        }
+    }
+
+    @media (max-width: 430px) {
         grid-template-rows: 1fr 1fr;
 
         .characterclass {
@@ -76,9 +112,43 @@
             grid-row: 1 / span 1;
         }
     
+        .characterspecies {
+            grid-column: 1 / span 4;
+            grid-row: 2 / span 1;
+        }
+
         .charactervocation {
+            grid-column: 5 / span 6;
+            grid-row: 2 / span 1;
+        }
+    }
+
+    @media (max-width: 380px) {
+        grid-template-rows: 1fr 1fr 1fr;
+
+        .characterclass {
+            grid-column: 1 / span 6;
+            grid-row: 1 / span 1;
+        }
+
+        .characterxp {
+            grid-column: 7 / span 2;
+            grid-row: 1 / span 1;
+        }
+
+        .characterlevel {
+            grid-column: 9 / span 2;
+            grid-row: 1 / span 1;
+        }
+    
+        .characterspecies {
             grid-column: 1 / span 10;
             grid-row: 2 / span 1;
+        }
+
+        .charactervocation {
+            grid-column: 1 / span 10;
+            grid-row: 3 / span 1;
         }
     }
 }
@@ -245,47 +315,77 @@
     }
 }
 
-.character-slots {
-    margin-top: 1.5rem;
-    ul {
-        margin: 0;
-        padding: 0;
+.subcontainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
-        margin-left: 1rem;
-        li {
-            list-style: "-";
-            padding-bottom: 0.2rem;
-            padding-left: 0.2rem;
-        }
+    @media (max-width: 760px) {
+        display: block;
     }
-}
 
-.character-quirks {
-    margin-top: 1.5rem;
-    ul {
-        margin: 0;
-        padding: 0;
-        li {
-            list-style: "-";
-            padding-bottom: 0.2rem;
-            padding-left: 1.2rem;
+    .character-slots {
+        margin-top: 1.5rem;
+        ul {
+            margin: 0;
+            padding: 0;
 
-            text-indent: -1rem;
             margin-left: 1rem;
+            li {
+                list-style: "-";
+                line-height: 1.4em;
+                padding-left: 0.2rem;
+            }
         }
     }
-}
 
-.character-inventory {
-    margin-top: 1.5rem;
-    ul {
-        margin: 0;
-        padding: 0;
-        margin-left: 1rem;
-        li {
-            list-style: "-";
-            padding-bottom: 0.2rem;
-            padding-left: 0.2rem;
+    .character-languages {
+        margin-top: 1.5rem;
+        ul {
+            margin: 0;
+            padding: 0;
+
+            margin-left: 1rem;
+            li {
+                list-style: "-";
+                line-height: 1.4em;
+                padding-left: 0.2rem;
+            }
+        }
+    }
+
+    .character-quirks {
+        margin-top: 1.5rem;
+        ul {
+            margin: 0;
+            padding: 0;
+            li {
+                list-style: "-";
+                line-height: 1.4em;
+                padding-left: 1.2rem;
+
+                text-indent: -1rem;
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    .character-inventory {
+        margin-top: 1.5rem;
+        ul {
+            columns: 2;
+    
+            @media (max-width: 540px) {
+                columns: 1; 
+            }
+
+            margin: 0;
+            padding: 0;
+            margin-left: 1rem;
+            li {
+                list-style: "-";
+                line-height: 1.4em;
+                padding-left: 0.2rem;
+            }
         }
     }
 }

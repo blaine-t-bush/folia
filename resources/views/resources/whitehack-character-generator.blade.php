@@ -38,9 +38,20 @@
             </div>
         </div>
 
+        <div class="character-summary-container-sub characterspecies">
+            <div class="character-summary handwritten">
+                <span v-if="groups.species">@{{ groups.species }}</span>
+                <span v-else>Human</span>
+            </div>
+
+            <div class="character-summary-form typed">
+                SPECIES
+            </div>
+        </div>
+
         <div class="character-summary-container-sub charactervocation">
             <div class="character-summary handwritten">
-                @{{ vocation }}
+                @{{ groups.vocation }}
             </div>
 
             <div class="character-summary-form typed">
@@ -121,33 +132,46 @@
         </div>
     </div>
 
-    <div class="character-slots">
-        <div class="character-slots-header typed">
-            SLOTS <span class="handwritten">(@{{ characterClass }} @{{ slots.type }})</span>
+    <div class="subcontainer">
+        <div class="character-slots">
+            <div class="character-slots-header" style="display: flex;">
+                <span class="typed" style="">SLOTS</span>
+                <span class="handwritten" style="position: relative; bottom: 0.5rem; left: 0.7rem;">(@{{ characterClass }} @{{ slots.type }})</span>
+            </div>
+            <ul class="character-slots-list handwritten">
+                <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<sup v-if="key < slots.count">*</sup></li>
+                <li v-for="ability in slots.abilities">@{{ ability }}</li>
+                <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<sup v-if="key < slots.count">*</sup></li>
+            </ul>
         </div>
-        <ul class="character-slots-list handwritten">
-            <li v-for="(attunement, key, index) in slots.attunements">@{{ attunement }}<sup v-if="key < slots.count">*</sup></li>
-            <li v-for="ability in slots.abilities">@{{ ability }}</li>
-            <li v-for="(miracle, key, index) in slots.miracles">@{{ miracle }}<sup v-if="key < slots.count">*</sup></li>
-        </ul>
-    </div>
 
-    <div class="character-quirks">
-        <div class="character-quirks-header typed">
-            APPEARANCE, PERSONALITY, & BACKGROUND
+        <div class="character-languages">
+            <div class="character-languages-header typed">
+                LANGUAGES
+            </div>
+            <ul class="character-languages-list handwritten">
+                <li v-for="language in languages">@{{ language }}</li>
+            </ul>
         </div>
-        <ul class="character-quirks-list handwritten">
-            <li v-for="quirk in quirks">@{{ quirk }}</li>
-        </ul>
-    </div>
 
-    <div class="character-inventory">
-        <div class="character-inventory-header typed">
-            INVENTORY
+        <div class="character-quirks">
+            <div class="character-quirks-header typed">
+                APPEARANCE, PERSONALITY, & BACKGROUND
+            </div>
+            <ul class="character-quirks-list handwritten">
+                <li v-for="descriptor in descriptors">@{{ descriptor }}</li>
+            </ul>
         </div>
-        <ul class="character-inventory-list handwritten">
-            <li v-for="item in inventory">@{{ item }}</li>
-        </ul>
+
+        <div class="character-inventory">
+            <div class="character-inventory-header typed">
+                INVENTORY
+            </div>
+            <ul class="character-inventory-list handwritten">
+                <li>£@{{ currency.large}}, @{{ currency.medium}}s, @{{ currency.small }}d</li>
+                <li v-for="item in inventory">@{{ item }}</li>
+            </ul>
+        </div>
     </div>
 </div>
 

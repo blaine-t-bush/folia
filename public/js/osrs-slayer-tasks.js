@@ -58157,6 +58157,10 @@ var rewards = [{
   unlockId: 'watchTheBirdie',
   unlockIcon: 'https://parvifolium.net/images/osrs/unlock_aviansie.png'
 }, {
+  unlock: 'Hot stuff',
+  unlockId: 'hotStuff',
+  unlockIcon: 'https://parvifolium.net/images/osrs/unlock_tzHaar.png'
+}, {
   unlock: 'I hope you mith me',
   unlockId: 'iHopeYouMithMe',
   unlockIcon: 'https://parvifolium.net/images/osrs/unlock_mithrilDragon.png'
