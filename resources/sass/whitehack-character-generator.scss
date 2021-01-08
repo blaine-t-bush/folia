@@ -28,12 +28,11 @@
     left: 50%;
     position: relative;
     transform: translateX(-50%);
-    margin-top: 1rem;
 }
 
 .character-name {
     font-size: 1.2rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
     &.handwritten {
         padding-left: 3px;
     }
@@ -318,6 +317,7 @@
 .subcontainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
 
     @media (max-width: 760px) {
         display: block;

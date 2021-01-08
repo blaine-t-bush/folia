@@ -6,17 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostController;
 
 /*
- *
- * Test pages
- * 
- */
-Route::get('/test', function() {
-    return view('test');
-});
-
-
-
-/*
  * 
  * Main pages
  * 
@@ -29,6 +18,10 @@ Route::get('/home', function() {
 
 Route::get('/about', function() {
     return view('about');
+});
+
+Route::get('/portfolio', function() {
+    return view('portfolio');
 });
 
 

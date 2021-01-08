@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
    
 
-        <title>{{ config('app.name') }} | @yield('title')</title>
+        <title>@yield('title') | {{ config('app.name') }}</title>
 
         {{-- Favicon --}}
         <link rel="shortcut icon" href="{{ asset('images/huckleberry_logo.ico') }}" type="image/x-icon">

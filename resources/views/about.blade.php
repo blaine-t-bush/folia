@@ -15,11 +15,11 @@
     I'm a full-stack web developer, data analyst, and roleplaying game enthusiast.
 </p>
 
-{{-- <p style="text-align:center;">
-    <a href="https://www.linkedin.com/in/blainetbush/"><i class="fab fa-linkedin-in"></i></a>
-    <a href="https://github.com/blaine-t-bush"><i class="fab fa-github"></i></a>
-    <a href="mailto:blaine.bush@gmail.com"><i class="far fa-envelope"></i></a>
-</p> --}}
+<ul style="list-style: none; display: flex; flex-direction: row; justify-content: space-evenly; margin: auto; padding: 0; width: 100px;">
+    <li><a href="https://www.linkedin.com/in/blainetbush/"><i class="fab fa-linkedin-in"></i></a></li>
+    <li><a href="https://github.com/blaine-t-bush"><i class="fab fa-github"></i></a></li>
+    <li><a href="mailto:blaine.bush@gmail.com"><i class="far fa-envelope"></i></a></li>
+</ul>
 
 <h2 class="page-title">The Name</h2>
 
