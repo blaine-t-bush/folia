@@ -8,6 +8,7 @@
     "/css/resources.css": "/css/resources.css",
     "/css/about.css": "/css/about.css",
     "/css/auth.css": "/css/auth.css",
+    "/js/osrs-molten-glass.js": "/js/osrs-molten-glass.js",
     "/js/osrs-slayer-tasks.js": "/js/osrs-slayer-tasks.js",
     "/js/whitehack-character-generator.js": "/js/whitehack-character-generator.js"
 }

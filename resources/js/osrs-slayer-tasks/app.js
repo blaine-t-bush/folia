@@ -446,7 +446,6 @@ var app = new Vue({
             this.error.style = "";
         },
         toggleBlockedTasks: function () {
-            console.log("?");
             this.hideBlockedTasks = !this.hideBlockedTasks;
             return;
         },

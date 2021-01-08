@@ -28,6 +28,7 @@
 
 <ul class="resources">
     <li><a href="/resources/osrs-slayer-tasks">Slayer Task Assignment Calculator</a></li>
+    <li><a href="/resources/osrs-molten-glass">Glass Blowing Calculator</a></li>
 </ul>
 
 @endsection

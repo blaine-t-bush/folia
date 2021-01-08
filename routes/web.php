@@ -58,20 +58,12 @@ Route::get('/resources/osrs-slayer-tasks', function() {
     return view('resources.osrs-slayer-tasks');
 });
 
-Route::get('/resources/whitehack-character-generator/min', function() {
-    return view('resources.whitehack-character-generator-min');
+Route::get('/resources/osrs-molten-glass', function() {
+    return view('resources.osrs-molten-glass');
 });
 
 Route::get('/resources/whitehack-character-generator', function() {
     return view('resources.whitehack-character-generator');
-});
-
-Route::get('/resources/whitehack-hireling-generator', function() {
-    return view('resources.whitehack-hireling-generator');
-});
-
-Route::get('/resources/whitehack-houserules', function() {
-    return view('resources.whitehack-houserules');
 });
 
 

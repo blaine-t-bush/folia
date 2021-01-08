@@ -50768,7 +50768,6 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
       this.error.style = "";
     },
     toggleBlockedTasks: function toggleBlockedTasks() {
-      console.log("?");
       this.hideBlockedTasks = !this.hideBlockedTasks;
       return;
     },
