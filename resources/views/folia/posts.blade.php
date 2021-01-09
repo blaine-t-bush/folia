@@ -133,7 +133,7 @@
 
     .reply {
         display: flex;
-        margin: 0.5rem 0 0 0;
+        margin: 1rem 0 0 0;
     }
 
     .reply-text {
@@ -153,12 +153,6 @@
 @section('main')
     <form class="create" id="create" method="post" action="/folia/posts">
         @csrf
-
-        <input
-            type="hidden"
-            name="user_id"
-            id="user_id"
-            value="{{ session('folia_user_id') }}">
 
         <textarea
             class="create-text"
@@ -202,14 +196,8 @@
                 @endforeach
             </ol>
 
-            <form class="reply" id="reply" method="post" action="/folia/reply/{{ $post->id }}">
+            <form class="reply" id="reply-{{ $post->id }}" method="post" action="/folia/posts/{{ $post->id }}/reply">
                 @csrf
-        
-                <input
-                    type="hidden"
-                    name="user_id"
-                    id="user_id"
-                    value="{{ session('folia_user_id') }}">
         
                 <input
                     class="reply-text"
@@ -218,7 +206,7 @@
                     id="body"
                     placeholder="Reply">
 
-                <input class="reply-button heavy-button" type="submit" value=">>>" form="reply">
+                <input class="reply-button heavy-button" type="submit" value=">>>" form="reply-{{ $post->id }}">
             </form>
         </li>
         @endforeach
