@@ -114,6 +114,10 @@ Route::middleware(['folia.check_token'])->group(function() {
     Route::get('/folia', [
         FoliaPostController::class, 'index'
     ]);
+
+    Route::post('/folia', [
+        FoliaPostController::class, 'create'
+    ]);
     
     Route::get('/folia/login', function() {
         return view('folia.login');
