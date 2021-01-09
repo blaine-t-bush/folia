@@ -15,7 +15,7 @@ class CreateFoliaUsersTable extends Migration
     {
         Schema::create('folia_users', function (Blueprint $table) {
             $table->timestamps();
-            $table->string('username')->primary();
+            $table->string('id')->primary();
             $table->string('hashed_password');
             $table->string('display_name');
             $table->string('authenticated_token')->nullable();

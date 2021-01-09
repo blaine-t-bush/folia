@@ -19,17 +19,17 @@ class FoliaUserTest extends TestCase
     /** @test */
     public function can_create_user() {
         // Attempt to create a new user.
-        $username = $this->faker->userName;
+        $user_id = $this->faker->userName;
         $display_name = $this->faker->name;
         $password = $this->faker->password;
 
-        $user = FoliaUserController::create($username, $display_name, $password);
+        $user = FoliaUserController::create($user_id, $display_name, $password);
 
         // Check user exists.
-        $this->assertDatabaseHas('folia_users', ['username' => $username]);
+        $this->assertDatabaseHas('folia_users', ['user_id' => $user_id]);
 
         // Check password and display name match.
-        $user = FoliaUser::find($username);
+        $user = FoliaUser::find($user_id);
         $this->assertTrue(Hash::check($password, $user->hashed_password));
         $this->assertTrue($user->display_name == $display_name);
 
@@ -38,14 +38,14 @@ class FoliaUserTest extends TestCase
     /** @test */
     public function can_delete_user() {
         // Attempt to create a new user.
-        $username = $this->faker->userName;
+        $user_id = $this->faker->userName;
         $display_name = $this->faker->name;
         $password = $this->faker->password;
 
-        $user = FoliaUserController::create($username, $display_name, $password);
+        $user = FoliaUserController::create($user_id, $display_name, $password);
 
         // Now delete it.
-        $user = FoliaUserController::delete($username);
+        $user = FoliaUserController::delete($user_id);
 
         // And check that it worked.
         $this->assertDeleted($user);
@@ -54,15 +54,15 @@ class FoliaUserTest extends TestCase
     /** @test */
     public function can_rename_user() {
         // Attempt to create a new user.
-        $username = $this->faker->userName;
+        $user_id = $this->faker->userName;
         $display_name = $this->faker->name;
         $password = $this->faker->password;
 
-        $user = FoliaUserController::create($username, $display_name, $password);
+        $user = FoliaUserController::create($user_id, $display_name, $password);
 
         // Now rename it.
         $new_display_name = $this->faker->name;
-        $user = FoliaUserController::rename($username, $new_display_name);
+        $user = FoliaUserController::rename($user_id, $new_display_name);
 
         // And check that it worked.
         $this->assertTrue($user->display_name == $new_display_name);
@@ -71,20 +71,20 @@ class FoliaUserTest extends TestCase
     /** @test */
     public function can_authenticate_user() {
         // Attempt to create a new user.
-        $username = $this->faker->userName;
+        $user_id = $this->faker->userName;
         $display_name = $this->faker->name;
         $password = $this->faker->password;
 
-        $user = FoliaUserController::create($username, $display_name, $password);
+        $user = FoliaUserController::create($user_id, $display_name, $password);
 
         // Now attempt to authenticate with...
-        // ... empty username and password
+        // ... empty user_id and password
         $this->assertFalse(FoliaUserController::authenticate('', ''));
-        // ... correct username, empty password
-        $this->assertFalse(FoliaUserController::authenticate($username, ''));
-        // ... empty username, correct password
+        // ... correct user_id, empty password
+        $this->assertFalse(FoliaUserController::authenticate($user_id, ''));
+        // ... empty user_id, correct password
         $this->assertFalse(FoliaUserController::authenticate('', $password));
-        // ... correct username and password
-        $this->assertTrue(FoliaUserController::authenticate($username, $password));
+        // ... correct user_id and password
+        $this->assertTrue(FoliaUserController::authenticate($user_id, $password));
     }
 }

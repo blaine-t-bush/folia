@@ -12,14 +12,13 @@
         background-color: rgb(107, 107, 107);
         border: 1px solid lightgreen;
         color: lightgreen;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         padding: 0.5rem;
     }
 
     .post-header {
-        align-items: center;
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: min-content auto auto;
         max-height: 1.6em;
         line-height: 1.6em;
     }
@@ -45,15 +44,21 @@
     }
 
     .post-header-delete {
-        padding-left: 0.5em;
-        max-height: 1.6em;
+        justify-self: end;
         line-height: 1.6em;
+        max-height: 1.6em;
+        padding-left: 0.5em;
     }
 
-    .post-header-delete-button {
+    .delete-button {
+        border: 2px solid darkred;
         color: darkred;
-        font-weight: bold;
-        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .delete-button:focus, .delete-button:hover {
+        background-color: darkred;
+        border: 2px solid palevioletred;
+        color: palevioletred;
     }
 
     .post-timestamp {
@@ -84,30 +89,98 @@
         margin-bottom: 2rem;
         margin-top: 0.5rem;
     }
+
+    .comments {
+        border-top: 1px solid lightgreen;
+        font-size: 0.9rem;
+        list-style: none;
+        margin: 1rem 0 0 0rem;
+        padding: 0 0 0 1.5rem;
+    }
+
+    .comment {
+        padding-left: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .comment-header {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        max-height: 1.6em;
+        line-height: 1.6em;
+    }
+
+    .comment-header-displayname {
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .comment-header-username {
+        font-style: italic;
+        font-weight: 300;
+        padding-left: 0.5em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .comment-header-username::before {
+        content: "#";
+    }
+
+    .reply {
+        display: flex;
+        margin: 0.5rem 0 0 0;
+    }
+
+    .reply-text {
+        flex: 1;
+        line-height: 1.5em;
+        height: 1.5em;
+        padding: 0 0.5em;
+    }
+
+    .reply-button {
+        background-color: rgb(54, 54, 54);
+        margin-left: 0.5em;
+    }
 </style>
 @endpush('style')
 
 @section('main')
-    <form class="create" id="create" method="post" action="/folia">
+    <form class="create" id="create" method="post" action="/folia/posts">
         @csrf
-        <input type="hidden" name="username" id="username" value="{{ session('folia_username') }}">
-        <textarea class="create-text" name="body" id="body" placeholder="Go ahead, share that important thought!"></textarea>
+
+        <input
+            type="hidden"
+            name="user_id"
+            id="user_id"
+            value="{{ session('folia_user_id') }}">
+
+        <textarea
+            class="create-text"
+            name="body"
+            id="body"
+            placeholder="Go ahead, share that important thought!"></textarea>
     </form>
 
-    <input class="create-button heavy-button" type="submit" value=">>> Post" form="create">
+    <input class="create-button heavy-button" type="submit" value=">>>" form="create">
 
     <ol class="posts">
         @foreach($posts as $post)
         <li class="post">
             <div class="post-header">
                 <div class="post-header-displayname">{{ $post->user->display_name }}</div>
-                <div class="post-header-username">{{ $post->username }}</div>
+                <div class="post-header-username">{{ $post->user_id }}</div>
 
-                @if($post->username == session('folia_username'))
-                <form class="post-header-delete" method="post" action="/folia/{{ $post->id }}">
+                @if($post->user_id == session('folia_user_id'))
+                <form class="post-header-delete" method="post" action="/folia/posts/{{ $post->id }}">
                     @csrf
                     @method('delete')
-                    <input class="post-header-delete-button" type="submit" value="Delete">
+                    <input class="delete-button heavy-button" type="submit" value="X">
                 </form>
                 @endif
             </div>
@@ -115,6 +188,38 @@
             <div class="post-timestamp">{{ $post->created_at }}</div>
 
             <p class="post-body">{{ $post->body }}</p>
+
+            <ol class="comments">
+                @foreach($post->comments as $comment)
+                <li class="comment">
+                    <div class="comment-header">
+                        <div class="comment-header-displayname">{{ $comment->user->display_name }}</div>
+                        <div class="comment-header-username">{{ $comment->user->id }}</div>
+                    </div>
+                    
+                    <div class="comment-body">{{ $comment->body }}</div>
+                </li>
+                @endforeach
+            </ol>
+
+            <form class="reply" id="reply" method="post" action="/folia/reply/{{ $post->id }}">
+                @csrf
+        
+                <input
+                    type="hidden"
+                    name="user_id"
+                    id="user_id"
+                    value="{{ session('folia_user_id') }}">
+        
+                <input
+                    class="reply-text"
+                    type="text"
+                    name="body"
+                    id="body"
+                    placeholder="Reply">
+
+                <input class="reply-button heavy-button" type="submit" value=">>>" form="reply">
+            </form>
         </li>
         @endforeach
     </ol>

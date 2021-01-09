@@ -18,9 +18,9 @@ class FoliaCheckAuthenticatedToken
      */    
     public function handle(Request $request, Closure $next) {
         // Check if user already has a valid authenticated_token.
-        if ($request->session()->has('folia_authenticated_token') && $request->session()->has('folia_username')) {
+        if ($request->session()->has('folia_authenticated_token') && $request->session()->has('folia_user_id')) {
             // If they do, and it matches our token, we can let them continue.
-            $user = FoliaUser::find($request->session()->get('folia_username'));
+            $user = FoliaUser::find($request->session()->get('folia_user_id'));
             if ($request->session()->get('folia_authenticated_token') == $user->authenticated_token) {
                 return $next($request);
             }

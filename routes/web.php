@@ -111,16 +111,24 @@ Route::delete('/posts/{slug}', [
  * 
  */
 Route::middleware(['folia.check_token'])->group(function() {
-    Route::get('/folia', [
-        FoliaPostController::class, 'index'
-    ])->name('folia');
+    Route::get('/folia', function() {
+        return redirect('/folia/posts');
+    })->name('folia');
 
-    Route::post('/folia', [
+    Route::get('/folia/posts', [
+        FoliaPostController::class, 'index'
+    ]);
+
+    Route::post('/folia/posts', [
         FoliaPostController::class, 'create'
     ]);
 
-    Route::delete('/folia/{id}', [
+    Route::delete('/folia/posts/{id}', [
         FoliaPostController::class, 'destroy'
+    ]);
+
+    Route::post('/folia/posts/{id}/reply', [
+        FoliaCommentController::class, 'create'
     ]);
     
     Route::get('/folia/login', function() {

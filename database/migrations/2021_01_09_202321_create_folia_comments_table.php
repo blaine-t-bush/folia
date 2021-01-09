@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFoliaPostsTable extends Migration
+class CreateFoliaCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateFoliaPostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('folia_posts', function (Blueprint $table) {
+        Schema::create('folia_comments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('user_id');
             $table->foreign('user_id')->references('id')->on('folia_users');
+            $table->unsignedBigInteger('post_id');
+            $table->foreign('post_id')->references('id')->on('folia_posts');
             $table->text('body');
         });
     }
@@ -29,6 +31,6 @@ class CreateFoliaPostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('folia_posts');
+        Schema::dropIfExists('folia_comments');
     }
 }

@@ -26,7 +26,7 @@
 @endpush('style')
 
 @section('main')
-    @error('username')
+    @error('id')
     <div>{{ $message }}</div>
     @enderror
 
@@ -41,14 +41,14 @@
     <form class="register" id="register" method="POST" action="/folia/register" enctype="multipart/form-data">
         @csrf
 
-        <label for="username">Username</label>
+        <label for="id">Username</label>
         <input
-            class="@error('username') input-error @enderror"
+            class="@error('id') input-error @enderror"
             type="text"
-            name="username"
-            id="username"
+            name="id"
+            id="id"
             placeholder="username"
-            value="{{ old('username') }}">
+            value="{{ old('id') }}">
 
         <label for="display_name">Display Name</label>
         <input

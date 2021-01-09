@@ -25,24 +25,24 @@
 @endpush('style')
 
 @section('main')
-    @error('username')
+    @error('user_id')
     <div>{{ $message }}</div>
     @enderror
 
-    @error('username')
+    @error('password')
     <div>{{ $message }}</div>
     @enderror
 
     <form class="login" id="login" method="POST" action="/folia/login" enctype="multipart/form-data">
         @csrf
 
-        <label for="username">Username</label>
+        <label for="user_id">Username</label>
         <input
             type="text"
-            name="username"
-            id="username"
+            name="user_id"
+            id="user_id"
             placeholder="username"
-            value="{{ old('username') }}">
+            value="{{ old('user_id') }}">
 
         <label for="password">Password</label>
         <input

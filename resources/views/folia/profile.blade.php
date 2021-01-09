@@ -30,7 +30,7 @@
         </div>
 
         <div class="profile-value">
-            {{ $user->username }}
+            {{ $user->id }}
         </div>
     </div>
 @endsection

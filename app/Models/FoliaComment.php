@@ -5,23 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\FoliaUser;
-
-class FoliaPost extends Model
+class FoliaComment extends Model
 {
     use HasFactory;
 
     /**
-     * Get the user that owns the post.
+     * Get the user that owns the comment.
      */
     public function user() {
         return $this->belongsTo(FoliaUser::class, 'user_id');
     }
 
     /**
-     * Get the comments belonging to the post.
+     * Get the post that owns the comment.
      */
-    public function comments() {
-        return $this->hasMany(FoliaComment::class, 'post_id');
+    public function post() {
+        return $this->belongsTo(FoliaPost::class, 'post_id');
     }
 }

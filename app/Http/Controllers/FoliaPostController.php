@@ -22,13 +22,13 @@ class FoliaPostController extends Controller
     public function create(Request $request) {
         // Validate the inputs.
         $validated = $request->validate([
-            'username' => ['required'],
+            'user_id' => ['required'],
             'body' => ['required', 'min:1', 'max:255'],
         ]);
 
         // Create a new post.
         $post = new FoliaPost;
-        $post->username = $request->username;
+        $post->user_id = $request->user_id;
         $post->body = $request->body;
         $post->save();
 
@@ -40,7 +40,7 @@ class FoliaPostController extends Controller
         // Check that post actually belongs to user.
         $post = FoliaPost::find($request->id);
 
-        if ($post->username == $request->session()->get('folia_username')) {
+        if ($post->user_id == $request->session()->get('folia_user_id')) {
             $post->delete();
         }
 

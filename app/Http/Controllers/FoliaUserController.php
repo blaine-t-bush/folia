@@ -19,13 +19,13 @@ class FoliaUserController extends Controller
     public function register(Request $request) {
         // Validate the inputs.
         $validated = $request->validate([
-            'username' => ['required', 'unique:folia_users', 'max:255'],
+            'id' => ['required', 'unique:folia_users', 'max:255'],
             'display_name' => ['required', 'max:255'],
             'password' => ['required', 'min:4', 'max:32'],
         ]);
 
         // Create the user.
-        $user = static::create($request->username, $request->display_name, $request->password);
+        $user = static::create($request->id, $request->display_name, $request->password);
 
         // Send them to the feed.
         // FIXME automatically log user in after registration.
@@ -35,23 +35,23 @@ class FoliaUserController extends Controller
     public function login(Request $request) {
         // Validate the inputs.
         $validated = $request->validate([
-            'username' => ['required'],
+            'user_id' => ['required'],
             'password' => ['required'],
         ]);
 
         // Attempt to authenticate user.
-        if (static::authenticate($request->username, $request->password)) {
+        if (static::authenticate($request->user_id, $request->password)) {
             // Generate a token. For something that's not just a sandbox,
             // I'd do a lot more work to ensure unique tokens across users.
-            $token = Hash::make($request->username . Str::random(16));
+            $token = Hash::make($request->user_id . Str::random(16));
 
-            // Store the token and username in user session.
+            // Store the token and user_id in user session.
             $request->session()->regenerate();
             $request->session()->put('folia_authenticated_token', $token);
-            $request->session()->put('folia_username', $request->username);
+            $request->session()->put('folia_user_id', $request->user_id);
 
             // Store the token in user table. Now we can compare these tokens in the future.
-            $user = FoliaUser::find($request->username);
+            $user = FoliaUser::find($request->user_id);
             $user->authenticated_token = $token;
             $user->save();
         }
@@ -60,15 +60,15 @@ class FoliaUserController extends Controller
     }
 
     public function logout(Request $request) {
-        // Clear their username and token from session.
-        $request->session()->forget(['folia_username', 'folia_authenticated_token']);
+        // Clear their user_id and token from session.
+        $request->session()->forget(['folia_user_id', 'folia_authenticated_token']);
 
         return redirect('/folia');
     }
 
     public function profile(Request $request) {
         // Get user information.
-        $user = FoliaUser::find($request->session()->get('folia_username'));
+        $user = FoliaUser::find($request->session()->get('folia_user_id'));
 
         return view('folia.profile', [
             'user' => $user,
@@ -81,9 +81,9 @@ class FoliaUserController extends Controller
      * 
      */
 
-    static function create(string $username, string $display_name, string $password) {
+    static function create(string $id, string $display_name, string $password) {
         $user = new FoliaUser;
-        $user->username = $username;
+        $user->id = $id;
         $user->display_name = $display_name;
         $user->hashed_password = Hash::make($password);
         $user->save();
@@ -91,25 +91,25 @@ class FoliaUserController extends Controller
         return $user; // TODO add check and error handling
     }
 
-    static function delete(string $username) {
-        $user = FoliaUser::findOrFail($username);
+    static function delete(string $id) {
+        $user = FoliaUser::findOrFail($id);
         $user->delete();
 
         return $user; // TODO add check and error handling
     }
 
-    static function rename(string $username, string $display_name) {
-        $user = FoliaUser::findOrFail($username);
+    static function rename(string $id, string $display_name) {
+        $user = FoliaUser::findOrFail($id);
         $user->display_name = $display_name;
         $user->save();
 
         return $user; // TODO add check and error handling.
     }
 
-    static function authenticate(string $username, string $password) {
+    static function authenticate(string $id, string $password) {
         // Check if user exists.
         try {
-            $user = FoliaUser::findOrFail($username);
+            $user = FoliaUser::findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return false;
         }

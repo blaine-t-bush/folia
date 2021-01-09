@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\FoliaUser;
 use App\Models\FoliaPost;
+use App\Models\FoliaComment;
 use App\Http\Controllers\FoliaUserController;
 
 use Faker\Factory as Faker;
@@ -27,20 +28,32 @@ class FoliaSeeder extends Seeder
 
         // Generate some random number of users.
         $total_user_count = random_int(5, 10);
-        $usernames = [];
+        $user_ids = [];
         for ($i = 0; $i < $total_user_count; $i++) {
-            $username = $faker->userName;
-            $usernames[] = $username;
-            FoliaUserController::create($username, $faker->name, $faker->password);
+            $user_id = $faker->userName;
+            $user_ids[] = $user_id;
+            FoliaUserController::create($user_id, $faker->name, $faker->password);
         }
 
         // Generate some random number of posts. For each one, randomly select a creator.
         $total_post_count = random_int(30, 50);
+        $post_ids = [];
         for ($i = 0; $i < $total_post_count; $i++) {
             $post = new FoliaPost;
-            $post->username = $usernames[array_rand($usernames)];
+            $post->user_id = $user_ids[array_rand($user_ids)];
             $post->body = $faker->paragraph;
             $post->save();
+            $post_ids[] = $post->id;
+        }
+
+        // Generate some random number of comments. For each one, randomly select a creator and parent post.
+        $total_comment_count = random_int(100, 200);
+        for ($i = 0; $i < $total_comment_count; $i++) {
+            $comment = new FoliaComment;
+            $comment->user_id = $user_ids[array_rand($user_ids)];
+            $comment->post_id = $post_ids[array_rand($post_ids)];
+            $comment->body = $faker->paragraph;
+            $comment->save();
         }
     }
 }
