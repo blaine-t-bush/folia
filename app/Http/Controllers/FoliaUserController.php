@@ -27,34 +27,21 @@ class FoliaUserController extends Controller
         // Create the user.
         $user = static::create($request->id, $request->display_name, $request->password);
 
-        // Send them to the feed.
-        // FIXME automatically log user in after registration.
+        // Attempt to authenticate user and save a remember token.
+        $login = static::authenticateAndStore($request, $request->id, $request->password);
+
         return redirect('/folia');
     }
 
     public function login(Request $request) {
         // Validate the inputs.
         $validated = $request->validate([
-            'user_id' => ['required'],
+            'id' => ['required'],
             'password' => ['required'],
         ]);
 
-        // Attempt to authenticate user.
-        if (static::authenticate($request->user_id, $request->password)) {
-            // Generate a token. For something that's not just a sandbox,
-            // I'd do a lot more work to ensure unique tokens across users.
-            $token = Hash::make($request->user_id . Str::random(16));
-
-            // Store the token and user_id in user session.
-            $request->session()->regenerate();
-            $request->session()->put('folia_authenticated_token', $token);
-            $request->session()->put('folia_user_id', $request->user_id);
-
-            // Store the token in user table. Now we can compare these tokens in the future.
-            $user = FoliaUser::find($request->user_id);
-            $user->authenticated_token = $token;
-            $user->save();
-        }
+        // Attempt to authenticate user and save a remember token.
+        $login = static::authenticateAndStore($request, $request->id, $request->password);
 
         return redirect('/folia');
     }
@@ -116,6 +103,28 @@ class FoliaUserController extends Controller
 
         // If it does, check if password matches.
         if (Hash::check($password, $user->hashed_password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function authenticateAndStore(Request $request, string $id, string $password) {
+        if (static::authenticate($id, $password)) {
+            // Generate a token. For something that's not just a sandbox,
+            // I'd do a lot more work to ensure unique tokens across users.
+            $token = Hash::make($id . Str::random(16));
+
+            // Store the token and user_id in user session.
+            $request->session()->regenerate();
+            $request->session()->put('folia_authenticated_token', $token);
+            $request->session()->put('folia_user_id', $id);
+
+            // Store the token in user table. Now we can compare these tokens in the future.
+            $user = FoliaUser::find($id);
+            $user->authenticated_token = $token;
+            $user->save();
+            
             return true;
         } else {
             return false;

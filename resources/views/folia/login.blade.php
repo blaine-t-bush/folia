@@ -27,6 +27,7 @@
     .error {
         color: red;
         margin: 0.2em;
+        text-align: center;
     }
 
     .register-prompt {
@@ -40,15 +41,15 @@
     <form class="login" id="login" method="POST" action="/folia/login" enctype="multipart/form-data">
         @csrf
 
-        <label class="login-label-username" for="user_id">Username</label>
+        <label class="login-label-username" for="id">Username</label>
         <input
             class="login-input-username"
             type="text"
-            name="user_id"
-            id="user_id"
+            name="id"
+            id="id"
             placeholder="username"
-            value="{{ old('user_id') }}">
-        @error('user_id')
+            value="{{ old('id') }}">
+        @error('id')
         <div class="error">{{ $message }}</div>
         @enderror
 

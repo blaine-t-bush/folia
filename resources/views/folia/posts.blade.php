@@ -104,9 +104,8 @@
     }
 
     .comment-header {
-        align-items: center;
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: min-content auto auto;
         max-height: 1.6em;
         line-height: 1.6em;
     }
@@ -129,6 +128,13 @@
 
     .comment-header-username::before {
         content: "#";
+    }
+
+    .comment-header-delete {
+        justify-self: end;
+        line-height: 1.6em;
+        max-height: 1.6em;
+        padding-left: 0.5em;
     }
 
     .reply {
@@ -189,6 +195,14 @@
                     <div class="comment-header">
                         <div class="comment-header-displayname">{{ $comment->user->display_name }}</div>
                         <div class="comment-header-username">{{ $comment->user->id }}</div>
+
+                        @if($comment->user_id == session('folia_user_id'))
+                        <form class="comment-header-delete" method="post" action="/folia/comments/{{ $comment->id }}">
+                            @csrf
+                            @method('delete')
+                            <input class="delete-button heavy-button" type="submit" value="X">
+                        </form>
+                        @endif
                     </div>
                     
                     <div class="comment-body">{{ $comment->body }}</div>

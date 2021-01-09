@@ -131,6 +131,10 @@ Route::middleware(['folia.check_token'])->group(function() {
     Route::post('/folia/posts/{id}/reply', [
         FoliaCommentController::class, 'create'
     ]);
+
+    Route::delete('/folia/comments/{id}', [
+        FoliaCommentController::class, 'destroy'
+    ]);
     
     Route::get('/folia/login', function() {
         return view('folia.login');

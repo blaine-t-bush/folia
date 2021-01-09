@@ -26,4 +26,15 @@ class FoliaCommentController extends Controller
         // Send back to feed. New post will appear when index() is run.
         return redirect('/folia');
     }
+
+    public function destroy(Request $request) {
+        // Check that comment actually belongs to user.
+        $comment = FoliaComment::find($request->id);
+
+        if ($comment->user_id == $request->session()->get('folia_user_id')) {
+            $comment->delete();
+        }
+
+        return redirect('/folia');
+    }
 }

@@ -33,6 +33,12 @@
     .error {
         color: red;
         margin: 0.2em;
+        text-align: center;
+    }
+
+    .input-error {
+        background-color: rgb(241, 169, 169) !important;
+        border: 1px solid red;
     }
 
     .login-prompt {
@@ -55,7 +61,7 @@
             placeholder="username"
             value="{{ old('id') }}">
         @error('id')
-        <div>{{ $message }}</div>
+        <div class="error">{{ $message }}</div>
         @enderror
 
         <label class="register-label-displayname" for="display_name">Display Name</label>
@@ -67,7 +73,7 @@
             placeholder="display name"
             value="{{ old('display_name') }}">
         @error('display_name')
-        <div>{{ $message }}</div>
+        <div class="error">{{ $message }}</div>
         @enderror
 
         <label class="register-label-password" for="password">Password</label>
@@ -78,7 +84,7 @@
             id="password"
             placeholder="password">
         @error('password')
-        <div>{{ $message }}</div>
+        <div class="error">{{ $message }}</div>
         @enderror
 
         <label class="register-label-robot" for="robot">
