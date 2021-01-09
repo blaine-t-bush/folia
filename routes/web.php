@@ -118,6 +118,10 @@ Route::middleware(['folia.check_token'])->group(function() {
     Route::post('/folia', [
         FoliaPostController::class, 'create'
     ]);
+
+    Route::delete('/folia/{id}', [
+        FoliaPostController::class, 'destroy'
+    ]);
     
     Route::get('/folia/login', function() {
         return view('folia.login');

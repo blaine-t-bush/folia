@@ -35,4 +35,15 @@ class FoliaPostController extends Controller
         // Send back to feed. New post will appear when index() is run.
         return redirect('/folia');
     }
+
+    public function destroy(Request $request) {
+        // Check that post actually belongs to user.
+        $post = FoliaPost::find($request->id);
+
+        if ($post->username == $request->session()->get('folia_username')) {
+            $post->delete();
+        }
+
+        return redirect('/folia');
+    }
 }

@@ -18,6 +18,14 @@
     <ol>
         @foreach($posts as $post)
         <li>
+            @if($post->username == session('folia_username'))
+            <form method="post" action="/folia/{{ $post->id }}">
+                @csrf
+                @method('delete')
+                <input type="submit" value="Delete">
+            </form>
+            @endif
+
             <div>{{ $post->username }}</div>
             <div>{{ $post->body }}</div>
         </li>
