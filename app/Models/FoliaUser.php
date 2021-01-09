@@ -11,4 +11,11 @@ class FoliaUser extends Model
 
     protected $primaryKey = 'username';
     public $incrementing = false;
+
+    /**
+     * Get the posts belonging to the user.
+     */
+    public function posts() {
+        return $this->hasMany(FoliaPost::class, 'username');
+    }
 }

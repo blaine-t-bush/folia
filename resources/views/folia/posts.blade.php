@@ -7,4 +7,13 @@
     </form>
     
     <p>This is the feed</p>
+
+    <ol>
+        @foreach($posts as $post)
+        <li>
+            <div>{{ $post->username }}</div>
+            <div>{{ $post->body }}</div>
+        </li>
+        @endforeach
+    </ol>
 @endsection

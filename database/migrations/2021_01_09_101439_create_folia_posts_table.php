@@ -17,6 +17,7 @@ class CreateFoliaPostsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('username');
+            $table->foreign('username')->references('username')->on('folia_users');
             $table->text('body');
         });
     }
