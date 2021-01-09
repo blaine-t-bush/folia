@@ -158,7 +158,7 @@
             class="create-text"
             name="body"
             id="body"
-            placeholder="Go ahead, share that important thought!"></textarea>
+            placeholder="Go ahead, share that important human thought!"></textarea>
     </form>
 
     <input class="create-button heavy-button" type="submit" value=">>>" form="create">

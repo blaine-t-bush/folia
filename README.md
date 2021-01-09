@@ -1,9 +1,11 @@
 # Site
 - Remove posts?
 
-# OSRS Slayer Tasks
+# Folia
+- Restyle checkboxes to match rest of site
+- Move styles to SCSS
 
-## To-Do
+# OSRS Slayer Tasks
 - Add check for master combat/slayer level requirements
 - Remember selections/state across visits
 - Add stat lookup

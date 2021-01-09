@@ -134,7 +134,7 @@ Route::middleware(['folia.check_token'])->group(function() {
     
     Route::get('/folia/login', function() {
         return view('folia.login');
-    })->withoutMiddleware(['folia.check_token']);
+    })->name('folia.login')->withoutMiddleware(['folia.check_token']);
     
     Route::post('/folia/login', [
         FoliaUserController::class, 'login'
