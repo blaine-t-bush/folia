@@ -66,6 +66,15 @@ class FoliaUserController extends Controller
         return redirect('/folia');
     }
 
+    public function profile(Request $request) {
+        // Get user information.
+        $user = FoliaUser::find($request->session()->get('folia_username'));
+
+        return view('folia.profile', [
+            'user' => $user,
+        ]);
+    }
+
     /*
      *
      * Static functions

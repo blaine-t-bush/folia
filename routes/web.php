@@ -113,7 +113,7 @@ Route::delete('/posts/{slug}', [
 Route::middleware(['folia.check_token'])->group(function() {
     Route::get('/folia', [
         FoliaPostController::class, 'index'
-    ]);
+    ])->name('folia');
 
     Route::post('/folia', [
         FoliaPostController::class, 'create'
@@ -131,9 +131,13 @@ Route::middleware(['folia.check_token'])->group(function() {
         FoliaUserController::class, 'login'
     ])->withoutMiddleware(['folia.check_token']);
     
-    Route::post('/folia/logout', [
+    Route::get('/folia/logout', [
         FoliaUserController::class, 'logout'
     ]);
+    
+    Route::post('/folia/logout', [
+        FoliaUserController::class, 'logout'
+    ])->name('folia.logout');
     
     Route::get('/folia/register', function() {
         return view('folia.register');
@@ -142,4 +146,8 @@ Route::middleware(['folia.check_token'])->group(function() {
     Route::post('/folia/register', [
         FoliaUserController::class, 'register'
     ])->withoutMiddleware(['folia.check_token']);
+
+    Route::get('/folia/profile', [
+        FoliaUserController::class, 'profile'
+    ])->name('folia.profile');
 });

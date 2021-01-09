@@ -1,48 +1,72 @@
 @extends('folia.layouts.app')
 
-@section('main')
-    <p>This is the register page</p>
+@push('style')
+<style>
+    .register {
+        column-gap: 10px;
+        row-gap: 5px;
+        display: grid;
+        grid-template-columns: max-content auto;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
 
-    <form id="register" method="POST" action="/folia/register" enctype="multipart/form-data">
+    @media (max-width: 540px) {
+        .register {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .register-button {
+        margin-top: 2rem;
+        position: relative;
+        left: 50%;
+        transform: translate(-50%);
+    }
+</style>
+@endpush('style')
+
+@section('main')
+    @error('username')
+    <div>{{ $message }}</div>
+    @enderror
+
+    @error('display_name')
+    <div>{{ $message }}</div>
+    @enderror
+
+    @error('password')
+    <div>{{ $message }}</div>
+    @enderror
+
+    <form class="register" id="register" method="POST" action="/folia/register" enctype="multipart/form-data">
         @csrf
 
-        <div>
-            <label for="username">Username</label>
-            <input
-                class="@error('username') input-error @enderror"
-                type="text"
-                name="username"
-                id="username"
-                value="{{ old('username') }}">
-            @error('username')
-            <div>{{ $message }}</div>
-            @enderror
-        </div>
+        <label for="username">Username</label>
+        <input
+            class="@error('username') input-error @enderror"
+            type="text"
+            name="username"
+            id="username"
+            placeholder="username"
+            value="{{ old('username') }}">
 
-        <div>
-            <label for="display_name">Display Name</label>
-            <input
-                class="@error('display_name') input-error @enderror"
-                type="text"
-                name="display_name"
-                value="{{ old('display_name') }}">
-            @error('display_name')
-            <div>{{ $message }}</div>
-            @enderror
-        </div>
+        <label for="display_name">Display Name</label>
+        <input
+            class="@error('display_name') input-error @enderror"
+            type="text"
+            name="display_name"
+            id="display_name"
+            placeholder="display name"
+            value="{{ old('display_name') }}">
 
-        <div>
-            <label for="password">Password</label>
-            <input
-                class="@error('password') input-error @enderror"
-                type="text"
-                name="password"
-                id="password">
-            @error('password')
-            <div>{{ $message }}</div>
-            @enderror
-        </div>
+        <label for="password">Password</label>
+        <input
+            class="@error('password') input-error @enderror"
+            type="text"
+            name="password"
+            id="password"
+            placeholder="password">
     </form>
 
-    <input type="submit" value="Register" form="register">
+    <input class="register-button heavy-button" type="submit" value=">>> Register" form="register">
 @endsection
