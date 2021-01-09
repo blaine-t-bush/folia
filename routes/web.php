@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FoliaPostController;
+use App\Http\Controllers\FoliaUserController;
 
 /*
  * 
@@ -101,3 +103,35 @@ Route::put('/posts/{slug}', [
 Route::delete('/posts/{slug}', [
     PostController::class, 'destroy'
 ])->middleware('auth.delete_posts');
+
+
+/*
+ *
+ * Folia
+ * 
+ */
+Route::middleware(['folia.check_token'])->group(function() {
+    Route::get('/folia', [
+        FoliaPostController::class, 'index'
+    ]);
+    
+    Route::get('/folia/login', function() {
+        return view('folia.login');
+    })->withoutMiddleware(['folia.check_token']);
+    
+    Route::post('/folia/login', [
+        FoliaUserController::class, 'login'
+    ])->withoutMiddleware(['folia.check_token']);
+    
+    Route::post('/folia/logout', [
+        FoliaUserController::class, 'logout'
+    ]);
+    
+    Route::get('/folia/register', function() {
+        return view('folia.register');
+    })->name('folia.register')->withoutMiddleware(['folia.check_token']);
+    
+    Route::post('/folia/register', [
+        FoliaUserController::class, 'register'
+    ])->withoutMiddleware(['folia.check_token']);
+});
