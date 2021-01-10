@@ -1,0 +1,89 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 300px;
+  width: 100%;
+}
+
+.login-label-username,
+.login-label-password {
+  margin-bottom: 0.5em;
+}
+
+.login-label-password {
+  margin-top: 1em;
+}
+
+.login-input-username,
+.login-input-password {
+  height: 1.5em;
+  line-height: 1.5em;
+}
+
+.login-button {
+  margin-top: 1em;
+}
+
+.password-container {
+  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.password-container-button {
+  align-items: center;
+  display: grid;
+  height: 100%;
+}
+
+.password-container-button-icon {
+  align-items: center;
+  display: grid !important;
+  height: 100%;
+}
+
+.error {
+  color: #e60a0a;
+  margin: 0.2em;
+  text-align: center;
+}
+
+.input-error {
+  background-color: #f1a9a9 !important;
+  border: 1px solid #e60a0a;
+}
+
+.register-prompt {
+  text-align: center;
+  margin-top: 1em;
+}
+
+.sticky-note {
+  color: rgba(0, 0, 0, 0.7);
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: 2rem;
+  height: 300px;
+  width: 300px;
+  position: relative;
+  transform: rotate(7deg);
+  margin: auto;
+}
+
+.sticky-note-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 260px;
+  display: grid;
+  margin: 0;
+  padding: 50px 20px 20px 20px;
+  list-style: none;
+}
+
+.sticky-note-item {
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+}
+

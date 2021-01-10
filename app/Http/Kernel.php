@@ -54,13 +54,10 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth.create_posts' => \App\Http\Middleware\CheckCanCreatePosts::class,
-        'auth.edit_posts' => \App\Http\Middleware\CheckCanEditPosts::class,
-        'auth.delete_posts' => \App\Http\Middleware\CheckCanDeletePosts::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'folia.check_token' => \App\Http\Middleware\FoliaCheckAuthenticatedToken::class,
+        'check_token' => \App\Http\Middleware\CheckAuthenticatedToken::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,

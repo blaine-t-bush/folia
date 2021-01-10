@@ -1,4 +1,4 @@
-@extends('folia.layouts.app')
+@extends('layouts.app')
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/posts.css') }}">
@@ -24,7 +24,7 @@
                 <div class="post-header-displayname">{{ $post->user->display_name }}</div>
                 <div class="post-header-username">{{ $post->user_id }}</div>
 
-                @if($post->user_id == session('folia_user_id'))
+                @if($post->user_id == session('user_id'))
                 <form class="post-header-delete" method="post" action="/posts/{{ $post->id }}">
                     @csrf
                     @method('delete')
@@ -44,7 +44,7 @@
                         <div class="comment-header-displayname">{{ $comment->user->display_name }}</div>
                         <div class="comment-header-username">{{ $comment->user->id }}</div>
 
-                        @if($comment->user_id == session('folia_user_id'))
+                        @if($comment->user_id == session('user_id'))
                         <form class="comment-header-delete" method="post" action="/comments/{{ $comment->id }}">
                             @csrf
                             @method('delete')

@@ -1,4 +1,4 @@
-@extends('folia.layouts.app')
+@extends('layouts.app')
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/register.css') }}">
@@ -57,7 +57,7 @@
         <input class="register-button heavy-button" type="submit" value=">>> Register">
 
         <div class="login-prompt">
-            Already registered? <a href="{{ route('folia.login') }}">Log in!</a>
+            Already registered? <a href="{{ route('login') }}">Log in!</a>
         </div>
     </form>
 

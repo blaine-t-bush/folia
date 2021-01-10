@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 
-class FoliaCheckAuthenticatedToken
+class CheckAuthenticatedToken
 {
     /**
      * Handle an incoming request.
@@ -18,10 +18,10 @@ class FoliaCheckAuthenticatedToken
      */    
     public function handle(Request $request, Closure $next) {
         // Check if user already has a valid authenticated_token.
-        if ($request->session()->has('folia_authenticated_token') && $request->session()->has('folia_user_id')) {
+        if ($request->session()->has('authenticated_token') && $request->session()->has('user_id')) {
             // If they do, and it matches our token, we can let them continue.
-            $user = User::find($request->session()->get('folia_user_id'));
-            if ($request->session()->get('folia_authenticated_token') == $user->authenticated_token) {
+            $user = User::find($request->session()->get('user_id'));
+            if ($request->session()->get('authenticated_token') == $user->authenticated_token) {
                 return $next($request);
             }
         }

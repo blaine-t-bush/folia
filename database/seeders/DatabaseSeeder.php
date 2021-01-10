@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 use App\Models\Post;
@@ -16,8 +18,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         // Create a static user for testing.
         UserController::create('admin', 'Security Mastah', 'password123');
         
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
         $user_ids = [];
         for ($i = 0; $i < $total_user_count; $i++) {
             $user = new User;
-            $user->id = $user_id;
+            $user->id = $faker->userName;
             $user->display_name = $faker->name;
             $user->hashed_password = Hash::make($faker->password);
             $user->save();
@@ -58,6 +59,5 @@ class DatabaseSeeder extends Seeder
             $comment->body = $faker->paragraph;
             $comment->save();
         }
-    }
     }
 }

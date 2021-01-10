@@ -15,18 +15,19 @@
 
     {{-- Scripts --}}
     <script src="https://kit.fontawesome.com/acd4b236b1.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     @stack('script')
 </head>
 <body>
     <header>
-        <h1 class="title"><a href="{{ route('folia') }}">Folia</a></h1>
+        <h1 class="title"><a href="{{ route('home') }}">Folia</a></h1>
         <div class="rule">======================================================================================================================================================================================================================</div>
         <h2 class="tagline">The Social Media Platform for&nbsp;<del>Robots</del>&nbsp;Humans</h2>
-        @if(session('folia_user_logged_in') == true)
+        @if(session('user_logged_in') == true)
         <nav>
-            <a href="{{ route('folia') }}">Home</a>
-            <a href="{{ route('folia.profile') }}">Profile</a>
-            <a href="{{ route('folia.logout') }}">Logout</a>
+            <a href="{{ route('home') }}">Home</a>
+            <a href="{{ route('profile') }}">Profile</a>
+            <a href="{{ route('logout') }}">Logout</a>
         </nav>
         @endif
     </header>

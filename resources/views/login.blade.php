@@ -1,4 +1,4 @@
-@extends('folia.layouts.app')
+@extends('layouts.app')
 
 @push('style')
 <style>
@@ -44,7 +44,7 @@
         <input class="login-button heavy-button" type="submit" value=">>> Login">
 
         <div class="register-prompt">
-            No account? <a href="{{ route('folia.register') }}">Make one!</a>
+            No account? <a href="{{ route('register') }}">Make one!</a>
         </div>
     </form>
 

@@ -1,4 +1,4 @@
-@extends('folia.layouts.app')
+@extends('layouts.app')
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
