@@ -23,4 +23,9 @@ mix
     .sass('resources/sass/post.scss', 'public/css')
     .sass('resources/sass/resources.scss', 'public/css')
     .sass('resources/sass/about.scss', 'public/css')
-    .sass('resources/sass/auth.scss', 'public/css');
+    .sass('resources/sass/auth.scss', 'public/css')
+    .sass('resources/sass/folia/app.scss', 'public/css/folia')
+    .sass('resources/sass/folia/login.scss', 'public/css/folia')
+    .sass('resources/sass/folia/register.scss', 'public/css/folia')
+    .sass('resources/sass/folia/profile.scss', 'public/css/folia')
+    .sass('resources/sass/folia/posts.scss', 'public/css/folia');

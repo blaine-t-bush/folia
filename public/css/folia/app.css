@@ -1,0 +1,128 @@
+body {
+  background-color: #363636;
+  color: #a3a3a3;
+  font-family: "Source Code Pro", Courier, monospace;
+  margin: auto;
+  max-width: 720px;
+  width: 95%;
+}
+
+main {
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea {
+  /* Reset the default style */
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+textarea {
+  background-color: #a3a3a3;
+  color: #363636 !important;
+}
+
+input[type=text] {
+  background-color: #a3a3a3;
+  color: #363636 !important;
+  padding: 0 0.2em;
+}
+
+input[type=textarea] {
+  background-color: #a3a3a3;
+  color: #363636 !important;
+}
+
+header {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+}
+
+h1.title {
+  align-self: center;
+  grid-column: 1/span 1;
+  grid-row: 1/span 1;
+  margin: 0;
+}
+
+h1.title a {
+  color: inherit;
+}
+
+h2.tagline {
+  align-self: center;
+  grid-column: 1/span 2;
+  grid-row: 3/span 1;
+  font-size: 1.2rem;
+  font-weight: normal;
+  margin: 0;
+}
+
+.rule {
+  align-self: center;
+  grid-column: 1/span 2;
+  grid-row: 2/span 1;
+  overflow: hidden;
+  width: 100%;
+}
+
+a {
+  color: #63c463;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:link,
+a:active {
+  color: #63c463;
+}
+
+a:visited {
+  color: green;
+}
+
+nav {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 2/span 1;
+  grid-row: 1/span 1;
+}
+
+nav a {
+  padding: 1em;
+  color: #63c463 !important;
+}
+
+.heavy-button {
+  border: 2px solid green;
+  color: green;
+  font-weight: bold;
+  height: 1.6em;
+  line-height: 1em;
+  padding: 0 0.3em;
+}
+
+.heavy-button:focus,
+.heavy-button:hover {
+  background-color: darkgreen;
+  border: 2px solid #63c463;
+  color: #63c463;
+}
+

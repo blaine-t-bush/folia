@@ -151,6 +151,61 @@ function selectRandomTableResult() {
 
 /***/ }),
 
+/***/ "./resources/sass/folia/app.scss":
+/*!***************************************!*\
+  !*** ./resources/sass/folia/app.scss ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/folia/login.scss":
+/*!*****************************************!*\
+  !*** ./resources/sass/folia/login.scss ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/folia/posts.scss":
+/*!*****************************************!*\
+  !*** ./resources/sass/folia/posts.scss ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/folia/profile.scss":
+/*!*******************************************!*\
+  !*** ./resources/sass/folia/profile.scss ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./resources/sass/folia/register.scss":
+/*!********************************************!*\
+  !*** ./resources/sass/folia/register.scss ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/osrs-slayer-tasks.scss":
 /*!***********************************************!*\
   !*** ./resources/sass/osrs-slayer-tasks.scss ***!
@@ -207,9 +262,9 @@ function selectRandomTableResult() {
 /***/ }),
 
 /***/ 0:
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/osrs-slayer-tasks.scss ./resources/sass/whitehack-character-generator.scss ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/osrs-slayer-tasks.scss ./resources/sass/whitehack-character-generator.scss ./resources/sass/app.scss ./resources/sass/posts.scss ./resources/sass/post.scss ./resources/sass/resources.scss ./resources/sass/about.scss ./resources/sass/auth.scss ./resources/sass/folia/app.scss ./resources/sass/folia/login.scss ./resources/sass/folia/register.scss ./resources/sass/folia/profile.scss ./resources/sass/folia/posts.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -221,7 +276,12 @@ __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\posts.scss */"./
 __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\post.scss */"./resources/sass/post.scss");
 __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\resources.scss */"./resources/sass/resources.scss");
 __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\about.scss */"./resources/sass/about.scss");
-module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\auth.scss */"./resources/sass/auth.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\folia\app.scss */"./resources/sass/folia/app.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\folia\login.scss */"./resources/sass/folia/login.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\folia\register.scss */"./resources/sass/folia/register.scss");
+__webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\folia\profile.scss */"./resources/sass/folia/profile.scss");
+module.exports = __webpack_require__(/*! C:\Users\Blaine\dev\blog\resources\sass\folia\posts.scss */"./resources/sass/folia/posts.scss");
 
 
 /***/ })

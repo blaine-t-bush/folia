@@ -1,51 +1,7 @@
 @extends('folia.layouts.app')
 
 @push('style')
-<style>
-    .register {
-        display: flex;
-        flex-direction: column;
-        margin: auto;
-        max-width: 300px;
-        width: 100%;
-    }
-
-    .register-label-displayname, .register-label-password, .register-label-robot {
-        margin-top: 1em;
-    }
-
-    .register-label-robot {
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .register-input-username, .register-input-displayname, .register-input-password {
-        height: 1.5em;
-        line-height: 1.5em;
-        margin-top: 0.5em;
-    }
-
-    .register-button {
-        margin-top: 1em;
-    }
-
-    .error {
-        color: red;
-        margin: 0.2em;
-        text-align: center;
-    }
-
-    .input-error {
-        background-color: rgb(241, 169, 169) !important;
-        border: 1px solid red;
-    }
-
-    .login-prompt {
-        text-align: center;
-        margin-top: 1em;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/folia/register.css') }}">
 @endpush('style')
 
 @section('main')

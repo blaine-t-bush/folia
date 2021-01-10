@@ -1,0 +1,49 @@
+@import 'vars.scss';
+
+.register {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 300px;
+    width: 100%;
+
+    &-label {
+        &-displayname, &-password, &-robot {
+            margin-top: 1em;
+        }
+
+        &-robot {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &-input {
+        &-username, &-displayname, &-password {
+            height: 1.5em;
+            line-height: 1.5em;
+            margin-top: 0.5em;
+        }
+    }
+
+    &-button {
+        margin-top: 1em;
+    }
+}
+
+.error {
+    color: $color-error;
+    margin: 0.2em;
+    text-align: center;
+}
+
+.input-error {
+    background-color: $color-error-background !important;
+    border: 1px solid $color-error;
+}
+
+.login-prompt {
+    text-align: center;
+    margin-top: 1em;
+}

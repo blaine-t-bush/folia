@@ -3,70 +3,11 @@
 @push('style')
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
-
-    .login {
-        display: flex;
-        flex-direction: column;
-        margin: auto;
-        max-width: 300px;
-        width: 100%;
-    }
-
-    .login-label-password {
-        margin-top: 1em;
-    }
-
-    .login-input-username, .login-input-password {
-        height: 1.5em;
-        line-height: 1.5em;
-        margin-top: 0.5em;
-    }
-
-    .login-button {
-        margin-top: 1em;
-    }
-
-    .error {
-        color: red;
-        margin: 0.2em;
-        text-align: center;
-    }
-
-    .register-prompt {
-        text-align: center;
-        margin-top: 1em;
-    }
-
-    .sticky-note {
-        color: rgba(0, 0, 0, 0.7);
-        font-family: 'Gloria Hallelujah', cursive;
-        font-size: 2rem;
-        height: 300px;
-        width: 300px;
-        position: relative;
-        transform: rotate(7deg);
-        margin: auto;
-    }
-
-    .sticky-note-text {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 260px;
-        display: grid;
-
-        margin: 0;
-        padding: 50px 20px 20px 20px;
-        list-style: none;
-    }
-
-    .sticky-note-item {
-        align-self: center;
-        justify-content: center;
-        text-align: center;
-    }
 </style>
+<link rel="stylesheet" href="{{ asset('css/folia/login.css') }}">
 @endpush('style')
+
+{{-- TODO fix login so it returns error on failure --}}
 
 @section('main')
     <form class="login" id="login" method="POST" action="/folia/login" enctype="multipart/form-data">
@@ -74,7 +15,7 @@
 
         <label class="login-label-username" for="id">Username</label>
         <input
-            class="login-input-username"
+            class="login-input-username @error('id') input-error @enderror"
             type="text"
             name="id"
             id="id"
@@ -86,7 +27,7 @@
 
         <label class="login-label-password" for="password">Password</label>
         <input
-            class="login-input-password"
+            class="login-input-password @error('password') input-error @enderror"
             type="text"
             name="password"
             id="password"

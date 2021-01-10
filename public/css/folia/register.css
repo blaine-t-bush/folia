@@ -1,0 +1,48 @@
+.register {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 300px;
+  width: 100%;
+}
+
+.register-label-displayname,
+.register-label-password,
+.register-label-robot {
+  margin-top: 1em;
+}
+
+.register-label-robot {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.register-input-username,
+.register-input-displayname,
+.register-input-password {
+  height: 1.5em;
+  line-height: 1.5em;
+  margin-top: 0.5em;
+}
+
+.register-button {
+  margin-top: 1em;
+}
+
+.error {
+  color: #e60a0a;
+  margin: 0.2em;
+  text-align: center;
+}
+
+.input-error {
+  background-color: #f1a9a9 !important;
+  border: 1px solid #e60a0a;
+}
+
+.login-prompt {
+  text-align: center;
+  margin-top: 1em;
+}
+

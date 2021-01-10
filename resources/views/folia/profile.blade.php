@@ -1,18 +1,7 @@
 @extends('folia.layouts.app')
 
 @push('style')
-<style>
-    .profile {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-    }
-
-    .profile-value {
-        color: lightgreen;
-        font-weight: bold;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/folia/profile.css') }}">
 @endpush('style')
 
 @section('main')

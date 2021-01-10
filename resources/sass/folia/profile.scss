@@ -1,0 +1,12 @@
+@import 'vars.scss';
+
+.profile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    &-value {
+        color: $color-text-accent;
+        font-weight: bold;
+    }
+}

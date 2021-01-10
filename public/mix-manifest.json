@@ -8,6 +8,11 @@
     "/css/resources.css": "/css/resources.css",
     "/css/about.css": "/css/about.css",
     "/css/auth.css": "/css/auth.css",
+    "/css/folia/app.css": "/css/folia/app.css",
+    "/css/folia/login.css": "/css/folia/login.css",
+    "/css/folia/register.css": "/css/folia/register.css",
+    "/css/folia/profile.css": "/css/folia/profile.css",
+    "/css/folia/posts.css": "/css/folia/posts.css",
     "/js/osrs-molten-glass.js": "/js/osrs-molten-glass.js",
     "/js/osrs-slayer-tasks.js": "/js/osrs-slayer-tasks.js",
     "/js/whitehack-character-generator.js": "/js/whitehack-character-generator.js"
