@@ -46,7 +46,6 @@ input[type=textarea] {
 
 header {
   display: grid;
-  grid-template-columns: 50% 50%;
   margin-bottom: 2rem;
   margin-top: 0.5rem;
 }
@@ -108,6 +107,19 @@ nav {
 nav a {
   padding: 1em;
   color: #63c463 !important;
+}
+
+@media (max-width: 380px) {
+  nav {
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: unset;
+  }
+
+  nav a {
+    padding: 0;
+    padding-bottom: 0.5em;
+  }
 }
 
 .heavy-button {

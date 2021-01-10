@@ -28,7 +28,7 @@ class FoliaUserController extends Controller
         $user = static::create($request->id, $request->display_name, $request->password);
 
         // Attempt to authenticate user and save a remember token.
-        $login = static::authenticateAndStore($request, $request->id, $request->password);
+        $request = static::authenticateAndStore($request, $request->id, $request->password);
 
         return redirect('/folia');
     }
@@ -41,13 +41,14 @@ class FoliaUserController extends Controller
         ]);
 
         // Attempt to authenticate user and save a remember token.
-        $login = static::authenticateAndStore($request, $request->id, $request->password); // FIXME populate error message and display when redirecting back to login screen if authentication failed.
+        $request = static::authenticateAndStore($request, $request->id, $request->password); // FIXME populate error message and display when redirecting back to login screen if authentication failed.
 
         return redirect('/folia');
     }
 
     public function logout(Request $request) {
         // Clear their user_id and token from session.
+        $request->session()->put('folia_user_logged_in', false);
         $request->session()->forget(['folia_user_id', 'folia_authenticated_token']);
 
         return redirect('/folia');
@@ -119,15 +120,18 @@ class FoliaUserController extends Controller
             $request->session()->regenerate();
             $request->session()->put('folia_authenticated_token', $token);
             $request->session()->put('folia_user_id', $id);
+            $request->session()->put('folia_user_logged_in', true);
 
             // Store the token in user table. Now we can compare these tokens in the future.
             $user = FoliaUser::find($id);
             $user->authenticated_token = $token;
             $user->save();
             
-            return true;
+            return $request;
         } else {
-            return false;
+            $request->session()->put('folia_user_logged_in', false);
+            
+            return $request;
         }
     }
 }

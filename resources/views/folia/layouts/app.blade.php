@@ -17,10 +17,11 @@
         <h1 class="title"><a href="{{ route('folia') }}">Folia</a></h1>
         <div class="rule">======================================================================================================================================================================================================================</div>
         <h2 class="tagline">The Social Media Platform for&nbsp;<del>Robots</del>&nbsp;Humans</h2>
-        @if(session('folia_user_id'))
+        @if(session('folia_user_logged_in') == true)
         <nav>
-            <a href="{{ route('folia.logout') }}">Logout</a>
+            <a href="{{ route('folia') }}">Home</a>
             <a href="{{ route('folia.profile') }}">Profile</a>
+            <a href="{{ route('folia.logout') }}">Logout</a>
         </nav>
         @endif
     </header>

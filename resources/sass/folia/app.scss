@@ -46,7 +46,6 @@ input[type="textarea"] {
 
 header {
     display: grid;
-    grid-template-columns: 50% 50%;
     margin-bottom: 2rem;
     margin-top: 0.5rem;
 }
@@ -106,6 +105,17 @@ nav {
     a {
         padding: 1em;
         color: $color-link !important;
+    }
+
+    @media (max-width: 380px) {
+        align-items: flex-end;
+        flex-direction: column;
+        justify-content: unset;
+
+        a {
+            padding: 0;
+            padding-bottom: 0.5em;
+        }
     }
 }
 
