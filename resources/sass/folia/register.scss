@@ -8,7 +8,11 @@
     width: 100%;
 
     &-label {
-        &-displayname, &-password, &-robot {
+        &-username, &-displayname, &-password, &-robot {
+            margin-bottom: 0.5em;
+        }
+
+        &-displayname, &-password {
             margin-top: 1em;
         }
 
@@ -16,6 +20,7 @@
             align-items: center;
             display: flex;
             justify-content: space-between;
+            margin-top: 1.5em;
         }
     }
 
@@ -23,12 +28,29 @@
         &-username, &-displayname, &-password {
             height: 1.5em;
             line-height: 1.5em;
-            margin-top: 0.5em;
         }
     }
 
     &-button {
         margin-top: 1em;
+    }
+}
+
+.password-container {
+    align-items: center;
+    display: grid;
+    grid-template-columns: auto auto;
+
+    &-button {
+        align-items: center;
+        display: grid;
+        height: 100%;
+
+        &-icon {
+            align-items: center;
+            display: grid !important;
+            height: 100%;
+        }
     }
 }
 

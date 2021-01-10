@@ -39,6 +39,12 @@ input[type=text] {
   padding: 0 0.2em;
 }
 
+input[type=password] {
+  background-color: #a3a3a3;
+  color: #363636 !important;
+  padding: 0 0.2em;
+}
+
 input[type=textarea] {
   background-color: #a3a3a3;
   color: #363636 !important;

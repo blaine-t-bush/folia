@@ -7,18 +7,43 @@
     max-width: 300px;
     width: 100%;
 
-    &-label-password {
-        margin-top: 1em;
+    &-label {
+        &-username, &-password {
+            margin-bottom: 0.5em;
+        }
+
+        &-password {
+            margin-top: 1em;
+        }
     }
 
-    &-input-username, &-input-password {
-        height: 1.5em;
-        line-height: 1.5em;
-        margin-top: 0.5em;
+    &-input {
+        &-username, &-password {
+            height: 1.5em;
+            line-height: 1.5em;
+        }
     }
 
     &-button {
         margin-top: 1em;
+    }
+}
+
+.password-container {
+    align-items: center;
+    display: grid;
+    grid-template-columns: auto auto;
+
+    &-button {
+        align-items: center;
+        display: grid;
+        height: 100%;
+
+        &-icon {
+            align-items: center;
+            display: grid !important;
+            height: 100%;
+        }
     }
 }
 

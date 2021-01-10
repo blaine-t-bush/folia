@@ -33,12 +33,17 @@
         @enderror
 
         <label class="register-label-password" for="password">Password</label>
-        <input
-            class="register-input-password @error('password') input-error @enderror"
-            type="text"
-            name="password"
-            id="password"
-            placeholder="password">
+        <div class="password-container">
+            <input
+                class="register-input-password @error('password') input-error @enderror"
+                type="password"
+                name="password"
+                id="password"
+                placeholder="password">
+            <button class="password-container-button" onclick="togglePasswordVisibility(event, 'password', 'password-visibility-toggle')">
+                <i id="password-visibility-toggle" class="fa fa-eye password-container-button-icon" aria-hidden="true"></i>
+            </button>
+        </div>
         @error('password')
         <div class="error">{{ $message }}</div>
         @enderror

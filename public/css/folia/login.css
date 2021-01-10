@@ -6,6 +6,11 @@
   width: 100%;
 }
 
+.login-label-username,
+.login-label-password {
+  margin-bottom: 0.5em;
+}
+
 .login-label-password {
   margin-top: 1em;
 }
@@ -14,11 +19,28 @@
 .login-input-password {
   height: 1.5em;
   line-height: 1.5em;
-  margin-top: 0.5em;
 }
 
 .login-button {
   margin-top: 1em;
+}
+
+.password-container {
+  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.password-container-button {
+  align-items: center;
+  display: grid;
+  height: 100%;
+}
+
+.password-container-button-icon {
+  align-items: center;
+  display: grid !important;
+  height: 100%;
 }
 
 .error {
