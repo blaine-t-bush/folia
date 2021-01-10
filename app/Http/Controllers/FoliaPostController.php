@@ -40,6 +40,13 @@ class FoliaPostController extends Controller
         $post = FoliaPost::find($request->id);
 
         if ($post->user_id == $request->session()->get('folia_user_id')) {
+            // First delete all children, if any.
+            $comments = $post->comments;
+            foreach ($comments as $comment) {
+                $comment->delete();
+            }
+
+            // Then delete post.
             $post->delete();
         }
 
