@@ -3,99 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
-    public function index() {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
+    public function index(Request $request) {
+        // Get all posts.
+        $posts = Post::all()->sortByDesc('created_at'); // FIXME add pagination
 
-        return view('posts.posts', [
+        // Return view and pass in posts.
+        return view('posts', [
             'posts' => $posts,
         ]);
     }
 
-    public function create() {
-        return view('posts.create');
-    }
-
-    public function store(Request $request) {
-        // Validate inputs.
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:posts',
-            'image' => 'required|image|mimes:jpg,jpeg,png,gif,svg',
-            'summary' => 'required',
-            'body' => 'required',
+    public function create(Request $request) {
+        // Validate the inputs.
+        $validated = $request->validate([
+            'body' => ['required', 'min:1', 'max:255'],
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        // Save the uploaded image.
-        $path = Storage::url($request->file('image')->store('public'));
-
-        // Save the post to DB.
+        // Create a new post.
         $post = new Post;
-        $post->title = $request->input()['title'];
-        $post->image_url = $path;
-        $post->resource_url = $request->input()['resource_url'];
-        $post->summary = $request->input()['summary'];
-        $post->body = $request->input()['body'];
+        $post->user_id = $request->session()->get('user_id');
+        $post->body = $request->body;
         $post->save();
 
-        return redirect('posts');
+        // Send back to feed. New post will appear when index() is run.
+        return redirect('/');
     }
 
-    public function show(string $slug) {
-        $post = Post::where('slug', $slug)->firstOrFail();
+    public function destroy(Request $request) {
+        // Check that post actually belongs to user.
+        $post = Post::find($request->id);
 
-        return view('posts.post', [
-            'post' => $post,
-        ]);
-    }
+        if ($post->user_id == $request->session()->get('user_id')) {
+            // First delete all children, if any.
+            $comments = $post->comments;
+            foreach ($comments as $comment) {
+                $comment->delete();
+            }
 
-    public function edit(string $slug) {
-        $post = Post::where('slug', $slug)->firstOrFail();
-
-        return view('posts.edit', [
-            'post' => $post,
-        ]);
-    }
-
-    public function update(Request $request) {
-        // Validate inputs.
-        // TODO make sure validation rules are updated.
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'summary' => 'required',
-            'body' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            // Then delete post.
+            $post->delete();
         }
 
-        // Save the post to DB.        
-        $post = Post::where('slug', $request->slug)->first();
-        $post->title = $request->input()['title'];
-        $post->resource_url = $request->input()['resource_url'];
-        $post->summary = $request->input()['summary'];
-        $post->body = $request->input()['body'];
-        $post->save();
-
-        return view('posts.post', [
-            'post' => $post,
-        ]);
-    }
-
-    public function destroy(string $slug) {
-        $post = Post::where('slug', $slug)->firstOrFail();
-        $post->delete();
-
-        return redirect('posts');
+        return redirect('/');
     }
 }

@@ -1,22 +1,20 @@
-// Add click event listener to all first column of header of all tables.
-let tables = document.getElementsByTagName('table');
-for (let i = 0; i < tables.length; i++) {
-    let firstRow = tables[i].rows[0];
-    let firstHeader = firstRow.children[0];
-    firstHeader.addEventListener('click', selectRandomTableResult);
-}
+function togglePasswordVisibility(event, inputId, iconId) {
+    // Prevent event from running so form doesn't get submitted.
+    event.preventDefault();
 
-function selectRandomTableResult() {
-    // Get the triggered table. Start from th -> tr -> tbody -> table.
-    let table = event.target.parentElement.parentElement.parentElement;
-
-    // Remove "selected" class from all rows, to clear previous result.
-    for (let i = 0; i < table.rows.length; i++) {
-        table.rows[i].classList.remove("selected");
+    // Change password to hidden if visible and vice versa,
+    // and change icon to match.
+    let input = document.getElementById(inputId);
+    let icon = document.getElementById(iconId);
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else if (input.type === "text") {
+        input.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
     }
 
-    // Add "selected" class to a random result.
-    let rowCount = table.rows.length - 1;
-    let randomIndex = Math.floor(Math.random() * rowCount + 1);
-    table.rows[randomIndex].classList.add("selected");
+    return;
 }

@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\FoliaCommentController;
-use App\Http\Controllers\FoliaPostController;
-use App\Http\Controllers\FoliaUserController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
  * 
@@ -113,54 +113,54 @@ Route::delete('/posts/{slug}', [
  */
 Route::middleware(['folia.check_token'])->group(function() {
     Route::get('/folia', function() {
-        return redirect('/folia/posts');
+        return redirect('/posts');
     })->name('folia');
 
-    Route::get('/folia/posts', [
-        FoliaPostController::class, 'index'
+    Route::get('/posts', [
+        PostController::class, 'index'
     ]);
 
-    Route::post('/folia/posts', [
-        FoliaPostController::class, 'create'
+    Route::post('/posts', [
+        PostController::class, 'create'
     ]);
 
-    Route::delete('/folia/posts/{id}', [
-        FoliaPostController::class, 'destroy'
+    Route::delete('/posts/{id}', [
+        PostController::class, 'destroy'
     ]);
 
-    Route::post('/folia/posts/{id}/reply', [
-        FoliaCommentController::class, 'create'
+    Route::post('/posts/{id}/reply', [
+        CommentController::class, 'create'
     ]);
 
-    Route::delete('/folia/comments/{id}', [
-        FoliaCommentController::class, 'destroy'
+    Route::delete('/comments/{id}', [
+        CommentController::class, 'destroy'
     ]);
     
-    Route::get('/folia/login', function() {
+    Route::get('/login', function() {
         return view('folia.login');
     })->name('folia.login')->withoutMiddleware(['folia.check_token']);
     
-    Route::post('/folia/login', [
-        FoliaUserController::class, 'login'
+    Route::post('/login', [
+        UserController::class, 'login'
     ])->withoutMiddleware(['folia.check_token']);
     
-    Route::get('/folia/logout', [
-        FoliaUserController::class, 'logout'
+    Route::get('/logout', [
+        UserController::class, 'logout'
     ]);
     
-    Route::post('/folia/logout', [
-        FoliaUserController::class, 'logout'
+    Route::post('/logout', [
+        UserController::class, 'logout'
     ])->name('folia.logout');
     
-    Route::get('/folia/register', function() {
+    Route::get('/register', function() {
         return view('folia.register');
     })->name('folia.register')->withoutMiddleware(['folia.check_token']);
     
-    Route::post('/folia/register', [
-        FoliaUserController::class, 'register'
+    Route::post('/register', [
+        UserController::class, 'register'
     ])->withoutMiddleware(['folia.check_token']);
 
-    Route::get('/folia/profile', [
-        FoliaUserController::class, 'profile'
+    Route::get('/profile', [
+        UserController::class, 'profile'
     ])->name('folia.profile');
 });

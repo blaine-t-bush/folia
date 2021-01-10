@@ -1,120 +1,161 @@
-@import './vars';
+@import 'vars.scss';
 
-ol.posts {
-    list-style-type: none;
-    padding: 0;
+.create {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &-text {
+        flex: 1;
+        min-height: 4.5em;
+        line-height: 1.5em;
+        padding: 0 0.5em;
+
+        @media (max-width: 580px) {
+            min-height: 6em;
+        }
+
+        @media (max-width: 420px) {
+            min-height: 7.5em;
+        }
+    }
+
+    &-button {
+        margin-bottom: 2rem;
+        margin-top: 0.5rem;
+    }
+}
+
+.posts {
+    list-style: none;
     margin: 0;
-    a {
-        color: inherit;
-        text-decoration: inherit;
-    }
-    li.post {
-        background-color: $colorBackgroundHeader;
-        box-shadow: 4px 4px 4px $colorBackgroundMid;
-        margin-bottom: 1.5rem;
-        min-height: 10rem;
-        @media only screen and (max-width: 800px) {
-            min-height: 7rem;
-        }
-        @media only screen and (max-width: 500px) {
-            min-height: 5rem;
-        }
-        @media only screen and (max-width: 360px) {
-            min-height: none;
-        }
-        a.post-link {
-            display: block;
-            padding: 1rem;
-            min-height: 10rem;
-        }
-        h2 {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            p {
-                margin-top: 0;
-                margin-bottom: 0.5rem;
-            }
-        }
-        time {
-            color: $colorTextLight;
-            font-size: 0.9rem;
-            font-weight: normal;
-        }
-        summary {
-            font-weight: normal;
-            margin-top: 1rem;
-        }
-        .read-more {
-            margin-bottom: 0;
-            text-decoration: underline;
-            font-weight: bold;
-            color: $colorAccentDark;
-        }
-        img {
-            border: 2px solid $colorAccentDark;
-            box-sizing: border-box;
-            display: block;
-            float: right;
-            height: 10rem;
-            margin-left: 1rem;
-            margin-bottom: 0.5rem;
-            @media only screen and (max-width: 800px) {
-                height: 7rem;
-            }
-            @media only screen and (max-width: 500px) {
-                height: 5rem;
-            }
-            @media only screen and (max-width: 360px) {
-                float: none;
-                height: auto;
-                margin-bottom: 1rem;
-                margin-left: 0;
-                width: 100%;
-            }
-        }
-    }
+    padding: 0;
 }
 
-nav.pagination {
-    ul {
-        display: flex;
-        justify-content: space-around;
-        list-style-type: none;
-        padding: 0;
+.post {
+    background-color: $color-background-mid;
+    border: 1px solid $color-post-accent;
+    color: $color-post-accent;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+
+    &-header {
+        display: grid;
+        grid-template-columns: min-content auto auto;
+        max-height: 1.6em;
+        line-height: 1.6em;
+
+        &-displayname {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &-username {
+            font-style: italic;
+            font-weight: 300;
+            padding-left: 0.5em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &::before {
+                content: $username-prepend;
+            }
+        }
+
+        &-delete {
+            justify-self: end;
+            line-height: 1.6em;
+            max-height: 1.6em;
+            padding-left: 0.5em;
+        }
+    }
+
+    &-timestamp {
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+    }
+
+    &-body {
         margin: 0;
-        li.disabled {
-            visibility: hidden;
+        padding: 0;
+    }
+}
+
+.delete-button {
+    border: 2px solid $color-delete;
+    color: $color-delete;
+
+    &:focus, &:hover {
+        background-color: $color-delete;
+        border: 2px solid $color-delete-light;
+        color: $color-delete-light;
+    }
+}
+
+.comments {
+    border-top: 1px solid lightgreen;
+    font-size: 0.9rem;
+    list-style: none;
+    margin: 1rem 0 0 0rem;
+    padding: 0 0 0 1.5rem;
+}
+
+.comment {
+    padding-left: 0.5rem;
+    margin-top: 1rem;
+
+    &-header {
+        display: grid;
+        grid-template-columns: min-content auto auto;
+        max-height: 1.6em;
+        line-height: 1.6em;
+
+        &-displayname {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &-username {
+            font-style: italic;
+            font-weight: 300;
+            padding-left: 0.5em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &::before {
+                content: $username-prepend;
+            }
+        }
+        
+        &-delete {
+            font-size: 1rem;
+            justify-self: end;
+            line-height: 1.6em;
+            max-height: 1.6em;
+            padding-left: 0.5em;
         }
     }
 }
-
-button.create-new-post {
-    margin-bottom: 1em;
-}
-
-form.create-new-post {
+.reply {
     display: flex;
-    flex-direction: column;
-    label {
-        padding-top: 0.5em;
-    }
-    input.submit-post {
-        margin-top: 1em;
-    }
-    .input-text {
-        font-family: 'Nanum Gothic Coding', monospace;
-    }
-}
+    margin: 1rem 0 0 0;
 
-.post-admin {
-    display: flex;
-    padding: 1rem;
-    &-edit {
-        margin-right: 0.5em;
+    &-text {
+        flex: 1;
+        line-height: 1.5em;
+        height: 1.5em;
+        padding: 0 0.5em;
     }
-    &-delete {
-        margin-right: 0.5em;
+
+    &-button {
+        background-color: $color-background-dark;
+        margin-left: 0.5em;
     }
 }
