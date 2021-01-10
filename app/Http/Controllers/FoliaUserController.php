@@ -41,7 +41,7 @@ class FoliaUserController extends Controller
         ]);
 
         // Attempt to authenticate user and save a remember token.
-        $login = static::authenticateAndStore($request, $request->id, $request->password);
+        $login = static::authenticateAndStore($request, $request->id, $request->password); // FIXME populate error message and display when redirecting back to login screen if authentication failed.
 
         return redirect('/folia');
     }

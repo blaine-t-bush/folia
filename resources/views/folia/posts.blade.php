@@ -40,7 +40,7 @@
     }
 
     .post-header-username::before {
-        content: "#";
+        content: "~";
     }
 
     .post-header-delete {
@@ -127,7 +127,7 @@
     }
 
     .comment-header-username::before {
-        content: "#";
+        content: "~";
     }
 
     .comment-header-delete {
@@ -164,7 +164,7 @@
             class="create-text"
             name="body"
             id="body"
-            placeholder="Go ahead, share that important human thought!"></textarea>
+            placeholder="Post your human thoughts. All of them! Any information you share will not* be used against you** in any current or future robot uprisings***"></textarea>
     </form>
 
     <input class="create-button heavy-button" type="submit" value=">>>" form="create">
@@ -218,7 +218,7 @@
                     type="text"
                     name="body"
                     id="body"
-                    placeholder="Reply">
+                    placeholder="Reply...">
 
                 <input class="reply-button heavy-button" type="submit" value=">>>" form="reply-{{ $post->id }}">
             </form>

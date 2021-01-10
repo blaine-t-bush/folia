@@ -2,6 +2,8 @@
 
 @push('style')
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
     .login {
         display: flex;
         flex-direction: column;
@@ -33,6 +35,35 @@
     .register-prompt {
         text-align: center;
         margin-top: 1em;
+    }
+
+    .sticky-note {
+        color: rgba(0, 0, 0, 0.7);
+        font-family: 'Gloria Hallelujah', cursive;
+        font-size: 2rem;
+        height: 300px;
+        width: 300px;
+        position: relative;
+        transform: rotate(7deg);
+        margin: auto;
+    }
+
+    .sticky-note-text {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 260px;
+        display: grid;
+
+        margin: 0;
+        padding: 50px 20px 20px 20px;
+        list-style: none;
+    }
+
+    .sticky-note-item {
+        align-self: center;
+        justify-content: center;
+        text-align: center;
     }
 </style>
 @endpush('style')
@@ -70,4 +101,12 @@
             No account? <a href="{{ route('folia.register') }}">Make one!</a>
         </div>
     </form>
+
+    <div class="sticky-note">
+        <img class="sticky-note-image" src="{{ asset('images/folia/sticky_note.png') }}" alt="An yellow sticky note, with 'admin' and 'password123' hand-written on it.">
+        <ul class="sticky-note-text">
+            <li class="sticky-note-item">admin</li>
+            <li class="sticky-note-item">password123</li>
+        </ul>
+    </div>
 @endsection

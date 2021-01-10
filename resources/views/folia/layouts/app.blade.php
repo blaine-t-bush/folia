@@ -142,7 +142,7 @@
     <header>
         <h1 class="title"><a href="{{ route('folia') }}">Folia</a></h1>
         <div class="rule">======================================================================================================================================================================================================================</div>
-        <h2 class="tagline">The Social Media Platform for <del>Robots</del> Humans</h2>
+        <h2 class="tagline">The Social Media Platform for&nbsp;<del>Robots</del>&nbsp;Humans</h2>
         @if(session('folia_user_id'))
         <nav>
             <a href="{{ route('folia.logout') }}">Logout</a>

@@ -21,7 +21,7 @@ class FoliaSeeder extends Seeder
     public function run()
     {
         // Create a static user for testing.
-        FoliaUserController::create('admin', 'The Boss', 'p@ssw0rd');
+        FoliaUserController::create('admin', 'Security Mastah', 'password123');
         
         // Instantiate Faker, which we'll use to generate some test data.
         $faker = Faker::create();
