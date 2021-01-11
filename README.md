@@ -10,12 +10,12 @@
 - Write comment tests
 
 ## Functionality
-- Add ability to "like" posts and comments
 - Add ability to update in real time
 - Add daily recurring job to clear data and re-seed
 - Add frequently recurring job to add posts and comments
 
 # FIXME
+- Display login errors if validation fails
 - When deleting a post, some comments on other posts disappear
 - Update business logic to have two separate layers:
     - API, which takes arguments (not Requests) and updates models
