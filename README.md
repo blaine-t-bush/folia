@@ -6,7 +6,7 @@
 - Add sticky note animation on hover
 
 ## Tests
-- Expand user and post tests
+- Write post tests
 - Write comment tests
 
 ## Functionality
