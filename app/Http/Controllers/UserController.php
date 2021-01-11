@@ -19,16 +19,16 @@ class UserController extends Controller
     public function register(Request $request) {
         // Validate the inputs.
         $validated = $request->validate([
-            'id' => ['required', 'unique:users', 'max:255'],
+            'user_id' => ['required', 'unique:users,id', 'max:255'],
             'display_name' => ['required', 'max:255'],
             'password' => ['required', 'min:4', 'max:32'],
         ]);
 
         // Create the user.
-        $user = static::create($request->id, $request->display_name, $request->password);
+        $user = static::create($request->user_id, $request->display_name, $request->password);
 
         // Attempt to authenticate user and save a remember token.
-        $request = static::authenticateAndStore($request, $request->id, $request->password);
+        $request = static::authenticateAndStore($request, $request->user_id, $request->password);
 
         return redirect('/posts');
     }
@@ -36,12 +36,12 @@ class UserController extends Controller
     public function login(Request $request) {
         // Validate the inputs.
         $validated = $request->validate([
-            'id' => ['required'],
+            'user_id' => ['required'],
             'password' => ['required'],
         ]);
 
         // Attempt to authenticate user and save a remember token.
-        $request = static::authenticateAndStore($request, $request->id, $request->password); // FIXME populate error message and display when redirecting back to login screen if authentication failed.
+        $request = static::authenticateAndStore($request, $request->user_id, $request->password); // FIXME populate error message and display when redirecting back to login screen if authentication failed.
 
         return redirect('/posts');
     }

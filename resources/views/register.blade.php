@@ -8,15 +8,15 @@
     <form class="register" id="register" method="POST" action="/register" enctype="multipart/form-data">
         @csrf
 
-        <label class="register-label-username" for="id">Username</label>
+        <label class="register-label-username" for="user_id">Username</label>
         <input
-            class="register-input-username @error('id') input-error @enderror"
+            class="register-input-username @error('user_id') input-error @enderror"
             type="text"
-            name="id"
-            id="id"
+            name="user_id"
+            id="user_id"
             placeholder="username"
-            value="{{ old('id') }}">
-        @error('id')
+            value="{{ old('user_id') }}">
+        @error('user_id')
         <div class="error">{{ $message }}</div>
         @enderror
 

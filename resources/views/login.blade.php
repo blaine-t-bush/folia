@@ -13,15 +13,15 @@
     <form class="login" id="login" method="POST" action="/login" enctype="multipart/form-data">
         @csrf
 
-        <label class="login-label-username" for="id">Username</label>
+        <label class="login-label-username" for="user_id">Username</label>
         <input
-            class="login-input-username @error('id') input-error @enderror"
+            class="login-input-username @error('user_id') input-error @enderror"
             type="text"
-            name="id"
-            id="id"
+            name="user_id"
+            id="user_id"
             placeholder="username"
-            value="{{ old('id') }}">
-        @error('id')
+            value="{{ old('user_id') }}">
+        @error('user_id')
         <div class="error">{{ $message }}</div>
         @enderror
 

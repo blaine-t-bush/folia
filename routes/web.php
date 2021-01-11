@@ -10,7 +10,32 @@ use App\Http\Controllers\UserController;
 
 /*
  *
- * Folia
+ * Authentication
+ * 
+ */
+Route::get('/login', function() {
+    return view('login');
+})->name('login');
+
+Route::post('/login', [
+    UserController::class, 'login'
+]);
+
+Route::post('/logout', [
+    UserController::class, 'logout'
+])->name('logout');
+
+Route::get('/register', function() {
+    return view('register');
+})->name('register');
+
+Route::post('/register', [
+    UserController::class, 'register'
+]);
+
+/*
+ *
+ * App
  * 
  */
 Route::middleware(['check_token'])->group(function() {
@@ -26,45 +51,21 @@ Route::middleware(['check_token'])->group(function() {
         PostController::class, 'create'
     ]);
 
-    Route::delete('/posts/{id}', [
+    Route::delete('/posts', [
         PostController::class, 'destroy'
     ]);
 
-    Route::post('/posts/{id}/reply', [
+    Route::post('/posts/comments', [
         CommentController::class, 'create'
     ]);
 
-    Route::post('/posts/{id}/react/{type}', [
-        ReactionController::class, 'react'
-    ]);
-
-    Route::delete('/comments/{id}', [
+    Route::delete('/posts/comments', [
         CommentController::class, 'destroy'
     ]);
-    
-    Route::get('/login', function() {
-        return view('login');
-    })->name('login')->withoutMiddleware(['check_token']);
-    
-    Route::post('/login', [
-        UserController::class, 'login'
-    ])->withoutMiddleware(['check_token']);
-    
-    Route::get('/logout', [
-        UserController::class, 'logout'
+
+    Route::post('/posts/react', [
+        ReactionController::class, 'react'
     ]);
-    
-    Route::post('/logout', [
-        UserController::class, 'logout'
-    ])->name('logout');
-    
-    Route::get('/register', function() {
-        return view('register');
-    })->name('register')->withoutMiddleware(['check_token']);
-    
-    Route::post('/register', [
-        UserController::class, 'register'
-    ])->withoutMiddleware(['check_token']);
 
     Route::get('/profile', [
         UserController::class, 'profile'

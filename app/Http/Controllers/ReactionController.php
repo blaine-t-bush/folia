@@ -8,22 +8,23 @@ use App\Models\Reaction;
 
 class ReactionController extends Controller
 {
-    public function react(int $id, string $type, Request $request) {
+    public function react(Request $request) {
         // Determine if input was checked or unchecked.
         // If checked, add the reaction.
         // If unchecked, remove the reaction.
         if ($request->has('react')) {
-            // NB: the name of the checkbox is "react". If the checkbox is checked when it's clicked,
-            // we want the reaction to be destroyed. If the checkbox was not checked when it was clicked,
+            // NB: the name of the checkbox is "react". If the checkbox was checked when it was clicked,
+            // that means the user had previously reacted, and is now un-reacting, so we want the reaction
+            // to be destroyed. Vice versa, if the checkbox was not checked when it was clicked,
             // then we want the reaction to be created. The "react" parameter, from the name of the checkbox,
             // is only passed if the checkbox was in a checked state before clicking.
             // That's why this seems backwards!
-            $reaction = static::destroy($request->session()->get('user_id'), $id, $request->type);
+            $reaction = static::destroy($request->user_id, $request->post_id, $request->type);
         } else {
-            $reaction = static::create($request->session()->get('user_id'), $id, $request->type);
+            $reaction = static::create($request->user_id, $request->post_id, $request->type);
         }
 
-        return redirect('/');
+        return back();
     }
 
     static function create(string $user_id, int $post_id, string $type) {
