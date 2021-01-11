@@ -61,6 +61,22 @@
                     <input class="laugh-checkbox" type="checkbox" name="react" id="laugh" @if($post->reactions->where('user_id', session('user_id'))->where('type', 'laugh')->count()) checked @endif>
                     <input class="laugh-submit" type="submit" value="xD">
                 </form>
+
+                <div class="count count-smile">
+                    {{ $post->reactions->where('type', 'smile')->count() }}
+                </div>
+
+                <div class="count count-frown">
+                    {{ $post->reactions->where('type', 'frown')->count() }}
+                </div>
+
+                <div class="count count-heart">
+                    {{ $post->reactions->where('type', 'heart')->count() }}
+                </div>
+
+                <div class="count count-laugh">
+                    {{ $post->reactions->where('type', 'laugh')->count() }}
+                </div>
             </div>
 
             <ol class="comments">

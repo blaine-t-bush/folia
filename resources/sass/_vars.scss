@@ -22,11 +22,15 @@ $color-confirm-light: rgb(99, 196, 99);
 $color-link: rgb(99, 196, 99);
 $color-link-visited: rgb(0, 128, 0);
 
-$color-reaction-smile: yellow;
-$color-reaction-frown: blue;
-$color-reaction-heart: red;
-$color-reaction-laugh: orange;
-$color-reaction-shadow: rgb(210, 210, 210);
-$color-reaction-inactive: $color-text-accent;
+$color-reaction-smile: rgb(99, 92, 0);
+$color-reaction-smile-light: rgb(255, 251, 200);
+$color-reaction-frown: rgb(51, 130, 204);
+$color-reaction-frown-light: rgb(183, 220, 255);
+$color-reaction-heart: rgb(233, 42, 42);
+$color-reaction-heart-light: rgb(228, 176, 176);
+$color-reaction-laugh: rgb(255, 166, 0);
+$color-reaction-laugh-light: rgb(245, 239, 229);
+$color-reaction-shadow: $color-background-light;
+$color-reaction-inactive: rgb(99, 196, 99);
 
 $username-prepend: "~";

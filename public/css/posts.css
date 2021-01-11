@@ -52,6 +52,7 @@
 }
 
 .post-header-displayname {
+  font-size: 1.2em;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -89,77 +90,114 @@
 }
 
 .post-reactions {
+  color: #63c463;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
   display: grid;
   grid-template-columns: 2em 2em 2em 2em;
   margin-top: 1em;
+}
+
+.post-reactions .count {
+  justify-self: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.post-reactions .count-smile {
+  color: #63c463;
+}
+
+.post-reactions .count-frown {
+  color: #63c463;
+}
+
+.post-reactions .count-heart {
+  color: #63c463;
+}
+
+.post-reactions .count-laugh {
+  color: #63c463;
 }
 
 .post-reactions form input[type=checkbox] {
   display: none;
 }
 
-.post-reactions form input[type=submit]:hover,
-.post-reactions form input[type=submit]:active {
-  text-shadow: 0 0 5px #d2d2d2;
-}
-
-.post-reactions form input[type=checkbox]:checked + input[type=submit] {
-  text-shadow: 0 0 5px #d2d2d2;
+.post-reactions form input[type=submit] {
+  border: 1px solid #63c463;
+  font-weight: bold;
+  padding-bottom: 0.2em;
+  width: 100%;
 }
 
 .post-reactions form .smile-submit:hover,
 .post-reactions form .smile-submit:active {
-  color: yellow;
+  background-color: #fffbc8;
+  color: #635c00;
 }
 
-.post-reactions form .smile-checkbox:checked + .smile-submit {
-  color: yellow;
+.post-reactions form .smile-checkbox:checked ~ .smile-submit {
+  background-color: #fffbc8;
+  color: #635c00;
 }
 
-.post-reactions form .smile-checkbox:checked + .smile-submit:hover,
-.post-reactions form .smile-checkbox:checked + .smile-submit:active {
+.post-reactions form .smile-checkbox:checked ~ .smile-submit:hover,
+.post-reactions form .smile-checkbox:checked ~ .smile-submit:active {
+  background-color: inherit;
   color: #63c463;
 }
 
 .post-reactions form .frown-submit:hover,
 .post-reactions form .frown-submit:active {
-  color: blue;
+  background-color: #b7dcff;
+  color: #3382cc;
 }
 
-.post-reactions form .frown-checkbox:checked + .frown-submit {
-  color: blue;
+.post-reactions form .frown-checkbox:checked ~ .frown-submit {
+  background-color: #b7dcff;
+  color: #3382cc;
 }
 
-.post-reactions form .frown-checkbox:checked + .frown-submit:hover,
-.post-reactions form .frown-checkbox:checked + .frown-submit:active {
+.post-reactions form .frown-checkbox:checked ~ .frown-submit:hover,
+.post-reactions form .frown-checkbox:checked ~ .frown-submit:active {
+  background-color: inherit;
   color: #63c463;
 }
 
 .post-reactions form .heart-submit:hover,
 .post-reactions form .heart-submit:active {
-  color: red;
+  background-color: #e4b0b0;
+  color: #e92a2a;
 }
 
-.post-reactions form .heart-checkbox:checked + .heart-submit {
-  color: red;
+.post-reactions form .heart-checkbox:checked ~ .heart-submit {
+  background-color: #e4b0b0;
+  color: #e92a2a;
 }
 
-.post-reactions form .heart-checkbox:checked + .heart-submit:hover,
-.post-reactions form .heart-checkbox:checked + .heart-submit:active {
+.post-reactions form .heart-checkbox:checked ~ .heart-submit:hover,
+.post-reactions form .heart-checkbox:checked ~ .heart-submit:active {
+  background-color: inherit;
   color: #63c463;
 }
 
 .post-reactions form .laugh-submit:hover,
 .post-reactions form .laugh-submit:active {
-  color: orange;
+  background-color: #f5efe5;
+  color: #ffa600;
 }
 
-.post-reactions form .laugh-checkbox:checked + .laugh-submit {
-  color: orange;
+.post-reactions form .laugh-checkbox:checked ~ .laugh-submit {
+  background-color: #f5efe5;
+  color: #ffa600;
 }
 
-.post-reactions form .laugh-checkbox:checked + .laugh-submit:hover,
-.post-reactions form .laugh-checkbox:checked + .laugh-submit:active {
+.post-reactions form .laugh-checkbox:checked ~ .laugh-submit:hover,
+.post-reactions form .laugh-checkbox:checked ~ .laugh-submit:active {
+  background-color: inherit;
   color: #63c463;
 }
 
@@ -197,6 +235,7 @@
 }
 
 .comment-header-displayname {
+  font-size: 1.2em;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;

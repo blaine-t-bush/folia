@@ -47,6 +47,7 @@
         line-height: 1.6em;
 
         &-displayname {
+            font-size: 1.2em;
             font-weight: 600;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -85,9 +86,32 @@
     }
 
     &-reactions {
+        color: $color-reaction-inactive;
+        column-gap: 5px;
         display: grid;
         grid-template-columns: 2em 2em 2em 2em;
         margin-top: 1em;
+        
+        .count {
+            justify-self: center;
+            user-select: none;
+
+            &-smile {
+                color: $color-text-accent;
+            }
+            
+            &-frown {
+                color: $color-text-accent;
+            }
+            
+            &-heart {
+                color: $color-text-accent;
+            }
+            
+            &-laugh {
+                color: $color-text-accent;
+            }
+        }
 
         form {
             input[type="checkbox"] {
@@ -95,25 +119,25 @@
             }
 
             input[type="submit"] {
-                &:hover, &:active {
-                    text-shadow: 0 0 5px $color-reaction-shadow;
-                }
-            }
-
-            input[type="checkbox"]:checked + input[type="submit"] {
-                text-shadow: 0 0 5px $color-reaction-shadow;
+                border: 1px solid $color-text-accent;
+                font-weight: bold;
+                padding-bottom: 0.2em;
+                width: 100%;
             }
             
             .smile {
                 &-submit {
                     &:hover, &:active {
+                        background-color: $color-reaction-smile-light;
                         color: $color-reaction-smile;
                     }
                 }
 
-                &-checkbox:checked + .smile-submit {
+                &-checkbox:checked ~ .smile-submit {
+                    background-color: $color-reaction-smile-light;
                     color: $color-reaction-smile;
                     &:hover, &:active {
+                        background-color: inherit;
                         color: $color-reaction-inactive;
                     }
                 }
@@ -122,43 +146,52 @@
             .frown {
                 &-submit {
                     &:hover, &:active {
+                        background-color: $color-reaction-frown-light;
                         color: $color-reaction-frown;
                     }
                 }
 
-                &-checkbox:checked + .frown-submit {
+                &-checkbox:checked ~ .frown-submit {
+                    background-color: $color-reaction-frown-light;
                     color: $color-reaction-frown;
                     &:hover, &:active {
+                        background-color: inherit;
                         color: $color-reaction-inactive;
                     }
                 }
             }
             
-            .heart {
+            .heart {                
                 &-submit {
                     &:hover, &:active {
+                        background-color: $color-reaction-heart-light;
                         color: $color-reaction-heart;
                     }
                 }
 
-                &-checkbox:checked + .heart-submit {
+                &-checkbox:checked ~ .heart-submit {
+                    background-color: $color-reaction-heart-light;
                     color: $color-reaction-heart;
                     &:hover, &:active {
+                        background-color: inherit;
                         color: $color-reaction-inactive;
                     }
                 }
             }
             
-            .laugh {
+            .laugh {                
                 &-submit {
                     &:hover, &:active {
+                        background-color: $color-reaction-laugh-light;
                         color: $color-reaction-laugh;
                     }
                 }
 
-                &-checkbox:checked + .laugh-submit {
+                &-checkbox:checked ~ .laugh-submit {
+                    background-color: $color-reaction-laugh-light;
                     color: $color-reaction-laugh;
                     &:hover, &:active {
+                        background-color: inherit;
                         color: $color-reaction-inactive;
                     }
                 }
@@ -197,6 +230,7 @@
         line-height: 1.6em;
 
         &-displayname {
+            font-size: 1.2em;
             font-weight: 600;
             overflow: hidden;
             text-overflow: ellipsis;
