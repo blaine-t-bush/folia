@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User;
-
 class Post extends Model
 {
     use HasFactory;
@@ -23,5 +21,12 @@ class Post extends Model
      */
     public function comments() {
         return $this->hasMany(Comment::class, 'post_id');
+    }
+
+    /**
+     * Get the reactions belonging to the post.
+     */
+    public function reactions() {
+        return $this->hasMany(Reaction::class, 'post_id');
     }
 }

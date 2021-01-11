@@ -24,4 +24,11 @@ class User extends Model
     public function comments() {
         return $this->hasMany(Comment::class, 'comment_id');
     }
+
+    /**
+     * Get the reactions belonging to the user.
+     */
+    public function reactions() {
+        return $this->hasMany(Reaction::class, 'reaction_id');
+    }
 }

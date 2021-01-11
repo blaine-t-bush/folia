@@ -19,19 +19,15 @@ class PostController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
+    public function make(Request $request) {
         // Validate the inputs.
         $validated = $request->validate([
             'body' => ['required', 'min:1', 'max:255'],
         ]);
 
         // Create a new post.
-        $post = new Post;
-        $post->user_id = $request->session()->get('user_id');
-        $post->body = $request->body;
-        $post->save();
+        static::create($request->session()->get('user_id'), $request->body);
 
-        // Send back to feed. New post will appear when index() is run.
         return redirect('/');
     }
 
@@ -40,10 +36,16 @@ class PostController extends Controller
         $post = Post::find($request->id);
 
         if ($post->user_id == $request->session()->get('user_id')) {
-            // First delete all children, if any.
+            // First delete all child comments, if any.
             $comments = $post->comments;
             foreach ($comments as $comment) {
                 $comment->delete();
+            }
+
+            // Then delete all child reactions, if any.
+            $reactions = $post->reactions;
+            foreach ($reactions as $reaction) {
+                $reaction->delete();
             }
 
             // Then delete post.
@@ -51,5 +53,14 @@ class PostController extends Controller
         }
 
         return redirect('/');
+    }
+
+    static function create(string $user_id, string $body) {
+        $post = new Post;
+        $post->user_id = $user_id;
+        $post->body = $body;
+        $post->save();
+
+        return $post;
     }
 }
