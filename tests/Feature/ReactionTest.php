@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 
 class ReactionTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
 
     private function create_users_and_posts() {

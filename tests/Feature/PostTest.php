@@ -8,6 +8,9 @@ use Tests\TestCase;
 
 class PostTest extends TestCase
 {
+    use RefreshDatabase;
+    use WithFaker;
+    
     /** @test */
     public function test() {
         $this->assertTrue(true);

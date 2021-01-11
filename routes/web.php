@@ -21,9 +21,13 @@ Route::post('/login', [
     UserController::class, 'login'
 ]);
 
-Route::post('/logout', [
+Route::get('/logout', [
     UserController::class, 'logout'
 ])->name('logout');
+
+Route::post('/logout', [
+    UserController::class, 'logout'
+]);
 
 Route::get('/register', function() {
     return view('register');

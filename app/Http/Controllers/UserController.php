@@ -30,7 +30,7 @@ class UserController extends Controller
         // Attempt to authenticate user and save a remember token.
         $request = static::authenticateAndStore($request, $request->user_id, $request->password);
 
-        return redirect('/posts');
+        return redirect('/');
     }
 
     public function login(Request $request) {
@@ -43,7 +43,7 @@ class UserController extends Controller
         // Attempt to authenticate user and save a remember token.
         $request = static::authenticateAndStore($request, $request->user_id, $request->password); // FIXME populate error message and display when redirecting back to login screen if authentication failed.
 
-        return redirect('/posts');
+        return redirect('/');
     }
 
     public function logout(Request $request) {

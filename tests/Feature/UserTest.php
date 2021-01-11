@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 
 class UserTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
 
     /** @test */
