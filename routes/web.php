@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -31,6 +32,10 @@ Route::middleware(['check_token'])->group(function() {
 
     Route::post('/posts/{id}/reply', [
         CommentController::class, 'create'
+    ]);
+
+    Route::post('/posts/{id}/react/{type}', [
+        ReactionController::class, 'react'
     ]);
 
     Route::delete('/comments/{id}', [

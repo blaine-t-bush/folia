@@ -88,6 +88,81 @@
   padding: 0;
 }
 
+.post-reactions {
+  display: grid;
+  grid-template-columns: 2em 2em 2em 2em;
+  margin-top: 1em;
+}
+
+.post-reactions form input[type=checkbox] {
+  display: none;
+}
+
+.post-reactions form input[type=submit]:hover,
+.post-reactions form input[type=submit]:active {
+  text-shadow: 0 0 5px #d2d2d2;
+}
+
+.post-reactions form input[type=checkbox]:checked + input[type=submit] {
+  text-shadow: 0 0 5px #d2d2d2;
+}
+
+.post-reactions form .smile-submit:hover,
+.post-reactions form .smile-submit:active {
+  color: yellow;
+}
+
+.post-reactions form .smile-checkbox:checked + .smile-submit {
+  color: yellow;
+}
+
+.post-reactions form .smile-checkbox:checked + .smile-submit:hover,
+.post-reactions form .smile-checkbox:checked + .smile-submit:active {
+  color: #63c463;
+}
+
+.post-reactions form .frown-submit:hover,
+.post-reactions form .frown-submit:active {
+  color: blue;
+}
+
+.post-reactions form .frown-checkbox:checked + .frown-submit {
+  color: blue;
+}
+
+.post-reactions form .frown-checkbox:checked + .frown-submit:hover,
+.post-reactions form .frown-checkbox:checked + .frown-submit:active {
+  color: #63c463;
+}
+
+.post-reactions form .heart-submit:hover,
+.post-reactions form .heart-submit:active {
+  color: red;
+}
+
+.post-reactions form .heart-checkbox:checked + .heart-submit {
+  color: red;
+}
+
+.post-reactions form .heart-checkbox:checked + .heart-submit:hover,
+.post-reactions form .heart-checkbox:checked + .heart-submit:active {
+  color: #63c463;
+}
+
+.post-reactions form .laugh-submit:hover,
+.post-reactions form .laugh-submit:active {
+  color: orange;
+}
+
+.post-reactions form .laugh-checkbox:checked + .laugh-submit {
+  color: orange;
+}
+
+.post-reactions form .laugh-checkbox:checked + .laugh-submit:hover,
+.post-reactions form .laugh-checkbox:checked + .laugh-submit:active {
+  color: #63c463;
+}
+
 .delete-button {
   border: 2px solid #8a0000;
   color: #8a0000;

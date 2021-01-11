@@ -8,24 +8,20 @@ use App\Models\Reaction;
 
 class ReactionController extends Controller
 {
-    public function react(int $id, Request $request) {
-        // Validate the inputs.
-        $validate = $request->validate([
-            'type' => ['required', Rule::in(['smile', 'frown', 'heart', 'laugh'])],
-        ]);
-
-        $reaction = static::create($request->session()->get('user_id'), $id, $request->type);
-
-        return redirect('/');
-    }
-
-    public function unreact(int $id, Request $request) {
-        // Validate the inputs.
-        $validate = $request->validate([
-            'type' => ['required', Rule::in(['smile', 'frown', 'heart', 'laugh'])],
-        ]);
-
-        $reaction = static::destroy($request->session()->get('user_id'), $id, $request->type);
+    public function react(int $id, string $type, Request $request) {
+        // Determine if input was checked or unchecked.
+        // If checked, add the reaction.
+        // If unchecked, remove the reaction.
+        if ($request->has('react')) {
+            // NB: the name of the checkbox is "react". If the checkbox is checked when it's clicked,
+            // we want the reaction to be destroyed. If the checkbox was not checked when it was clicked,
+            // then we want the reaction to be created. The "react" parameter, from the name of the checkbox,
+            // is only passed if the checkbox was in a checked state before clicking.
+            // That's why this seems backwards!
+            $reaction = static::destroy($request->session()->get('user_id'), $id, $request->type);
+        } else {
+            $reaction = static::create($request->session()->get('user_id'), $id, $request->type);
+        }
 
         return redirect('/');
     }

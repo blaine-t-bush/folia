@@ -37,6 +37,32 @@
 
             <p class="post-body">{{ $post->body }}</p>
 
+            <div class="post-reactions">
+                <form method="post" action="/posts/{{ $post->id }}/react/smile">
+                    @csrf
+                    <input class="smile-checkbox" type="checkbox" name="react" id="smile" @if($post->reactions->where('user_id', session('user_id'))->where('type', 'smile')->count()) checked @endif>
+                    <input class="smile-submit" type="submit" value=":)">
+                </form>
+                
+                <form method="post" action="/posts/{{ $post->id }}/react/frown">
+                    @csrf
+                    <input class="frown-checkbox" type="checkbox" name="react" id="frown" @if($post->reactions->where('user_id', session('user_id'))->where('type', 'frown')->count()) checked @endif>
+                    <input class="frown-submit" type="submit" value=":(">
+                </form>
+                
+                <form method="post" action="/posts/{{ $post->id }}/react/heart">
+                    @csrf
+                    <input class="heart-checkbox" type="checkbox" name="react" id="heart" @if($post->reactions->where('user_id', session('user_id'))->where('type', 'heart')->count()) checked @endif>
+                    <input class="heart-submit" type="submit" value="<3">
+                </form>
+                
+                <form method="post" action="/posts/{{ $post->id }}/react/laugh">
+                    @csrf
+                    <input class="laugh-checkbox" type="checkbox" name="react" id="laugh" @if($post->reactions->where('user_id', session('user_id'))->where('type', 'laugh')->count()) checked @endif>
+                    <input class="laugh-submit" type="submit" value="xD">
+                </form>
+            </div>
+
             <ol class="comments">
                 @foreach($post->comments as $comment)
                 <li class="comment">

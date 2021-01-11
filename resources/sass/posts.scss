@@ -83,6 +83,88 @@
         margin: 0;
         padding: 0;
     }
+
+    &-reactions {
+        display: grid;
+        grid-template-columns: 2em 2em 2em 2em;
+        margin-top: 1em;
+
+        form {
+            input[type="checkbox"] {
+                display: none;
+            }
+
+            input[type="submit"] {
+                &:hover, &:active {
+                    text-shadow: 0 0 5px $color-reaction-shadow;
+                }
+            }
+
+            input[type="checkbox"]:checked + input[type="submit"] {
+                text-shadow: 0 0 5px $color-reaction-shadow;
+            }
+            
+            .smile {
+                &-submit {
+                    &:hover, &:active {
+                        color: $color-reaction-smile;
+                    }
+                }
+
+                &-checkbox:checked + .smile-submit {
+                    color: $color-reaction-smile;
+                    &:hover, &:active {
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+            
+            .frown {
+                &-submit {
+                    &:hover, &:active {
+                        color: $color-reaction-frown;
+                    }
+                }
+
+                &-checkbox:checked + .frown-submit {
+                    color: $color-reaction-frown;
+                    &:hover, &:active {
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+            
+            .heart {
+                &-submit {
+                    &:hover, &:active {
+                        color: $color-reaction-heart;
+                    }
+                }
+
+                &-checkbox:checked + .heart-submit {
+                    color: $color-reaction-heart;
+                    &:hover, &:active {
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+            
+            .laugh {
+                &-submit {
+                    &:hover, &:active {
+                        color: $color-reaction-laugh;
+                    }
+                }
+
+                &-checkbox:checked + .laugh-submit {
+                    color: $color-reaction-laugh;
+                    &:hover, &:active {
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .delete-button {
