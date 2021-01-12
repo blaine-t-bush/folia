@@ -12,10 +12,10 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .js('resources/js/broadcast.js', 'public/js')
-    .scripts('resources/js/app.js', 'public/js/app.js')
+    .js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/register.scss', 'public/css')
     .sass('resources/sass/profile.scss', 'public/css')
-    .sass('resources/sass/posts.scss', 'public/css');
+    .sass('resources/sass/posts.scss', 'public/css')
+    .vue();

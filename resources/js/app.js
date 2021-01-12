@@ -1,20 +1,37 @@
-function togglePasswordVisibility(event, inputId, iconId) {
-    // Prevent event from running so form doesn't get submitted.
-    event.preventDefault();
+import togglePasswordVisibility from './helpers';
 
-    // Change password to hidden if visible and vice versa,
-    // and change icon to match.
-    let input = document.getElementById(inputId);
-    let icon = document.getElementById(iconId);
-    if (input.type === "password") {
-        input.type = "text";
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else if (input.type === "text") {
-        input.type = "password";
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
+/**
+ * Axios for async requests
+ */
 
-    return;
-}
+window.axios = require('axios');
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/**
+ * Echo for listening to broadcasts
+ */
+
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
+
+window.Echo.channel('posts').listen('PostCreated', (e) => {
+    // Create the DOM for our new post.
+    let post = document.createElement('li');
+    post.classList.add('post');
+    post.innerText = e.post.body;
+
+    // Find the posts element.
+    let posts = document.getElementById('posts');
+
+    // Add the new post to the top of the list.
+    posts.prepend(post);
+});

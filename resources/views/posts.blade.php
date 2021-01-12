@@ -4,10 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/posts.css') }}">
 @endpush
 
-@push('script_head')
-<script src="{{ asset('js/broadcast.js') }}"></script>
-@endpush
-
 @section('main')
     <form class="create" id="create">
         @csrf
