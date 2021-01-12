@@ -27,6 +27,21 @@ export default {
         addPost(post) {
             this.posts.push(post);
         },
+        removePost(id) {
+            // Find index of matching post in array.
+            let indexToRemove = -1;
+            for (let i = 0; i < this.posts.length; i++) {
+                if (this.posts[i].id === id) {
+                    indexToRemove = i;
+                    break;
+                }
+            } // FIXME optimize this.
+
+            // Remove post, if it was found. In that case indexToRemove will be a non-negative integer.
+            if (indexToRemove >= 0) {
+                this.posts.splice(indexToRemove, 1);
+            }
+        }
     },
     mounted() {
         // Fetch all posts from Laravel.
@@ -45,8 +60,16 @@ export default {
         // Add Echo listener to listen for new posts.
         // When it hears the new post event, it can add it to the data.
         window.Echo.channel('posts').listen('PostCreated', (event) => {
+            console.log(event);
             event.post.comments = [];
             this.addPost(event.post);
+        });
+
+        // Add Echo listener to listen for posts being deleted.
+        // When it hears the event, that post needs to be removed from data.
+        window.Echo.channel('posts').listen('PostDeleted', (event) => {
+            console.log(event);
+            this.removePost(event.post.id);
         });
     },
     data() {

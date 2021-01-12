@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 use App\Models\User;
+
 use App\Events\PostCreated;
+use App\Events\PostDeleted;
 
 class PostController extends Controller
 {
@@ -25,30 +27,28 @@ class PostController extends Controller
         $post->save();
 
         // Dispatch the event.
-        PostCreated::dispatch($post, $post->user);
+        PostCreated::dispatch($post);
     }
 
     public function destroy(Request $request) {
-        // Check that post actually belongs to user.
-        $post = Post::find($request->post_id);
+        $post = Post::find($request->id);
 
-        if ($post->user_id == $request->user_id) {
-            // First delete all child comments, if any.
-            $comments = $post->comments;
-            foreach ($comments as $comment) {
-                $comment->delete();
-            }
-
-            // Then delete all child reactions, if any.
-            $reactions = $post->reactions;
-            foreach ($reactions as $reaction) {
-                $reaction->delete();
-            }
-
-            // Then delete post.
-            $post->delete();
+        // First delete all child comments, if any.
+        $comments = $post->comments;
+        foreach ($comments as $comment) {
+            $comment->delete();
         }
 
-        return back();
+        // Then delete all child reactions, if any.
+        $reactions = $post->reactions;
+        foreach ($reactions as $reaction) {
+            $reaction->delete();
+        }
+
+        // Then delete post.
+        $post->delete();
+
+        // Dispatch the event.
+        PostDeleted::dispatch($post->id);
     }
 }

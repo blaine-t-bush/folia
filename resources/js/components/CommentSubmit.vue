@@ -28,7 +28,8 @@ export default {
                     console.log('Comment creation failed');
                     console.log(result);
                 } else {
-                    // Request succeeded. Clear form. Pusher should display post shortly.
+                    // Request succeeded. Clear form.
+                    // FIXME add comment to Vue data before waiting for channel.
                     this.body = '';
                 }
             });

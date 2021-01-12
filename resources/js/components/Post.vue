@@ -9,6 +9,9 @@
 
         <p class="post-body">{{ body }}</p>
 
+        <PostDelete
+            :id="id"></PostDelete>
+
         <ol class="comments">
             <Comment
                 v-for="comment in orderedComments"
@@ -26,11 +29,13 @@
 </template>
 
 <script>
+import PostDelete from './PostDelete';
 import Comment from './Comment';
 import CommentSubmit from './CommentSubmit';
 
 export default {
     components: {
+        'PostDelete': PostDelete,
         'Comment': Comment,
         'CommentSubmit': CommentSubmit,
     },

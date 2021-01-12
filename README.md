@@ -23,6 +23,7 @@
 - Move Vue component styles to component files
 
 ## Functionality
+- Update supervisor to use queue:listen not queue:work
 - Display login errors if validation fails
 - When deleting a post, some comments on other posts disappear
 - Update business logic to have two separate layers:

@@ -90,6 +90,10 @@ Route::middleware(['check_token'])->group(function() {
         PostController::class, 'create'
     ]);
 
+    Route::delete('/api/posts', [
+        PostController::class, 'destroy'
+    ]);
+
     Route::get('/api/comments', [
         CommentController::class, 'index'
     ]);

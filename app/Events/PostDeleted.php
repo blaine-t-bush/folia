@@ -12,26 +12,21 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Models\Post;
 
-class PostCreated implements ShouldBroadcast
+class PostDeleted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * The post instance.
-     * 
-     * @var \App\Models\Post
-     */
-    public $post;
+    public $post_id; // FIXME determine why this is janky and I can't use the whole post model here.
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Post $post
+     * @param int $post_id
      * @return void
      */
-    public function __construct(Post $post)
+    public function __construct(int $post_id)
     {
-        $this->post = $post;
+        $this->post_id = $post_id;
     }
 
     /**
@@ -43,13 +38,7 @@ class PostCreated implements ShouldBroadcast
     {
         return [
             'post' => [
-                'id' => $this->post->id,
-                'body' => $this->post->body,
-                'user' => [
-                    'user_id' => $this->post->user->id,
-                    'display_name' => $this->post->user->display_name,
-                ],
-                'created_at' => $this->post->created_at,
+                'id' => $this->post_id,
             ],
         ];
     }
