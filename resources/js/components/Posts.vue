@@ -1,12 +1,5 @@
 <template>
-    <form class="create" id="create">
-        <textarea
-            class="create-text"
-            name="body"
-            placeholder="Post your human thoughts. All of them! Any information you share will not* be used against you** in any current or future robot uprisings***"></textarea>
-    </form>
-
-    <input class="create-button heavy-button" type="submit" value=">>>" form="create">
+    <PostForm></PostForm>
 
     <ol class="posts">
         <Post
@@ -21,16 +14,18 @@
 </template>
 
 <script>
+import PostForm from './PostForm';
 import Post from './Post';
 
 export default {
     components: {
         'Post': Post,
+        'PostForm' : PostForm,
     },
     methods: {
         addPost(post) {
             this.posts.push(post);
-        }
+        },
     },
     mounted() {
         // Fetch all posts from Laravel.
@@ -68,12 +63,9 @@ export default {
                     return 0;
                 }
             }
-
-            let temp = this.posts;
-
-            return temp.sort(compare);
+            return this.posts.sort(compare);
         },
-    }, // TODO add computed property for ordered posts
+    },
 };
 </script>
 

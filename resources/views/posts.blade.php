@@ -250,29 +250,4 @@
 
 @push('script_body')
 <script src="{{ asset('js/posts.js') }}"></script>
-<script>
-    function createPost (event) {
-        // Prevent form from submitting the normal way.
-        event.preventDefault();
-
-        // Get input field values.
-        let body = event.target.querySelector('textarea[name="body"]');
-
-        // Send request to controller.
-        axios.post('/posts', {
-            body: body.value
-        }).then(response => {
-            if (response.status != 200) {
-                // Request failed.
-                console.log('Post creation failed');
-                console.log(result);
-            } else {
-                // Request succeeded. Clear form. Pusher should display post shortly.
-                body.value = '';
-            }
-        });
-    }
-
-    document.getElementById('create').onsubmit = createPost;
-</script>
 @endpush
