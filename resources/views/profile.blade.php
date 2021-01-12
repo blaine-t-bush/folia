@@ -2,7 +2,7 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-@endpush('style')
+@endpush
 
 @section('main')
     <div class="profile">

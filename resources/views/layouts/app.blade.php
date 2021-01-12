@@ -16,7 +16,7 @@
     {{-- Scripts --}}
     <script src="https://kit.fontawesome.com/acd4b236b1.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    @stack('script')
+    @stack('script_head')
 </head>
 <body>
     <header>
@@ -34,5 +34,7 @@
     <main>
         @yield('main')
     </main>
+
+    @stack('script_body')
 </body>
 </html>

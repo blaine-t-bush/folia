@@ -22,10 +22,10 @@ class PostController extends Controller
 
     public function create(Request $request) {
         // Validate the inputs.
-        $validated = $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
-            'body' => ['required', 'min:1', 'max:255'],
-        ]);
+        // $validated = $request->validate([
+        //     'user_id' => ['required', 'exists:users,id'],
+        //     'body' => ['required', 'min:1', 'max:255'],
+        // ]);
 
         // Create a new post.
         $post = new Post;
@@ -36,7 +36,7 @@ class PostController extends Controller
         // Dispatch the event.
         PostCreated::dispatch($post);
 
-        return back();
+        // return back();
     }
 
     public function destroy(Request $request) {

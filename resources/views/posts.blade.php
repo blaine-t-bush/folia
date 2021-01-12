@@ -2,14 +2,14 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/posts.css') }}">
-@endpush('style')
+@endpush
 
-@push('script')
-<script src="{{ asset('js/broadcast.js') }}" defer></script>
-@endpush('script')
+@push('script_head')
+<script src="{{ asset('js/broadcast.js') }}"></script>
+@endpush
 
 @section('main')
-    <form class="create" id="create" method="post" action="/posts">
+    <form class="create" id="create">
         @csrf
 
         <input
@@ -265,3 +265,33 @@
         @endforeach
     </ol>
 @endsection
+
+@push('script_body')
+<script>
+    function createPost (event) {
+        // Prevent form from submitting the normal way.
+        event.preventDefault();
+
+        // Get input field values.
+        let user_id = event.target.querySelector('input[name="user_id"]');
+        let body = event.target.querySelector('textarea[name="body"]');
+
+        // Send request to controller.
+        axios.post('/posts', {
+            user_id: user_id.value,
+            body: body.value
+        }).then(response => {
+            if (response.status != 200) {
+                // Request failed.
+                console.log('Post creation failed');
+                console.log(result);
+            } else {
+                // Request succeeded. Clear form. Pusher should display post shortly.
+                body.value = '';
+            }
+        });
+    }
+
+    document.getElementById('create').onsubmit = createPost;
+</script>
+@endpush
