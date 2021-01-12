@@ -10,7 +10,10 @@
 - Write comment tests
 
 ## Functionality
-- Add ability to update in real time
+- Change comments to update with async and use API
+- Change reactions to update with async and use API
+- Change delete to update with async and use API
+- Add comments, reactions, and delete to Vue component
 - Add daily recurring job to clear data and re-seed
 - Add frequently recurring job to add posts and comments
 
