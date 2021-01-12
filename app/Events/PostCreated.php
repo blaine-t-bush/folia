@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Models\Post;
 
-class PostCreated
+class PostCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,13 +34,13 @@ class PostCreated
         $this->post = $post;
     }
 
-    // /**
-    //  * Get the channels the event should broadcast on.
-    //  *
-    //  * @return \Illuminate\Broadcasting\Channel|array
-    //  */
-    // public function broadcastOn()
-    // {
-    //     return new PrivateChannel('channel-name');
-    // }
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return \Illuminate\Broadcasting\Channel|array
+     */
+    public function broadcastOn()
+    {
+        return new Channel('posts');
+    }
 }

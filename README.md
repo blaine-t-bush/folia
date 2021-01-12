@@ -20,3 +20,4 @@
 - Update business logic to have two separate layers:
     - API, which takes arguments (not Requests) and updates models
     - UI, which uses Requests to pass the correct information to the API based on user actions and state (e.g. session data)
+- Add cache-busting for assets compiled with mix
