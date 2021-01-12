@@ -15,9 +15,7 @@ img {
   max-width: 100%;
 }
 
-button,
-input,
-textarea {
+button, input, textarea {
   /* Reset the default style */
   background: none;
   color: inherit;
@@ -88,16 +86,12 @@ a {
   color: #63c463;
   text-decoration: none;
 }
-
 a:hover {
   text-decoration: underline;
 }
-
-a:link,
-a:active {
+a:link, a:active {
   color: #63c463;
 }
-
 a:visited {
   color: green;
 }
@@ -109,19 +103,16 @@ nav {
   grid-column: 2/span 1;
   grid-row: 1/span 1;
 }
-
 nav a {
   padding: 1em;
   color: #63c463 !important;
 }
-
 @media (max-width: 380px) {
   nav {
     align-items: flex-end;
     flex-direction: column;
     justify-content: unset;
   }
-
   nav a {
     padding: 0;
     padding-bottom: 0.5em;
@@ -136,11 +127,8 @@ nav a {
   line-height: 1em;
   padding: 0 0.3em;
 }
-
-.heavy-button:focus,
-.heavy-button:hover {
+.heavy-button:focus, .heavy-button:hover {
   background-color: darkgreen;
   border: 2px solid #63c463;
   color: #63c463;
 }
-

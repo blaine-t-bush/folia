@@ -3,9 +3,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 }
-
 .profile-value {
   color: #63c463;
   font-weight: bold;
 }
-

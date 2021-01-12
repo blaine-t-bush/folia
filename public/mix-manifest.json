@@ -1,9 +1,9 @@
 {
     "/js/broadcast.js": "/js/broadcast.js",
-    "/css/app.css": "/css/app.css",
-    "/css/login.css": "/css/login.css",
-    "/css/register.css": "/css/register.css",
-    "/css/profile.css": "/css/profile.css",
     "/css/posts.css": "/css/posts.css",
+    "/css/profile.css": "/css/profile.css",
+    "/css/register.css": "/css/register.css",
+    "/css/login.css": "/css/login.css",
+    "/css/app.css": "/css/app.css",
     "/js/app.js": "/js/app.js"
 }

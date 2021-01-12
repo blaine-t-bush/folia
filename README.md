@@ -1,6 +1,6 @@
 # TODO
+
 ## Style
-- Restyle checkboxes to match rest of site
 - Create icon and favicon
 - Clean up sticky note (eraser missed some bits)
 - Add sticky note animation on hover
@@ -15,7 +15,10 @@
 - Add frequently recurring job to add posts and comments
 
 # FIXME
-- Check form/button/input styling on other browsers and iOS
+## Style
+- Restyle checkboxes to match rest of site
+
+## Functionality
 - Display login errors if validation fails
 - When deleting a post, some comments on other posts disappear
 - Update business logic to have two separate layers:
