@@ -19,7 +19,11 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run() {
-        // Create a static user for testing.
+        // Create a static user for testing and the landing-page joke.
+
+        // If you're looking through the repo and scoffing, know that these credentials
+        // are for a joke, and that this "admin" user doesn't actually have any
+        // administrator or special privileges on my server or website.
         UserController::create('admin', 'Security Mastah', 'password123');
         
         // Instantiate Faker, which we'll use to generate some test data.

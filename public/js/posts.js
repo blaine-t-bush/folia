@@ -14501,6 +14501,22 @@ __webpack_require__.r(__webpack_exports__);
     return {
       posts: []
     };
+  },
+  computed: {
+    orderedPosts: function orderedPosts() {
+      function compare(a, b) {
+        if (a.id < b.id) {
+          return 1;
+        } else if (a.id > b.id) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }
+
+      var temp = this.posts;
+      return temp.sort(compare);
+    }
   } // TODO add computed property for ordered posts
 
 });
@@ -14590,16 +14606,17 @@ var _hoisted_3 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.posts, function (post) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedPosts, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       key: post.id,
       id: post.id,
       user_id: post.user_id,
       display_name: post.user.display_name,
+      created_at: post.created_at,
       body: post.body
     }, null, 8
     /* PROPS */
-    , ["id", "user_id", "display_name", "body"]);
+    , ["id", "user_id", "display_name", "created_at", "body"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])], 64

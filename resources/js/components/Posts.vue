@@ -10,11 +10,12 @@
 
     <ol class="posts">
         <Post
-            v-for="post in posts"
+            v-for="post in orderedPosts"
             :key="post.id"
             :id="post.id"
             :user_id="post.user_id"
             :display_name="post.user.display_name"
+            :created_at="post.created_at"
             :body="post.body"></Post>
     </ol>
 </template>
@@ -55,6 +56,23 @@ export default {
         return {
             posts: [],
         }
+    },
+    computed: {
+        orderedPosts: function() {
+            function compare(a, b) {
+                if (a.id < b.id) {
+                    return 1;
+                } else if (a.id > b.id) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+
+            let temp = this.posts;
+
+            return temp.sort(compare);
+        },
     }, // TODO add computed property for ordered posts
 };
 </script>
