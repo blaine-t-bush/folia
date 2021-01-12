@@ -9,7 +9,8 @@
             :user_id="post.user_id"
             :display_name="post.user.display_name"
             :created_at="post.created_at"
-            :body="post.body"></Post>
+            :body="post.body"
+            :comments="post.comments"></Post>
     </ol>
 </template>
 
@@ -44,6 +45,7 @@ export default {
         // Add Echo listener to listen for new posts.
         // When it hears the new post event, it can add it to the data.
         window.Echo.channel('posts').listen('PostCreated', (event) => {
+            event.post.comments = [];
             this.addPost(event.post);
         });
     },
@@ -63,6 +65,7 @@ export default {
                     return 0;
                 }
             }
+
             return this.posts.sort(compare);
         },
     },

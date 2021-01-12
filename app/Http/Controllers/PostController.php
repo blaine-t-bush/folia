@@ -12,7 +12,7 @@ class PostController extends Controller
 {
     public function index(Request $request) {
         // Get all posts.
-        $posts = Post::with('user')->get()->sortByDesc('created_at'); // FIXME add pagination
+        $posts = Post::with('user')->with('comments')->with('user')->get()->sortByDesc('created_at'); // FIXME add pagination
 
         return json_encode($posts);
     }

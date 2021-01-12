@@ -85,4 +85,8 @@ Route::middleware(['check_token'])->group(function() {
     Route::get('/api/posts', [
         PostController::class, 'index'
     ]);
+    
+    Route::get('/api/comments', [
+        CommentController::class, 'index'
+    ]);
 });
