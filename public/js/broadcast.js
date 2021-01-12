@@ -6222,14 +6222,19 @@ __webpack_require__.r(__webpack_exports__);
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: '',
-  //process.env.MIX_PUSHER_APP_KEY,
-  cluster: '',
-  //process.env.MIX_PUSHER_APP_CLUSTER,
+  key: "7583d7e13acd184e10f3",
+  cluster: "eu",
   forceTLS: true
 });
 window.Echo.channel('posts').listen('PostCreated', function (e) {
-  console.log(e);
+  // Create the DOM for our new post.
+  var post = document.createElement('li');
+  post.classList.add('post');
+  post.innerText = e.post.body; // Find the posts element.
+
+  var posts = document.getElementById('posts'); // Add the new post to the top of the list.
+
+  posts.prepend(post);
 });
 
 /***/ }),

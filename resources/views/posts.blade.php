@@ -25,7 +25,7 @@
 
     <input class="create-button heavy-button" type="submit" value=">>>" form="create">
 
-    <ol class="posts">
+    <ol id="posts" class="posts">
         @foreach($posts as $post)
         <li class="post">
             <div class="post-header">

@@ -10,11 +10,20 @@ window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: '', //process.env.MIX_PUSHER_APP_KEY,
-    cluster: '', //process.env.MIX_PUSHER_APP_CLUSTER,
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
 
 window.Echo.channel('posts').listen('PostCreated', (e) => {
-    console.log(e);
+    // Create the DOM for our new post.
+    let post = document.createElement('li');
+    post.classList.add('post');
+    post.innerText = e.post.body;
+
+    // Find the posts element.
+    let posts = document.getElementById('posts');
+
+    // Add the new post to the top of the list.
+    posts.prepend(post);
 });
