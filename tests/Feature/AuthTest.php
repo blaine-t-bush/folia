@@ -24,7 +24,7 @@ class AuthTest extends TestCase
     /** @test */
     public function can_register_user() {
         // Send post request to /register with complete and unique credentials. Should create a user.
-        $response = $this->post('register', [
+        $response = $this->post('/register', [
             'user_id' => $this->faker->userName,
             'display_name' => $this->faker->name,
             'password' => $this->faker->password,
@@ -37,7 +37,7 @@ class AuthTest extends TestCase
     /** @test */
     public function cannot_register_incomplete() {
         // Send post request to /register with incomplete credentials.
-        $response = $this->post('register', [
+        $response = $this->post('/register', [
             'user_id' => null,
             'display_name' => null,
             'password' => null,
@@ -53,7 +53,7 @@ class AuthTest extends TestCase
         $user = UserController::create($this->faker->userName, $this->faker->name, $this->faker->password);
 
         // Send post request to /register with non-unique user_id. Should return to /register with errors.
-        $response = $this->post('register', [
+        $response = $this->post('/register', [
             'user_id' => $user->id,
             'display_name' => $this->faker->name,
             'password' => $this->faker->password,
@@ -97,7 +97,7 @@ class AuthTest extends TestCase
         $user = UserController::create($this->faker->userName, $this->faker->name, $password);
 
         // Send post request to /login with incomplete credentials.
-        $response = $this->withSession([])->post('login', [
+        $response = $this->withSession([])->post('/login', [
             'user_id' => null,
             'password' => null,
         ]);
@@ -116,7 +116,7 @@ class AuthTest extends TestCase
         $user = UserController::create($this->faker->userName, $this->faker->name, $password);
 
         // Send post request to /login with wrong credentials.
-        $response = $this->withSession([])->post('login', [
+        $response = $this->withSession([])->post('/login', [
             'user_id' => $user->id,
             'password' => $password . '1',
         ]);
@@ -127,7 +127,7 @@ class AuthTest extends TestCase
         $response->assertSessionMissing('authenticated_token');
 
         // Send post request to /login with wrong credentials.
-        $response = $this->withSession([])->post('login', [
+        $response = $this->withSession([])->post('/login', [
             'user_id' => $user->id . '1',
             'password' => $password,
         ]);
