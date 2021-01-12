@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Events\PostCreated;
 
 class PostController extends Controller
 {
@@ -31,6 +32,9 @@ class PostController extends Controller
         $post->user_id = $request->user_id;
         $post->body = $request->body;
         $post->save();
+
+        // Dispatch the event.
+        PostCreated::dispatch($post);
 
         return back();
     }
