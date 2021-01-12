@@ -20,6 +20,7 @@
 # FIXME
 ## Style
 - Restyle checkboxes to match rest of site
+- Move Vue component styles to component files
 
 ## Functionality
 - Display login errors if validation fails

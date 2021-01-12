@@ -15,7 +15,7 @@ export default {
     methods: {
         submitPost() {
             // Send request to controller.
-            axios.post('/posts', {
+            axios.post('/api/posts', {
                 body: this.body
             }).then(response => {
                 if (response.status != 200) {

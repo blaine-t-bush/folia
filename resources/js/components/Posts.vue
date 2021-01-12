@@ -1,5 +1,5 @@
 <template>
-    <PostForm></PostForm>
+    <PostSubmit></PostSubmit>
 
     <ol class="posts">
         <Post
@@ -15,13 +15,13 @@
 </template>
 
 <script>
-import PostForm from './PostForm';
 import Post from './Post';
+import PostSubmit from './PostSubmit';
 
 export default {
     components: {
         'Post': Post,
-        'PostForm' : PostForm,
+        'PostSubmit' : PostSubmit,
     },
     methods: {
         addPost(post) {

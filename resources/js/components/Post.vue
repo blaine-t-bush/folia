@@ -20,19 +20,19 @@
                 :body="comment.body"></Comment>
         </ol>
 
-        <CommentSubmitForm
-            :post_id="id"></CommentSubmitForm>
+        <CommentSubmit
+            :post_id="id"></CommentSubmit>
     </li>
 </template>
 
 <script>
 import Comment from './Comment';
-import CommentSubmitForm from './CommentSubmitForm';
+import CommentSubmit from './CommentSubmit';
 
 export default {
     components: {
         'Comment': Comment,
-        'CommentSubmitForm': CommentSubmitForm,
+        'CommentSubmit': CommentSubmit,
     },
     props: {
         id: Number,
