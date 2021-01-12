@@ -15,18 +15,24 @@
                 :key="comment.id"
                 :id="comment.id"
                 :user_id="comment.user_id"
+                :display_name="comment.user.display_name"
                 :created_at="comment.created_at"
                 :body="comment.body"></Comment>
         </ol>
+
+        <CommentSubmitForm
+            :post_id="id"></CommentSubmitForm>
     </li>
 </template>
 
 <script>
 import Comment from './Comment';
+import CommentSubmitForm from './CommentSubmitForm';
 
 export default {
     components: {
         'Comment': Comment,
+        'CommentSubmitForm': CommentSubmitForm,
     },
     props: {
         id: Number,
@@ -42,7 +48,11 @@ export default {
         },
     },
     mounted() {
-        // TODO add event, channel, and listener for comments--one at a time?
+        // Add Echo listener to listen for new comments.
+        // When it hears the new comment event, it can add it to the data.
+        window.Echo.channel('comments-' + this.id).listen('CommentCreated', (event) => {
+            this.addComment(event.comment);
+        });
     },
     computed: {
         orderedComments: function() {

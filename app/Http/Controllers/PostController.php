@@ -12,18 +12,12 @@ class PostController extends Controller
 {
     public function index(Request $request) {
         // Get all posts.
-        $posts = Post::with('user')->with('comments')->with('user')->get()->sortByDesc('created_at'); // FIXME add pagination
+        $posts = Post::with('user')->with('comments')->with('comments.user')->get()->sortByDesc('created_at'); // FIXME add pagination
 
         return json_encode($posts);
     }
 
     public function create(Request $request) {
-        // Validate the inputs.
-        // $validated = $request->validate([
-        //     'user_id' => ['required', 'exists:users,id'],
-        //     'body' => ['required', 'min:1', 'max:255'],
-        // ]);
-
         // Create a new post.
         $post = new Post;
         $post->user_id = $request->session()->get('user_id');
@@ -32,8 +26,6 @@ class PostController extends Controller
 
         // Dispatch the event.
         PostCreated::dispatch($post, $post->user);
-
-        // return back();
     }
 
     public function destroy(Request $request) {
