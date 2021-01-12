@@ -4,5 +4,6 @@
     "/css/register.css": "/css/register.css",
     "/css/login.css": "/css/login.css",
     "/css/app.css": "/css/app.css",
-    "/css/posts.css": "/css/posts.css"
+    "/css/posts.css": "/css/posts.css",
+    "/js/helpers.js": "/js/helpers.js"
 }

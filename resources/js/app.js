@@ -1,4 +1,10 @@
-import togglePasswordVisibility from './helpers';
+/**
+ * Vue for components
+ */
+import { createApp } from 'vue';
+import Alert from './components/Alert.vue';
+
+createApp(Alert).mount('#app');
 
 /**
  * Axios for async requests
