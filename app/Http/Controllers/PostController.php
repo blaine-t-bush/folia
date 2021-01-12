@@ -12,12 +12,9 @@ class PostController extends Controller
 {
     public function index(Request $request) {
         // Get all posts.
-        $posts = Post::all()->sortByDesc('created_at'); // FIXME add pagination
+        $posts = Post::with('user')->get()->sortByDesc('created_at'); // FIXME add pagination
 
-        // Return view and pass in posts.
-        return view('posts', [
-            'posts' => $posts,
-        ]);
+        return json_encode($posts);
     }
 
     public function create(Request $request) {
@@ -29,12 +26,12 @@ class PostController extends Controller
 
         // Create a new post.
         $post = new Post;
-        $post->user_id = $request->user_id;
+        $post->user_id = $request->session()->get('user_id');
         $post->body = $request->body;
         $post->save();
 
         // Dispatch the event.
-        PostCreated::dispatch($post);
+        PostCreated::dispatch($post, $post->user);
 
         // return back();
     }

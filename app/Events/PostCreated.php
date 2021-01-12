@@ -11,6 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Post;
+use App\Models\User;
 
 class PostCreated implements ShouldBroadcast
 {
@@ -24,14 +25,23 @@ class PostCreated implements ShouldBroadcast
     public $post;
 
     /**
+     * The associated user instance.
+     * 
+     * @var \App\Models\User
+     */
+    public $user;
+
+    /**
      * Create a new event instance.
      *
      * @param \App\Models\Post $post
+     * @param \App\Models\User $user
      * @return void
      */
-    public function __construct(Post $post)
+    public function __construct(Post $post, User $user)
     {
         $this->post = $post;
+        $this->user = $user;
     }
 
     /**

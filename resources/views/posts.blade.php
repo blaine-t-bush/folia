@@ -5,23 +5,9 @@
 @endpush
 
 @section('main')
-    <form class="create" id="create">
-        @csrf
+    <div id="app"></div>
 
-        <input
-            type="hidden"
-            name="user_id"
-            value="{{ session('user_id') }}">
-
-        <textarea
-            class="create-text"
-            name="body"
-            placeholder="Post your human thoughts. All of them! Any information you share will not* be used against you** in any current or future robot uprisings***"></textarea>
-    </form>
-
-    <input class="create-button heavy-button" type="submit" value=">>>" form="create">
-
-    <ol id="posts" class="posts">
+    {{-- <ol id="posts" class="posts">
         @foreach($posts as $post)
         <li class="post">
             <div class="post-header">
@@ -259,22 +245,21 @@
             </form>
         </li>
         @endforeach
-    </ol>
+    </ol> --}}
 @endsection
 
 @push('script_body')
+<script src="{{ asset('js/posts.js') }}"></script>
 <script>
     function createPost (event) {
         // Prevent form from submitting the normal way.
         event.preventDefault();
 
         // Get input field values.
-        let user_id = event.target.querySelector('input[name="user_id"]');
         let body = event.target.querySelector('textarea[name="body"]');
 
         // Send request to controller.
         axios.post('/posts', {
-            user_id: user_id.value,
             body: body.value
         }).then(response => {
             if (response.status != 200) {

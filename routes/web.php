@@ -47,9 +47,9 @@ Route::middleware(['check_token'])->group(function() {
         return redirect('/posts');
     })->name('home');
 
-    Route::get('/posts', [
-        PostController::class, 'index'
-    ])->name('posts');
+    Route::get('/posts', function() {
+        return view('posts');
+    })->name('posts');
 
     Route::post('/posts', [
         PostController::class, 'create'
@@ -74,4 +74,15 @@ Route::middleware(['check_token'])->group(function() {
     Route::get('/profile', [
         UserController::class, 'profile'
     ])->name('profile');
+});
+
+/*
+ *
+ * API
+ * 
+ */
+Route::middleware(['check_token'])->group(function() {
+    Route::get('/api/posts', [
+        PostController::class, 'index'
+    ]);
 });

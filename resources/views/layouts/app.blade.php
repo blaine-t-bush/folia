@@ -32,7 +32,6 @@
         @endif
     </header>
     <main>
-        <div id="app"></div>
         @yield('main')
     </main>
 
