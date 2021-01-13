@@ -22,7 +22,7 @@ export default {
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
-                    // FIXME handle errors.
+                    // FIXME handle errors. 
                 } else {
                     // Request succeeded.
                     // FIXME remove post from Vue data before waiting for channel.
@@ -36,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../sass/vars';
 
-.post-delete {
+.post-header-delete {
     justify-self: end;
     line-height: 1.6em;
     max-height: 1.6em;
