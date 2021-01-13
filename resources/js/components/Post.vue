@@ -3,14 +3,14 @@
         <div class="post-header">
             <div class="post-header-displayname">{{ display_name }}</div>
             <div class="post-header-username">{{ user_id }}</div>
+
+            <PostDelete
+                :id="id"></PostDelete>
         </div>
 
         <div class="post-timestamp">{{ created_at }}</div>
 
         <p class="post-body">{{ body }}</p>
-
-        <PostDelete
-            :id="id"></PostDelete>
 
         <ol class="comments">
             <Comment
