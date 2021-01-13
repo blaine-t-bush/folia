@@ -139,3 +139,14 @@ nav {
         color: $color-confirm-light;
     }
 }
+
+.delete-button {
+    border: 2px solid $color-delete;
+    color: $color-delete;
+
+    &:focus, &:hover {
+        background-color: $color-delete;
+        border: 2px solid $color-delete-light;
+        color: $color-delete-light;
+    }
+}

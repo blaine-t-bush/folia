@@ -17857,19 +17857,6 @@ var Echo = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./resources/sass/posts.scss":
-/*!***********************************!*\
-  !*** ./resources/sass/posts.scss ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -22972,8 +22959,7 @@ function compileToFunction(template, options) {
 /******/ 			["./resources/sass/app.scss"],
 /******/ 			["./resources/sass/login.scss"],
 /******/ 			["./resources/sass/register.scss"],
-/******/ 			["./resources/sass/profile.scss"],
-/******/ 			["./resources/sass/posts.scss"]
+/******/ 			["./resources/sass/profile.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

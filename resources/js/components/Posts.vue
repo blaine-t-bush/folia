@@ -116,6 +116,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import '../../sass/vars';
 
+    .posts {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 </style>

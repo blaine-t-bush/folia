@@ -32,3 +32,48 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../sass/vars';
+
+.comment {
+    padding-left: 0.5rem;
+    margin-top: 1rem;
+
+    &-header {
+        display: grid;
+        grid-template-columns: min-content auto auto;
+        max-height: 1.6em;
+        line-height: 1.6em;
+
+        &-displayname {
+            font-size: 1.2em;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &-username {
+            font-style: italic;
+            font-weight: 300;
+            padding-left: 0.5em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &::before {
+                content: $username-prepend;
+            }
+        }
+        
+        &-delete {
+            font-size: 1rem;
+            justify-self: end;
+            line-height: 1.6em;
+            max-height: 1.6em;
+            padding-left: 0.5em;
+        }
+    }
+}
+</style>

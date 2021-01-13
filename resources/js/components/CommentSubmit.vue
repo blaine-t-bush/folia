@@ -25,8 +25,7 @@ export default {
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
-                    console.log('Comment creation failed');
-                    console.log(result);
+                    // FIXME handle error.
                 } else {
                     // Request succeeded. Clear form.
                     // FIXME add comment to Vue data before waiting for channel.
@@ -42,3 +41,24 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../sass/vars';
+
+.reply {
+    display: flex;
+    margin: 1rem 0 0 0;
+
+    &-text {
+        flex: 1;
+        line-height: 1.5em;
+        height: 1.5em;
+        padding: 0 0.5em;
+    }
+
+    &-button {
+        background-color: $color-background-dark;
+        margin-left: 0.5em;
+    }
+}
+</style>

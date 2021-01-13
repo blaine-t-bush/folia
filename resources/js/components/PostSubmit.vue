@@ -20,8 +20,7 @@ export default {
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
-                    console.log('Post creation failed');
-                    console.log(result);
+                    // FIXME handle errors.
                 } else {
                     // Request succeeded. Clear form. Pusher should display post shortly.
                     this.body = '';
@@ -37,6 +36,33 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import '../../sass/vars';
 
+    .create {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &-text {
+            flex: 1;
+            min-height: 4.5em;
+            line-height: 1.5em;
+            padding: 0 0.5em;
+
+            @media (max-width: 580px) {
+                min-height: 6em;
+            }
+
+            @media (max-width: 420px) {
+                min-height: 7.5em;
+            }
+        }
+
+        &-button {
+            margin-bottom: 2rem;
+            margin-top: 0.5rem;
+        }
+    }
 </style>

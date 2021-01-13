@@ -22,8 +22,7 @@ export default {
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
-                    console.log('Comment deletion failed');
-                    console.log(result);
+                    // FIXME handle errors.
                 } else {
                     // Request succeeded.
                     // FIXME remove comment from Vue data before waiting for channel.

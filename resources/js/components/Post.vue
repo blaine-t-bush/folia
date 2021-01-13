@@ -127,8 +127,6 @@ export default {
             this.comments.push(comment);
         },
         removeComment(id) {
-            console.log(id);
-            console.log(this.comments);
             // Find index of matching comment in array.
             let indexToRemove = -1;
             for (let i = 0; i < this.comments.length; i++) {
@@ -181,8 +179,7 @@ export default {
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
-                    console.log('Reaction creation failed');
-                    console.log(result);
+                    // FIXME handle errors.
                 } else {
                     // Request succeeded.
                     // FIXME add reaction to Vue data before waiting for channel.
@@ -199,8 +196,7 @@ export default {
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
-                    console.log('Reaction deletion failed');
-                    console.log(result);
+                    // FIXME handle errors.
                 } else {
                     // Request succeeded.
                     // FIXME remove post from Vue data before waiting for channel.
@@ -230,7 +226,6 @@ export default {
         // Add Echo listener to listen for reactions to delete.
         // When it hears the new reaction event, it can remove it to the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', (event) => {
-            console.log(event.reaction);
             this.removeReaction(event.reaction.id);
         });
     },
@@ -276,3 +271,175 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../../sass/vars';
+
+.post {
+    background-color: $color-background-mid;
+    border: 1px solid $color-post-accent;
+    color: $color-post-accent;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+
+    &-header {
+        display: grid;
+        grid-template-columns: min-content auto auto;
+        max-height: 1.6em;
+        line-height: 1.6em;
+
+        &-displayname {
+            font-size: 1.2em;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &-username {
+            font-style: italic;
+            font-weight: 300;
+            padding-left: 0.5em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &::before {
+                content: $username-prepend;
+            }
+        }
+    }
+
+    &-timestamp {
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+    }
+
+    &-body {
+        margin: 0;
+        padding: 0;
+    }
+
+    &-reactions {
+        color: $color-reaction-inactive;
+        column-gap: 5px;
+        display: grid;
+        grid-template-columns: 2em 2em 2em 2em;
+        margin-top: 1em;
+        
+        .count {
+            justify-self: center;
+            user-select: none;
+
+            &-smile {
+                color: $color-text-accent;
+            }
+            
+            &-frown {
+                color: $color-text-accent;
+            }
+            
+            &-heart {
+                color: $color-text-accent;
+            }
+            
+            &-laugh {
+                color: $color-text-accent;
+            }
+        }
+
+        form {
+            input[type="checkbox"] {
+                display: none;
+            }
+
+            input[type="submit"] {
+                border: 1px solid $color-text-accent;
+                font-weight: bold;
+                padding-bottom: 0.2em;
+                width: 100%;
+            }
+            
+            .smile {
+                &-submit {
+                    &:hover, &:active {
+                        background-color: $color-reaction-smile-light;
+                        color: $color-reaction-smile;
+                    }
+                }
+
+                &-checkbox:checked ~ .smile-submit {
+                    background-color: $color-reaction-smile-light;
+                    color: $color-reaction-smile;
+                    &:hover, &:active {
+                        background-color: inherit;
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+            
+            .frown {
+                &-submit {
+                    &:hover, &:active {
+                        background-color: $color-reaction-frown-light;
+                        color: $color-reaction-frown;
+                    }
+                }
+
+                &-checkbox:checked ~ .frown-submit {
+                    background-color: $color-reaction-frown-light;
+                    color: $color-reaction-frown;
+                    &:hover, &:active {
+                        background-color: inherit;
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+            
+            .heart {                
+                &-submit {
+                    &:hover, &:active {
+                        background-color: $color-reaction-heart-light;
+                        color: $color-reaction-heart;
+                    }
+                }
+
+                &-checkbox:checked ~ .heart-submit {
+                    background-color: $color-reaction-heart-light;
+                    color: $color-reaction-heart;
+                    &:hover, &:active {
+                        background-color: inherit;
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+            
+            .laugh {                
+                &-submit {
+                    &:hover, &:active {
+                        background-color: $color-reaction-laugh-light;
+                        color: $color-reaction-laugh;
+                    }
+                }
+
+                &-checkbox:checked ~ .laugh-submit {
+                    background-color: $color-reaction-laugh-light;
+                    color: $color-reaction-laugh;
+                    &:hover, &:active {
+                        background-color: inherit;
+                        color: $color-reaction-inactive;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.comments {
+    border-top: 1px solid lightgreen;
+    font-size: 0.9rem;
+    list-style: none;
+    margin: 1rem 0 0 0rem;
+    padding: 0 0 0 1.5rem;
+}
+</style>

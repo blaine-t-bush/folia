@@ -19,5 +19,4 @@ mix
     .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/register.scss', 'public/css')
     .sass('resources/sass/profile.scss', 'public/css')
-    .sass('resources/sass/posts.scss', 'public/css')
     .vue({ version: 3 });
