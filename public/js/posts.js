@@ -14697,7 +14697,6 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new post event, it can add it to the data.
 
     window.Echo.channel('posts').listen('PostCreated', function (event) {
-      console.log(event);
       event.post.comments = [];
 
       _this.addPost(event.post);
@@ -14705,8 +14704,6 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the event, that post needs to be removed from data.
 
     window.Echo.channel('posts').listen('PostDeleted', function (event) {
-      console.log(event);
-
       _this.removePost(event.post.id);
     });
   },

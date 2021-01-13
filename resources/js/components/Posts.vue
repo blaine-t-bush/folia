@@ -60,7 +60,6 @@ export default {
         // Add Echo listener to listen for new posts.
         // When it hears the new post event, it can add it to the data.
         window.Echo.channel('posts').listen('PostCreated', (event) => {
-            console.log(event);
             event.post.comments = [];
             this.addPost(event.post);
         });
@@ -68,7 +67,6 @@ export default {
         // Add Echo listener to listen for posts being deleted.
         // When it hears the event, that post needs to be removed from data.
         window.Echo.channel('posts').listen('PostDeleted', (event) => {
-            console.log(event);
             this.removePost(event.post.id);
         });
     },

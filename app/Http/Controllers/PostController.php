@@ -33,6 +33,11 @@ class PostController extends Controller
     public function destroy(Request $request) {
         $post = Post::find($request->id);
 
+        // Determine if post belongs to user who made request.
+        if ($post->user->id !== $request->session()->get('user_id')) {
+            return; // FIXME add error message here.
+        }
+        
         // First delete all child comments, if any.
         $comments = $post->comments;
         foreach ($comments as $comment) {
@@ -50,5 +55,7 @@ class PostController extends Controller
 
         // Dispatch the event.
         PostDeleted::dispatch($post->id);
+
+        return; // FIXME add success message here.
     }
 }
