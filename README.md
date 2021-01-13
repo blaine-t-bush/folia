@@ -1,6 +1,7 @@
 # TODO
 
 ## Style
+- Add loading/processing icons on form submissions
 - Create icon and favicon
 - Clean up sticky note (eraser missed some bits)
 - Add sticky note animation on hover
