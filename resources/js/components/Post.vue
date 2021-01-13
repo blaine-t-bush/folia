@@ -14,11 +14,12 @@
         <p class="post-body">{{ body }}</p>
 
         <div class="post-reactions">
-            <form @submit.prevent="submitSmile">
+            <form @submit.prevent="submitReaction('smile')">
                 <input
                     class="smile-checkbox"
                     type="checkbox"
-                    name="react">
+                    name="smile"
+                    :checked="smileChecked">
 
                 <input
                     class="smile-submit"
@@ -26,8 +27,59 @@
                     value=":)">
             </form>
 
+            <form @submit.prevent="submitReaction('frown')">
+                <input
+                    class="frown-checkbox"
+                    type="checkbox"
+                    name="frown"
+                    :checked="frownChecked">
+
+                <input
+                    class="frown-submit"
+                    type="submit"
+                    value=":(">
+            </form>
+
+            <form @submit.prevent="submitReaction('heart')">
+                <input
+                    class="heart-checkbox"
+                    type="checkbox"
+                    name="heart"
+                    :checked="heartChecked">
+
+                <input
+                    class="heart-submit"
+                    type="submit"
+                    value="<3">
+            </form>
+
+            <form @submit.prevent="submitReaction('laugh')">
+                <input
+                    class="laugh-checkbox"
+                    type="checkbox"
+                    name="laugh"
+                    :checked="laughChecked">
+
+                <input
+                    class="laugh-submit"
+                    type="submit"
+                    value="xD">
+            </form>
+
             <div class="count count-smile">
                 {{ smileCount }}
+            </div>
+
+            <div class="count count-frown">
+                {{ frownCount }}
+            </div>
+
+            <div class="count count-heart">
+                {{ heartCount }}
+            </div>
+
+            <div class="count count-laugh">
+                {{ laughCount }}
             </div>
         </div>
 
@@ -109,11 +161,11 @@ export default {
                 this.reactions.splice(indexToRemove, 1);
             }
         },
-        submitSmile() {
+        submitReaction(type) {
             // Send request to controller.
             axios.post('/api/reactions', {
                 id: this.id,
-                type: 'smile',
+                type: type,
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
@@ -169,6 +221,27 @@ export default {
         smileCount: function() {
             return this.reactions.filter(reaction => reaction.type === 'smile').length;
         },
+        frownCount: function() {
+            return this.reactions.filter(reaction => reaction.type === 'frown').length;
+        },
+        heartCount: function() {
+            return this.reactions.filter(reaction => reaction.type === 'heart').length;
+        },
+        laughCount: function() {
+            return this.reactions.filter(reaction => reaction.type === 'laugh').length;
+        },
+        smileChecked: function() {
+            return this.reactions.filter(reaction => reaction.type === 'smile' && reaction.user_id === this.authenticated_user_id.value).length > 0;
+        },
+        frownChecked: function() {
+            return this.reactions.filter(reaction => reaction.type === 'frown' && reaction.user_id === this.authenticated_user_id.value).length > 0;
+        },
+        heartChecked: function() {
+            return this.reactions.filter(reaction => reaction.type === 'heart' && reaction.user_id === this.authenticated_user_id.value).length > 0;
+        },
+        laughChecked: function() {
+            return this.reactions.filter(reaction => reaction.type === 'laugh' && reaction.user_id === this.authenticated_user_id.value).length > 0;
+        }
     },
 };
 </script>

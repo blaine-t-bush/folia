@@ -14620,11 +14620,11 @@ __webpack_require__.r(__webpack_exports__);
         this.reactions.splice(indexToRemove, 1);
       }
     },
-    submitSmile: function submitSmile() {
+    submitReaction: function submitReaction(type) {
       // Send request to controller.
       axios.post('/api/reactions', {
         id: this.id,
-        type: 'smile'
+        type: type
       }).then(function (response) {
         if (response.status != 200) {
           // Request failed.
@@ -14679,6 +14679,49 @@ __webpack_require__.r(__webpack_exports__);
       return this.reactions.filter(function (reaction) {
         return reaction.type === 'smile';
       }).length;
+    },
+    frownCount: function frownCount() {
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'frown';
+      }).length;
+    },
+    heartCount: function heartCount() {
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'heart';
+      }).length;
+    },
+    laughCount: function laughCount() {
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'laugh';
+      }).length;
+    },
+    smileChecked: function smileChecked() {
+      var _this2 = this;
+
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'smile' && reaction.user_id === _this2.authenticated_user_id.value;
+      }).length > 0;
+    },
+    frownChecked: function frownChecked() {
+      var _this3 = this;
+
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'frown' && reaction.user_id === _this3.authenticated_user_id.value;
+      }).length > 0;
+    },
+    heartChecked: function heartChecked() {
+      var _this4 = this;
+
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'heart' && reaction.user_id === _this4.authenticated_user_id.value;
+      }).length > 0;
+    },
+    laughChecked: function laughChecked() {
+      var _this5 = this;
+
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'laugh' && reaction.user_id === _this5.authenticated_user_id.value;
+      }).length > 0;
     }
   }
 });
@@ -15037,14 +15080,6 @@ var _hoisted_7 = {
 };
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  "class": "smile-checkbox",
-  type: "checkbox",
-  name: "react"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
   "class": "smile-submit",
   type: "submit",
   value: ":)"
@@ -15052,10 +15087,43 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  "class": "frown-submit",
+  type: "submit",
+  value: ":("
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  "class": "heart-submit",
+  type: "submit",
+  value: "<3"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  "class": "laugh-submit",
+  type: "submit",
+  value: "xD"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_12 = {
   "class": "count count-smile"
 };
-var _hoisted_11 = {
+var _hoisted_13 = {
+  "class": "count count-frown"
+};
+var _hoisted_14 = {
+  "class": "count count-heart"
+};
+var _hoisted_15 = {
+  "class": "count count-laugh"
+};
+var _hoisted_16 = {
   "class": "comments"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -15079,14 +15147,66 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submitSmile && $options.submitSmile.apply($options, arguments);
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $options.submitReaction('smile');
     }, ["prevent"]))
-  }, [_hoisted_8, _hoisted_9], 32
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "smile-checkbox",
+    type: "checkbox",
+    name: "smile",
+    checked: $options.smileChecked
+  }, null, 8
+  /* PROPS */
+  , ["checked"]), _hoisted_8], 32
   /* HYDRATE_EVENTS */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.smileCount), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $options.submitReaction('frown');
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "frown-checkbox",
+    type: "checkbox",
+    name: "frown",
+    checked: $options.frownChecked
+  }, null, 8
+  /* PROPS */
+  , ["checked"]), _hoisted_9], 32
+  /* HYDRATE_EVENTS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $options.submitReaction('heart');
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "heart-checkbox",
+    type: "checkbox",
+    name: "heart",
+    checked: $options.heartChecked
+  }, null, 8
+  /* PROPS */
+  , ["checked"]), _hoisted_10], 32
+  /* HYDRATE_EVENTS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $options.submitReaction('laugh');
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "laugh-checkbox",
+    type: "checkbox",
+    name: "laugh",
+    checked: $options.laughChecked
+  }, null, 8
+  /* PROPS */
+  , ["checked"]), _hoisted_11], 32
+  /* HYDRATE_EVENTS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.smileCount), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.frownCount), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.heartCount), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.laughCount), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
       key: comment.id,
       id: comment.id,
