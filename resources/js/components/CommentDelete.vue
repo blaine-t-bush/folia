@@ -1,5 +1,5 @@
 <template>
-    <form class="post-header-delete" @submit.prevent="deletePost">
+    <form class="comment-header-delete" @submit.prevent="deleteComment">
         <input
             class="delete-button heavy-button"
             type="submit"
@@ -13,20 +13,20 @@ export default {
         id: Number,
     },
     methods: {
-        deletePost() {
+        deleteComment() {
             // Send request to controller.
-            axios.delete('/api/posts', {
+            axios.delete('/api/comments', {
                 data: {
                     id: this.id,
                 }, // Not that axios.delete() requests are formatted differently than .get() and .post().
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
-                    console.log('Post deletion failed');
+                    console.log('Comment deletion failed');
                     console.log(result);
                 } else {
                     // Request succeeded.
-                    // FIXME remove post from Vue data before waiting for channel.
+                    // FIXME remove comment from Vue data before waiting for channel.
                 }
             });
         },

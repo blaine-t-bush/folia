@@ -74,6 +74,23 @@ export default {
         addComment(comment) {
             this.comments.push(comment);
         },
+        removeComment(id) {
+            console.log(id);
+            console.log(this.comments);
+            // Find index of matching comment in array.
+            let indexToRemove = -1;
+            for (let i = 0; i < this.comments.length; i++) {
+                if (this.comments[i].id === id) {
+                    indexToRemove = i;
+                    break;
+                }
+            } // FIXME optimize this.
+
+            // Remove comment, if it was found. In that case indexToRemove will be a non-negative integer.
+            if (indexToRemove >= 0) {
+                this.comments.splice(indexToRemove, 1);
+            }
+        },
         addReaction(reaction) {
             this.reactions.push(reaction);
         },
@@ -81,7 +98,7 @@ export default {
             // Find index of matching reaction in array.
             let indexToRemove = -1;
             for (let i = 0; i < this.reactions.length; i++) {
-                if (this.reaction[i].id === id) {
+                if (this.reactions[i].id === id) {
                     indexToRemove = i;
                     break;
                 }
@@ -116,6 +133,12 @@ export default {
             this.addComment(event.comment);
         });
         
+        // Add Echo listener to listen for comments to delete.
+        // When it hears the new comment event, it can remove it to the data.
+        window.Echo.channel('comments-' + this.id).listen('CommentDeleted', (event) => {
+            this.removeComment(event.comment.id);
+        });
+        
         // Add Echo listener to listen for new reactions.
         // When it hears the new reaction event, it can add it to the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionCreated', (event) => {
@@ -130,10 +153,11 @@ export default {
     },
     computed: {
         orderedComments: function() {
+            // Sort comments oldest-first.
             function compare(a, b) {
-                if (a.id < b.id) {
+                if (a.id > b.id) {
                     return 1;
-                } else if (a.id > b.id) {
+                } else if (a.id < b.id) {
                     return -1;
                 } else {
                     return 0;

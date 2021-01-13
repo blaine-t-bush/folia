@@ -36,10 +36,10 @@ class PostController extends Controller
     }
 
     public function destroy(Request $request) {
-        $post = Post::find($request->id);
+        $post = Post::findOrFail($request->id);
 
         // Determine if post belongs to user who made request.
-        if ($post->user->id !== $request->session()->get('user_id')) {
+        if ($post->user_id !== $request->session()->get('user_id')) {
             return; // FIXME add error message here.
         }
         

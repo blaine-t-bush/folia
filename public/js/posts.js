@@ -14446,13 +14446,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var _CommentDelete__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommentDelete */ "./resources/js/components/CommentDelete.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    'CommentDelete': _CommentDelete__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  inject: ['authenticated_user_id'],
   props: {
     id: Number,
     user_id: String,
     display_name: String,
     body: String,
     created_at: String
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CommentDelete.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CommentDelete.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    id: Number
+  },
+  methods: {
+    deleteComment: function deleteComment() {
+      // Send request to controller.
+      axios["delete"]('/api/comments', {
+        data: {
+          id: this.id
+        } // Not that axios.delete() requests are formatted differently than .get() and .post().
+
+      }).then(function (response) {
+        if (response.status != 200) {
+          // Request failed.
+          console.log('Comment deletion failed');
+          console.log(result);
+        } else {// Request succeeded.
+          // FIXME remove comment from Vue data before waiting for channel.
+        }
+      });
+    }
   }
 });
 
@@ -14538,6 +14581,25 @@ __webpack_require__.r(__webpack_exports__);
     addComment: function addComment(comment) {
       this.comments.push(comment);
     },
+    removeComment: function removeComment(id) {
+      console.log(id);
+      console.log(this.comments); // Find index of matching comment in array.
+
+      var indexToRemove = -1;
+
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].id === id) {
+          indexToRemove = i;
+          break;
+        }
+      } // FIXME optimize this.
+      // Remove comment, if it was found. In that case indexToRemove will be a non-negative integer.
+
+
+      if (indexToRemove >= 0) {
+        this.comments.splice(indexToRemove, 1);
+      }
+    },
     addReaction: function addReaction(reaction) {
       this.reactions.push(reaction);
     },
@@ -14546,7 +14608,7 @@ __webpack_require__.r(__webpack_exports__);
       var indexToRemove = -1;
 
       for (var i = 0; i < this.reactions.length; i++) {
-        if (this.reaction[i].id === id) {
+        if (this.reactions[i].id === id) {
           indexToRemove = i;
           break;
         }
@@ -14581,6 +14643,11 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new comment event, it can add it to the data.
     window.Echo.channel('comments-' + this.id).listen('CommentCreated', function (event) {
       _this.addComment(event.comment);
+    }); // Add Echo listener to listen for comments to delete.
+    // When it hears the new comment event, it can remove it to the data.
+
+    window.Echo.channel('comments-' + this.id).listen('CommentDeleted', function (event) {
+      _this.removeComment(event.comment.id);
     }); // Add Echo listener to listen for new reactions.
     // When it hears the new reaction event, it can add it to the data.
 
@@ -14595,10 +14662,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     orderedComments: function orderedComments() {
+      // Sort comments oldest-first.
       function compare(a, b) {
-        if (a.id < b.id) {
+        if (a.id > b.id) {
           return 1;
-        } else if (a.id > b.id) {
+        } else if (a.id < b.id) {
           return -1;
         } else {
           return 0;
@@ -14792,6 +14860,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     orderedPosts: function orderedPosts() {
+      // Sort posts newest-first.
       function compare(a, b) {
         if (a.id < b.id) {
           return 1;
@@ -14837,13 +14906,54 @@ var _hoisted_5 = {
   "class": "comment-body"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_CommentDelete = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CommentDelete");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.display_name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user_id), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
+  ), $options.authenticated_user_id.value === $props.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_CommentDelete, {
+    key: 0,
+    id: $props.id
+  }, null, 8
+  /* PROPS */
+  , ["id"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */
   )]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CommentDelete.vue?vue&type=template&id=1e1c738f":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CommentDelete.vue?vue&type=template&id=1e1c738f ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => /* binding */ render
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  "class": "delete-button heavy-button",
+  type: "submit",
+  value: "X"
+}, null, -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
+    "class": "comment-header-delete",
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.deleteComment && $options.deleteComment.apply($options, arguments);
+    }, ["prevent"]))
+  }, [_hoisted_1], 32
+  /* HYDRATE_EVENTS */
+  );
 }
 
 /***/ }),
@@ -15161,6 +15271,31 @@ _Comment_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file
 
 /***/ }),
 
+/***/ "./resources/js/components/CommentDelete.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/CommentDelete.vue ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _CommentDelete_vue_vue_type_template_id_1e1c738f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommentDelete.vue?vue&type=template&id=1e1c738f */ "./resources/js/components/CommentDelete.vue?vue&type=template&id=1e1c738f");
+/* harmony import */ var _CommentDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CommentDelete.vue?vue&type=script&lang=js */ "./resources/js/components/CommentDelete.vue?vue&type=script&lang=js");
+
+
+
+_CommentDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _CommentDelete_vue_vue_type_template_id_1e1c738f__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_CommentDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/CommentDelete.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_CommentDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
 /***/ "./resources/js/components/CommentSubmit.vue":
 /*!***************************************************!*\
   !*** ./resources/js/components/CommentSubmit.vue ***!
@@ -15301,6 +15436,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/CommentDelete.vue?vue&type=script&lang=js":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/CommentDelete.vue?vue&type=script&lang=js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommentDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommentDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CommentDelete.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CommentDelete.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/CommentSubmit.vue?vue&type=script&lang=js":
 /*!***************************************************************************!*\
   !*** ./resources/js/components/CommentSubmit.vue?vue&type=script&lang=js ***!
@@ -15387,6 +15537,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Comment_vue_vue_type_template_id_54ded044__WEBPACK_IMPORTED_MODULE_0__.render
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Comment_vue_vue_type_template_id_54ded044__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Comment.vue?vue&type=template&id=54ded044 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Comment.vue?vue&type=template&id=54ded044");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/CommentDelete.vue?vue&type=template&id=1e1c738f":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/CommentDelete.vue?vue&type=template&id=1e1c738f ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommentDelete_vue_vue_type_template_id_1e1c738f__WEBPACK_IMPORTED_MODULE_0__.render
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommentDelete_vue_vue_type_template_id_1e1c738f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CommentDelete.vue?vue&type=template&id=1e1c738f */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CommentDelete.vue?vue&type=template&id=1e1c738f");
 
 
 /***/ }),

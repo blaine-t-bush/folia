@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+
 use App\Events\CommentCreated;
+use App\Events\CommentDeleted;
 
 class CommentController extends Controller
 {
@@ -23,20 +25,14 @@ class CommentController extends Controller
         CommentCreated::dispatch($comment, $comment->user, $comment->post);
     }
     
-    public function destroy(Request $request) {
-        // Validate the inputs.
-        $validated = $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
-            'comment_id' => ['required', 'exists:comments,id'],
-        ]);
+    public function destroy(Request $request) {     
+        $comment = Comment::findOrFail($request->id);
         
-        // Check that comment actually belongs to user.
-        $comment = Comment::find($request->comment_id);
-        
-        if ($comment->user_id == $request->user_id) {
+        if ($comment->user_id == $request->session()->get('user_id')) {
             $comment->delete();
+
+            // Dispatch the event.
+            CommentDeleted::dispatch($comment->id, $comment->post_id);
         }
-        
-        return back();
     }
 }

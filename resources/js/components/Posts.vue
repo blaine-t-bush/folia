@@ -99,6 +99,7 @@ export default {
     },
     computed: {
         orderedPosts: function() {
+            // Sort posts newest-first.
             function compare(a, b) {
                 if (a.id < b.id) {
                     return 1;

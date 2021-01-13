@@ -82,6 +82,7 @@ Route::middleware(['check_token'])->group(function() {
  * 
  */
 // FIXME update APIs to not pass sensitive information
+// FIXME move APIs to separate routes file.
 Route::middleware(['check_token'])->group(function() {
     Route::get('/api/session', [
         UserController::class, 'session'
@@ -105,6 +106,10 @@ Route::middleware(['check_token'])->group(function() {
 
     Route::post('/api/comments', [
         CommentController::class, 'create'
+    ]);
+
+    Route::delete('/api/comments', [
+        CommentController::class, 'destroy'
     ]);
 
     Route::post('/api/reactions', [
