@@ -1,6 +1,5 @@
 <template>
     <li class="post">
-        {{ authenticated_user_id.value }}
         <div class="post-header">
             <div class="post-header-displayname">{{ display_name }}</div>
             <div class="post-header-username">{{ user_id }}</div>
