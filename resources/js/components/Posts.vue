@@ -1,5 +1,6 @@
 <template>
-    <PostSubmit></PostSubmit>
+    <PostSubmit
+        @post-created="addCreatedPost"></PostSubmit>
 
     <ol class="posts">
         <Post
@@ -28,6 +29,14 @@ export default {
     methods: {
         addPost(post) {
             this.posts.push(post);
+        },
+        addCreatedPost(event) {
+            // For adding a new post based on a successful form submission.
+            // This is to reduce the lag time of relying on Pusher
+            // to add new posts that were created by this user.
+            // Pusher is fine for adding new posts that were created by other users,
+            // since they don't see that lag.
+            this.posts.push(event);
         },
         removePost(id) {
             // Find index of matching post in array.
@@ -71,10 +80,14 @@ export default {
         // Add Echo listener to listen for new posts.
         // When it hears the new post event, it can add it to the data.
         window.Echo.channel('posts').listen('PostCreated', (event) => {
-            // FIXME newly created posts don't show user_id or delete button.
-            event.post.comments = [];
-            event.post.reactions = [];
-            this.addPost(event.post);
+            // Check that post doesn't already exist in data before adding it.
+            if (this.posts.filter(post => post.id === event.post.id).length > 0) {
+                // Don't add it. Post with this ID already exists.
+            } else {
+                event.post.comments = [];
+                event.post.reactions = [];
+                this.addPost(event.post);
+            }
         });
 
         // Add Echo listener to listen for posts being deleted.

@@ -14791,18 +14791,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  emits: ['postCreated'],
   methods: {
     submitPost: function submitPost() {
       var _this = this;
 
       // Send request to controller.
       axios.post('/api/posts', {
-        body: this.body
+        body: this.body // FIXME add validation.
+
       }).then(function (response) {
         if (response.status != 200) {// Request failed.
           // FIXME handle errors.
         } else {
           // Request succeeded. Clear form. Pusher should display post shortly.
+          // FIXME add a new post to Vue data before waiting for pusher.
+          // Then, ignore future directive from pusher for this ID.
+          _this.$emit('postCreated', response.data);
+
           _this.body = '';
         }
       });
@@ -14841,6 +14847,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addPost: function addPost(post) {
       this.posts.push(post);
+    },
+    addCreatedPost: function addCreatedPost(event) {
+      // For adding a new post based on a successful form submission.
+      // This is to reduce the lag time of relying on Pusher
+      // to add new posts that were created by this user.
+      // Pusher is fine for adding new posts that were created by other users,
+      // since they don't see that lag.
+      this.posts.push(event);
     },
     removePost: function removePost(id) {
       // Find index of matching post in array.
@@ -14884,11 +14898,16 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new post event, it can add it to the data.
 
     window.Echo.channel('posts').listen('PostCreated', function (event) {
-      // FIXME newly created posts don't show user_id or delete button.
-      event.post.comments = [];
-      event.post.reactions = [];
+      // Check that post doesn't already exist in data before adding it.
+      if (_this.posts.filter(function (post) {
+        return post.id === event.post.id;
+      }).length > 0) {// Don't add it. Post with this ID already exists.
+      } else {
+        event.post.comments = [];
+        event.post.reactions = [];
 
-      _this.addPost(event.post);
+        _this.addPost(event.post);
+      }
     }); // Add Echo listener to listen for posts being deleted.
     // When it hears the event, that post needs to be removed from data.
 
@@ -15384,7 +15403,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PostSubmit), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedPosts, function (post) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PostSubmit, {
+    onPostCreated: $options.addCreatedPost
+  }, null, 8
+  /* PROPS */
+  , ["onPostCreated"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedPosts, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       key: post.id,
       id: post.id,

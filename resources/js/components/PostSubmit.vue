@@ -12,17 +12,23 @@
 
 <script>
 export default {
+    emits: [
+        'postCreated'
+    ],
     methods: {
         submitPost() {
             // Send request to controller.
             axios.post('/api/posts', {
-                body: this.body
+                body: this.body // FIXME add validation.
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
                     // FIXME handle errors.
                 } else {
                     // Request succeeded. Clear form. Pusher should display post shortly.
+                    // FIXME add a new post to Vue data before waiting for pusher.
+                    // Then, ignore future directive from pusher for this ID.
+                    this.$emit('postCreated', response.data);
                     this.body = '';
                 }
             });

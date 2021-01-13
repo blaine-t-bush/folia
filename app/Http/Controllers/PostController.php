@@ -33,6 +33,13 @@ class PostController extends Controller
 
         // Dispatch the event.
         PostCreated::dispatch($post);
+
+        // Hydrate post model with user info.
+        $post->reactions;
+        $post->comments;
+        $post->user;
+
+        return json_encode($post); // FIXME create consistent resource for post.
     }
 
     public function destroy(Request $request) {
