@@ -14524,6 +14524,7 @@ __webpack_require__.r(__webpack_exports__);
     'Comment': _Comment__WEBPACK_IMPORTED_MODULE_1__.default,
     'CommentSubmit': _CommentSubmit__WEBPACK_IMPORTED_MODULE_2__.default
   },
+  inject: ['authenticated_user_id'],
   props: {
     id: Number,
     user_id: String,
@@ -14702,14 +14703,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Post */ "./resources/js/components/Post.vue");
-/* harmony import */ var _PostSubmit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostSubmit */ "./resources/js/components/PostSubmit.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Post */ "./resources/js/components/Post.vue");
+/* harmony import */ var _PostSubmit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PostSubmit */ "./resources/js/components/PostSubmit.vue");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    'Post': _Post__WEBPACK_IMPORTED_MODULE_0__.default,
-    'PostSubmit': _PostSubmit__WEBPACK_IMPORTED_MODULE_1__.default
+    'Post': _Post__WEBPACK_IMPORTED_MODULE_1__.default,
+    'PostSubmit': _PostSubmit__WEBPACK_IMPORTED_MODULE_2__.default
   },
   methods: {
     addPost: function addPost(post) {
@@ -14736,15 +14739,22 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    // Fetch all posts from Laravel.
+    // Get user session information.
+    axios.get('/api/session', {}).then(function (response) {
+      if (response.status != 200) {// Request failed.
+        // FIXME handle API failure.
+      } else {
+        // Request succeeded.
+        _this.session = response.data;
+      }
+    }); // Fetch all posts from Laravel.
+
     axios.get('/api/posts', {}).then(function (response) {
       if (response.status != 200) {// Request failed.
-        // TODO handle API failure.
+        // FIXME handle API failure.
       } else {
         // Request succeeded.
         _this.posts = Object.values(response.data); // Convert payload to an array, where each object is a post.
-
-        console.log(Object.values(response.data));
       }
     }); // Add Echo listener to listen for new posts.
     // When it hears the new post event, it can add it to the data.
@@ -14762,7 +14772,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      session: {
+        authenticated_token: null,
+        authenticated_user_id: null
+      },
       posts: []
+    };
+  },
+  provide: function provide() {
+    var _this2 = this;
+
+    return {
+      authenticated_user_id: (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+        return _this2.session.authenticated_user_id;
+      })
     };
   },
   computed: {
@@ -14930,15 +14953,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_CommentSubmit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CommentSubmit");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.display_name), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.authenticated_user_id.value) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.display_name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user_id), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PostDelete, {
+  ), $options.authenticated_user_id.value === $props.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_PostDelete, {
+    key: 0,
     id: $props.id
   }, null, 8
   /* PROPS */
-  , ["id"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FIXME hide delete button except if post user matches authenticated user ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
+  , ["id"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */

@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import Post from './Post';
 import PostSubmit from './PostSubmit';
 
@@ -45,17 +46,25 @@ export default {
         }
     },
     mounted() {
-        // Fetch all posts from Laravel.
-        axios.get('/api/posts', {
-
-        }).then((response) => {
+        // Get user session information.
+        axios.get('/api/session', {}).then((response) => {
             if (response.status != 200) {
                 // Request failed.
-                // TODO handle API failure.
+                // FIXME handle API failure.
+            } else {
+                // Request succeeded.
+                this.session = response.data;
+            }
+        });
+
+        // Fetch all posts from Laravel.
+        axios.get('/api/posts', {}).then((response) => {
+            if (response.status != 200) {
+                // Request failed.
+                // FIXME handle API failure.
             } else {
                 // Request succeeded.
                 this.posts = Object.values(response.data); // Convert payload to an array, where each object is a post.
-                console.log(Object.values(response.data));
             }
         });
 
@@ -74,7 +83,16 @@ export default {
     },
     data() {
         return {
+            session: {
+                authenticated_token: null,
+                authenticated_user_id: null,
+            },
             posts: [],
+        }
+    },
+    provide() {
+        return {
+            authenticated_user_id: computed(() => this.session.authenticated_user_id),
         }
     },
     computed: {

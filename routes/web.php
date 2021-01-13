@@ -82,6 +82,10 @@ Route::middleware(['check_token'])->group(function() {
  * 
  */
 Route::middleware(['check_token'])->group(function() {
+    Route::get('/api/session', [
+        UserController::class, 'session'
+    ]);
+
     Route::get('/api/posts', [
         PostController::class, 'index'
     ]);

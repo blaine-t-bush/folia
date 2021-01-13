@@ -15,6 +15,12 @@ class UserController extends Controller
      * Non-static functions
      * 
      */
+    public function session(Request $request) {
+        return [
+            'authenticated_user_id' => $request->session()->get('user_id'),
+            'authenticated_token' => $request->session()->get('authenticated_token'),
+        ];
+    }
 
     public function register(Request $request) {
         // Validate the inputs.

@@ -1,12 +1,13 @@
 <template>
     <li class="post">
+        {{ authenticated_user_id.value }}
         <div class="post-header">
             <div class="post-header-displayname">{{ display_name }}</div>
             <div class="post-header-username">{{ user_id }}</div>
 
             <PostDelete
+                v-if="authenticated_user_id.value === user_id"
                 :id="id"></PostDelete>
-                <!-- FIXME hide delete button except if post user matches authenticated user -->
         </div>
 
         <div class="post-timestamp">{{ created_at }}</div>
@@ -58,6 +59,9 @@ export default {
         'Comment': Comment,
         'CommentSubmit': CommentSubmit,
     },
+    inject: [
+        'authenticated_user_id'
+    ],
     props: {
         id: Number,
         user_id: String,
