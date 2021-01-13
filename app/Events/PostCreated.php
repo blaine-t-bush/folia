@@ -46,7 +46,7 @@ class PostCreated implements ShouldBroadcast
                 'id' => $this->post->id,
                 'body' => $this->post->body,
                 'user' => [
-                    'user_id' => $this->post->user->id,
+                    'id' => $this->post->user->id,
                     'display_name' => $this->post->user->display_name,
                 ],
                 'created_at' => $this->post->created_at,

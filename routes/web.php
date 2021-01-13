@@ -81,6 +81,7 @@ Route::middleware(['check_token'])->group(function() {
  * API
  * 
  */
+// FIXME update APIs to not pass sensitive information
 Route::middleware(['check_token'])->group(function() {
     Route::get('/api/session', [
         UserController::class, 'session'

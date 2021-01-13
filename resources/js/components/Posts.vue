@@ -6,7 +6,7 @@
             v-for="post in orderedPosts"
             :key="post.id"
             :id="post.id"
-            :user_id="post.user_id"
+            :user_id="post.user.id"
             :display_name="post.user.display_name"
             :created_at="post.created_at"
             :body="post.body"
@@ -71,7 +71,9 @@ export default {
         // Add Echo listener to listen for new posts.
         // When it hears the new post event, it can add it to the data.
         window.Echo.channel('posts').listen('PostCreated', (event) => {
+            // FIXME newly created posts don't show user_id or delete button.
             event.post.comments = [];
+            event.post.reactions = [];
             this.addPost(event.post);
         });
 

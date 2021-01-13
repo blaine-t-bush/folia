@@ -14760,7 +14760,9 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new post event, it can add it to the data.
 
     window.Echo.channel('posts').listen('PostCreated', function (event) {
+      // FIXME newly created posts don't show user_id or delete button.
       event.post.comments = [];
+      event.post.reactions = [];
 
       _this.addPost(event.post);
     }); // Add Echo listener to listen for posts being deleted.
@@ -15101,7 +15103,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       key: post.id,
       id: post.id,
-      user_id: post.user_id,
+      user_id: post.user.id,
       display_name: post.user.display_name,
       created_at: post.created_at,
       body: post.body,
