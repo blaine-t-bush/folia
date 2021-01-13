@@ -17,6 +17,7 @@
 - Add comments, reactions, and delete to Vue component
 - Add daily recurring job to clear data and re-seed
 - Add frequently recurring job to add posts and comments
+- Add additional language option in profile
 
 # FIXME
 ## Style

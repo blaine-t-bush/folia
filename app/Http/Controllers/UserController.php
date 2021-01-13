@@ -34,7 +34,7 @@ class UserController extends Controller
         $user = static::create($request->user_id, $request->display_name, $request->password);
 
         // Attempt to authenticate user and save a remember token.
-        $request = static::authenticateAndStore($request, $request->user_id, $request->password);
+        static::authenticateAndStore($request, $request->user_id, $request->password);
 
         return redirect('/');
     }
@@ -47,9 +47,11 @@ class UserController extends Controller
         ]);
 
         // Attempt to authenticate user and save a remember token.
-        $request = static::authenticateAndStore($request, $request->user_id, $request->password); // FIXME populate error message and display when redirecting back to login screen if authentication failed.
-
-        return redirect('/');
+        if (static::authenticateAndStore($request, $request->user_id, $request->password)) {
+            return redirect('/');
+        } else {
+            return redirect('/login')->withErrors(['credentials' => 'Username or password did not match any of our records.']);
+        }
     }
 
     public function logout(Request $request) {
@@ -119,7 +121,7 @@ class UserController extends Controller
     static function authenticateAndStore(Request $request, string $id, string $password) {
         if (static::authenticate($id, $password)) {
             // Generate a token. For something that's not just a sandbox,
-            // I'd do a lot more work to ensure unique tokens across users.
+            // I'd do a lot more work to ensure unique and secure tokens across users.
             $token = Hash::make($id . Str::random(16));
 
             // Store the token and user_id in user session.
@@ -133,11 +135,11 @@ class UserController extends Controller
             $user->authenticated_token = $token;
             $user->save();
             
-            return $request;
+            return true;
         } else {
             $request->session()->put('user_logged_in', false);
             
-            return $request;
+            return false;
         }
     }
 }

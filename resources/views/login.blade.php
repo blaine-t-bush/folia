@@ -39,6 +39,10 @@
         <div class="error">{{ $message }}</div>
         @enderror
 
+        @error('credentials')
+        <div class="error error-credentials">{{ $message }}</div>
+        @enderror
+
         <input class="login-button heavy-button" type="submit" value=">>> Login">
 
         <div class="register-prompt">

@@ -40,6 +40,9 @@
   margin: 0.2em;
   text-align: center;
 }
+.error-credentials {
+  margin-top: 1rem;
+}
 
 .input-error {
   background-color: #f1a9a9 !important;
