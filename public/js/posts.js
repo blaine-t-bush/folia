@@ -14513,20 +14513,24 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     id: Number
   },
+  emits: ['commentCreated'],
   methods: {
-    submitPost: function submitPost() {
+    submitComment: function submitComment() {
       var _this = this;
 
       // Send request to controller.
       axios.post('/api/comments', {
         id: this.id,
-        body: this.body
+        body: this.body // FIXME add validation.
+
       }).then(function (response) {
         if (response.status != 200) {// Request failed.
           // FIXME handle error.
         } else {
           // Request succeeded. Clear form.
           // FIXME add comment to Vue data before waiting for channel.
+          _this.$emit('commentCreated', response.data);
+
           _this.body = '';
         }
       });
@@ -14576,6 +14580,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addComment: function addComment(comment) {
       this.comments.push(comment);
+    },
+    addCreatedComment: function addCreatedComment(comment) {
+      // For adding a new comment based on a successful form submission.
+      // This is to reduce the lag time of relying on Pusher
+      // to add new comments that were created by this user.
+      // Pusher is fine for adding new comments that were created by other users,
+      // since they don't see that lag.
+      this.addComment(comment);
     },
     removeComment: function removeComment(id) {
       // Find index of matching comment in array.
@@ -14659,7 +14671,13 @@ __webpack_require__.r(__webpack_exports__);
     // Add Echo listener to listen for new comments.
     // When it hears the new comment event, it can add it to the data.
     window.Echo.channel('comments-' + this.id).listen('CommentCreated', function (event) {
-      _this.addComment(event.comment);
+      // Check that comment doesn't already exist in data before adding it.
+      if (_this.comments.filter(function (comment) {
+        return comment.id === event.comment.id;
+      }).length > 0) {// Don't add it. Post with this ID already exists.
+      } else {
+        _this.addComment(event.comment);
+      }
     }); // Add Echo listener to listen for comments to delete.
     // When it hears the new comment event, it can remove it to the data.
 
@@ -14848,13 +14866,13 @@ __webpack_require__.r(__webpack_exports__);
     addPost: function addPost(post) {
       this.posts.push(post);
     },
-    addCreatedPost: function addCreatedPost(event) {
+    addCreatedPost: function addCreatedPost(post) {
       // For adding a new post based on a successful form submission.
       // This is to reduce the lag time of relying on Pusher
       // to add new posts that were created by this user.
       // Pusher is fine for adding new posts that were created by other users,
       // since they don't see that lag.
-      this.posts.push(event);
+      this.addPost(post);
     },
     removePost: function removePost(id) {
       // Find index of matching post in array.
@@ -15072,7 +15090,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
     "class": "reply",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submitPost && $options.submitPost.apply($options, arguments);
+      return $options.submitComment && $options.submitComment.apply($options, arguments);
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "reply-text",
@@ -15274,10 +15292,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }), 128
   /* KEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CommentSubmit, {
+    onCommentCreated: $options.addCreatedComment,
     id: $props.id
   }, null, 8
   /* PROPS */
-  , ["id"])]);
+  , ["onCommentCreated", "id"])]);
 });
 
 /***/ }),

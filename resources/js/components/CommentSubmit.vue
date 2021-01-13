@@ -1,5 +1,5 @@
 <template>
-    <form class="reply" @submit.prevent="submitPost">
+    <form class="reply" @submit.prevent="submitComment">
         <input
             class="reply-text"
             type="text"
@@ -16,12 +16,15 @@ export default {
     props: {
         id: Number,
     },
+    emits: [
+        'commentCreated'
+    ],
     methods: {
-        submitPost() {
+        submitComment() {
             // Send request to controller.
             axios.post('/api/comments', {
                 id: this.id,
-                body: this.body,
+                body: this.body, // FIXME add validation.
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.
@@ -29,6 +32,7 @@ export default {
                 } else {
                     // Request succeeded. Clear form.
                     // FIXME add comment to Vue data before waiting for channel.
+                    this.$emit('commentCreated', response.data);
                     this.body = '';
                 }
             });

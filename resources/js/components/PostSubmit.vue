@@ -19,7 +19,7 @@ export default {
         submitPost() {
             // Send request to controller.
             axios.post('/api/posts', {
-                body: this.body // FIXME add validation.
+                body: this.body, // FIXME add validation.
             }).then(response => {
                 if (response.status != 200) {
                     // Request failed.

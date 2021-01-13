@@ -30,13 +30,13 @@ export default {
         addPost(post) {
             this.posts.push(post);
         },
-        addCreatedPost(event) {
+        addCreatedPost(post) {
             // For adding a new post based on a successful form submission.
             // This is to reduce the lag time of relying on Pusher
             // to add new posts that were created by this user.
             // Pusher is fine for adding new posts that were created by other users,
             // since they don't see that lag.
-            this.posts.push(event);
+            this.addPost(post);
         },
         removePost(id) {
             // Find index of matching post in array.

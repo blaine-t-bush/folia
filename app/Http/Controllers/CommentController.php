@@ -23,6 +23,12 @@ class CommentController extends Controller
 
         // Dispatch the event.
         CommentCreated::dispatch($comment, $comment->user, $comment->post);
+
+        // Hydrate comment model with user info.
+        $comment->user;
+        $comment->post;
+
+        return json_encode($comment);
     }
     
     public function destroy(Request $request) {     

@@ -95,6 +95,7 @@
         </ol>
 
         <CommentSubmit
+            @comment-created="addCreatedComment"
             :id="id"></CommentSubmit>
     </li>
 </template>
@@ -125,6 +126,14 @@ export default {
     methods: {
         addComment(comment) {
             this.comments.push(comment);
+        },
+        addCreatedComment(comment) {
+            // For adding a new comment based on a successful form submission.
+            // This is to reduce the lag time of relying on Pusher
+            // to add new comments that were created by this user.
+            // Pusher is fine for adding new comments that were created by other users,
+            // since they don't see that lag.
+            this.addComment(comment);
         },
         removeComment(id) {
             // Find index of matching comment in array.
@@ -208,7 +217,12 @@ export default {
         // Add Echo listener to listen for new comments.
         // When it hears the new comment event, it can add it to the data.
         window.Echo.channel('comments-' + this.id).listen('CommentCreated', (event) => {
-            this.addComment(event.comment);
+            // Check that comment doesn't already exist in data before adding it.
+            if (this.comments.filter(comment => comment.id === event.comment.id).length > 0) {
+                // Don't add it. Post with this ID already exists.
+            } else {
+                this.addComment(event.comment);
+            }
         });
         
         // Add Echo listener to listen for comments to delete.
