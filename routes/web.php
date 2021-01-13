@@ -101,4 +101,8 @@ Route::middleware(['check_token'])->group(function() {
     Route::post('/api/comments', [
         CommentController::class, 'create'
     ]);
+
+    Route::post('/api/reactions', [
+        ReactionController::class, 'create'
+    ]);
 });

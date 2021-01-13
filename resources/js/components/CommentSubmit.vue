@@ -14,13 +14,13 @@
 <script>
 export default {
     props: {
-        post_id: Number,
+        id: Number,
     },
     methods: {
         submitPost() {
             // Send request to controller.
             axios.post('/api/comments', {
-                post_id: this.post_id,
+                id: this.id,
                 body: this.body,
             }).then(response => {
                 if (response.status != 200) {

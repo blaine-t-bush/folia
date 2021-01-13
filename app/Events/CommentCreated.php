@@ -52,7 +52,7 @@ class CommentCreated implements ShouldBroadcast
     {
         $this->comment = $comment;
         $this->user = $user;
-        $this->post = $post;
+        $this->post = $post; // FIXME add broadcastWith() to only pass relevant (and non-private) data.
     }
 
     /**

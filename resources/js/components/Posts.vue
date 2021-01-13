@@ -10,7 +10,8 @@
             :display_name="post.user.display_name"
             :created_at="post.created_at"
             :body="post.body"
-            :comments="post.comments"></Post>
+            :comments="post.comments"
+            :reactions="post.reactions"></Post>
     </ol>
 </template>
 
@@ -54,6 +55,7 @@ export default {
             } else {
                 // Request succeeded.
                 this.posts = Object.values(response.data); // Convert payload to an array, where each object is a post.
+                console.log(Object.values(response.data));
             }
         });
 

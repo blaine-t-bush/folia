@@ -14470,7 +14470,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    post_id: Number
+    id: Number
   },
   methods: {
     submitPost: function submitPost() {
@@ -14478,7 +14478,7 @@ __webpack_require__.r(__webpack_exports__);
 
       // Send request to controller.
       axios.post('/api/comments', {
-        post_id: this.post_id,
+        id: this.id,
         body: this.body
       }).then(function (response) {
         if (response.status != 200) {
@@ -14530,11 +14530,47 @@ __webpack_require__.r(__webpack_exports__);
     display_name: String,
     body: String,
     created_at: String,
-    comments: Array
+    comments: Array,
+    reactions: Array
   },
   methods: {
     addComment: function addComment(comment) {
       this.comments.push(comment);
+    },
+    addReaction: function addReaction(reaction) {
+      this.reactions.push(reaction);
+    },
+    removeReaction: function removeReaction(id) {
+      // Find index of matching reaction in array.
+      var indexToRemove = -1;
+
+      for (var i = 0; i < this.reactions.length; i++) {
+        if (this.reaction[i].id === id) {
+          indexToRemove = i;
+          break;
+        }
+      } // FIXME optimize this.
+      // Remove reaction, if it was found. In that case indexToRemove will be a non-negative integer.
+
+
+      if (indexToRemove >= 0) {
+        this.reactions.splice(indexToRemove, 1);
+      }
+    },
+    submitSmile: function submitSmile() {
+      // Send request to controller.
+      axios.post('/api/reactions', {
+        id: this.id,
+        type: 'smile'
+      }).then(function (response) {
+        if (response.status != 200) {
+          // Request failed.
+          console.log('Reaction creation failed');
+          console.log(result);
+        } else {// Request succeeded.
+          // FIXME add reaction to Vue data before waiting for channel.
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -14544,6 +14580,16 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new comment event, it can add it to the data.
     window.Echo.channel('comments-' + this.id).listen('CommentCreated', function (event) {
       _this.addComment(event.comment);
+    }); // Add Echo listener to listen for new reactions.
+    // When it hears the new reaction event, it can add it to the data.
+
+    window.Echo.channel('reactions-' + this.id).listen('ReactionCreated', function (event) {
+      _this.addReaction(event.reaction);
+    }); // Add Echo listener to listen for reactions to delete.
+    // When it hears the new reaction event, it can remove it to the data.
+
+    window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', function (event) {
+      _this.removeReaction(event.reaction.id);
     });
   },
   computed: {
@@ -14559,6 +14605,11 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return this.comments.sort(compare);
+    },
+    smileCount: function smileCount() {
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'smile';
+      }).length;
     }
   }
 });
@@ -14692,6 +14743,8 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         // Request succeeded.
         _this.posts = Object.values(response.data); // Convert payload to an array, where each object is a post.
+
+        console.log(Object.values(response.data));
       }
     }); // Add Echo listener to listen for new posts.
     // When it hears the new post event, it can add it to the data.
@@ -14845,6 +14898,29 @@ var _hoisted_6 = {
   "class": "post-body"
 };
 var _hoisted_7 = {
+  "class": "post-reactions"
+};
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  "class": "smile-checkbox",
+  type: "checkbox",
+  name: "react"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  "class": "smile-submit",
+  type: "submit",
+  value: ":)"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
+  "class": "count count-smile"
+};
+var _hoisted_11 = {
   "class": "comments"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -14862,11 +14938,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: $props.id
   }, null, 8
   /* PROPS */
-  , ["id"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
+  , ["id"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FIXME hide delete button except if post user matches authenticated user ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.submitSmile && $options.submitSmile.apply($options, arguments);
+    }, ["prevent"]))
+  }, [_hoisted_8, _hoisted_9], 32
+  /* HYDRATE_EVENTS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.smileCount), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
       key: comment.id,
       id: comment.id,
@@ -14880,10 +14964,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CommentSubmit, {
-    post_id: $props.id
+    id: $props.id
   }, null, 8
   /* PROPS */
-  , ["post_id"])]);
+  , ["id"])]);
 }
 
 /***/ }),
@@ -14997,10 +15081,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       display_name: post.user.display_name,
       created_at: post.created_at,
       body: post.body,
-      comments: post.comments
+      comments: post.comments,
+      reactions: post.reactions
     }, null, 8
     /* PROPS */
-    , ["id", "user_id", "display_name", "created_at", "body", "comments"]);
+    , ["id", "user_id", "display_name", "created_at", "body", "comments", "reactions"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])], 64
