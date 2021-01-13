@@ -14620,6 +14620,15 @@ __webpack_require__.r(__webpack_exports__);
         this.reactions.splice(indexToRemove, 1);
       }
     },
+    toggleReaction: function toggleReaction(type) {
+      if (type === 'smile' && this.smileChecked || type === 'frown' && this.frownChecked || type === 'heart' && this.heartChecked || type === 'laugh' && this.laughChecked) {
+        // If checkbox is checked, we need to delete the reaction.
+        this.deleteReaction(type);
+      } else {
+        // If checkbox is not checked, we need to create the reaction.
+        this.submitReaction(type);
+      }
+    },
     submitReaction: function submitReaction(type) {
       // Send request to controller.
       axios.post('/api/reactions', {
@@ -14632,6 +14641,24 @@ __webpack_require__.r(__webpack_exports__);
           console.log(result);
         } else {// Request succeeded.
           // FIXME add reaction to Vue data before waiting for channel.
+        }
+      });
+    },
+    deleteReaction: function deleteReaction(type) {
+      // Send request to controller.
+      axios["delete"]('/api/reactions', {
+        data: {
+          id: this.id,
+          type: type
+        } // Not that axios.delete() requests are formatted differently than .get() and .post().
+
+      }).then(function (response) {
+        if (response.status != 200) {
+          // Request failed.
+          console.log('Reaction deletion failed');
+          console.log(result);
+        } else {// Request succeeded.
+          // FIXME remove post from Vue data before waiting for channel.
         }
       });
     }
@@ -14657,6 +14684,8 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new reaction event, it can remove it to the data.
 
     window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', function (event) {
+      console.log(event.reaction);
+
       _this.removeReaction(event.reaction.id);
     });
   },
@@ -15148,7 +15177,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.submitReaction('smile');
+      return $options.toggleReaction('smile');
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "smile-checkbox",
@@ -15161,7 +15190,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.submitReaction('frown');
+      return $options.toggleReaction('frown');
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "frown-checkbox",
@@ -15174,7 +15203,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.submitReaction('heart');
+      return $options.toggleReaction('heart');
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "heart-checkbox",
@@ -15187,7 +15216,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.submitReaction('laugh');
+      return $options.toggleReaction('laugh');
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "laugh-checkbox",

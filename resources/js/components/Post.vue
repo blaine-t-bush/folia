@@ -14,7 +14,7 @@
         <p class="post-body">{{ body }}</p>
 
         <div class="post-reactions">
-            <form @submit.prevent="submitReaction('smile')">
+            <form @submit.prevent="toggleReaction('smile')">
                 <input
                     class="smile-checkbox"
                     type="checkbox"
@@ -27,7 +27,7 @@
                     value=":)">
             </form>
 
-            <form @submit.prevent="submitReaction('frown')">
+            <form @submit.prevent="toggleReaction('frown')">
                 <input
                     class="frown-checkbox"
                     type="checkbox"
@@ -40,7 +40,7 @@
                     value=":(">
             </form>
 
-            <form @submit.prevent="submitReaction('heart')">
+            <form @submit.prevent="toggleReaction('heart')">
                 <input
                     class="heart-checkbox"
                     type="checkbox"
@@ -53,7 +53,7 @@
                     value="<3">
             </form>
 
-            <form @submit.prevent="submitReaction('laugh')">
+            <form @submit.prevent="toggleReaction('laugh')">
                 <input
                     class="laugh-checkbox"
                     type="checkbox"
@@ -161,6 +161,18 @@ export default {
                 this.reactions.splice(indexToRemove, 1);
             }
         },
+        toggleReaction(type) {
+            if ((type === 'smile' && this.smileChecked) ||
+                (type === 'frown' && this.frownChecked) ||
+                (type === 'heart' && this.heartChecked) ||
+                (type === 'laugh' && this.laughChecked)) {
+                // If checkbox is checked, we need to delete the reaction.
+                this.deleteReaction(type);
+            } else {
+                // If checkbox is not checked, we need to create the reaction.
+                this.submitReaction(type);
+            }
+        },
         submitReaction(type) {
             // Send request to controller.
             axios.post('/api/reactions', {
@@ -177,6 +189,24 @@ export default {
                 }
             });
         },
+        deleteReaction(type) {
+            // Send request to controller.
+            axios.delete('/api/reactions', {
+                data: {
+                    id: this.id,
+                    type: type,
+                }, // Not that axios.delete() requests are formatted differently than .get() and .post().
+            }).then(response => {
+                if (response.status != 200) {
+                    // Request failed.
+                    console.log('Reaction deletion failed');
+                    console.log(result);
+                } else {
+                    // Request succeeded.
+                    // FIXME remove post from Vue data before waiting for channel.
+                }
+            });
+        }
     },
     mounted() {
         // Add Echo listener to listen for new comments.
@@ -200,6 +230,7 @@ export default {
         // Add Echo listener to listen for reactions to delete.
         // When it hears the new reaction event, it can remove it to the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', (event) => {
+            console.log(event.reaction);
             this.removeReaction(event.reaction.id);
         });
     },

@@ -115,4 +115,8 @@ Route::middleware(['check_token'])->group(function() {
     Route::post('/api/reactions', [
         ReactionController::class, 'create'
     ]);
+
+    Route::delete('/api/reactions', [
+        ReactionController::class, 'destroy'
+    ]);
 });
