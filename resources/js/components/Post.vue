@@ -4,9 +4,17 @@
             <div class="post-header-displayname">{{ display_name }}</div>
             <div class="post-header-username">{{ user_id }}</div>
 
-            <PostDelete
-                v-if="authenticated_user_id.value === user_id"
-                :id="id"></PostDelete>
+            <form
+                class="post-header-delete"
+                @submit.prevent="deletePost"
+                v-if="authenticated_user_id.value === user_id">
+
+                <input
+                    class="delete-button heavy-button"
+                    type="submit"
+                    value="X">
+
+            </form>
         </div>
 
         <div class="post-timestamp">{{ created_at }}</div>
@@ -38,18 +46,19 @@
 </template>
 
 <script>
-import PostDelete from './PostDelete';
 import Comment from './Comment';
 import CommentSubmit from './CommentSubmit';
 import Reactions from './Reactions';
 
 export default {
     components: {
-        'PostDelete': PostDelete,
         'Comment': Comment,
         'CommentSubmit': CommentSubmit,
         'Reactions': Reactions,
     },
+    emits: [
+        'postDeleted'
+    ],
     inject: [
         'authenticated_user_id'
     ],
@@ -103,49 +112,73 @@ export default {
                 this.reactions.splice(indexToRemove, 1);
             }
         },
+        deletePost() {
+            // Send request to controller.
+            axios.delete('/api/posts', {
+                data: {
+                    id: this.id,
+                }, // Not that axios.delete() requests are formatted differently than .get() and .post().
+            }).then(response => {
+                if (response.status != 200) {
+                    // Request failed.
+                    // FIXME handle errors. 
+                } else {
+                    // Request succeeded.
+                    this.$emit('postDeleted', response.data);
+                }
+            });
+        },
     },
     mounted() {
         // Add Echo listener to listen for new comments.
         // When it hears the new comment event, it can add it to the data.
         window.Echo.channel('comments-' + this.id).listen('CommentCreated', (event) => {
+            let createdComment = event[0];
+
             // Check that comment doesn't already exist in data before adding it.
-            if (this.comments.filter(comment => comment.id === event.comment.id).length > 0) {
+            if (this.comments.filter(comment => comment.id === createdComment.id).length > 0) {
                 // Don't add it. Post with this ID already exists.
             } else {
-                this.addComment(event.comment);
+                this.addComment(createdComment);
             }
         });
         
         // Add Echo listener to listen for comments to delete.
         // When it hears the new comment event, it can remove it from the data.
         window.Echo.channel('comments-' + this.id).listen('CommentDeleted', (event) => {
+            let deletedComment = event[0];
+
             // Check that comment isn't already removed from data before trying to delete it.
-            if (this.comments.filter(comment => comment.id === event.comment.id).length == 0) {
+            if (this.comments.filter(comment => comment.id === deletedComment.id).length == 0) {
                 // Don't try to delete it. Comment with this ID was already removed.
             } else {
-                this.removeComment(event.comment);
+                this.removeComment(deletedComment);
             }
         });
         
         // Add Echo listener to listen for new reactions.
         // When it hears the new reaction event, it can add it to the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionCreated', (event) => {
+            let createdReaction = event[0];
+
             // Check that reaction doesn't already exist in data before adding it.
-            if (this.reactions.filter(reaction => reaction.id === event.reaction.id).length > 0) {
+            if (this.reactions.filter(reaction => reaction.id === createdReaction.id).length > 0) {
                 // Don't add it. Reaction with this ID already exists.
             } else {
-                this.addReaction(event.reaction);
+                this.addReaction(createdReaction);
             }
         });
         
         // Add Echo listener to listen for reactions to delete.
         // When it hears the new reaction event, it can remove it from the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', (event) => {
+            let deletedReaction = event[0];
+
             // Check that reaction isn't already removed from data before trying to delete it.
-            if (this.reactions.filter(reaction => reaction.id === event.reaction.id).length == 0) {
+            if (this.reactions.filter(reaction => reaction.id === deletedReaction.id).length == 0) {
                 // Don't try to delete it. Reaction with this ID was already removed.
             } else {
-                this.removeReaction(event.reaction);
+                this.removeReaction(deletedReaction);
             }
         });
     },
@@ -203,6 +236,13 @@ export default {
             &::before {
                 content: $username-prepend;
             }
+        }
+
+        &-delete {
+            justify-self: end;
+            line-height: 1.6em;
+            max-height: 1.6em;
+            padding-left: 0.5em;
         }
     }
 

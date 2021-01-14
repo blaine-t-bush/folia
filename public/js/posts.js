@@ -14535,21 +14535,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _PostDelete__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostDelete */ "./resources/js/components/PostDelete.vue");
-/* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Comment */ "./resources/js/components/Comment.vue");
-/* harmony import */ var _CommentSubmit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CommentSubmit */ "./resources/js/components/CommentSubmit.vue");
-/* harmony import */ var _Reactions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Reactions */ "./resources/js/components/Reactions.vue");
-
+/* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Comment */ "./resources/js/components/Comment.vue");
+/* harmony import */ var _CommentSubmit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CommentSubmit */ "./resources/js/components/CommentSubmit.vue");
+/* harmony import */ var _Reactions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Reactions */ "./resources/js/components/Reactions.vue");
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    'PostDelete': _PostDelete__WEBPACK_IMPORTED_MODULE_0__.default,
-    'Comment': _Comment__WEBPACK_IMPORTED_MODULE_1__.default,
-    'CommentSubmit': _CommentSubmit__WEBPACK_IMPORTED_MODULE_2__.default,
-    'Reactions': _Reactions__WEBPACK_IMPORTED_MODULE_3__.default
+    'Comment': _Comment__WEBPACK_IMPORTED_MODULE_0__.default,
+    'CommentSubmit': _CommentSubmit__WEBPACK_IMPORTED_MODULE_1__.default,
+    'Reactions': _Reactions__WEBPACK_IMPORTED_MODULE_2__.default
   },
+  emits: ['postDeleted'],
   inject: ['authenticated_user_id'],
   props: {
     id: Number,
@@ -14602,53 +14600,75 @@ __webpack_require__.r(__webpack_exports__);
       if (indexToRemove >= 0) {
         this.reactions.splice(indexToRemove, 1);
       }
+    },
+    deletePost: function deletePost() {
+      var _this = this;
+
+      // Send request to controller.
+      axios["delete"]('/api/posts', {
+        data: {
+          id: this.id
+        } // Not that axios.delete() requests are formatted differently than .get() and .post().
+
+      }).then(function (response) {
+        if (response.status != 200) {// Request failed.
+          // FIXME handle errors. 
+        } else {
+          // Request succeeded.
+          _this.$emit('postDeleted', response.data);
+        }
+      });
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     // Add Echo listener to listen for new comments.
     // When it hears the new comment event, it can add it to the data.
     window.Echo.channel('comments-' + this.id).listen('CommentCreated', function (event) {
-      // Check that comment doesn't already exist in data before adding it.
-      if (_this.comments.filter(function (comment) {
-        return comment.id === event.comment.id;
+      var createdComment = event[0]; // Check that comment doesn't already exist in data before adding it.
+
+      if (_this2.comments.filter(function (comment) {
+        return comment.id === createdComment.id;
       }).length > 0) {// Don't add it. Post with this ID already exists.
       } else {
-        _this.addComment(event.comment);
+        _this2.addComment(createdComment);
       }
     }); // Add Echo listener to listen for comments to delete.
     // When it hears the new comment event, it can remove it from the data.
 
     window.Echo.channel('comments-' + this.id).listen('CommentDeleted', function (event) {
-      // Check that comment isn't already removed from data before trying to delete it.
-      if (_this.comments.filter(function (comment) {
-        return comment.id === event.comment.id;
+      var deletedComment = event[0]; // Check that comment isn't already removed from data before trying to delete it.
+
+      if (_this2.comments.filter(function (comment) {
+        return comment.id === deletedComment.id;
       }).length == 0) {// Don't try to delete it. Comment with this ID was already removed.
       } else {
-        _this.removeComment(event.comment);
+        _this2.removeComment(deletedComment);
       }
     }); // Add Echo listener to listen for new reactions.
     // When it hears the new reaction event, it can add it to the data.
 
     window.Echo.channel('reactions-' + this.id).listen('ReactionCreated', function (event) {
-      // Check that reaction doesn't already exist in data before adding it.
-      if (_this.reactions.filter(function (reaction) {
-        return reaction.id === event.reaction.id;
+      var createdReaction = event[0]; // Check that reaction doesn't already exist in data before adding it.
+
+      if (_this2.reactions.filter(function (reaction) {
+        return reaction.id === createdReaction.id;
       }).length > 0) {// Don't add it. Reaction with this ID already exists.
       } else {
-        _this.addReaction(event.reaction);
+        _this2.addReaction(createdReaction);
       }
     }); // Add Echo listener to listen for reactions to delete.
     // When it hears the new reaction event, it can remove it from the data.
 
     window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', function (event) {
-      // Check that reaction isn't already removed from data before trying to delete it.
-      if (_this.reactions.filter(function (reaction) {
-        return reaction.id === event.reaction.id;
+      var deletedReaction = event[0]; // Check that reaction isn't already removed from data before trying to delete it.
+
+      if (_this2.reactions.filter(function (reaction) {
+        return reaction.id === deletedReaction.id;
       }).length == 0) {// Don't try to delete it. Reaction with this ID was already removed.
       } else {
-        _this.removeReaction(event.reaction);
+        _this2.removeReaction(deletedReaction);
       }
     });
   },
@@ -14666,41 +14686,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return this.comments.sort(compare);
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=script&lang=js":
-/*!****************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=script&lang=js ***!
-  \****************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    id: Number
-  },
-  methods: {
-    deletePost: function deletePost() {
-      // Send request to controller.
-      axios["delete"]('/api/posts', {
-        data: {
-          id: this.id
-        } // Not that axios.delete() requests are formatted differently than .get() and .post().
-
-      }).then(function (response) {
-        if (response.status != 200) {// Request failed.
-          // FIXME handle errors. 
-        } else {// Request succeeded.
-            // FIXME remove post from Vue data before waiting for channel.
-          }
-      });
     }
   }
 });
@@ -14773,16 +14758,9 @@ __webpack_require__.r(__webpack_exports__);
     addPost: function addPost(post) {
       this.posts.push(post);
     },
-    addCreatedPost: function addCreatedPost(post) {
-      // For adding a new post based on a successful form submission.
-      // This is to reduce the lag time of relying on Pusher
-      // to add new posts that were created by this user.
-      // Pusher is fine for adding new posts that were created by other users,
-      // since they don't see that lag.
-      this.addPost(post);
-    },
-    removePost: function removePost(id) {
-      // Find index of matching post in array.
+    removePost: function removePost(post) {
+      var id = post.id; // Find index of matching post in array.
+
       var indexToRemove = -1;
 
       for (var i = 0; i < this.posts.length; i++) {
@@ -14823,19 +14801,26 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new post event, it can add it to the data.
 
     window.Echo.channel('posts').listen('PostCreated', function (event) {
-      console.log(event); // Check that post doesn't already exist in data before adding it.
+      var createdPost = event[0]; // Check that post doesn't already exist in data before adding it.
 
       if (_this.posts.filter(function (post) {
-        return post.id === event.post.id;
+        return post.id === createdPost.id;
       }).length > 0) {// Don't add it. Post with this ID already exists.
       } else {
-        _this.addPost(event.post);
+        _this.addPost(createdPost);
       }
     }); // Add Echo listener to listen for posts being deleted.
     // When it hears the event, that post needs to be removed from data.
 
     window.Echo.channel('posts').listen('PostDeleted', function (event) {
-      _this.removePost(event.post.id);
+      var deletedPost = event[0]; // Check that post wasn't already removed.
+
+      if (_this.posts.filter(function (post) {
+        return post.id === deletedPost.id;
+      }).length == 0) {// Don't delete it. This post was already removed.
+      } else {
+        _this.removePost(deletedPost);
+      }
     });
   },
   data: function data() {
@@ -15138,21 +15123,28 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "post-header-username"
 };
-var _hoisted_5 = {
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  "class": "delete-button heavy-button",
+  type: "submit",
+  value: "X"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_6 = {
   "class": "post-timestamp"
 };
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "post-body"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   "class": "comments"
 };
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_PostDelete = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PostDelete");
-
   var _component_Reactions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Reactions");
 
   var _component_Comment = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Comment");
@@ -15163,14 +15155,17 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user_id), 1
   /* TEXT */
-  ), $options.authenticated_user_id.value === $props.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_PostDelete, {
+  ), $options.authenticated_user_id.value === $props.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
     key: 0,
-    id: $props.id
-  }, null, 8
-  /* PROPS */
-  , ["id"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
+    "class": "post-header-delete",
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.deletePost && $options.deletePost.apply($options, arguments);
+    }, ["prevent"]))
+  }, [_hoisted_5], 32
+  /* HYDRATE_EVENTS */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Reactions, {
     onReactionCreated: $options.addReaction,
@@ -15179,7 +15174,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     reactions: $props.reactions
   }, null, 8
   /* PROPS */
-  , ["onReactionCreated", "onReactionDeleted", "id", "reactions"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
+  , ["onReactionCreated", "onReactionDeleted", "id", "reactions"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
       onCommentDeleted: $options.removeComment,
       key: comment.id,
@@ -15199,46 +15194,6 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }, null, 8
   /* PROPS */
   , ["onCommentCreated", "id"])]);
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => /* binding */ render
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-
-var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-d830dcd4");
-
-(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-d830dcd4");
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  "class": "delete-button heavy-button",
-  type: "submit",
-  value: "X"
-}, null, -1
-/* HOISTED */
-);
-
-(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
-
-var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
-    "class": "post-header-delete",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.deletePost && $options.deletePost.apply($options, arguments);
-    }, ["prevent"]))
-  }, [_hoisted_1], 32
-  /* HYDRATE_EVENTS */
-  );
 });
 
 /***/ }),
@@ -15325,11 +15280,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PostSubmit, {
-    onPostCreated: $options.addCreatedPost
+    onPostCreated: $options.addPost
   }, null, 8
   /* PROPS */
   , ["onPostCreated"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedPosts, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
+      onPostDeleted: $options.removePost,
       key: post.id,
       id: post.id,
       user_id: post.user_id,
@@ -15340,7 +15296,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       reactions: post.reactions
     }, null, 8
     /* PROPS */
-    , ["id", "user_id", "display_name", "created_at", "body", "comments", "reactions"]);
+    , ["onPostDeleted", "id", "user_id", "display_name", "created_at", "body", "comments", "reactions"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])], 64
@@ -15561,30 +15517,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n}\n.post-header-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  margin-bottom: 0.5rem;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid lightgreen;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0 0 0 1.5rem;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".post-header-delete[data-v-d830dcd4] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n}\n.post-header-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}\n.post-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  margin-bottom: 0.5rem;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid lightgreen;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0 0 0 1.5rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15819,35 +15752,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_15_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_15_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Post_vue_vue_type_style_index_0_id_5e8280ea_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_15_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_15_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_style_index_0_id_d830dcd4_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_15_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_15_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_style_index_0_id_d830dcd4_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_1__.default, options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_15_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_15_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_style_index_0_id_d830dcd4_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -16303,35 +16207,6 @@ _Post_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = 
 
 /***/ }),
 
-/***/ "./resources/js/components/PostDelete.vue":
-/*!************************************************!*\
-  !*** ./resources/js/components/PostDelete.vue ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var _PostDelete_vue_vue_type_template_id_d830dcd4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true */ "./resources/js/components/PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true");
-/* harmony import */ var _PostDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostDelete.vue?vue&type=script&lang=js */ "./resources/js/components/PostDelete.vue?vue&type=script&lang=js");
-/* harmony import */ var _PostDelete_vue_vue_type_style_index_0_id_d830dcd4_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true */ "./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true");
-
-
-
-
-;
-_PostDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _PostDelete_vue_vue_type_template_id_d830dcd4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
-_PostDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-d830dcd4"
-/* hot reload */
-if (false) {}
-
-_PostDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/PostDelete.vue"
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_PostDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
-
-/***/ }),
-
 /***/ "./resources/js/components/PostSubmit.vue":
 /*!************************************************!*\
   !*** ./resources/js/components/PostSubmit.vue ***!
@@ -16464,21 +16339,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/PostDelete.vue?vue&type=script&lang=js":
-/*!************************************************************************!*\
-  !*** ./resources/js/components/PostDelete.vue?vue&type=script&lang=js ***!
-  \************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PostDelete.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
 /***/ "./resources/js/components/PostSubmit.vue?vue&type=script&lang=js":
 /*!************************************************************************!*\
   !*** ./resources/js/components/PostSubmit.vue?vue&type=script&lang=js ***!
@@ -16569,21 +16429,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/components/PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true ***!
-  \******************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_template_id_d830dcd4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_template_id_d830dcd4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=template&id=d830dcd4&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/PostSubmit.vue?vue&type=template&id=a21f64fa&scoped=true":
 /*!******************************************************************************************!*\
   !*** ./resources/js/components/PostSubmit.vue?vue&type=template&id=a21f64fa&scoped=true ***!
@@ -16661,18 +16506,6 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_15_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_15_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Post_vue_vue_type_style_index_0_id_5e8280ea_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Post.vue?vue&type=style&index=0&id=5e8280ea&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Post.vue?vue&type=style&index=0&id=5e8280ea&lang=scss&scoped=true");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true ***!
-  \*********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_15_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_15_use_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PostDelete_vue_vue_type_style_index_0_id_d830dcd4_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PostDelete.vue?vue&type=style&index=0&id=d830dcd4&lang=scss&scoped=true");
 
 
 /***/ }),

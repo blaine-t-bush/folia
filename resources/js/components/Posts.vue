@@ -1,10 +1,11 @@
 <template>
     <PostSubmit
-        @post-created="addCreatedPost"></PostSubmit>
+        @post-created="addPost"></PostSubmit>
 
     <ol class="posts">
         <Post
             v-for="post in orderedPosts"
+            @post-deleted="removePost"
             :key="post.id"
             :id="post.id"
             :user_id="post.user_id"
@@ -30,15 +31,9 @@ export default {
         addPost(post) {
             this.posts.push(post);
         },
-        addCreatedPost(post) {
-            // For adding a new post based on a successful form submission.
-            // This is to reduce the lag time of relying on Pusher
-            // to add new posts that were created by this user.
-            // Pusher is fine for adding new posts that were created by other users,
-            // since they don't see that lag.
-            this.addPost(post);
-        },
-        removePost(id) {
+        removePost(post) {
+            let id = post.id;
+
             // Find index of matching post in array.
             let indexToRemove = -1;
             for (let i = 0; i < this.posts.length; i++) {
@@ -80,19 +75,27 @@ export default {
         // Add Echo listener to listen for new posts.
         // When it hears the new post event, it can add it to the data.
         window.Echo.channel('posts').listen('PostCreated', (event) => {
-            console.log(event);
+            let createdPost = event[0];
+            
             // Check that post doesn't already exist in data before adding it.
-            if (this.posts.filter(post => post.id === event.post.id).length > 0) {
+            if (this.posts.filter(post => post.id === createdPost.id).length > 0) {
                 // Don't add it. Post with this ID already exists.
             } else {
-                this.addPost(event.post);
+                this.addPost(createdPost);
             }
         });
 
         // Add Echo listener to listen for posts being deleted.
         // When it hears the event, that post needs to be removed from data.
         window.Echo.channel('posts').listen('PostDeleted', (event) => {
-            this.removePost(event.post.id);
+            let deletedPost = event[0];
+            
+            // Check that post wasn't already removed.
+            if (this.posts.filter(post => post.id === deletedPost.id).length == 0) {
+                // Don't delete it. This post was already removed.
+            } else {
+                this.removePost(deletedPost);
+            }
         });
     },
     data() {
