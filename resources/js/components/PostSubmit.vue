@@ -21,7 +21,7 @@ export default {
             axios.post('/api/posts', {
                 body: this.body, // FIXME add validation.
             }).then(response => {
-                if (response.status != 200) {
+                if (response.status != 201) {
                     // Request failed.
                     // FIXME handle errors.
                 } else {

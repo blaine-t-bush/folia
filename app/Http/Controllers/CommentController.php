@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Comment;
-use App\Models\Post;
-use App\Models\User;
 
 use App\Events\CommentCreated;
 use App\Events\CommentDeleted;
+
+use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
@@ -24,11 +24,7 @@ class CommentController extends Controller
         // Dispatch the event.
         CommentCreated::dispatch($comment, $comment->user, $comment->post);
 
-        // Hydrate comment model with user info.
-        $comment->user;
-        $comment->post;
-
-        return json_encode($comment);
+        return new CommentResource($comment);
     }
     
     public function destroy(Request $request) {     

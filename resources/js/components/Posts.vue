@@ -7,7 +7,7 @@
             v-for="post in orderedPosts"
             :key="post.id"
             :id="post.id"
-            :user_id="post.user.id"
+            :user_id="post.user_id"
             :display_name="post.user.display_name"
             :created_at="post.created_at"
             :body="post.body"
@@ -73,19 +73,18 @@ export default {
                 // FIXME handle API failure.
             } else {
                 // Request succeeded.
-                this.posts = Object.values(response.data); // Convert payload to an array, where each object is a post.
+                this.posts = response.data; // Convert payload to an array, where each object is a post.
             }
         });
 
         // Add Echo listener to listen for new posts.
         // When it hears the new post event, it can add it to the data.
         window.Echo.channel('posts').listen('PostCreated', (event) => {
+            console.log(event);
             // Check that post doesn't already exist in data before adding it.
             if (this.posts.filter(post => post.id === event.post.id).length > 0) {
                 // Don't add it. Post with this ID already exists.
             } else {
-                event.post.comments = [];
-                event.post.reactions = [];
                 this.addPost(event.post);
             }
         });

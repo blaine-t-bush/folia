@@ -11,6 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Post;
+use App\Http\Resources\PostResource;
 
 class PostCreated implements ShouldBroadcast
 {
@@ -41,17 +42,7 @@ class PostCreated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return [
-            'post' => [
-                'id' => $this->post->id,
-                'body' => $this->post->body,
-                'user' => [
-                    'id' => $this->post->user->id,
-                    'display_name' => $this->post->user->display_name,
-                ],
-                'created_at' => $this->post->created_at,
-            ],
-        ];
+        return new PostResource($this->post);
     }
 
     /**

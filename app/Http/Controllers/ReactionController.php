@@ -9,6 +9,8 @@ use App\Models\Reaction;
 use App\Events\ReactionCreated;
 use App\Events\ReactionDeleted;
 
+use App\Http\Resources\ReactionResource;
+
 class ReactionController extends Controller
 {
     public function create(Request $request) {
@@ -28,6 +30,8 @@ class ReactionController extends Controller
 
             // Dispatch the event.
             ReactionCreated::dispatch($reaction);
+
+            return new ReactionResource($reaction);
         }
     }
 

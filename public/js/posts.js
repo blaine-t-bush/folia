@@ -14524,7 +14524,7 @@ __webpack_require__.r(__webpack_exports__);
         body: this.body // FIXME add validation.
 
       }).then(function (response) {
-        if (response.status != 200) {// Request failed.
+        if (response.status != 201) {// Request failed.
           // FIXME handle error.
         } else {
           // Request succeeded. Clear form.
@@ -14581,14 +14581,6 @@ __webpack_require__.r(__webpack_exports__);
     addComment: function addComment(comment) {
       this.comments.push(comment);
     },
-    addCreatedComment: function addCreatedComment(comment) {
-      // For adding a new comment based on a successful form submission.
-      // This is to reduce the lag time of relying on Pusher
-      // to add new comments that were created by this user.
-      // Pusher is fine for adding new comments that were created by other users,
-      // since they don't see that lag.
-      this.addComment(comment);
-    },
     removeComment: function removeComment(id) {
       // Find index of matching comment in array.
       var indexToRemove = -1;
@@ -14636,16 +14628,20 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     submitReaction: function submitReaction(type) {
+      var _this = this;
+
       // Send request to controller.
       axios.post('/api/reactions', {
         id: this.id,
         type: type
       }).then(function (response) {
-        if (response.status != 200) {// Request failed.
+        if (response.status != 201) {// Request failed.
           // FIXME handle errors.
-        } else {// Request succeeded.
-            // FIXME add reaction to Vue data before waiting for channel.
-          }
+        } else {
+          // Request succeeded.
+          // FIXME add reaction to Vue data before waiting for channel.
+          _this.addReaction(response.data);
+        }
       });
     },
     deleteReaction: function deleteReaction(type) {
@@ -14666,33 +14662,39 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     // Add Echo listener to listen for new comments.
     // When it hears the new comment event, it can add it to the data.
     window.Echo.channel('comments-' + this.id).listen('CommentCreated', function (event) {
       // Check that comment doesn't already exist in data before adding it.
-      if (_this.comments.filter(function (comment) {
+      if (_this2.comments.filter(function (comment) {
         return comment.id === event.comment.id;
       }).length > 0) {// Don't add it. Post with this ID already exists.
       } else {
-        _this.addComment(event.comment);
+        _this2.addComment(event.comment);
       }
     }); // Add Echo listener to listen for comments to delete.
     // When it hears the new comment event, it can remove it to the data.
 
     window.Echo.channel('comments-' + this.id).listen('CommentDeleted', function (event) {
-      _this.removeComment(event.comment.id);
+      _this2.removeComment(event.comment.id);
     }); // Add Echo listener to listen for new reactions.
     // When it hears the new reaction event, it can add it to the data.
 
     window.Echo.channel('reactions-' + this.id).listen('ReactionCreated', function (event) {
-      _this.addReaction(event.reaction);
+      // Check that reaction doesn't already exist in data before adding it.
+      if (_this2.reactions.filter(function (reaction) {
+        return reaction.id === event.reaction.id;
+      }).length > 0) {// Don't add it. Reaction with this ID already exists.
+      } else {
+        _this2.addReaction(event.reaction);
+      }
     }); // Add Echo listener to listen for reactions to delete.
     // When it hears the new reaction event, it can remove it to the data.
 
     window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', function (event) {
-      _this.removeReaction(event.reaction.id);
+      _this2.removeReaction(event.reaction.id);
     });
   },
   computed: {
@@ -14731,31 +14733,31 @@ __webpack_require__.r(__webpack_exports__);
       }).length;
     },
     smileChecked: function smileChecked() {
-      var _this2 = this;
-
-      return this.reactions.filter(function (reaction) {
-        return reaction.type === 'smile' && reaction.user_id === _this2.authenticated_user_id.value;
-      }).length > 0;
-    },
-    frownChecked: function frownChecked() {
       var _this3 = this;
 
       return this.reactions.filter(function (reaction) {
-        return reaction.type === 'frown' && reaction.user_id === _this3.authenticated_user_id.value;
+        return reaction.type === 'smile' && reaction.user_id === _this3.authenticated_user_id.value;
       }).length > 0;
     },
-    heartChecked: function heartChecked() {
+    frownChecked: function frownChecked() {
       var _this4 = this;
 
       return this.reactions.filter(function (reaction) {
-        return reaction.type === 'heart' && reaction.user_id === _this4.authenticated_user_id.value;
+        return reaction.type === 'frown' && reaction.user_id === _this4.authenticated_user_id.value;
       }).length > 0;
     },
-    laughChecked: function laughChecked() {
+    heartChecked: function heartChecked() {
       var _this5 = this;
 
       return this.reactions.filter(function (reaction) {
-        return reaction.type === 'laugh' && reaction.user_id === _this5.authenticated_user_id.value;
+        return reaction.type === 'heart' && reaction.user_id === _this5.authenticated_user_id.value;
+      }).length > 0;
+    },
+    laughChecked: function laughChecked() {
+      var _this6 = this;
+
+      return this.reactions.filter(function (reaction) {
+        return reaction.type === 'laugh' && reaction.user_id === _this6.authenticated_user_id.value;
       }).length > 0;
     }
   }
@@ -14819,7 +14821,7 @@ __webpack_require__.r(__webpack_exports__);
         body: this.body // FIXME add validation.
 
       }).then(function (response) {
-        if (response.status != 200) {// Request failed.
+        if (response.status != 201) {// Request failed.
           // FIXME handle errors.
         } else {
           // Request succeeded. Clear form. Pusher should display post shortly.
@@ -14910,20 +14912,18 @@ __webpack_require__.r(__webpack_exports__);
         // FIXME handle API failure.
       } else {
         // Request succeeded.
-        _this.posts = Object.values(response.data); // Convert payload to an array, where each object is a post.
+        _this.posts = response.data; // Convert payload to an array, where each object is a post.
       }
     }); // Add Echo listener to listen for new posts.
     // When it hears the new post event, it can add it to the data.
 
     window.Echo.channel('posts').listen('PostCreated', function (event) {
-      // Check that post doesn't already exist in data before adding it.
+      console.log(event); // Check that post doesn't already exist in data before adding it.
+
       if (_this.posts.filter(function (post) {
         return post.id === event.post.id;
       }).length > 0) {// Don't add it. Post with this ID already exists.
       } else {
-        event.post.comments = [];
-        event.post.reactions = [];
-
         _this.addPost(event.post);
       }
     }); // Add Echo listener to listen for posts being deleted.
@@ -15292,7 +15292,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }), 128
   /* KEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CommentSubmit, {
-    onCommentCreated: $options.addCreatedComment,
+    onCommentCreated: $options.addComment,
     id: $props.id
   }, null, 8
   /* PROPS */
@@ -15430,7 +15430,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       key: post.id,
       id: post.id,
-      user_id: post.user.id,
+      user_id: post.user_id,
       display_name: post.user.display_name,
       created_at: post.created_at,
       body: post.body,

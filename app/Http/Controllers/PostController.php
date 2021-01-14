@@ -5,23 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Post;
-use App\Models\User;
 
 use App\Events\PostCreated;
 use App\Events\PostDeleted;
 
+use App\Http\Resources\PostResource;
+
 class PostController extends Controller
 {
     public function index(Request $request) {
-        // Get all posts.
-        $posts = Post::with('user')
-                     ->with('comments')
-                     ->with('comments.user')
-                     ->with('reactions')
-                     ->get()
-                     ->sortByDesc('created_at');
-
-        return json_encode($posts);
+        return PostResource::collection(Post::all());
     }
 
     public function create(Request $request) {
@@ -34,12 +27,7 @@ class PostController extends Controller
         // Dispatch the event.
         PostCreated::dispatch($post);
 
-        // Hydrate post model with user info.
-        $post->reactions;
-        $post->comments;
-        $post->user;
-
-        return json_encode($post); // FIXME create consistent resource for post.
+        return new PostResource($post);
     }
 
     public function destroy(Request $request) {

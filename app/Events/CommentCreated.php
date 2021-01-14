@@ -11,8 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Comment;
-use App\Models\Post;
-use App\Models\User;
+use App\Http\Resources\CommentResource;
 
 class CommentCreated implements ShouldBroadcast
 {
@@ -26,21 +25,6 @@ class CommentCreated implements ShouldBroadcast
     public $comment;
 
     /**
-     * The associated user instance.
-     * 
-     * @var \App\Models\User
-     */
-    public $user;
-
-    /**
-     * The associated post instance.
-     * 
-     * @var \App\Models\Post
-     */
-    public $post;
-
-
-    /**
      * Create a new event instance.
      *
      * @param \App\Models\Comment $comment
@@ -48,11 +32,13 @@ class CommentCreated implements ShouldBroadcast
      * @param \App\Models\Post $post
      * @return void
      */
-    public function __construct(Comment $comment, User $user, Post $post)
+    public function __construct(Comment $comment)
     {
         $this->comment = $comment;
-        $this->user = $user;
-        $this->post = $post; // FIXME add broadcastWith() to only pass relevant (and non-private) data.
+    }
+
+    public function broadcastWith() {
+        return new CommentResource($this->comment);
     }
 
     /**

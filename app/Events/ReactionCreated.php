@@ -11,6 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Reaction;
+use App\Http\Resources\ReactionResource;
 
 class ReactionCreated implements ShouldBroadcast
 {
@@ -32,6 +33,16 @@ class ReactionCreated implements ShouldBroadcast
     public function __construct(Reaction $reaction)
     {
         $this->reaction = $reaction;
+    }
+
+    /**
+     * Define the specific data to broadcast. Don't need to send everything.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return new ReactionResource($this->reaction);
     }
 
     /**

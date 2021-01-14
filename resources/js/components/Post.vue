@@ -95,7 +95,7 @@
         </ol>
 
         <CommentSubmit
-            @comment-created="addCreatedComment"
+            @comment-created="addComment"
             :id="id"></CommentSubmit>
     </li>
 </template>
@@ -126,14 +126,6 @@ export default {
     methods: {
         addComment(comment) {
             this.comments.push(comment);
-        },
-        addCreatedComment(comment) {
-            // For adding a new comment based on a successful form submission.
-            // This is to reduce the lag time of relying on Pusher
-            // to add new comments that were created by this user.
-            // Pusher is fine for adding new comments that were created by other users,
-            // since they don't see that lag.
-            this.addComment(comment);
         },
         removeComment(id) {
             // Find index of matching comment in array.
@@ -186,12 +178,13 @@ export default {
                 id: this.id,
                 type: type,
             }).then(response => {
-                if (response.status != 200) {
+                if (response.status != 201) {
                     // Request failed.
                     // FIXME handle errors.
                 } else {
                     // Request succeeded.
                     // FIXME add reaction to Vue data before waiting for channel.
+                    this.addReaction(response.data);
                 }
             });
         },
@@ -234,7 +227,12 @@ export default {
         // Add Echo listener to listen for new reactions.
         // When it hears the new reaction event, it can add it to the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionCreated', (event) => {
-            this.addReaction(event.reaction);
+            // Check that reaction doesn't already exist in data before adding it.
+            if (this.reactions.filter(reaction => reaction.id === event.reaction.id).length > 0) {
+                // Don't add it. Reaction with this ID already exists.
+            } else {
+                this.addReaction(event.reaction);
+            }
         });
         
         // Add Echo listener to listen for reactions to delete.

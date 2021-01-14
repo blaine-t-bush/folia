@@ -26,7 +26,7 @@ export default {
                 id: this.id,
                 body: this.body, // FIXME add validation.
             }).then(response => {
-                if (response.status != 200) {
+                if (response.status != 201) {
                     // Request failed.
                     // FIXME handle error.
                 } else {
