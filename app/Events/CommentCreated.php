@@ -15,7 +15,7 @@ use App\Http\Resources\CommentResource;
 
 class CommentCreated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
     /**
      * The comment instance.
@@ -37,8 +37,9 @@ class CommentCreated implements ShouldBroadcast
         $this->comment = $comment;
     }
 
-    public function broadcastWith() {
-        return new CommentResource($this->comment);
+    public function broadcastWith()
+    {
+        return [new CommentResource($this->comment)];
     }
 
     /**
@@ -48,6 +49,6 @@ class CommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('comments-' . $this->post->id);
+        return new Channel('comments-' . $this->comment->post_id);
     }
 }

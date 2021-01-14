@@ -15,7 +15,7 @@ use App\Http\Resources\PostResource;
 
 class PostCreated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
     /**
      * The post instance.
@@ -42,7 +42,7 @@ class PostCreated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return new PostResource($this->post);
+        return [new PostResource($this->post)];
     }
 
     /**

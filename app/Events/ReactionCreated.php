@@ -15,7 +15,7 @@ use App\Http\Resources\ReactionResource;
 
 class ReactionCreated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
     /**
      * The reaction instance.
@@ -42,7 +42,7 @@ class ReactionCreated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return new ReactionResource($this->reaction);
+        return [new ReactionResource($this->reaction)];
     }
 
     /**

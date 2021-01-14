@@ -11,22 +11,28 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Post;
+use App\Http\Resources\PostResource;
 
 class PostDeleted implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
-    public $post_id; // FIXME determine why this is janky and I can't use the whole post model here.
+    /**
+     * The post instance.
+     * 
+     * @var \App\Models\Post
+     */
+    public $post;
 
     /**
      * Create a new event instance.
      *
-     * @param int $post_id
+     * @param \App\Models\Post $post
      * @return void
      */
-    public function __construct(int $post_id)
+    public function __construct(Post $post)
     {
-        $this->post_id = $post_id;
+        $this->post = $post;
     }
 
     /**
@@ -36,11 +42,7 @@ class PostDeleted implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return [
-            'post' => [
-                'id' => $this->post_id,
-            ],
-        ];
+        return [new PostResource($this->post)];
     }
 
     /**

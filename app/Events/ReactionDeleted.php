@@ -11,27 +11,28 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 use App\Models\Reaction;
-use App\Models\Post;
+use App\Http\Resources\ReactionResource;
 
 class ReactionDeleted implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
-    public $reaction_id; // FIXME determine why this is janky and I can't use the whole reaction model here.
-    public $post_id;
-
+    /**
+     * The reaction instance.
+     * 
+     * @var \App\Models\Reaction
+     */
+    public $reaction;
 
     /**
      * Create a new event instance.
      *
-     * @param int $reaction_id
-     * @param int $post_id
+     * @param \App\Models\Reaction $reaction
      * @return void
      */
-    public function __construct(int $reaction_id, int $post_id)
+    public function __construct(Reaction $reaction)
     {
-        $this->reaction_id = $reaction_id;
-        $this->post_id = $post_id;
+        $this->reaction = $reaction;
     }
 
     /**
@@ -41,14 +42,7 @@ class ReactionDeleted implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return [
-            'reaction' => [
-                'id' => $this->reaction_id,
-            ],
-            'post' => [
-                'id' => $this->post_id,
-            ],
-        ];
+        return [new ReactionResource($this->reaction)];
     }
 
     /**
@@ -58,6 +52,6 @@ class ReactionDeleted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('reactions-' . $this->post_id);
+        return new Channel('reactions-' . $this->reaction->post_id);
     }
 }
