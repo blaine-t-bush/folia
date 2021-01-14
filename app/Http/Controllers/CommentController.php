@@ -35,6 +35,8 @@ class CommentController extends Controller
 
             // Dispatch the event.
             CommentDeleted::dispatch($comment->id, $comment->post_id);
+
+            return new CommentResource($comment);
         }
     }
 }

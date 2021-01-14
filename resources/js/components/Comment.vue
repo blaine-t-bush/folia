@@ -4,9 +4,17 @@
             <div class="comment-header-displayname">{{ display_name }}</div>
             <div class="comment-header-username">{{ user_id }}</div>
 
-            <CommentDelete
-                v-if="authenticated_user_id.value === user_id"
-                :id="id"></CommentDelete>
+            <form
+                class="comment-header-delete"
+                @submit.prevent="deleteComment"
+                v-if="authenticated_user_id.value === user_id">
+                
+                <input
+                    class="delete-button heavy-button"
+                    type="submit"
+                    value="X">
+
+            </form>
         </div>
         
         <div class="comment-body">{{ body }}</div>
@@ -14,14 +22,12 @@
 </template>
 
 <script>
-import CommentDelete from './CommentDelete';
-
 export default {
-    components: {
-        'CommentDelete': CommentDelete,
-    },
     inject: [
         'authenticated_user_id'
+    ],
+    emits: [
+        'commentDeleted'
     ],
     props: {
         id: Number,
@@ -29,6 +35,24 @@ export default {
         display_name: String,
         body: String,
         created_at: String,
+    },
+    methods: {
+        deleteComment() {
+            // Send request to controller.
+            axios.delete('/api/comments', {
+                data: {
+                    id: this.id,
+                }, // Not that axios.delete() requests are formatted differently than .get() and .post().
+            }).then(response => {
+                if (response.status != 200) {
+                    // Request failed.
+                    // FIXME handle errors.
+                } else {
+                    // Request succeeded.
+                    this.$emit('commentDeleted', response.data);
+                }
+            });
+        },
     }
 }
 </script>

@@ -22,6 +22,7 @@
         <ol class="comments">
             <Comment
                 v-for="comment in orderedComments"
+                @comment-deleted="removeComment"
                 :key="comment.id"
                 :id="comment.id"
                 :user_id="comment.user_id"
@@ -65,7 +66,9 @@ export default {
         addComment(comment) {
             this.comments.push(comment);
         },
-        removeComment(id) {
+        removeComment(comment) {
+            let id = comment.id;
+
             // Find index of matching comment in array.
             let indexToRemove = -1;
             for (let i = 0; i < this.comments.length; i++) {
@@ -114,9 +117,14 @@ export default {
         });
         
         // Add Echo listener to listen for comments to delete.
-        // When it hears the new comment event, it can remove it to the data.
+        // When it hears the new comment event, it can remove it from the data.
         window.Echo.channel('comments-' + this.id).listen('CommentDeleted', (event) => {
-            this.removeComment(event.comment.id);
+            // Check that comment isn't already removed from data before trying to delete it.
+            if (this.comments.filter(comment => comment.id === event.comment.id).length == 0) {
+                // Don't try to delete it. Comment with this ID was already removed.
+            } else {
+                this.removeComment(event.comment);
+            }
         });
         
         // Add Echo listener to listen for new reactions.
@@ -131,9 +139,9 @@ export default {
         });
         
         // Add Echo listener to listen for reactions to delete.
-        // When it hears the new reaction event, it can remove it to the data.
+        // When it hears the new reaction event, it can remove it from the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', (event) => {
-            // Check that reaction isn't already removed from data before adding it.
+            // Check that reaction isn't already removed from data before trying to delete it.
             if (this.reactions.filter(reaction => reaction.id === event.reaction.id).length == 0) {
                 // Don't try to delete it. Reaction with this ID was already removed.
             } else {
