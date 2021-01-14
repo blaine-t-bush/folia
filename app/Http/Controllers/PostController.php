@@ -54,8 +54,8 @@ class PostController extends Controller
         $post->delete();
 
         // Dispatch the event.
-        PostDeleted::dispatch($post->id);
+        PostDeleted::dispatch($post);
 
-        return; // FIXME add success message here.
+        return new PostResource($post);
     }
 }

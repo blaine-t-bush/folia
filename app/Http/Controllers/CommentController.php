@@ -22,7 +22,7 @@ class CommentController extends Controller
         $comment->save();
 
         // Dispatch the event.
-        CommentCreated::dispatch($comment, $comment->user, $comment->post);
+        CommentCreated::dispatch($comment);
 
         return new CommentResource($comment);
     }
@@ -34,7 +34,7 @@ class CommentController extends Controller
             $comment->delete();
 
             // Dispatch the event.
-            CommentDeleted::dispatch($comment->id, $comment->post_id);
+            CommentDeleted::dispatch($comment);
 
             return new CommentResource($comment);
         }
