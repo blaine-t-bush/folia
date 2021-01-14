@@ -47,6 +47,8 @@ class ReactionController extends Controller
 
             // Dispatch the event.
             ReactionDeleted::dispatch($reaction->id, $reaction->post_id);
+
+            return new ReactionResource($reaction);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             // FIXME communicate error.
         }

@@ -31,9 +31,10 @@ export default {
                     // FIXME handle error.
                 } else {
                     // Request succeeded. Clear form.
-                    // FIXME add comment to Vue data before waiting for channel.
-                    this.$emit('commentCreated', response.data);
                     this.body = '';
+                    
+                    // Trigger event to add comment without waiting for broadcast.
+                    this.$emit('commentCreated', response.data);
                 }
             });
         },

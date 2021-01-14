@@ -25,18 +25,18 @@ export default {
                     // Request failed.
                     // FIXME handle errors.
                 } else {
-                    // Request succeeded. Clear form. Pusher should display post shortly.
-                    // FIXME add a new post to Vue data before waiting for pusher.
-                    // Then, ignore future directive from pusher for this ID.
-                    this.$emit('postCreated', response.data);
+                    // Request succeeded. Clear form.
                     this.body = '';
+                    
+                    // Trigger event to add new post without waiting for broadcast.
+                    this.$emit('postCreated', response.data);
                 }
             });
         },
     },
     data() {
         return {
-            body: ""
+            body: ''
         }
     },
 }
