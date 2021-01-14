@@ -14604,7 +14604,8 @@ __webpack_require__.r(__webpack_exports__);
       this.reactions.push(reaction);
     },
     removeReaction: function removeReaction(reaction) {
-      // Find index of matching reaction in array.
+      var id = reaction.id; // Find index of matching reaction in array.
+
       var indexToRemove = -1;
 
       for (var i = 0; i < this.reactions.length; i++) {
@@ -14654,7 +14655,13 @@ __webpack_require__.r(__webpack_exports__);
     // When it hears the new reaction event, it can remove it to the data.
 
     window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', function (event) {
-      _this.removeReaction(event.reaction.id);
+      // Check that reaction isn't already removed from data before adding it.
+      if (_this.reactions.filter(function (reaction) {
+        return reaction.id === event.reaction.id;
+      }).length == 0) {// Don't try to delete it. Reaction with this ID was already removed.
+      } else {
+        _this.removeReaction(event.reaction);
+      }
     });
   },
   computed: {

@@ -84,6 +84,8 @@ export default {
             this.reactions.push(reaction);
         },
         removeReaction(reaction) {
+            let id = reaction.id;
+
             // Find index of matching reaction in array.
             let indexToRemove = -1;
             for (let i = 0; i < this.reactions.length; i++) {
@@ -131,7 +133,12 @@ export default {
         // Add Echo listener to listen for reactions to delete.
         // When it hears the new reaction event, it can remove it to the data.
         window.Echo.channel('reactions-' + this.id).listen('ReactionDeleted', (event) => {
-            this.removeReaction(event.reaction.id);
+            // Check that reaction isn't already removed from data before adding it.
+            if (this.reactions.filter(reaction => reaction.id === event.reaction.id).length == 0) {
+                // Don't try to delete it. Reaction with this ID was already removed.
+            } else {
+                this.removeReaction(event.reaction);
+            }
         });
     },
     computed: {
