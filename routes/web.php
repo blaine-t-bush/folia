@@ -91,6 +91,10 @@ Route::middleware(['check_token'])->group(function() {
         CommentController::class, 'destroy'
     ]);
 
+    Route::get('/api/reactions', [
+        ReactionController::class, 'index'
+    ]);
+
     Route::post('/api/reactions', [
         ReactionController::class, 'create'
     ]);

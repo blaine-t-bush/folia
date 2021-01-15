@@ -13,6 +13,9 @@ use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
+    public function index(Request $request) {
+        return CommentResource::collection(Comment::all());
+    }
     public function create(Request $request) {
         // Create a new post.
         $comment = new Comment;

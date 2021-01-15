@@ -13,6 +13,10 @@ use App\Http\Resources\ReactionResource;
 
 class ReactionController extends Controller
 {
+    public function index(Request $request) {
+        return ReactionResource::collection(Reaction::all());
+    }
+
     public function create(Request $request) {
         // Check if this reaction already exists.
         try {
