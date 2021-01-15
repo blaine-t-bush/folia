@@ -51,7 +51,7 @@ Route::middleware(['check_token'])->group(function() {
         return view('home');
     })->name('home');
 
-    Route::get('/profile', [
+    Route::get('/profile/{id?}', [
         UserController::class, 'profile'
     ])->name('profile');
 });

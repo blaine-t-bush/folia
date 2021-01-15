@@ -1,8 +1,8 @@
 <template>
     <li class="comment">
         <div class="comment-header">
-            <div class="comment-header-displayname">{{ display_name }}</div>
-            <div class="comment-header-username">{{ user_id }}</div>
+            <div class="comment-header-displayname"><a :href="'/profile/' + user_id">{{ display_name }}</a></div>
+            <div class="comment-header-username"><a :href="'/profile/' + user_id">{{ user_id }}</a></div>
 
             <form
                 class="comment-header-delete"

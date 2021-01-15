@@ -1,8 +1,8 @@
 <template>
     <li class="post">
         <div class="post-header">
-            <div class="post-header-displayname">{{ display_name }}</div>
-            <div class="post-header-username">{{ user_id }}</div>
+            <div class="post-header-displayname"><a :href="'/profile/' + user_id">{{ display_name }}</a></div>
+            <div class="post-header-username"><a :href="'/profile/' + user_id">{{ user_id }}</a></div>
 
             <form
                 class="post-header-delete"
@@ -216,6 +216,11 @@ export default {
         grid-template-columns: min-content auto auto;
         max-height: 1.6em;
         line-height: 1.6em;
+        
+
+        a {
+            color: $color-link !important;
+        }
 
         &-displayname {
             font-size: 1.2em;

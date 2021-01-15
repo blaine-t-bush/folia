@@ -7,15 +7,17 @@
 - Add sticky note animation on hover
 
 ## Tests
-- Write post tests
-- Write comment tests
+- Write API tests
 
 ## Functionality
-- Change comments to update with async and use API
-- Change reactions to update with async and use API
-- Change delete to update with async and use API
-- Add comments, reactions, and delete to Vue component
-- Add daily recurring job to clear data and re-seed
+- Add ability to view others' profiles
+- Update profile page:
+    - Posts
+    - Comments
+- Update seeder to add reactions
+- Update seeded posts to sometimes have 0 comments
+- Add ability to view other profiles
+- Add daily recurring job to clear data (except accounts) and re-seed
 - Add frequently recurring job to add posts and comments
 - Add additional language option in profile
 
@@ -25,8 +27,7 @@
 - Move Vue component styles to component files
 
 ## Functionality
-- Update supervisor to use queue:listen not queue:work
-- Display login errors if validation fails
+- Update supervisor to use queue:listen not queue:work during development
 - When deleting a post, some comments on other posts disappear
 - Update business logic to have two separate layers:
     - API, which takes arguments (not Requests) and updates models

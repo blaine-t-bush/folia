@@ -62,9 +62,12 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function profile(Request $request) {
-        // Get user information.
-        $user = User::find($request->session()->get('user_id'));
+    public function profile(Request $request, string $id = null) {
+        if (!is_null($id)) { // FIXME is there an Eloquent way to check this?
+            $user = User::find($id);
+        } else {
+            $user = User::find($request->session()->get('user_id'));
+        }
 
         return view('profile', [
             'user' => $user,
