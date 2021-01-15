@@ -1,9 +1,4 @@
 /**
- * Vue for components
- */
-import { createApp } from 'vue';
-
-/**
  * Axios for async requests
  */
 

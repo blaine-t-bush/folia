@@ -44,32 +44,12 @@ Route::post('/register', [
  */
 Route::middleware(['check_token'])->group(function() {
     Route::get('/', function() {
-        return redirect('/posts');
+        return redirect('/home');
+    });
+
+    Route::get('/home', function() {
+        return view('home');
     })->name('home');
-
-    Route::get('/posts', function() {
-        return view('posts');
-    })->name('posts');
-
-    Route::post('/posts', [
-        PostController::class, 'create'
-    ]);
-
-    Route::delete('/posts', [
-        PostController::class, 'destroy'
-    ]);
-
-    Route::post('/posts/comments', [
-        CommentController::class, 'create'
-    ]);
-
-    Route::delete('/posts/comments', [
-        CommentController::class, 'destroy'
-    ]);
-
-    Route::post('/posts/react', [
-        ReactionController::class, 'react'
-    ]);
 
     Route::get('/profile', [
         UserController::class, 'profile'
@@ -81,8 +61,7 @@ Route::middleware(['check_token'])->group(function() {
  * API
  * 
  */
-// FIXME update APIs to not pass sensitive information
-// FIXME move APIs to separate routes file.
+// FIXME move APIs to separate routes file?
 Route::middleware(['check_token'])->group(function() {
     Route::get('/api/session', [
         UserController::class, 'session'

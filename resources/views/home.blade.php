@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('main')
-    <div id="app"></div>
+    <div id="home"></div>
 @endsection
 
 @push('script_body')
-<script src="{{ mix('/js/posts.js') }}"></script>
+<script src="{{ mix('/js/home.js') }}"></script>
 @endpush
