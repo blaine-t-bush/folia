@@ -69,6 +69,10 @@ export default {
         grid-template-columns: min-content auto auto;
         max-height: 1.6em;
         line-height: 1.6em;
+        
+        a {
+            color: $color-link !important;
+        }
 
         &-displayname {
             font-size: 1.2em;

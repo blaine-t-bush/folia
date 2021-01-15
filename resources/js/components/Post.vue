@@ -217,7 +217,6 @@ export default {
         max-height: 1.6em;
         line-height: 1.6em;
         
-
         a {
             color: $color-link !important;
         }
