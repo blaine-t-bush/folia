@@ -13,8 +13,12 @@ use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
-    public function index(Request $request) {
-        return CommentResource::collection(Comment::all());
+    public function index(Request $request, string $user_id = null) {
+        if (!is_null($user_id)) {
+            return CommentResource::collection(Comment::where('user_id', $user_id)->get());
+        } else {
+            return CommentResource::collection(Comment::all());
+        }
     }
     public function create(Request $request) {
         // Create a new post.
