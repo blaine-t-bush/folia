@@ -5,9 +5,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 </style>
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-@endpush('style')
-
-{{-- TODO fix login so it returns error on failure --}}
+@endpush
 
 @section('main')
     <form class="login" id="login" method="POST" action="/login" enctype="multipart/form-data">
@@ -39,6 +37,10 @@
         </div>
         @error('password')
         <div class="error">{{ $message }}</div>
+        @enderror
+
+        @error('credentials')
+        <div class="error error-credentials">{{ $message }}</div>
         @enderror
 
         <input class="login-button heavy-button" type="submit" value=">>> Login">

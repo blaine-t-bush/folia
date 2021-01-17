@@ -44,34 +44,62 @@ Route::post('/register', [
  */
 Route::middleware(['check_token'])->group(function() {
     Route::get('/', function() {
-        return redirect('/posts');
+        return redirect('/home');
+    });
+
+    Route::get('/home', function() {
+        return view('home');
     })->name('home');
 
-    Route::get('/posts', [
-        PostController::class, 'index'
-    ])->name('posts');
+    Route::get('/profile/{id?}', [
+        UserController::class, 'profile'
+    ])->name('profile');
+});
 
-    Route::post('/posts', [
+/*
+ *
+ * API
+ * 
+ */
+// FIXME move APIs to separate routes file?
+Route::middleware(['check_token'])->group(function() {
+    Route::get('/api/session', [
+        UserController::class, 'session'
+    ]);
+
+    Route::get('/api/posts', [
+        PostController::class, 'index'
+    ]);
+
+    Route::post('/api/posts', [
         PostController::class, 'create'
     ]);
 
-    Route::delete('/posts', [
+    Route::delete('/api/posts', [
         PostController::class, 'destroy'
     ]);
 
-    Route::post('/posts/comments', [
+    Route::get('/api/comments', [
+        CommentController::class, 'index'
+    ]);
+
+    Route::post('/api/comments', [
         CommentController::class, 'create'
     ]);
 
-    Route::delete('/posts/comments', [
+    Route::delete('/api/comments', [
         CommentController::class, 'destroy'
     ]);
 
-    Route::post('/posts/react', [
-        ReactionController::class, 'react'
+    Route::get('/api/reactions', [
+        ReactionController::class, 'index'
     ]);
 
-    Route::get('/profile', [
-        UserController::class, 'profile'
-    ])->name('profile');
+    Route::post('/api/reactions', [
+        ReactionController::class, 'create'
+    ]);
+
+    Route::delete('/api/reactions', [
+        ReactionController::class, 'destroy'
+    ]);
 });

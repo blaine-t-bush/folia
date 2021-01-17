@@ -51,6 +51,10 @@
     color: $color-error;
     margin: 0.2em;
     text-align: center;
+
+    &-credentials {
+        margin-top: 1rem;
+    }
 }
 
 .input-error {

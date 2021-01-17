@@ -5,22 +5,16 @@
   max-width: 300px;
   width: 100%;
 }
-
-.login-label-username,
-.login-label-password {
+.login-label-username, .login-label-password {
   margin-bottom: 0.5em;
 }
-
 .login-label-password {
   margin-top: 1em;
 }
-
-.login-input-username,
-.login-input-password {
+.login-input-username, .login-input-password {
   height: 1.5em;
   line-height: 1.5em;
 }
-
 .login-button {
   margin-top: 1em;
 }
@@ -30,13 +24,11 @@
   display: grid;
   grid-template-columns: auto auto;
 }
-
 .password-container-button {
   align-items: center;
   display: grid;
   height: 100%;
 }
-
 .password-container-button-icon {
   align-items: center;
   display: grid !important;
@@ -47,6 +39,9 @@
   color: #e60a0a;
   margin: 0.2em;
   text-align: center;
+}
+.error-credentials {
+  margin-top: 1rem;
 }
 
 .input-error {
@@ -69,7 +64,6 @@
   transform: rotate(7deg);
   margin: auto;
 }
-
 .sticky-note-text {
   position: absolute;
   left: 0;
@@ -80,10 +74,8 @@
   padding: 50px 20px 20px 20px;
   list-style: none;
 }
-
 .sticky-note-item {
   align-self: center;
   justify-content: center;
   text-align: center;
 }
-

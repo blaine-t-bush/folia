@@ -2,7 +2,7 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/register.css') }}">
-@endpush('style')
+@endpush
 
 @section('main')
     <form class="register" id="register" method="POST" action="/register" enctype="multipart/form-data">

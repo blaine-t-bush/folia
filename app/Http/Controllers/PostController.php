@@ -5,57 +5,57 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Post;
-use App\Models\User;
+
+use App\Events\PostCreated;
+use App\Events\PostDeleted;
+
+use App\Http\Resources\PostResource;
 
 class PostController extends Controller
 {
     public function index(Request $request) {
-        // Get all posts.
-        $posts = Post::all()->sortByDesc('created_at'); // FIXME add pagination
-
-        // Return view and pass in posts.
-        return view('posts', [
-            'posts' => $posts,
-        ]);
+        return PostResource::collection(Post::all());
     }
 
     public function create(Request $request) {
-        // Validate the inputs.
-        $validated = $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
-            'body' => ['required', 'min:1', 'max:255'],
-        ]);
-
         // Create a new post.
         $post = new Post;
-        $post->user_id = $request->user_id;
+        $post->user_id = $request->session()->get('user_id');
         $post->body = $request->body;
         $post->save();
 
-        return back();
+        // Dispatch the event.
+        PostCreated::dispatch($post);
+
+        return new PostResource($post);
     }
 
     public function destroy(Request $request) {
-        // Check that post actually belongs to user.
-        $post = Post::find($request->post_id);
+        $post = Post::findOrFail($request->id);
 
-        if ($post->user_id == $request->user_id) {
-            // First delete all child comments, if any.
-            $comments = $post->comments;
-            foreach ($comments as $comment) {
-                $comment->delete();
-            }
-
-            // Then delete all child reactions, if any.
-            $reactions = $post->reactions;
-            foreach ($reactions as $reaction) {
-                $reaction->delete();
-            }
-
-            // Then delete post.
-            $post->delete();
+        // Determine if post belongs to user who made request.
+        if ($post->user_id !== $request->session()->get('user_id')) {
+            return; // FIXME add error message here.
+        }
+        
+        // First delete all child comments, if any.
+        $comments = $post->comments;
+        foreach ($comments as $comment) {
+            $comment->delete();
         }
 
-        return back();
+        // Then delete all child reactions, if any.
+        $reactions = $post->reactions;
+        foreach ($reactions as $reaction) {
+            $reaction->delete();
+        }
+
+        // Then delete post.
+        $post->delete();
+
+        // Dispatch the event.
+        PostDeleted::dispatch($post);
+
+        return new PostResource($post);
     }
 }

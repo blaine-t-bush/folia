@@ -16,123 +16,225 @@ class ReactionTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    private function create_users_and_posts() {
-        // Create two users.
-        $userA = UserController::create($this->faker->userName, $this->faker->name, $this->faker->password);
-        $userB = UserController::create($this->faker->userName, $this->faker->name, $this->faker->password);
+    private function create_users_and_posts()
+    {
+        // Create users.
+        $idA = $this->faker->userName;
+        $display_nameA = $this->faker->name;
+        $passwordA = $this->faker->password;
+        $userA = UserController::create($idA, $display_nameA, $passwordA);
+        $userA->refresh();
+
+        $idB = $this->faker->userName;
+        $display_nameB = $this->faker->name;
+        $passwordB = $this->faker->password;
+        $userB = UserController::create($idB, $display_nameB, $passwordB);
+        $userB->refresh();
 
         // Create two posts, one for each user.
-        $postA = new Post(); $postA->user_id = $userA->id; $postA->body = $this->faker->paragraph; $postA->save();
-        $postB = new Post(); $postB->user_id = $userB->id; $postB->body = $this->faker->paragraph; $postB->save();
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userA->id,
+            'password' => $passwordA,
+        ]);
+
+        $response = $this->post('/api/posts', [
+            'user_id' => $userA->id,
+            'body' => $this->faker->paragraph,
+        ]);
+
+        $postA = Post::find($response['id']);
+
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userB->id,
+            'password' => $passwordB,
+        ]);
+
+        $response = $this->post('/api/posts', [
+            'user_id' => $userB->id,
+            'body' => $this->faker->paragraph,
+        ]);
+
+        $postB = Post::find($response['id']);
 
         return [
             $userA,
+            $passwordA,
             $userB,
+            $passwordB,
             $postA,
             $postB,
         ];
     }
 
     /** @test */
-    public function can_react() {
+    public function can_react()
+    {
         $reaction_types = ['smile', 'frown', 'heart', 'laugh'];
 
-        foreach ($reaction_types as $reaction_type) {
-            list($userA, $userB, $postA, $postB) = $this->create_users_and_posts();
+        foreach ($reaction_types as $reaction_type)
+        {
+            list($userA, $passwordA, $userB, $passwordB, $postA, $postB) = $this->create_users_and_posts();
 
-            $reaction_parameters_postA = [
+            // Have user A react to first post. Should have one entry per reaction.
+            $response = $this->withSession([])->post('/login', [
+                'user_id' => $userA->id,
+                'password' => $passwordA,
+            ]);
+            
+            $response = $this->post('/api/reactions', [
+                'id' => $postA->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Check response. Should return a ReactionResource.
+            $response
+                ->assertStatus(201)
+                ->assertJson([
+                    'user_id' => $userA->id,
+                    'post_id' => $postA->id,
+                    'type' => $reaction_type,
+                ]);
+
+            // Check database for matching entry.
+            $this->assertDatabaseHas('reactions', [
                 'user_id' => $userA->id,
                 'post_id' => $postA->id,
                 'type' => $reaction_type,
-            ];
+            ]);
 
-            $reaction_parameters_postB = [
+            // Have user A react to second post. Should have one entry per reaction.
+            $response = $this->post('/api/reactions', [
+                'id' => $postB->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Check response. Should return a ReactionResource.
+            $response
+                ->assertStatus(201)
+                ->assertJson([
+                    'user_id' => $userA->id,
+                    'post_id' => $postB->id,
+                    'type' => $reaction_type,
+                ]);
+
+            // Check database for matching entry.
+            $this->assertDatabaseHas('reactions', [
                 'user_id' => $userA->id,
                 'post_id' => $postB->id,
                 'type' => $reaction_type,
-            ];
-
-            // Have user A react to both posts. Should have one entry per reaction.
-            $reaction = ReactionController::create($userA->id, $postA->id, $reaction_type);
-            $this->assertDatabaseHas('reactions', $reaction_parameters_postA);
-            $this->assertTrue(
-                Reaction::where('user_id', $userA->id)
-                        ->where('post_id', $postA->id)
-                        ->where('type', $reaction_type)
-                        ->get()
-                        ->count() == 1
-            );
-
-            $reaction = ReactionController::create($userA->id, $postB->id, $reaction_type);
-            $this->assertDatabaseHas('reactions', $reaction_parameters_postB);
-            $this->assertTrue(
-                Reaction::where('user_id', $userA->id)
-                        ->where('post_id', $postA->id)
-                        ->where('type', $reaction_type)
-                        ->get()
-                        ->count() == 1
-            );
+            ]);
         }
     }
 
     /** @test */
-    public function can_unreact() {
+    public function can_unreact()
+    {
         $reaction_types = ['smile', 'frown', 'heart', 'laugh'];
 
-        foreach ($reaction_types as $reaction_type) {
-            list($userA, $userB, $postA, $postB) = $this->create_users_and_posts();
+        foreach ($reaction_types as $reaction_type)
+        {
+            list($userA, $passwordA, $userB, $passwordB, $postA, $postB) = $this->create_users_and_posts();
 
-            $reaction_parameters_postA = [
+            // Have user A react to first post.
+            $response = $this->withSession([])->post('/login', [
                 'user_id' => $userA->id,
-                'post_id' => $postA->id,
+                'password' => $passwordA,
+            ]);
+            
+            $response = $this->post('/api/reactions', [
+                'id' => $postA->id,
                 'type' => $reaction_type,
-            ];
+            ]);
 
-            $reaction_parameters_postB = [
-                'user_id' => $userA->id,
-                'post_id' => $postB->id,
+            $reaction_id = $response['id'];
+
+            // Have user A un-react to first post. Respective entry should now be deleted.
+            $response = $this->delete('/api/reactions', [
+                'id' => $postA->id,
                 'type' => $reaction_type,
-            ];
+            ]);
 
-            // Have user A react to both posts.
-            $reaction = ReactionController::create($userA->id, $postA->id, $reaction_type);
-            $reaction = ReactionController::create($userA->id, $postB->id, $reaction_type);
+            $response
+                ->assertStatus(200)
+                ->assertJson([
+                    'id' => $reaction_id,
+                    'user_id' => $userA->id,
+                    'post_id' => $postA->id,
+                    'type' => $reaction_type,
+                ]);
+            
+            $this->assertDatabaseMissing('reactions', [
+                'id' => $reaction_id,
+            ]);
 
-            // Have user A un-react to both posts. Respective models should now be deleted.
-            $reaction = ReactionController::destroy($userA->id, $postA->id, $reaction_type);
-            $this->assertDeleted($reaction);
+            // Have user A react to second post.
+            $response = $this->post('/api/reactions', [
+                'id' => $postB->id,
+                'type' => $reaction_type,
+            ]);
 
-            $reaction = ReactionController::destroy($userA->id, $postB->id, $reaction_type);
-            $this->assertDeleted($reaction);
+            $reaction_id = $response['id'];
+
+            // Have user A un-react to second post. Respective entry should now be deleted.
+            $response = $this->delete('/api/reactions', [
+                'id' => $postB->id,
+                'type' => $reaction_type,
+            ]);
+
+            $response
+                ->assertStatus(200)
+                ->assertJson([
+                    'id' => $reaction_id,
+                    'user_id' => $userA->id,
+                    'post_id' => $postB->id,
+                    'type' => $reaction_type,
+                ]);
         }
     }
 
     /** @test */
-    public function cannot_react_again() {
+    public function cannot_react_again()
+    {
         $reaction_types = ['smile', 'frown', 'heart', 'laugh'];
 
-        foreach ($reaction_types as $reaction_type) {
-            list($userA, $userB, $postA, $postB) = $this->create_users_and_posts();
+        foreach ($reaction_types as $reaction_type)
+        {
+            list($userA, $passwordA, $userB, $passwordB, $postA, $postB) = $this->create_users_and_posts();
 
-            $reaction_parameters_postA = [
+            // Have user A react to first post.
+            $response = $this->withSession([])->post('/login', [
+                'user_id' => $userA->id,
+                'password' => $passwordA,
+            ]);
+            
+            $response = $this->post('/api/reactions', [
+                'id' => $postA->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Attempt to react to first post again.
+            $response = $this->post('/api/reactions', [
+                'id' => $postA->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Check response. Should return a ReactionResource.
+            $response
+            ->assertStatus(200)
+            ->assertJson([
                 'user_id' => $userA->id,
                 'post_id' => $postA->id,
                 'type' => $reaction_type,
-            ];
+            ]);
 
-            $reaction_parameters_postB = [
+            // Check database for matching entry.
+            $this->assertDatabaseHas('reactions', [
                 'user_id' => $userA->id,
-                'post_id' => $postB->id,
+                'post_id' => $postA->id,
                 'type' => $reaction_type,
-            ];
+            ]);
 
-            // Have user A react to both posts.
-            $reaction = ReactionController::create($userA->id, $postA->id, $reaction_type);
-            $reaction = ReactionController::create($userA->id, $postB->id, $reaction_type);
-
-            // Have user A attempt to react to both posts again. Should still have one entry per reaction.
-            $reaction = ReactionController::create($userA->id, $postA->id, $reaction_type);
-            $this->assertDatabaseHas('reactions', $reaction_parameters_postA);
+            // Ensure database does not have more than one of this entry.
             $this->assertTrue(
                 Reaction::where('user_id', $userA->id)
                         ->where('post_id', $postA->id)
@@ -141,8 +243,35 @@ class ReactionTest extends TestCase
                         ->count() == 1
             );
 
-            $reaction = ReactionController::create($userA->id, $postB->id, $reaction_type);
-            $this->assertDatabaseHas('reactions', $reaction_parameters_postB);
+            // Have user A react to second post.
+            $response = $this->post('/api/reactions', [
+                'id' => $postB->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Attempt to react to second post again.
+            $response = $this->post('/api/reactions', [
+                'id' => $postB->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Check response. Should return a ReactionResource.
+            $response
+            ->assertStatus(200)
+            ->assertJson([
+                'user_id' => $userA->id,
+                'post_id' => $postB->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Check database for matching entry.
+            $this->assertDatabaseHas('reactions', [
+                'user_id' => $userA->id,
+                'post_id' => $postB->id,
+                'type' => $reaction_type,
+            ]);
+
+            // Ensure database does not have more than one of this entry.
             $this->assertTrue(
                 Reaction::where('user_id', $userA->id)
                         ->where('post_id', $postB->id)
@@ -150,42 +279,6 @@ class ReactionTest extends TestCase
                         ->get()
                         ->count() == 1
             );
-        }
-    }
-
-    /** @test */
-    public function cannot_unreact_again() {
-        $reaction_types = ['smile', 'frown', 'heart', 'laugh'];
-
-        foreach ($reaction_types as $reaction_type) {
-            list($userA, $userB, $postA, $postB) = $this->create_users_and_posts();
-
-            $reaction_parameters_postA = [
-                'user_id' => $userA->id,
-                'post_id' => $postA->id,
-                'type' => $reaction_type,
-            ];
-
-            $reaction_parameters_postB = [
-                'user_id' => $userA->id,
-                'post_id' => $postB->id,
-                'type' => $reaction_type,
-            ];
-
-            // Have user A react to both posts. Should have one entry per reaction.
-            $reaction = ReactionController::create($userA->id, $postA->id, $reaction_type);
-            $reaction = ReactionController::create($userA->id, $postB->id, $reaction_type);
-
-            // Have user A un-react to both posts.
-            $reaction = ReactionController::destroy($userA->id, $postA->id, $reaction_type);
-            $reaction = ReactionController::destroy($userA->id, $postB->id, $reaction_type);
-
-            // Have user A attempt to un-react to both posts again. Should not have any entries.
-            $reaction = ReactionController::destroy($userA->id, $postA->id, $reaction_type);
-            $this->assertDatabaseMissing('reactions', $reaction_parameters_postA);
-
-            $reaction = ReactionController::destroy($userA->id, $postB->id, $reaction_type);
-            $this->assertDatabaseMissing('reactions', $reaction_parameters_postB);
         }
     }
 }

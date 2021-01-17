@@ -21,7 +21,7 @@ class CheckAuthenticatedToken
         if ($request->session()->has('authenticated_token') && $request->session()->has('user_id')) {
             // If they do, and it matches our token, we can let them continue.
             $user = User::find($request->session()->get('user_id'));
-            if ($request->session()->get('authenticated_token') == $user->authenticated_token) {
+            if ($user !== null and ($request->session()->get('authenticated_token') == $user->authenticated_token)) {
                 return $next($request);
             }
         }
