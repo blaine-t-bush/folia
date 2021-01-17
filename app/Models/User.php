@@ -15,20 +15,20 @@ class User extends Model
      * Get the posts belonging to the user.
      */
     public function posts() {
-        return $this->hasMany(Post::class, 'post_id');
+        return $this->hasMany(Post::class);
     }
 
     /**
      * Get the comments belonging to the user.
      */
     public function comments() {
-        return $this->hasMany(Comment::class, 'comment_id');
+        return $this->hasMany(Comment::class);
     }
 
     /**
      * Get the reactions belonging to the user.
      */
     public function reactions() {
-        return $this->hasMany(Reaction::class, 'reaction_id');
+        return $this->hasMany(Reaction::class);
     }
 }

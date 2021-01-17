@@ -13,20 +13,20 @@ class Post extends Model
      * Get the user that owns the post.
      */
     public function user() {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     /**
      * Get the comments belonging to the post.
      */
     public function comments() {
-        return $this->hasMany(Comment::class, 'post_id');
+        return $this->hasMany(Comment::class);
     }
 
     /**
      * Get the reactions belonging to the post.
      */
     public function reactions() {
-        return $this->hasMany(Reaction::class, 'post_id');
+        return $this->hasMany(Reaction::class);
     }
 }
