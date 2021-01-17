@@ -170,6 +170,76 @@ class PostTest extends TestCase
     /** @test */
     public function can_delete_post_with_comment_from_other_users()
     {
+        // Create users.
+        $idA = $this->faker->userName;
+        $display_nameA = $this->faker->name;
+        $passwordA = $this->faker->password;
+        $userA = UserController::create($idA, $display_nameA, $passwordA);
+        $userA->refresh();
+
+        $idB = $this->faker->userName;
+        $display_nameB = $this->faker->name;
+        $passwordB = $this->faker->password;
+        $userB = UserController::create($idB, $display_nameB, $passwordB);
+        $userB->refresh();
+
+        // Log user A in.
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userA->id,
+            'password' => $passwordA,
+        ]);
+
+        // Create post.
+        $body = $this->faker->paragraph;
+        $response = $this->post('/api/posts', [
+            'user_id' => $userA->id,
+            'body' => $body,
+        ]);
+
+        $post_id = $response['id'];
+
+        // Log user B in.
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userB->id,
+            'password' => $passwordB,
+        ]);
+
+        // Add comment to post.
+        $response = $this->post('/api/comments', [
+            'user_id' => $userB->id,
+            'body' => $this->faker->paragraph,
+        ]);
+
+        // Log user A in.
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userA->id,
+            'password' => $passwordA,
+        ]);
+
+        // Delete post.
+        $response = $this->delete('/api/posts', [
+            'id' => $post_id,
+        ]);
+
+        // Check response. Should return a PostResource.
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'id' => $post_id,
+                'user_id' => $userA->id,
+                'user' => [
+                    'display_name' => $userA->display_name,
+                ],
+                'body' => $body,
+            ]);
+
+        // Check that matching post has been deleted from database.
+        $this->assertDatabaseCount('posts', 0);
+        $this->assertDatabaseMissing('posts', [
+            'id' => $post_id,
+            'user_id' => $userA->id,
+            'body' => $body,
+        ]);
 
     }
 
@@ -252,6 +322,94 @@ class PostTest extends TestCase
     /** @test */
     public function can_delete_post_with_reactions_from_other_users()
     {
+        // Create users.
+        $idA = $this->faker->userName;
+        $display_nameA = $this->faker->name;
+        $passwordA = $this->faker->password;
+        $userA = UserController::create($idA, $display_nameA, $passwordA);
+        $userA->refresh();
 
+        $idB = $this->faker->userName;
+        $display_nameB = $this->faker->name;
+        $passwordB = $this->faker->password;
+        $userB = UserController::create($idB, $display_nameB, $passwordB);
+        $userB->refresh();
+
+        // Log user A in.
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userA->id,
+            'password' => $passwordA,
+        ]);
+
+        // Create post.
+        $body = $this->faker->paragraph;
+        $response = $this->post('/api/posts', [
+            'user_id' => $userA->id,
+            'body' => $body,
+        ]);
+
+        $post_id = $response['id'];
+
+        // Log user B in.
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userB->id,
+            'password' => $passwordB,
+        ]);
+
+        // Add reactions to post.
+        $response = $this->post('/api/reactions', [
+            'user_id' => $userB->id,
+            'post_id' => $post_id,
+            'type' => 'smile',
+        ]);
+        
+        $response = $this->post('/api/reactions', [
+            'user_id' => $userB->id,
+            'post_id' => $post_id,
+            'type' => 'frown',
+        ]);
+        
+        $response = $this->post('/api/reactions', [
+            'user_id' => $userB->id,
+            'post_id' => $post_id,
+            'type' => 'heart',
+        ]);
+        
+        $response = $this->post('/api/reactions', [
+            'user_id' => $userB->id,
+            'post_id' => $post_id,
+            'type' => 'laugh',
+        ]);
+
+        // Log user A in.
+        $response = $this->withSession([])->post('/login', [
+            'user_id' => $userA->id,
+            'password' => $passwordA,
+        ]);
+
+        // Delete post.
+        $response = $this->delete('/api/posts', [
+            'id' => $post_id,
+        ]);
+
+        // Check response. Should return a PostResource.
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'id' => $post_id,
+                'user_id' => $userA->id,
+                'user' => [
+                    'display_name' => $userA->display_name,
+                ],
+                'body' => $body,
+            ]);
+
+        // Check that matching post has been deleted from database.
+        $this->assertDatabaseCount('posts', 0);
+        $this->assertDatabaseMissing('posts', [
+            'id' => $post_id,
+            'user_id' => $userA->id,
+            'body' => $body,
+        ]);
     }
 }

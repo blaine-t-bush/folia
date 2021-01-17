@@ -24,6 +24,8 @@ class ReactionController extends Controller
                                 ->where('post_id', $request->id)
                                 ->where('type', $request->type)
                                 ->firstOrFail(); // If it doesn't, this should throw a ModelNotFound exception.
+            
+            return new ReactionResource($reaction);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             $reaction = new Reaction;
             $reaction->user_id = $request->session()->get('user_id');
