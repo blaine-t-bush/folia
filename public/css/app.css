@@ -107,6 +107,9 @@ nav a {
   padding: 1em;
   color: #63c463 !important;
 }
+nav a:last-child {
+  padding-right: 0;
+}
 @media (max-width: 380px) {
   nav {
     align-items: flex-end;
