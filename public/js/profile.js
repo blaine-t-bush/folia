@@ -14718,18 +14718,18 @@ __webpack_require__.r(__webpack_exports__);
       var posts = document.getElementById('posts');
 
       if (posts.classList.contains('hidden')) {
-        posts.classList.remove('hidden');
+        this.postsHidden = false;
       } else {
-        posts.classList.add('hidden');
+        this.postsHidden = true;
       }
     },
     toggleComments: function toggleComments() {
       var comments = document.getElementById('comments');
 
       if (comments.classList.contains('hidden')) {
-        comments.classList.remove('hidden');
+        this.commentsHidden = false;
       } else {
-        comments.classList.add('hidden');
+        this.commentsHidden = true;
       }
     },
     addPost: function addPost(post) {
@@ -14865,7 +14865,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       posts: [],
       comments: [],
-      user_id: null
+      user_id: null,
+      postsHidden: false,
+      commentsHidden: false
     };
   },
   provide: function provide() {
@@ -15273,14 +15275,9 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3bd692e4");
 
-var _hoisted_1 = {
-  id: "posts",
-  "class": "posts"
-};
-var _hoisted_2 = {
-  id: "comments",
-  "class": "comments"
-};
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Comments ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -15293,7 +15290,26 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.togglePosts && $options.togglePosts.apply($options, arguments);
     })
-  }, "Posts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedPosts, function (post) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+    "class": ["fa fa-compress", {
+      hidden: $data.postsHidden
+    }],
+    "aria-hidden": "true"
+  }, null, 2
+  /* CLASS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+    "class": ["fa fa-expand", {
+      hidden: !$data.postsHidden
+    }],
+    "aria-hidden": "true"
+  }, null, 2
+  /* CLASS */
+  ), _hoisted_1]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+    id: "posts",
+    "class": ["posts", {
+      hidden: $data.postsHidden
+    }]
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedPosts, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       onPostDeleted: $options.removePost,
       key: post.id,
@@ -15309,11 +15325,32 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     , ["onPostDeleted", "id", "user_id", "display_name", "created_at", "body", "comments", "reactions"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
+  ))], 2
+  /* CLASS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.toggleComments && $options.toggleComments.apply($options, arguments);
     })
-  }, "Comments"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+    "class": ["fa fa-compress", {
+      hidden: $data.commentsHidden
+    }],
+    "aria-hidden": "true"
+  }, null, 2
+  /* CLASS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+    "class": ["fa fa-expand", {
+      hidden: !$data.commentsHidden
+    }],
+    "aria-hidden": "true"
+  }, null, 2
+  /* CLASS */
+  ), _hoisted_2]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+    id: "comments",
+    "class": ["comments", {
+      hidden: $data.commentsHidden
+    }]
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
       onCommentDeleted: $options.removeComment,
       key: comment.id,
@@ -15327,7 +15364,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     , ["onCommentDeleted", "id", "user_id", "display_name", "created_at", "body"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])], 64
+  ))], 2
+  /* CLASS */
+  )], 64
   /* STABLE_FRAGMENT */
   );
 });

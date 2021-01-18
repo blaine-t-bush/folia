@@ -1,6 +1,10 @@
 <template>
-    <h1 @click="togglePosts">Posts</h1>
-    <ol id="posts" class="posts">
+    <h1 @click="togglePosts">
+        <i class="fa fa-compress" :class="{ hidden: postsHidden }" aria-hidden="true"></i>
+        <i class="fa fa-expand" :class="{ hidden: !postsHidden }" aria-hidden="true"></i>
+        Posts
+    </h1>
+    <ol id="posts" class="posts" :class="{ hidden: postsHidden }">
         <Post
             v-for="post in orderedPosts"
             @post-deleted="removePost"
@@ -14,8 +18,12 @@
             :reactions="post.reactions"></Post>
     </ol>
 
-    <h1 @click="toggleComments">Comments</h1>
-    <ol id="comments" class="comments">
+    <h1 @click="toggleComments">
+        <i class="fa fa-compress" :class="{ hidden: commentsHidden }" aria-hidden="true"></i>
+        <i class="fa fa-expand" :class="{ hidden: !commentsHidden }" aria-hidden="true"></i>
+        Comments
+    </h1>
+    <ol id="comments" class="comments" :class="{ hidden: commentsHidden }">
         <Comment
             v-for="comment in orderedComments"
             @comment-deleted="removeComment"
@@ -42,17 +50,17 @@ export default {
         togglePosts: function () {
             let posts = document.getElementById('posts');
             if (posts.classList.contains('hidden')) {
-                posts.classList.remove('hidden');
+                this.postsHidden = false;
             } else {
-                posts.classList.add('hidden');
+                this.postsHidden = true;
             }
         },
         toggleComments: function() {
             let comments = document.getElementById('comments');
             if (comments.classList.contains('hidden')) {
-                comments.classList.remove('hidden');
+                this.commentsHidden = false;
             } else {
-                comments.classList.add('hidden');
+                this.commentsHidden = true;
             }
         },
         addPost(post) {
@@ -191,6 +199,8 @@ export default {
             posts: [],
             comments: [],
             user_id: null,
+            postsHidden: false,
+            commentsHidden: false,
         }
     },
     provide() {

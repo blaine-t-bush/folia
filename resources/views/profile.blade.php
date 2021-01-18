@@ -6,21 +6,9 @@
 
 @section('main')
     <div class="profile">
-        <div class="profile-key">
-            Display Name
-        </div>
-
-        <div class="profile-value">
-            {{ $user->display_name }}
-        </div>
-        
-        <div class="profile-key">
-            Username
-        </div>
-
-        <div class="profile-value">
-            {{ $user->id }}
-        </div>
+        <h1 class="profile-name">
+            {{ $user->display_name }} <span class="profile-name-id">{{ $user->id }}</span>
+        </h1>
     </div>
 
     <div id="profile"></div>
