@@ -55,6 +55,9 @@ export default {
                 comments.classList.add('hidden');
             }
         },
+        addPost(post) {
+            this.posts.push(post);
+        },
         removePost(post) {
             let id = post.id;
 
@@ -71,6 +74,12 @@ export default {
             if (indexToRemove >= 0) {
                 this.posts.splice(indexToRemove, 1);
             }
+        },
+        addComment(comment) {
+            this.comments.push(comment);
+        },
+        addCommentToPost() {
+
         },
         removeComment(comment) {
             let id = comment.id;

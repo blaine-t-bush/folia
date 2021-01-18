@@ -14732,6 +14732,9 @@ __webpack_require__.r(__webpack_exports__);
         comments.classList.add('hidden');
       }
     },
+    addPost: function addPost(post) {
+      this.posts.push(post);
+    },
     removePost: function removePost(post) {
       var id = post.id; // Find index of matching post in array.
 
@@ -14750,6 +14753,10 @@ __webpack_require__.r(__webpack_exports__);
         this.posts.splice(indexToRemove, 1);
       }
     },
+    addComment: function addComment(comment) {
+      this.comments.push(comment);
+    },
+    addCommentToPost: function addCommentToPost() {},
     removeComment: function removeComment(comment) {
       var id = comment.id; // Need to search for comment in two places: children of posts on this page,
       // and the standalone comments list.
