@@ -14451,6 +14451,9 @@ __webpack_require__.r(__webpack_exports__);
   emits: ['commentDeleted'],
   props: {
     id: Number,
+    display_parent_info: Boolean,
+    parent_user_id: String,
+    parent_display_name: String,
     user_id: String,
     display_name: String,
     body: String,
@@ -14675,7 +14678,7 @@ __webpack_require__.r(__webpack_exports__);
     'CommentSubmit': _CommentSubmit__WEBPACK_IMPORTED_MODULE_1__.default,
     'Reactions': _Reactions__WEBPACK_IMPORTED_MODULE_2__.default
   },
-  emits: ['postDeleted'],
+  emits: ['postDeleted', 'commentDeleted'],
   inject: ['authenticated_user_id'],
   props: {
     id: Number,
@@ -14691,6 +14694,8 @@ __webpack_require__.r(__webpack_exports__);
       this.comments.push(comment);
     },
     removeComment: function removeComment(comment) {
+      // Emit an event so comments can be removed from posts in profile page.
+      this.$emit('commentDeleted', comment);
       var id = comment.id; // Find index of matching comment in array.
 
       var indexToRemove = -1;
@@ -15001,16 +15006,29 @@ var _hoisted_1 = {
   "class": "comment"
 };
 var _hoisted_2 = {
+  key: 0,
+  "class": "comment-parent"
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" >>> responding to ");
+
+var _hoisted_4 = {
+  "class": "comment-parent-displayname"
+};
+var _hoisted_5 = {
+  "class": "comment-parent-username"
+};
+var _hoisted_6 = {
   "class": "comment-header"
 };
-var _hoisted_3 = {
+var _hoisted_7 = {
   "class": "comment-header-displayname"
 };
-var _hoisted_4 = {
+var _hoisted_8 = {
   "class": "comment-header-username"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
   "class": "delete-button heavy-button",
   type: "submit",
   value: "X"
@@ -15018,18 +15036,26 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_6 = {
+var _hoisted_10 = {
   "class": "comment-body"
 };
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [$props.display_parent_info ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+    href: '/profile/' + $props.parent_user_id
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.parent_display_name), 9
+  /* TEXT, PROPS */
+  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+    href: '/profile/' + $props.parent_user_id
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.parent_user_id), 9
+  /* TEXT, PROPS */
+  , ["href"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
     href: '/profile/' + $props.user_id
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.display_name), 9
   /* TEXT, PROPS */
-  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
     href: '/profile/' + $props.user_id
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user_id), 9
   /* TEXT, PROPS */
@@ -15039,9 +15065,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.deleteComment && $options.deleteComment.apply($options, arguments);
     }, ["prevent"]))
-  }, [_hoisted_5], 32
+  }, [_hoisted_9], 32
   /* HYDRATE_EVENTS */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */
   )]);
 });
@@ -15242,13 +15268,16 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       onCommentDeleted: $options.removeComment,
       key: comment.id,
       id: comment.id,
+      display_parent_info: false,
+      parent_user_id: comment.post.user_id,
+      parent_display_name: comment.post.user.display_name,
       user_id: comment.user_id,
       display_name: comment.user.display_name,
       created_at: comment.created_at,
       body: comment.body
     }, null, 8
     /* PROPS */
-    , ["onCommentDeleted", "id", "user_id", "display_name", "created_at", "body"]);
+    , ["onCommentDeleted", "id", "parent_user_id", "parent_display_name", "user_id", "display_name", "created_at", "body"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CommentSubmit, {
@@ -15479,7 +15508,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".comment[data-v-54ded044] {\n  padding-left: 0.5rem;\n  margin-top: 1rem;\n}\n.comment-header[data-v-54ded044] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n}\n.comment-header a[data-v-54ded044] {\n  color: #63c463 !important;\n}\n.comment-header-displayname[data-v-54ded044] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comment-header-username[data-v-54ded044] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comment-header-username[data-v-54ded044]::before {\n  content: \"~\";\n}\n.comment-header-delete[data-v-54ded044] {\n  font-size: 1rem;\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".comment[data-v-54ded044] {\n  margin-top: 1rem;\n}\n.comment-parent[data-v-54ded044] {\n  border-bottom: 1px solid #63c463;\n  margin-bottom: 0.8rem;\n  padding-bottom: 0.5rem;\n}\n.comment-parent a[data-v-54ded044] {\n  color: #63c463 !important;\n}\n.comment-parent-displayname[data-v-54ded044] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comment-parent-username[data-v-54ded044] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comment-parent-username[data-v-54ded044]::before {\n  content: \"~\";\n}\n.comment-header[data-v-54ded044] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n  padding-left: 1.5rem;\n}\n.comment-header a[data-v-54ded044] {\n  color: #63c463 !important;\n}\n.comment-header-displayname[data-v-54ded044] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comment-header-username[data-v-54ded044] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comment-header-username[data-v-54ded044]::before {\n  content: \"~\";\n}\n.comment-header-delete[data-v-54ded044] {\n  font-size: 1rem;\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}\n.comment-body[data-v-54ded044] {\n  padding-left: 1.5rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15548,7 +15577,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n}\n.post-header a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}\n.post-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  margin-bottom: 0.5rem;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid lightgreen;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0 0 0 1.5rem;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n}\n.post-header a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}\n.post-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  margin-bottom: 0.5rem;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -8,6 +8,7 @@
         <Post
             v-for="post in orderedPosts"
             @post-deleted="removePost"
+            @comment-deleted="removeComment"
             :key="post.id"
             :id="post.id"
             :user_id="post.user_id"
@@ -29,6 +30,9 @@
             @comment-deleted="removeComment"
             :key="comment.id"
             :id="comment.id"
+            :display_parent_info="true"
+            :parent_user_id="comment.post.user_id"
+            :parent_display_name="comment.post.user.display_name"
             :user_id="comment.user_id"
             :display_name="comment.user.display_name"
             :created_at="comment.created_at"
@@ -111,7 +115,7 @@ export default {
             // Find index of matching comment in array.
             for (let i = 0; i < this.posts.length; i++) {
                 let indexToRemove = -1;
-                for (let ii = 0; ii < this.comments.length; ii++) {
+                for (let ii = 0; ii < this.posts[i].comments.length; ii++) {
                     if (this.posts[i].comments[ii].id === id) {
                         indexToRemove = ii;
                         break;
@@ -159,6 +163,7 @@ export default {
                     } else {
                         // Request succeeded.
                         this.comments = response.data; // Convert payload to an array, where each object is a post.
+                        console.log(response.data);
                     }
                 });
 
@@ -259,64 +264,17 @@ export default {
     }
 
     .comments {
+        font-size: 0.9rem;
         list-style: none;
+        margin: 1rem 0 0 0rem;
         padding: 0;
-    }
 
-    .comments .comment {
-        background-color: $color-background-mid;
-        border: 1px solid $color-post-accent;
-        color: $color-post-accent;
-        margin-bottom: 1.5rem;
-        padding: 0.5rem;
-
-        &-header {
-            display: grid;
-            grid-template-columns: min-content auto auto;
-            max-height: 1.6em;
-            line-height: 1.6em;
-            
-            a {
-                color: $color-link !important;
-            }
-
-            &-displayname {
-                font-size: 1.2em;
-                font-weight: 600;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            &-username {
-                font-style: italic;
-                font-weight: 300;
-                padding-left: 0.5em;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-
-                &::before {
-                    content: $username-prepend;
-                }
-            }
-
-            &-delete {
-                justify-self: end;
-                line-height: 1.6em;
-                max-height: 1.6em;
-                padding-left: 0.5em;
-            }
-        }
-
-        &-timestamp {
-            font-weight: 300;
-            margin-bottom: 0.5rem;
-        }
-
-        &-body {
-            margin: 0;
-            padding: 0;
+        .comment {
+            background-color: $color-background-mid;
+            border: 1px solid $color-post-accent;
+            color: $color-post-accent;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
         }
     }
 </style>

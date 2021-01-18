@@ -33,6 +33,9 @@
                 @comment-deleted="removeComment"
                 :key="comment.id"
                 :id="comment.id"
+                :display_parent_info="false"
+                :parent_user_id="comment.post.user_id"
+                :parent_display_name="comment.post.user.display_name"
                 :user_id="comment.user_id"
                 :display_name="comment.user.display_name"
                 :created_at="comment.created_at"
@@ -57,7 +60,8 @@ export default {
         'Reactions': Reactions,
     },
     emits: [
-        'postDeleted'
+        'postDeleted',
+        'commentDeleted',
     ],
     inject: [
         'authenticated_user_id'
@@ -76,6 +80,9 @@ export default {
             this.comments.push(comment);
         },
         removeComment(comment) {
+            // Emit an event so comments can be removed from posts in profile page.
+            this.$emit('commentDeleted', comment);
+
             let id = comment.id;
 
             // Find index of matching comment in array.
@@ -262,10 +269,10 @@ export default {
 }
 
 .comments {
-    border-top: 1px solid lightgreen;
+    border-top: 1px solid $color-post-accent;
     font-size: 0.9rem;
     list-style: none;
     margin: 1rem 0 0 0rem;
-    padding: 0 0 0 1.5rem;
+    padding: 0;
 }
 </style>
