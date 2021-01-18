@@ -14743,24 +14743,31 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         // Request succeeded.
         _this.session = response.data;
-      }
-    }); // Fetch all user's posts from Laravel.
 
-    axios.get('/api/posts/' + this.user_id, {}).then(function (response) {
-      if (response.status != 200) {// Request failed.
-        // FIXME handle API failure.
-      } else {
-        // Request succeeded.
-        _this.posts = response.data; // Convert payload to an array, where each object is a post.
-      }
-    }); // Fetch all user's comments from Laravel.
+        if (window.location.pathname.match("(?<=\/profile\/).*")) {
+          _this.user_id = window.location.pathname.match("(?<=\/profile\/).*")[0];
+        } else {
+          _this.user_id = _this.session.authenticated_user_id;
+        } // Once user ID is established, we can fetch all user's posts from Laravel.
 
-    axios.get('/api/comments/' + this.user_id, {}).then(function (response) {
-      if (response.status != 200) {// Request failed.
-        // FIXME handle API failure.
-      } else {
-        // Request succeeded.
-        _this.comments = response.data; // Convert payload to an array, where each object is a post.
+
+        axios.get('/api/posts/' + _this.user_id, {}).then(function (response) {
+          if (response.status != 200) {// Request failed.
+            // FIXME handle API failure.
+          } else {
+            // Request succeeded.
+            _this.posts = response.data; // Convert payload to an array, where each object is a post.
+          }
+        }); // And then fetch all user's comments from Laravel.
+
+        axios.get('/api/comments/' + _this.user_id, {}).then(function (response) {
+          if (response.status != 200) {// Request failed.
+            // FIXME handle API failure.
+          } else {
+            // Request succeeded.
+            _this.comments = response.data; // Convert payload to an array, where each object is a post.
+          }
+        });
       }
     });
   },
@@ -14772,7 +14779,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       posts: [],
       comments: [],
-      user_id: window.location.pathname.match("(?<=\/profile\/).*")[0]
+      user_id: null
     };
   },
   provide: function provide() {
@@ -15475,7 +15482,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "h1[data-v-3bd692e4] {\n  cursor: pointer;\n}\n.posts[data-v-3bd692e4] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hidden[data-v-3bd692e4] {\n  display: none;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "h1[data-v-3bd692e4] {\n  cursor: pointer;\n}\n.posts[data-v-3bd692e4] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hidden[data-v-3bd692e4] {\n  display: none;\n}\n.comments[data-v-3bd692e4] {\n  list-style: none;\n  padding: 0;\n}\n.comments .comment[data-v-3bd692e4] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.comments .comment-header[data-v-3bd692e4] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n}\n.comments .comment-header a[data-v-3bd692e4] {\n  color: #63c463 !important;\n}\n.comments .comment-header-displayname[data-v-3bd692e4] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comments .comment-header-username[data-v-3bd692e4] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.comments .comment-header-username[data-v-3bd692e4]::before {\n  content: \"~\";\n}\n.comments .comment-header-delete[data-v-3bd692e4] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}\n.comments .comment-timestamp[data-v-3bd692e4] {\n  font-weight: 300;\n  margin-bottom: 0.5rem;\n}\n.comments .comment-body[data-v-3bd692e4] {\n  margin: 0;\n  padding: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

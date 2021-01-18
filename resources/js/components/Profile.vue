@@ -65,28 +65,33 @@ export default {
             } else {
                 // Request succeeded.
                 this.session = response.data;
-            }
-        });
+                if (window.location.pathname.match("(?<=\/profile\/).*")) {
+                    this.user_id = window.location.pathname.match("(?<=\/profile\/).*")[0];
+                } else {
+                    this.user_id = this.session.authenticated_user_id;
+                }
 
-        // Fetch all user's posts from Laravel.
-        axios.get('/api/posts/' + this.user_id, {}).then((response) => {
-            if (response.status != 200) {
-                // Request failed.
-                // FIXME handle API failure.
-            } else {
-                // Request succeeded.
-                this.posts = response.data; // Convert payload to an array, where each object is a post.
-            }
-        });
+                // Once user ID is established, we can fetch all user's posts from Laravel.
+                axios.get('/api/posts/' + this.user_id, {}).then((response) => {
+                    if (response.status != 200) {
+                        // Request failed.
+                        // FIXME handle API failure.
+                    } else {
+                        // Request succeeded.
+                        this.posts = response.data; // Convert payload to an array, where each object is a post.
+                    }
+                });
 
-        // Fetch all user's comments from Laravel.
-        axios.get('/api/comments/' + this.user_id, {}).then((response) => {
-            if (response.status != 200) {
-                // Request failed.
-                // FIXME handle API failure.
-            } else {
-                // Request succeeded.
-                this.comments = response.data; // Convert payload to an array, where each object is a post.
+                // And then fetch all user's comments from Laravel.
+                axios.get('/api/comments/' + this.user_id, {}).then((response) => {
+                    if (response.status != 200) {
+                        // Request failed.
+                        // FIXME handle API failure.
+                    } else {
+                        // Request succeeded.
+                        this.comments = response.data; // Convert payload to an array, where each object is a post.
+                    }
+                });
             }
         });
     },
@@ -98,7 +103,7 @@ export default {
             },
             posts: [],
             comments: [],
-            user_id: window.location.pathname.match("(?<=\/profile\/).*")[0],
+            user_id: null,
         }
     },
     provide() {
@@ -154,5 +159,67 @@ export default {
 
     .hidden {
         display: none;
+    }
+
+    .comments {
+        list-style: none;
+        padding: 0;
+    }
+
+    .comments .comment {
+        background-color: $color-background-mid;
+        border: 1px solid $color-post-accent;
+        color: $color-post-accent;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem;
+
+        &-header {
+            display: grid;
+            grid-template-columns: min-content auto auto;
+            max-height: 1.6em;
+            line-height: 1.6em;
+            
+            a {
+                color: $color-link !important;
+            }
+
+            &-displayname {
+                font-size: 1.2em;
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            &-username {
+                font-style: italic;
+                font-weight: 300;
+                padding-left: 0.5em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                &::before {
+                    content: $username-prepend;
+                }
+            }
+
+            &-delete {
+                justify-self: end;
+                line-height: 1.6em;
+                max-height: 1.6em;
+                padding-left: 0.5em;
+            }
+        }
+
+        &-timestamp {
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        &-body {
+            margin: 0;
+            padding: 0;
+        }
     }
 </style>
