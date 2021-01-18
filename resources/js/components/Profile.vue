@@ -78,9 +78,6 @@ export default {
         addComment(comment) {
             this.comments.push(comment);
         },
-        addCommentToPost() {
-
-        },
         removeComment(comment) {
             let id = comment.id;
 
@@ -156,6 +153,32 @@ export default {
                         this.comments = response.data; // Convert payload to an array, where each object is a post.
                     }
                 });
+
+                // Add Echo listener to listen for new comments.
+                // When it hears the new comment event, it can add it to the data.
+                window.Echo.channel('users-' + this.user_id).listen('CommentCreated', (event) => {
+                    let createdComment = event[0];
+
+                    // Check that comment doesn't already exist in data before adding it.
+                    if (this.comments.filter(comment => comment.id === createdComment.id).length > 0) {
+                        // Don't add it. Post with this ID already exists.
+                    } else {
+                        this.addComment(createdComment);
+                    }
+                });
+                
+                // Add Echo listener to listen for comments to delete.
+                // When it hears the new comment event, it can remove it from the data.
+                window.Echo.channel('users-' + this.user_id).listen('CommentDeleted', (event) => {
+                    let deletedComment = event[0];
+
+                    // Check that comment isn't already removed from data before trying to delete it.
+                    if (this.comments.filter(comment => comment.id === deletedComment.id).length == 0) {
+                        // Don't try to delete it. Comment with this ID was already removed.
+                    } else {
+                        this.removeComment(deletedComment);
+                    }
+                });
             }
         });
     },
@@ -193,9 +216,9 @@ export default {
         orderedComments: function() {
             // Sort comments oldest-first.
             function compare(a, b) {
-                if (a.id > b.id) {
+                if (a.id < b.id) {
                     return 1;
-                } else if (a.id < b.id) {
+                } else if (a.id > b.id) {
                     return -1;
                 } else {
                     return 0;
