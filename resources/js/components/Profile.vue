@@ -54,7 +54,62 @@ export default {
             } else {
                 comments.classList.add('hidden');
             }
-        }
+        },
+        removePost(post) {
+            let id = post.id;
+
+            // Find index of matching post in array.
+            let indexToRemove = -1;
+            for (let i = 0; i < this.posts.length; i++) {
+                if (this.posts[i].id === id) {
+                    indexToRemove = i;
+                    break;
+                }
+            } // FIXME optimize this.
+
+            // Remove post, if it was found. In that case indexToRemove will be a non-negative integer.
+            if (indexToRemove >= 0) {
+                this.posts.splice(indexToRemove, 1);
+            }
+        },
+        removeComment(comment) {
+            let id = comment.id;
+
+            // Need to search for comment in two places: children of posts on this page,
+            // and the standalone comments list.
+
+            // Start with standalone comments.
+            // Find index of matching comment in array.
+            let indexToRemove = -1;
+            for (let i = 0; i < this.comments.length; i++) {
+                if (this.comments[i].id === id) {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Remove comment, if it was found. In that case indexToRemove will be a non-negative integer.
+            if (indexToRemove >= 0) {
+                this.comments.splice(indexToRemove, 1);
+            }
+
+            // Now try in children of posts.
+            // Find index of matching comment in array.
+            for (let i = 0; i < this.posts.length; i++) {
+                let indexToRemove = -1;
+                for (let ii = 0; ii < this.comments.length; ii++) {
+                    if (this.posts[i].comments[ii].id === id) {
+                        indexToRemove = ii;
+                        break;
+                    }
+                }
+
+                // Remove comment, if it was found. In that case indexToRemove will be a non-negative integer.
+                if (indexToRemove >= 0) {
+                    this.posts[i].comments.splice(indexToRemove, 1);
+                }
+            }
+        },
     },
     mounted() {
         // Get user session information.

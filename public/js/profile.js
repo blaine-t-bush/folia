@@ -14731,6 +14731,62 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         comments.classList.add('hidden');
       }
+    },
+    removePost: function removePost(post) {
+      var id = post.id; // Find index of matching post in array.
+
+      var indexToRemove = -1;
+
+      for (var i = 0; i < this.posts.length; i++) {
+        if (this.posts[i].id === id) {
+          indexToRemove = i;
+          break;
+        }
+      } // FIXME optimize this.
+      // Remove post, if it was found. In that case indexToRemove will be a non-negative integer.
+
+
+      if (indexToRemove >= 0) {
+        this.posts.splice(indexToRemove, 1);
+      }
+    },
+    removeComment: function removeComment(comment) {
+      var id = comment.id; // Need to search for comment in two places: children of posts on this page,
+      // and the standalone comments list.
+      // Start with standalone comments.
+      // Find index of matching comment in array.
+
+      var indexToRemove = -1;
+
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].id === id) {
+          indexToRemove = i;
+          break;
+        }
+      } // Remove comment, if it was found. In that case indexToRemove will be a non-negative integer.
+
+
+      if (indexToRemove >= 0) {
+        this.comments.splice(indexToRemove, 1);
+      } // Now try in children of posts.
+      // Find index of matching comment in array.
+
+
+      for (var _i = 0; _i < this.posts.length; _i++) {
+        var _indexToRemove = -1;
+
+        for (var ii = 0; ii < this.comments.length; ii++) {
+          if (this.posts[_i].comments[ii].id === id) {
+            _indexToRemove = ii;
+            break;
+          }
+        } // Remove comment, if it was found. In that case indexToRemove will be a non-negative integer.
+
+
+        if (_indexToRemove >= 0) {
+          this.posts[_i].comments.splice(_indexToRemove, 1);
+        }
+      }
     }
   },
   mounted: function mounted() {
@@ -15209,7 +15265,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, "Posts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedPosts, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
-      onPostDeleted: _ctx.removePost,
+      onPostDeleted: $options.removePost,
       key: post.id,
       id: post.id,
       user_id: post.user_id,
@@ -15229,7 +15285,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, "Comments"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
-      onCommentDeleted: _ctx.removeComment,
+      onCommentDeleted: $options.removeComment,
       key: comment.id,
       id: comment.id,
       user_id: comment.user_id,
