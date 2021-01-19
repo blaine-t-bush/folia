@@ -6,8 +6,8 @@
         </h1>
     </div>
 
-    <form v-if="session.authenticated_user_id === user_id">
-        <label v-for="avatar in defaultAvatars" :key="avatar.id">
+    <form class="avatars" v-if="session.authenticated_user_id === user_id">
+        <label v-for="avatar in defaultAvatars" :key="avatar.id" :class="{ selected: avatar_url === avatar.url }">
             <img
                 @click="updateAvatar($event)"
                 :src="avatar.url"
@@ -359,6 +359,28 @@ export default {
 
     h1 {
         cursor: pointer;
+    }
+
+    .avatars {
+        display: flex;
+
+        label {
+            border: 2px solid rgba(0,0,0,0);
+            opacity: 0.2;
+
+            &.selected {
+                border: 2px solid $color-post-accent;
+                opacity: 1;
+            }
+
+            img {
+                display: block;
+            }
+
+            input[type="checkbox"] {
+                display: none;
+            }
+        }
     }
 
     .posts {

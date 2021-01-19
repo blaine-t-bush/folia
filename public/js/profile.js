@@ -15369,7 +15369,8 @@ var _hoisted_3 = {
   "class": "profile-name-id"
 };
 var _hoisted_4 = {
-  key: 0
+  key: 0,
+  "class": "avatars"
 };
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
@@ -15394,7 +15395,10 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   )])]), $data.session.authenticated_user_id === $data.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.defaultAvatars, function (avatar) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("label", {
-      key: avatar.id
+      key: avatar.id,
+      "class": {
+        selected: $data.avatar_url === avatar.url
+      }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
       onClick: _cache[1] || (_cache[1] = function ($event) {
         return $options.updateAvatar($event);
@@ -15409,7 +15413,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       checked: $data.avatar_url === avatar.url
     }, null, 8
     /* PROPS */
-    , ["value", "checked"])]);
+    , ["value", "checked"])], 2
+    /* CLASS */
+    );
   }), 128
   /* KEYED_FRAGMENT */
   ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
@@ -15738,7 +15744,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".profile[data-v-3bd692e4] {\n  align-items: center;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  margin-bottom: 1.5rem;\n}\n.profile img[data-v-3bd692e4] {\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  margin-right: 1rem;\n}\n.profile-name[data-v-3bd692e4] {\n  color: #63c463;\n  font-weight: 600;\n}\n.profile-name-id[data-v-3bd692e4] {\n  font-style: italic;\n  font-weight: 300;\n}\n.profile-name-id[data-v-3bd692e4]::before {\n  content: \"~\";\n}\nh1[data-v-3bd692e4] {\n  cursor: pointer;\n}\n.posts[data-v-3bd692e4] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hidden[data-v-3bd692e4] {\n  display: none;\n}\n.comments[data-v-3bd692e4] {\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}\n.comments .comment[data-v-3bd692e4] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".profile[data-v-3bd692e4] {\n  align-items: center;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  margin-bottom: 1.5rem;\n}\n.profile img[data-v-3bd692e4] {\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  margin-right: 1rem;\n}\n.profile-name[data-v-3bd692e4] {\n  color: #63c463;\n  font-weight: 600;\n}\n.profile-name-id[data-v-3bd692e4] {\n  font-style: italic;\n  font-weight: 300;\n}\n.profile-name-id[data-v-3bd692e4]::before {\n  content: \"~\";\n}\nh1[data-v-3bd692e4] {\n  cursor: pointer;\n}\n.avatars[data-v-3bd692e4] {\n  display: flex;\n}\n.avatars label[data-v-3bd692e4] {\n  border: 2px solid rgba(0, 0, 0, 0);\n  opacity: 0.2;\n}\n.avatars label.selected[data-v-3bd692e4] {\n  border: 2px solid #63c463;\n  opacity: 1;\n}\n.avatars label img[data-v-3bd692e4] {\n  display: block;\n}\n.avatars label input[type=checkbox][data-v-3bd692e4] {\n  display: none;\n}\n.posts[data-v-3bd692e4] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hidden[data-v-3bd692e4] {\n  display: none;\n}\n.comments[data-v-3bd692e4] {\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}\n.comments .comment[data-v-3bd692e4] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
