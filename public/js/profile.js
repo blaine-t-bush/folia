@@ -14806,7 +14806,7 @@ __webpack_require__.r(__webpack_exports__);
       // Get value of associated input.
       var selectedAvatarUrl = event.target.nextElementSibling.value; // Send request to update avatar URL.
 
-      axios.post('/api/avatar', {
+      axios.post('/api/user', {
         avatar_url: selectedAvatarUrl
       }).then(function (response) {
         if (response.status != 200) {// FIXME catch error
@@ -14862,6 +14862,7 @@ __webpack_require__.r(__webpack_exports__);
             // FIXME handle API failure.
           } else {
             // Request succeeded.
+            console.log(response);
             _this2.display_name = response.data.display_name;
             _this2.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
           }

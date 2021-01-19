@@ -104,10 +104,10 @@ Route::middleware(['check_token'])->group(function() {
     ]);
 
     Route::get('/api/user/{id?}', [
-        UserController::class, 'fetch_info'
+        UserController::class, 'fetch'
     ]);
 
-    Route::post('/api/avatar', [
-        UserController::class, 'update_avatar'
+    Route::post('/api/user', [
+        UserController::class, 'update'
     ]);
 });

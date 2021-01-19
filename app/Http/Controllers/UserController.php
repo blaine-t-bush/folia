@@ -74,7 +74,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function fetch_info(Request $request, string $id = null) {
+    public function fetch(Request $request, string $id = null) {
         if (!is_null($id)) { // FIXME is there an Eloquent way to check this?
             $user = User::find($id);
         } else {
@@ -87,12 +87,15 @@ class UserController extends Controller
         ]);
     }
 
-    public function update_avatar(Request $request) {
+    public function update(Request $request) {
         // Get user model based on ID in session.
         $user = User::find($request->session()->get('user_id'));
 
         // Update avatar URL based on request.
-        $user->avatar_url = $request->avatar_url;
+        if ($request->has('avatar_url')) {
+            $user->avatar_url = $request->avatar_url;
+        }
+
         $user->save();
 
         return json_encode($user->avatar_url);

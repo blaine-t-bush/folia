@@ -156,7 +156,7 @@ export default {
             let selectedAvatarUrl = event.target.nextElementSibling.value;
             
             // Send request to update avatar URL.
-            axios.post('/api/avatar', {
+            axios.post('/api/user', {
                 avatar_url: selectedAvatarUrl,
             }).then((response) => {
                 if (response.status != 200) {
@@ -217,6 +217,7 @@ export default {
                         // FIXME handle API failure.
                     } else {
                         // Request succeeded.
+                        console.log(response);
                         this.display_name = response.data.display_name
                         this.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
                     }
