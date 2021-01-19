@@ -74,6 +74,27 @@ class UserController extends Controller
         ]);
     }
 
+    public function fetch_avatar(Request $request, string $id = null) {
+        if (!is_null($id)) { // FIXME is there an Eloquent way to check this?
+            $user = User::find($id);
+        } else {
+            $user = User::find($request->session()->get('user_id'));
+        }
+
+        return json_encode($user->avatar_url);
+    }
+
+    public function update_avatar(Request $request) {
+        // Get user model based on ID in session.
+        $user = User::find($request->session()->get('user_id'));
+
+        // Update avatar URL based on request.
+        $user->avatar_url = $request->avatar_url;
+        $user->save();
+
+        return json_encode($user->avatar_url);
+    }
+
     /*
      *
      * Static functions

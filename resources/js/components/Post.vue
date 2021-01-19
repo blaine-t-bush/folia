@@ -274,7 +274,7 @@ export default {
 
         &-timestamp {
             font-weight: 300;
-            grid-column: 2 / end;
+            grid-column: 2 / span 3;
         }
     }
 

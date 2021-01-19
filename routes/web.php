@@ -102,4 +102,12 @@ Route::middleware(['check_token'])->group(function() {
     Route::delete('/api/reactions', [
         ReactionController::class, 'destroy'
     ]);
+
+    Route::get('/api/avatar/{id?}', [
+        UserController::class, 'fetch_avatar'
+    ]);
+
+    Route::post('/api/avatar', [
+        UserController::class, 'update_avatar'
+    ]);
 });

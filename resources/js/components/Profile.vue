@@ -1,9 +1,23 @@
 <template>
+    <form v-if="session.authenticated_user_id === user_id">
+        <label v-for="avatar in defaultAvatars" :key="avatar.id">
+            <img
+                @click="updateAvatar($event)"
+                :src="avatar.url"
+                alt="">
+            <input
+                type="checkbox"
+                :value="avatar.url"
+                :checked="currentAvatar === avatar.url">
+        </label>
+    </form>
+
     <h1 @click="togglePosts">
         <i class="fa fa-compress" :class="{ hidden: postsHidden }" aria-hidden="true"></i>
         <i class="fa fa-expand" :class="{ hidden: !postsHidden }" aria-hidden="true"></i>
         Posts
     </h1>
+
     <ol id="posts" class="posts" :class="{ hidden: postsHidden }">
         <Post
             v-for="post in orderedPosts"
@@ -25,6 +39,7 @@
         <i class="fa fa-expand" :class="{ hidden: !commentsHidden }" aria-hidden="true"></i>
         Comments
     </h1>
+
     <ol id="comments" class="comments" :class="{ hidden: commentsHidden }">
         <Comment
             v-for="comment in orderedComments"
@@ -129,6 +144,22 @@ export default {
                 }
             }
         },
+        updateAvatar(event) {
+            // Get value of associated input.
+            let selectedAvatarUrl = event.target.nextElementSibling.value;
+            
+            // Send request to update avatar URL.
+            axios.post('/api/avatar', {
+                avatar_url: selectedAvatarUrl,
+            }).then((response) => {
+                if (response.status != 200) {
+                    // FIXME catch error
+                } else {
+                    // Request succeeded. Update the local value.
+                    this.currentAvatar = response.data;
+                }
+            });
+        }
     },
     mounted() {
         // Get user session information.
@@ -164,7 +195,18 @@ export default {
                     } else {
                         // Request succeeded.
                         this.comments = response.data; // Convert payload to an array, where each object is a post.
-                        console.log(response.data);
+                    }
+                });
+
+                // And fetch user's avatar URL.
+                // TODO fetch user's avatar URL.
+                axios.get('/api/avatar/' + this.user_id, {}).then((response) => {
+                    if (response.status != 200) {
+                        // Request failed.
+                        // FIXME handle API failure.
+                    } else {
+                        // Request succeeded.
+                        this.currentAvatar = response.data; // Convert payload to an array, where each object is a post.
                     }
                 });
 
@@ -205,8 +247,31 @@ export default {
             posts: [],
             comments: [],
             user_id: null,
+            currentAvatar: null,
             postsHidden: false,
             commentsHidden: false,
+            defaultAvatars: [
+                {
+                    id: 1,
+                    url: '/images/avatars/default_avatar_1.png',
+                },
+                {
+                    id: 2,
+                    url: '/images/avatars/default_avatar_2.png',
+                },
+                {
+                    id: 3,
+                    url: '/images/avatars/default_avatar_3.png',
+                },
+                {
+                    id: 4,
+                    url: '/images/avatars/default_avatar_4.png',
+                },
+                {
+                    id: 5,
+                    url: '/images/avatars/default_avatar_5.png',
+                },
+            ],
         }
     },
     provide() {
