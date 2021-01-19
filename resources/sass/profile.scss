@@ -1,7 +1,19 @@
 @import 'vars.scss';
 
 .profile {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
     margin-bottom: 1.5rem;
+
+    img {
+        object-fit: contain;
+        height: 60px;
+        width: 60px;
+        margin-right: 1rem;
+    }
+
     &-name {
         color: $color-text-accent;
         font-weight: 600;

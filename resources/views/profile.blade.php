@@ -6,6 +6,7 @@
 
 @section('main')
     <div class="profile">
+        <img src="{{ $user->avatar_url }}" alt="">
         <h1 class="profile-name">
             {{ $user->display_name }} <span class="profile-name-id">{{ $user->id }}</span>
         </h1>

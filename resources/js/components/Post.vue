@@ -1,6 +1,7 @@
 <template>
     <li class="post">
         <div class="post-header">
+            <img class="post-header-avatar" :src="avatar_url" alt="">
             <div class="post-header-displayname"><a :href="'/profile/' + user_id">{{ display_name }}</a></div>
             <div class="post-header-username"><a :href="'/profile/' + user_id">{{ user_id }}</a></div>
 
@@ -15,9 +16,9 @@
                     value="X">
 
             </form>
-        </div>
 
-        <div class="post-timestamp">{{ created_at }}</div>
+            <div class="post-header-timestamp">{{ created_at }}</div>
+        </div>
 
         <p class="post-body">{{ body }}</p>
 
@@ -70,6 +71,7 @@ export default {
         id: Number,
         user_id: String,
         display_name: String,
+        avatar_url: String,
         body: String,
         created_at: String,
         comments: Array,
@@ -219,10 +221,19 @@ export default {
     padding: 0.5rem;
 
     &-header {
+        align-items: center;
+        column-gap: 8px;
         display: grid;
-        grid-template-columns: min-content auto auto;
-        max-height: 1.6em;
-        line-height: 1.6em;
+        grid-template-columns: 60px min-content auto auto;
+        margin-bottom: 0.5rem;
+
+        &-avatar {
+            object-fit: contain;
+            height: 60px;
+            width: 60px;
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 2;
+        }
         
         a {
             color: $color-link !important;
@@ -234,15 +245,18 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            grid-column: 2 / span 1;
+            grid-row: 1 / span 1;
         }
 
         &-username {
             font-style: italic;
             font-weight: 300;
-            padding-left: 0.5em;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            grid-column: 3 / span 1;
+            grid-row: 1 / span 1;
 
             &::before {
                 content: $username-prepend;
@@ -254,12 +268,14 @@ export default {
             line-height: 1.6em;
             max-height: 1.6em;
             padding-left: 0.5em;
+            grid-column: 4 / span 1;
+            grid-row: 1 / span 1;
         }
-    }
 
-    &-timestamp {
-        font-weight: 300;
-        margin-bottom: 0.5rem;
+        &-timestamp {
+            font-weight: 300;
+            grid-column: 2 / end;
+        }
     }
 
     &-body {

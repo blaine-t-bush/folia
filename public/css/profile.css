@@ -1,5 +1,16 @@
 .profile {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   margin-bottom: 1.5rem;
+}
+.profile img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  height: 60px;
+  width: 60px;
+  margin-right: 1rem;
 }
 .profile-name {
   color: #63c463;

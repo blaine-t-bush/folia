@@ -14684,6 +14684,7 @@ __webpack_require__.r(__webpack_exports__);
     id: Number,
     user_id: String,
     display_name: String,
+    avatar_url: String,
     body: String,
     created_at: String,
     comments: Array,
@@ -15163,13 +15164,14 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       id: post.id,
       user_id: post.user_id,
       display_name: post.user.display_name,
+      avatar_url: post.user.avatar_url,
       created_at: post.created_at,
       body: post.body,
       comments: post.comments,
       reactions: post.reactions
     }, null, 8
     /* PROPS */
-    , ["onPostDeleted", "id", "user_id", "display_name", "created_at", "body", "comments", "reactions"]);
+    , ["onPostDeleted", "id", "user_id", "display_name", "avatar_url", "created_at", "body", "comments", "reactions"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])], 64
@@ -15218,7 +15220,7 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_6 = {
-  "class": "post-timestamp"
+  "class": "post-header-timestamp"
 };
 var _hoisted_7 = {
   "class": "post-body"
@@ -15236,7 +15238,13 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_CommentSubmit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CommentSubmit");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+    "class": "post-header-avatar",
+    src: $props.avatar_url,
+    alt: ""
+  }, null, 8
+  /* PROPS */
+  , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
     href: '/profile/' + $props.user_id
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.display_name), 9
   /* TEXT, PROPS */
@@ -15252,9 +15260,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     }, ["prevent"]))
   }, [_hoisted_5], 32
   /* HYDRATE_EVENTS */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Reactions, {
     onReactionCreated: $options.addReaction,
@@ -15577,7 +15585,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  display: grid;\n  grid-template-columns: -webkit-min-content auto auto;\n  grid-template-columns: min-content auto auto;\n  max-height: 1.6em;\n  line-height: 1.6em;\n}\n.post-header a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  padding-left: 0.5em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n}\n.post-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  margin-bottom: 0.5rem;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  align-items: center;\n  -moz-column-gap: 8px;\n       column-gap: 8px;\n  display: grid;\n  grid-template-columns: 60px -webkit-min-content auto auto;\n  grid-template-columns: 60px min-content auto auto;\n  margin-bottom: 0.5rem;\n}\n.post-header-avatar[data-v-5e8280ea] {\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  grid-column: 1/span 1;\n  grid-row: 1/span 2;\n}\n.post-header a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  grid-column: 2/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  grid-column: 3/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n  grid-column: 4/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  grid-column: 2/end;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

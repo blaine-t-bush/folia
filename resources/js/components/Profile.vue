@@ -13,6 +13,7 @@
             :id="post.id"
             :user_id="post.user_id"
             :display_name="post.user.display_name"
+            :avatar_url="post.user.avatar_url"
             :created_at="post.created_at"
             :body="post.body"
             :comments="post.comments"
