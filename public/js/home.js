@@ -15205,13 +15205,16 @@ var _hoisted_2 = {
   "class": "post-header"
 };
 var _hoisted_3 = {
-  "class": "post-header-displayname"
+  "class": "post-header-name"
 };
 var _hoisted_4 = {
-  "class": "post-header-username"
+  "class": "post-header-name-displayname"
+};
+var _hoisted_5 = {
+  "class": "post-header-name-username"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
   "class": "delete-button heavy-button",
   type: "submit",
   value: "X"
@@ -15219,13 +15222,13 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "post-header-timestamp"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   "class": "post-body"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "comments"
 };
 
@@ -15244,25 +15247,25 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     alt: ""
   }, null, 8
   /* PROPS */
-  , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
     href: '/profile/' + $props.user_id
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.display_name), 9
   /* TEXT, PROPS */
-  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
     href: '/profile/' + $props.user_id
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user_id), 9
   /* TEXT, PROPS */
-  , ["href"])]), $options.authenticated_user_id.value === $props.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
+  , ["href"])])]), $options.authenticated_user_id.value === $props.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
     key: 0,
     "class": "post-header-delete",
     onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.deletePost && $options.deletePost.apply($options, arguments);
     }, ["prevent"]))
-  }, [_hoisted_5], 32
+  }, [_hoisted_6], 32
   /* HYDRATE_EVENTS */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.created_at), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.body), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Reactions, {
     onReactionCreated: $options.addReaction,
@@ -15271,7 +15274,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     reactions: $props.reactions
   }, null, 8
   /* PROPS */
-  , ["onReactionCreated", "onReactionDeleted", "id", "reactions"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
+  , ["onReactionCreated", "onReactionDeleted", "id", "reactions"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
       onCommentDeleted: $options.removeComment,
       key: comment.id,
@@ -15539,7 +15542,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".reply[data-v-39252f7c] {\n  display: flex;\n  margin: 1rem 0 0 0;\n}\n.reply-text[data-v-39252f7c] {\n  flex: 1;\n  line-height: 1.5em;\n  height: 1.5em;\n  padding: 0 0.5em;\n}\n.reply-button[data-v-39252f7c] {\n  background-color: #363636;\n  margin-left: 0.5em;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".reply[data-v-39252f7c] {\n  align-items: center;\n  display: flex;\n  margin: 1rem 0 0 0;\n}\n.reply-text[data-v-39252f7c] {\n  flex: 1;\n  line-height: 1.5em;\n  height: 1.5em;\n  padding: 0 0.5em;\n}\n.reply-button[data-v-39252f7c] {\n  background-color: #363636;\n  margin-left: 0.5em;\n}\n@media (max-width: 360px) {\n.reply[data-v-39252f7c] {\n    align-items: flex-start;\n    flex-direction: column;\n}\n.reply-text[data-v-39252f7c] {\n    box-sizing: border-box;\n    width: 100%;\n}\n.reply-button[data-v-39252f7c] {\n    margin-left: 0;\n    margin-top: 0.5em;\n}\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15585,7 +15588,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  align-items: center;\n  -moz-column-gap: 8px;\n       column-gap: 8px;\n  display: grid;\n  grid-template-columns: 60px -webkit-min-content auto auto;\n  grid-template-columns: 60px min-content auto auto;\n  margin-bottom: 0.5rem;\n}\n.post-header-avatar[data-v-5e8280ea] {\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  grid-column: 1/span 1;\n  grid-row: 1/span 2;\n}\n.post-header a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  grid-column: 2/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  grid-column: 3/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n  grid-column: 4/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  grid-column: 2/span 3;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  align-items: center;\n  -moz-column-gap: 8px;\n       column-gap: 8px;\n  display: grid;\n  grid-template-columns: 60px minmax(0, 1fr) auto;\n  margin-bottom: 0.5rem;\n}\n.post-header-avatar[data-v-5e8280ea] {\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  grid-column: 1/span 1;\n  grid-row: 1/span 2;\n}\n.post-header-name[data-v-5e8280ea] {\n  align-items: baseline;\n  display: flex;\n  grid-column: 2/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-name a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-name-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  overflow: hidden;\n  padding-left: 0.5em;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n  grid-column: 4/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  grid-column: 2/span 2;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

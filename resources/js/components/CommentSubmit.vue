@@ -51,6 +51,7 @@ export default {
 @import '../../sass/vars';
 
 .reply {
+    align-items: center;
     display: flex;
     margin: 1rem 0 0 0;
 
@@ -64,6 +65,21 @@ export default {
     &-button {
         background-color: $color-background-dark;
         margin-left: 0.5em;
+    }
+
+    @media (max-width: 360px) {
+        align-items: flex-start;
+        flex-direction: column;
+
+        &-text {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        &-button {
+            margin-left: 0;
+            margin-top: 0.5em;
+        }
     }
 }
 </style>

@@ -2,8 +2,10 @@
     <li class="post">
         <div class="post-header">
             <img class="post-header-avatar" :src="avatar_url" alt="">
-            <div class="post-header-displayname"><a :href="'/profile/' + user_id">{{ display_name }}</a></div>
-            <div class="post-header-username"><a :href="'/profile/' + user_id">{{ user_id }}</a></div>
+            <div class="post-header-name">
+                <div class="post-header-name-displayname"><a :href="'/profile/' + user_id">{{ display_name }}</a></div>
+                <div class="post-header-name-username"><a :href="'/profile/' + user_id">{{ user_id }}</a></div>
+            </div>
 
             <form
                 class="post-header-delete"
@@ -224,7 +226,7 @@ export default {
         align-items: center;
         column-gap: 8px;
         display: grid;
-        grid-template-columns: 60px min-content auto auto;
+        grid-template-columns: 60px minmax(0, 1fr) auto;
         margin-bottom: 0.5rem;
 
         &-avatar {
@@ -234,32 +236,36 @@ export default {
             grid-column: 1 / span 1;
             grid-row: 1 / span 2;
         }
-        
-        a {
-            color: $color-link !important;
-        }
 
-        &-displayname {
-            font-size: 1.2em;
-            font-weight: 600;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        &-name {
+            align-items: baseline;
+            display: flex;
             grid-column: 2 / span 1;
             grid-row: 1 / span 1;
-        }
+        
+            a {
+                color: $color-link !important;
+            }
 
-        &-username {
-            font-style: italic;
-            font-weight: 300;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            grid-column: 3 / span 1;
-            grid-row: 1 / span 1;
+            &-displayname {
+                font-size: 1.2em;
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
 
-            &::before {
-                content: $username-prepend;
+            &-username {
+                font-style: italic;
+                font-weight: 300;
+                overflow: hidden;
+                padding-left: 0.5em;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                &::before {
+                    content: $username-prepend;
+                }
             }
         }
 
@@ -274,7 +280,10 @@ export default {
 
         &-timestamp {
             font-weight: 300;
-            grid-column: 2 / span 3;
+            grid-column: 2 / span 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
