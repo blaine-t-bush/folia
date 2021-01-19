@@ -74,14 +74,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function fetch_avatar(Request $request, string $id = null) {
+    public function fetch_info(Request $request, string $id = null) {
         if (!is_null($id)) { // FIXME is there an Eloquent way to check this?
             $user = User::find($id);
         } else {
             $user = User::find($request->session()->get('user_id'));
         }
 
-        return json_encode($user->avatar_url);
+        return json_encode([ // FIXME change to use a dedicated resource.
+            'display_name' => $user->display_name,
+            'avatar_url' => $user->avatar_url,
+        ]);
     }
 
     public function update_avatar(Request $request) {

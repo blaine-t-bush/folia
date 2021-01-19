@@ -3450,19 +3450,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/profile.scss":
-/*!*************************************!*\
-  !*** ./resources/sass/profile.scss ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -8302,8 +8289,7 @@ runtime.setup(pusher_Pusher);
 /******/ 			["./resources/js/app.js"],
 /******/ 			["./resources/sass/app.scss"],
 /******/ 			["./resources/sass/login.scss"],
-/******/ 			["./resources/sass/register.scss"],
-/******/ 			["./resources/sass/profile.scss"]
+/******/ 			["./resources/sass/register.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

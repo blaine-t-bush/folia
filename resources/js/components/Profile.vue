@@ -1,4 +1,11 @@
 <template>
+    <div class="profile">
+        <img :src="avatar_url" alt="">
+        <h1 class="profile-name">
+            {{ display_name }} <span class="profile-name-id">{{ user_id }}</span>
+        </h1>
+    </div>
+
     <form v-if="session.authenticated_user_id === user_id">
         <label v-for="avatar in defaultAvatars" :key="avatar.id">
             <img
@@ -8,7 +15,7 @@
             <input
                 type="checkbox"
                 :value="avatar.url"
-                :checked="currentAvatar === avatar.url">
+                :checked="avatar_url === avatar.url">
         </label>
     </form>
 
@@ -156,7 +163,12 @@ export default {
                     // FIXME catch error
                 } else {
                     // Request succeeded. Update the local value.
-                    this.currentAvatar = response.data;
+                    this.avatar_url = response.data;
+
+                    // Update the value in every post.
+                    for (let i = 0; i < this.posts.length; i++) {
+                        this.posts[i].user.avatar_url = this.avatar_url;
+                    }
                 }
             });
         }
@@ -198,15 +210,15 @@ export default {
                     }
                 });
 
-                // And fetch user's avatar URL.
-                // TODO fetch user's avatar URL.
-                axios.get('/api/avatar/' + this.user_id, {}).then((response) => {
+                // And fetch user's display name and avatar URL.
+                axios.get('/api/user/' + this.user_id, {}).then((response) => {
                     if (response.status != 200) {
                         // Request failed.
                         // FIXME handle API failure.
                     } else {
                         // Request succeeded.
-                        this.currentAvatar = response.data; // Convert payload to an array, where each object is a post.
+                        this.display_name = response.data.display_name
+                        this.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
                     }
                 });
 
@@ -247,7 +259,7 @@ export default {
             posts: [],
             comments: [],
             user_id: null,
-            currentAvatar: null,
+            avatar_url: null,
             postsHidden: false,
             commentsHidden: false,
             defaultAvatars: [
@@ -314,6 +326,35 @@ export default {
 
 <style lang="scss" scoped>
     @import '../../sass/vars';
+
+    .profile {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+
+        img {
+            object-fit: contain;
+            height: 60px;
+            width: 60px;
+            margin-right: 1rem;
+        }
+
+        &-name {
+            color: $color-text-accent;
+            font-weight: 600;
+
+            &-id {
+                font-style: italic;
+                font-weight: 300;
+
+                &::before {
+                    content: $username-prepend;
+                }
+            }
+        }
+    }
 
     h1 {
         cursor: pointer;

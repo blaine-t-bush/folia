@@ -19,7 +19,6 @@ mix
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/register.scss', 'public/css')
-    .sass('resources/sass/profile.scss', 'public/css')
     .vue({ version: 3 });
 
 mix.version(); // TODO remove versioning before final launch

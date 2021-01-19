@@ -103,8 +103,8 @@ Route::middleware(['check_token'])->group(function() {
         ReactionController::class, 'destroy'
     ]);
 
-    Route::get('/api/avatar/{id?}', [
-        UserController::class, 'fetch_avatar'
+    Route::get('/api/user/{id?}', [
+        UserController::class, 'fetch_info'
     ]);
 
     Route::post('/api/avatar', [
