@@ -163,7 +163,7 @@ export default {
                     // FIXME catch error
                 } else {
                     // Request succeeded. Update the local value.
-                    this.avatar_url = response.data;
+                    this.avatar_url = response.data.avatar_url;
 
                     // Update the value in every post.
                     for (let i = 0; i < this.posts.length; i++) {

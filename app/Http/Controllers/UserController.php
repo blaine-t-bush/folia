@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 
+use App\Http\Resources\UserResource;
+
 class UserController extends Controller
 {
     /*
@@ -81,10 +83,7 @@ class UserController extends Controller
             $user = User::find($request->session()->get('user_id'));
         }
 
-        return json_encode([ // FIXME change to use a dedicated resource.
-            'display_name' => $user->display_name,
-            'avatar_url' => $user->avatar_url,
-        ]);
+        return new UserResource($user);
     }
 
     public function update(Request $request) {
@@ -98,7 +97,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return json_encode($user->avatar_url);
+        return new UserResource($user);
     }
 
     /*

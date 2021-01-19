@@ -14812,7 +14812,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.status != 200) {// FIXME catch error
         } else {
           // Request succeeded. Update the local value.
-          _this.avatar_url = response.data; // Update the value in every post.
+          _this.avatar_url = response.data.avatar_url; // Update the value in every post.
 
           for (var i = 0; i < _this.posts.length; i++) {
             _this.posts[i].user.avatar_url = _this.avatar_url;
