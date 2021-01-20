@@ -24,10 +24,10 @@ class CommentResource extends JsonResource
             ],
             'post_id' => $this->post_id,
             'post' => [
-                'user_id' => $this->post->user_id,
+                'user_id' => $this->post ? $this->post->user_id : null, // Comment may not have associated post if comment is deleted as part of post deletion.
                 'user' => [
-                    'display_name' => $this->post->user->display_name,
-                    'avatar_url' => $this->post->user->avatar_url,
+                    'display_name' => $this->post ? $this->post->display_name : null,
+                    'avatar_url' => $this->post ? $this->post->avatar_url : null,
                 ]
             ],
             'body' => $this->body,
