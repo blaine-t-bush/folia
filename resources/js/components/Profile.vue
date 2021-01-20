@@ -9,7 +9,7 @@
     <form class="avatars" v-if="session.authenticated_user_id === user_id">
         <label v-for="avatar in defaultAvatars" :key="avatar.id" :class="{ selected: avatar_url === avatar.url }">
             <img
-                @click="updateAvatar($event)"
+                @click="selectAvatar($event)"
                 :src="avatar.url"
                 alt="">
             <input
@@ -19,16 +19,9 @@
         </label>
     </form>
 
-    <form @submit.prevent="uploadAvatar">
-        <input type="file" name="avatar_file" id="avatar_file">
-        <input type="submit" value="Upload">
-        <div>
-            {{ errors.avatarFile }}
-        </div>
-        <div>
-            {{ messages.avatarFile }}
-        </div>
-    </form>
+    <AvatarUpload
+        @avatar-uploaded="updateAvatar"
+        ></AvatarUpload>
 
     <h1 @click="togglePosts">
         <i class="fa fa-compress" :class="{ hidden: postsHidden }" aria-hidden="true"></i>
@@ -78,28 +71,13 @@
 import { computed } from 'vue';
 import Post from './Post';
 import Comment from './Comment';
-
-const validateAvatarFile = avatarFile => {
-    if (!avatarFile) {
-        return { valid: false, error: 'Must select a file' };
-    }
-
-    let allowedExtensions = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
-    if (!allowedExtensions.includes(avatarFile.type)) {
-        return { valid: false, error: 'File must be one of the following types: .jpg, .jpeg, .png, .gif' };
-    }
-
-    if (avatarFile.size > 1048576) { // Using the largest definition of a megabyte.
-        return { valid: false, error: 'File must be smaller than 1 MB' };
-    }
-
-    return { valid: true, error: null };
-}
+import AvatarUpload from './AvatarUpload';
 
 export default {
     components: {
         'Post': Post,
         'Comment': Comment,
+        'AvatarUpload': AvatarUpload,
     },
     methods: {
         togglePosts: function () {
@@ -179,7 +157,7 @@ export default {
                 }
             }
         },
-        updateAvatar(event) {
+        selectAvatar(event) {
             // Get value of associated input.
             let selectedAvatarUrl = event.target.nextElementSibling.value;
             
@@ -191,54 +169,19 @@ export default {
                     // FIXME catch error
                 } else {
                     // Request succeeded. Update the local value.
-                    this.avatar_url = response.data.avatar_url;
-
-                    // Update the value in every post.
-                    for (let i = 0; i < this.posts.length; i++) {
-                        this.posts[i].user.avatar_url = this.avatar_url;
-                    }
+                    this.updateAvatar(response.data.avatar_url);
                 }
             });
         },
-        uploadAvatar(event) {
-            // Validate the data.
-            let file = document.getElementById('avatar_file').files[0];
-            console.log(file);
-            const validFile = validateAvatarFile(file);
-            if (!validFile.valid) {
-                this.errors.avatarFile = validFile.error;
-                return false;
-            } else {
-                this.errors.avatarFile = null;
+        updateAvatar(avatar_url) {
+            // Update the value in the profile header.
+            this.avatar_url = avatar_url;
+
+            // Update the value in every post.
+            for (let i = 0; i < this.posts.length; i++) {
+                this.posts[i].user.avatar_url = avatar_url;
             }
 
-            // Update form to convey that upload is being processed.
-            this.messages.avatarFile = 'Uploading image...'
-            
-            // Format the file for request.
-            let formData = new FormData();
-            formData.append('avatar_file', file);
-            
-            // Send request to upload file and update avatar URL.
-            axios.post('/api/user', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((response) => {
-                if (response.status != 200) {
-                    // Error. Update message.
-                    this.messages.avatarFile = 'Error uploading image. Please refresh the page and try again.'
-                } else {
-                    // Request succeeded. Update the local value.
-                    this.messages.avatarFile = 'Image succesfully uploaded!'
-                    this.avatar_url = response.data.avatar_url;
-
-                    // Update the value in every post.
-                    for (let i = 0; i < this.posts.length; i++) {
-                        this.posts[i].user.avatar_url = this.avatar_url;
-                    }
-                }
-            });
         }
     },
     mounted() {
@@ -352,8 +295,6 @@ export default {
                     url: '/images/avatars/default_avatar_5.png',
                 },
             ],
-            errors: {},
-            messages: {},
         }
     },
     provide() {

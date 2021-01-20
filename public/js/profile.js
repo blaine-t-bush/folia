@@ -14436,6 +14436,98 @@ const getGlobalThis = () => {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AvatarUpload.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AvatarUpload.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+var validateAvatarFile = function validateAvatarFile(avatarFile) {
+  if (!avatarFile) {
+    return {
+      valid: false,
+      error: 'Must select a file'
+    };
+  }
+
+  var allowedExtensions = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+
+  if (!allowedExtensions.includes(avatarFile.type)) {
+    return {
+      valid: false,
+      error: 'File must be one of the following types: .jpg, .jpeg, .png, .gif'
+    };
+  }
+
+  if (avatarFile.size > 1048576) {
+    // Using the largest definition of a megabyte.
+    return {
+      valid: false,
+      error: 'File must be smaller than 1 MB'
+    };
+  }
+
+  return {
+    valid: true,
+    error: null
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  emits: ['avatarUploaded'],
+  methods: {
+    uploadAvatar: function uploadAvatar(event) {
+      var _this = this;
+
+      // Reset messages.
+      this.error = null;
+      this.message = null; // Validate the data.
+
+      var file = document.getElementById('avatar_file').files[0];
+      var validFile = validateAvatarFile(file);
+
+      if (!validFile.valid) {
+        this.error = validFile.error;
+        return false;
+      } // Update form to convey that upload is being processed.
+
+
+      this.message = 'Uploading image...'; // Format the file for request.
+
+      var formData = new FormData();
+      formData.append('avatar_file', file); // Send request to upload file and update avatar URL.
+
+      axios.post('/api/user', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        if (response.status != 200) {
+          // Error. Update message.
+          _this.message = 'Error uploading image. Please refresh the page and try again.';
+        } else {
+          // Request succeeded. Update the avatar image on this page.
+          _this.$emit('avatarUploaded', response.data.avatar_url);
+
+          _this.message = 'Image succesfully uploaded!';
+        }
+      });
+    }
+  },
+  data: function data() {
+    return {
+      error: null,
+      message: null
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Comment.vue?vue&type=script&lang=js":
 /*!*************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Comment.vue?vue&type=script&lang=js ***!
@@ -14711,45 +14803,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Post */ "./resources/js/components/Post.vue");
 /* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Comment */ "./resources/js/components/Comment.vue");
+/* harmony import */ var _AvatarUpload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AvatarUpload */ "./resources/js/components/AvatarUpload.vue");
 
 
 
-
-var validateAvatarFile = function validateAvatarFile(avatarFile) {
-  if (!avatarFile) {
-    return {
-      valid: false,
-      error: 'Must select a file'
-    };
-  }
-
-  var allowedExtensions = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
-
-  if (!allowedExtensions.includes(avatarFile.type)) {
-    return {
-      valid: false,
-      error: 'File must be one of the following types: .jpg, .jpeg, .png, .gif'
-    };
-  }
-
-  if (avatarFile.size > 1048576) {
-    // Using the largest definition of a megabyte.
-    return {
-      valid: false,
-      error: 'File must be smaller than 1 MB'
-    };
-  }
-
-  return {
-    valid: true,
-    error: null
-  };
-};
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     'Post': _Post__WEBPACK_IMPORTED_MODULE_1__.default,
-    'Comment': _Comment__WEBPACK_IMPORTED_MODULE_2__.default
+    'Comment': _Comment__WEBPACK_IMPORTED_MODULE_2__.default,
+    'AvatarUpload': _AvatarUpload__WEBPACK_IMPORTED_MODULE_3__.default
   },
   methods: {
     togglePosts: function togglePosts() {
@@ -14832,7 +14895,7 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
         }
       }
     },
-    updateAvatar: function updateAvatar(event) {
+    selectAvatar: function selectAvatar(event) {
       var _this = this;
 
       // Get value of associated input.
@@ -14844,57 +14907,21 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
         if (response.status != 200) {// FIXME catch error
         } else {
           // Request succeeded. Update the local value.
-          _this.avatar_url = response.data.avatar_url; // Update the value in every post.
-
-          for (var i = 0; i < _this.posts.length; i++) {
-            _this.posts[i].user.avatar_url = _this.avatar_url;
-          }
+          _this.updateAvatar(response.data.avatar_url);
         }
       });
     },
-    uploadAvatar: function uploadAvatar(event) {
-      var _this2 = this;
+    updateAvatar: function updateAvatar(avatar_url) {
+      // Update the value in the profile header.
+      this.avatar_url = avatar_url; // Update the value in every post.
 
-      // Validate the data.
-      var file = document.getElementById('avatar_file').files[0];
-      console.log(file);
-      var validFile = validateAvatarFile(file);
-
-      if (!validFile.valid) {
-        this.errors.avatarFile = validFile.error;
-        return false;
-      } else {
-        this.errors.avatarFile = null;
-      } // Update form to convey that upload is being processed.
-
-
-      this.messages.avatarFile = 'Uploading image...'; // Format the file for request.
-
-      var formData = new FormData();
-      formData.append('avatar_file', file); // Send request to upload file and update avatar URL.
-
-      axios.post('/api/user', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        if (response.status != 200) {
-          // Error. Update message.
-          _this2.messages.avatarFile = 'Error uploading image. Please refresh the page and try again.';
-        } else {
-          // Request succeeded. Update the local value.
-          _this2.messages.avatarFile = 'Image succesfully uploaded!';
-          _this2.avatar_url = response.data.avatar_url; // Update the value in every post.
-
-          for (var i = 0; i < _this2.posts.length; i++) {
-            _this2.posts[i].user.avatar_url = _this2.avatar_url;
-          }
-        }
-      });
+      for (var i = 0; i < this.posts.length; i++) {
+        this.posts[i].user.avatar_url = avatar_url;
+      }
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this2 = this;
 
     // Get user session information.
     axios.get('/api/session', {}).then(function (response) {
@@ -14902,64 +14929,64 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
         // FIXME handle API failure.
       } else {
         // Request succeeded.
-        _this3.session = response.data;
+        _this2.session = response.data;
 
         if (window.location.pathname.match("(?<=\/profile\/).*")) {
-          _this3.user_id = window.location.pathname.match("(?<=\/profile\/).*")[0];
+          _this2.user_id = window.location.pathname.match("(?<=\/profile\/).*")[0];
         } else {
-          _this3.user_id = _this3.session.authenticated_user_id;
+          _this2.user_id = _this2.session.authenticated_user_id;
         } // Once user ID is established, we can fetch all user's posts from Laravel.
 
 
-        axios.get('/api/posts/' + _this3.user_id, {}).then(function (response) {
+        axios.get('/api/posts/' + _this2.user_id, {}).then(function (response) {
           if (response.status != 200) {// Request failed.
             // FIXME handle API failure.
           } else {
             // Request succeeded.
-            _this3.posts = response.data; // Convert payload to an array, where each object is a post.
+            _this2.posts = response.data; // Convert payload to an array, where each object is a post.
           }
         }); // And then fetch all user's comments from Laravel.
 
-        axios.get('/api/comments/' + _this3.user_id, {}).then(function (response) {
+        axios.get('/api/comments/' + _this2.user_id, {}).then(function (response) {
           if (response.status != 200) {// Request failed.
             // FIXME handle API failure.
           } else {
             // Request succeeded.
-            _this3.comments = response.data; // Convert payload to an array, where each object is a post.
+            _this2.comments = response.data; // Convert payload to an array, where each object is a post.
           }
         }); // And fetch user's display name and avatar URL.
 
-        axios.get('/api/user/' + _this3.user_id, {}).then(function (response) {
+        axios.get('/api/user/' + _this2.user_id, {}).then(function (response) {
           if (response.status != 200) {// Request failed.
             // FIXME handle API failure.
           } else {
             // Request succeeded.
-            _this3.display_name = response.data.display_name;
-            _this3.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
+            _this2.display_name = response.data.display_name;
+            _this2.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
           }
         }); // Add Echo listener to listen for new comments.
         // When it hears the new comment event, it can add it to the data.
 
-        window.Echo.channel('users-' + _this3.user_id).listen('CommentCreated', function (event) {
+        window.Echo.channel('users-' + _this2.user_id).listen('CommentCreated', function (event) {
           var createdComment = event[0]; // Check that comment doesn't already exist in data before adding it.
 
-          if (_this3.comments.filter(function (comment) {
+          if (_this2.comments.filter(function (comment) {
             return comment.id === createdComment.id;
           }).length > 0) {// Don't add it. Post with this ID already exists.
           } else {
-            _this3.addComment(createdComment);
+            _this2.addComment(createdComment);
           }
         }); // Add Echo listener to listen for comments to delete.
         // When it hears the new comment event, it can remove it from the data.
 
-        window.Echo.channel('users-' + _this3.user_id).listen('CommentDeleted', function (event) {
+        window.Echo.channel('users-' + _this2.user_id).listen('CommentDeleted', function (event) {
           var deletedComment = event[0]; // Check that comment isn't already removed from data before trying to delete it.
 
-          if (_this3.comments.filter(function (comment) {
+          if (_this2.comments.filter(function (comment) {
             return comment.id === deletedComment.id;
           }).length == 0) {// Don't try to delete it. Comment with this ID was already removed.
           } else {
-            _this3.removeComment(deletedComment);
+            _this2.removeComment(deletedComment);
           }
         });
       }
@@ -14992,17 +15019,15 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
       }, {
         id: 5,
         url: '/images/avatars/default_avatar_5.png'
-      }],
-      errors: {},
-      messages: {}
+      }]
     };
   },
   provide: function provide() {
-    var _this4 = this;
+    var _this3 = this;
 
     return {
       authenticated_user_id: (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-        return _this4.session.authenticated_user_id;
+        return _this3.session.authenticated_user_id;
       })
     };
   },
@@ -15156,6 +15181,50 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AvatarUpload.vue?vue&type=template&id=d1cfc8b6":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AvatarUpload.vue?vue&type=template&id=d1cfc8b6 ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => /* binding */ render
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "file",
+  name: "avatar_file",
+  id: "avatar_file"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "submit",
+  value: "Upload"
+}, null, -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.uploadAvatar && $options.uploadAvatar.apply($options, arguments);
+    }, ["prevent"]))
+  }, [_hoisted_1, _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.message), 1
+  /* TEXT */
+  )], 32
+  /* HYDRATE_EVENTS */
+  );
+}
 
 /***/ }),
 
@@ -15449,28 +15518,15 @@ var _hoisted_4 = {
   "class": "avatars"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  type: "file",
-  name: "avatar_file",
-  id: "avatar_file"
-}, null, -1
-/* HOISTED */
-);
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  type: "submit",
-  value: "Upload"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Comments ");
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Comments ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_AvatarUpload = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AvatarUpload");
+
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
   var _component_Comment = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Comment");
@@ -15492,7 +15548,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
       onClick: _cache[1] || (_cache[1] = function ($event) {
-        return $options.updateAvatar($event);
+        return $options.selectAvatar($event);
       }),
       src: avatar.url,
       alt: ""
@@ -15509,18 +15565,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     );
   }), 128
   /* KEYED_FRAGMENT */
-  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
-    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.uploadAvatar && $options.uploadAvatar.apply($options, arguments);
-    }, ["prevent"]))
-  }, [_hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.avatarFile), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.messages.avatarFile), 1
-  /* TEXT */
-  )], 32
-  /* HYDRATE_EVENTS */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
-    onClick: _cache[3] || (_cache[3] = function () {
+  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AvatarUpload, {
+    onAvatarUploaded: $options.updateAvatar
+  }, null, 8
+  /* PROPS */
+  , ["onAvatarUploaded"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.togglePosts && $options.togglePosts.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
@@ -15537,7 +15587,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "aria-hidden": "true"
   }, null, 2
   /* CLASS */
-  ), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+  ), _hoisted_5]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
     id: "posts",
     "class": ["posts", {
       hidden: $data.postsHidden
@@ -15563,7 +15613,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   ))], 2
   /* CLASS */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.toggleComments && $options.toggleComments.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
@@ -15580,7 +15630,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "aria-hidden": "true"
   }, null, 2
   /* CLASS */
-  ), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+  ), _hoisted_6]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
     id: "comments",
     "class": ["comments", {
       hidden: $data.commentsHidden
@@ -16373,6 +16423,31 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./resources/js/components/AvatarUpload.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/AvatarUpload.vue ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _AvatarUpload_vue_vue_type_template_id_d1cfc8b6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AvatarUpload.vue?vue&type=template&id=d1cfc8b6 */ "./resources/js/components/AvatarUpload.vue?vue&type=template&id=d1cfc8b6");
+/* harmony import */ var _AvatarUpload_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AvatarUpload.vue?vue&type=script&lang=js */ "./resources/js/components/AvatarUpload.vue?vue&type=script&lang=js");
+
+
+
+_AvatarUpload_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _AvatarUpload_vue_vue_type_template_id_d1cfc8b6__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_AvatarUpload_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/AvatarUpload.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_AvatarUpload_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
 /***/ "./resources/js/components/Comment.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/Comment.vue ***!
@@ -16518,6 +16593,21 @@ _Reactions_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__fi
 
 /***/ }),
 
+/***/ "./resources/js/components/AvatarUpload.vue?vue&type=script&lang=js":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/AvatarUpload.vue?vue&type=script&lang=js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AvatarUpload_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AvatarUpload_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AvatarUpload.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AvatarUpload.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/Comment.vue?vue&type=script&lang=js":
 /*!*********************************************************************!*\
   !*** ./resources/js/components/Comment.vue?vue&type=script&lang=js ***!
@@ -16590,6 +16680,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Reactions_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Reactions.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Reactions.vue?vue&type=script&lang=js");
  
+
+/***/ }),
+
+/***/ "./resources/js/components/AvatarUpload.vue?vue&type=template&id=d1cfc8b6":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/AvatarUpload.vue?vue&type=template&id=d1cfc8b6 ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AvatarUpload_vue_vue_type_template_id_d1cfc8b6__WEBPACK_IMPORTED_MODULE_0__.render
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AvatarUpload_vue_vue_type_template_id_d1cfc8b6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AvatarUpload.vue?vue&type=template&id=d1cfc8b6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AvatarUpload.vue?vue&type=template&id=d1cfc8b6");
+
 
 /***/ }),
 
