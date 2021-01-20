@@ -95,6 +95,12 @@ class UserController extends Controller
             $user->avatar_url = $request->avatar_url;
         }
 
+        // Upload avatar and update avatar URL based on request.
+        if ($request->has('avatar_file')) {
+            $path = $request->file('avatar_file')->storePublicly('avatars');
+            $user->avatar_url = $path;
+        }
+
         $user->save();
 
         return new UserResource($user);

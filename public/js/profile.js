@@ -14819,10 +14819,33 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
+    },
+    uploadAvatar: function uploadAvatar(event) {
+      var _this2 = this;
+
+      var file = document.getElementById('avatar_file').files[0];
+      var formData = new FormData();
+      formData.append('avatar_file', file); // Send request to upload file and update avatar URL.
+
+      axios.post('/api/user', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        if (response.status != 200) {// FIXME catch error
+        } else {
+          // Request succeeded. Update the local value.
+          _this2.avatar_url = response.data.avatar_url; // Update the value in every post.
+
+          for (var i = 0; i < _this2.posts.length; i++) {
+            _this2.posts[i].user.avatar_url = _this2.avatar_url;
+          }
+        }
+      });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     // Get user session information.
     axios.get('/api/session', {}).then(function (response) {
@@ -14830,65 +14853,64 @@ __webpack_require__.r(__webpack_exports__);
         // FIXME handle API failure.
       } else {
         // Request succeeded.
-        _this2.session = response.data;
+        _this3.session = response.data;
 
         if (window.location.pathname.match("(?<=\/profile\/).*")) {
-          _this2.user_id = window.location.pathname.match("(?<=\/profile\/).*")[0];
+          _this3.user_id = window.location.pathname.match("(?<=\/profile\/).*")[0];
         } else {
-          _this2.user_id = _this2.session.authenticated_user_id;
+          _this3.user_id = _this3.session.authenticated_user_id;
         } // Once user ID is established, we can fetch all user's posts from Laravel.
 
 
-        axios.get('/api/posts/' + _this2.user_id, {}).then(function (response) {
+        axios.get('/api/posts/' + _this3.user_id, {}).then(function (response) {
           if (response.status != 200) {// Request failed.
             // FIXME handle API failure.
           } else {
             // Request succeeded.
-            _this2.posts = response.data; // Convert payload to an array, where each object is a post.
+            _this3.posts = response.data; // Convert payload to an array, where each object is a post.
           }
         }); // And then fetch all user's comments from Laravel.
 
-        axios.get('/api/comments/' + _this2.user_id, {}).then(function (response) {
+        axios.get('/api/comments/' + _this3.user_id, {}).then(function (response) {
           if (response.status != 200) {// Request failed.
             // FIXME handle API failure.
           } else {
             // Request succeeded.
-            _this2.comments = response.data; // Convert payload to an array, where each object is a post.
+            _this3.comments = response.data; // Convert payload to an array, where each object is a post.
           }
         }); // And fetch user's display name and avatar URL.
 
-        axios.get('/api/user/' + _this2.user_id, {}).then(function (response) {
+        axios.get('/api/user/' + _this3.user_id, {}).then(function (response) {
           if (response.status != 200) {// Request failed.
             // FIXME handle API failure.
           } else {
             // Request succeeded.
-            console.log(response);
-            _this2.display_name = response.data.display_name;
-            _this2.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
+            _this3.display_name = response.data.display_name;
+            _this3.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
           }
         }); // Add Echo listener to listen for new comments.
         // When it hears the new comment event, it can add it to the data.
 
-        window.Echo.channel('users-' + _this2.user_id).listen('CommentCreated', function (event) {
+        window.Echo.channel('users-' + _this3.user_id).listen('CommentCreated', function (event) {
           var createdComment = event[0]; // Check that comment doesn't already exist in data before adding it.
 
-          if (_this2.comments.filter(function (comment) {
+          if (_this3.comments.filter(function (comment) {
             return comment.id === createdComment.id;
           }).length > 0) {// Don't add it. Post with this ID already exists.
           } else {
-            _this2.addComment(createdComment);
+            _this3.addComment(createdComment);
           }
         }); // Add Echo listener to listen for comments to delete.
         // When it hears the new comment event, it can remove it from the data.
 
-        window.Echo.channel('users-' + _this2.user_id).listen('CommentDeleted', function (event) {
+        window.Echo.channel('users-' + _this3.user_id).listen('CommentDeleted', function (event) {
           var deletedComment = event[0]; // Check that comment isn't already removed from data before trying to delete it.
 
-          if (_this2.comments.filter(function (comment) {
+          if (_this3.comments.filter(function (comment) {
             return comment.id === deletedComment.id;
           }).length == 0) {// Don't try to delete it. Comment with this ID was already removed.
           } else {
-            _this2.removeComment(deletedComment);
+            _this3.removeComment(deletedComment);
           }
         });
       }
@@ -14925,11 +14947,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   provide: function provide() {
-    var _this3 = this;
+    var _this4 = this;
 
     return {
       authenticated_user_id: (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-        return _this3.session.authenticated_user_id;
+        return _this4.session.authenticated_user_id;
       })
     };
   },
@@ -15376,9 +15398,24 @@ var _hoisted_4 = {
   "class": "avatars"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "file",
+  name: "avatar_file",
+  id: "avatar_file"
+}, null, -1
+/* HOISTED */
+);
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Comments ");
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "submit",
+  value: "Upload"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Comments ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -15421,8 +15458,14 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     );
   }), 128
   /* KEYED_FRAGMENT */
-  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
-    onClick: _cache[2] || (_cache[2] = function () {
+  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.uploadAvatar && $options.uploadAvatar.apply($options, arguments);
+    }, ["prevent"]))
+  }, [_hoisted_5, _hoisted_6], 32
+  /* HYDRATE_EVENTS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.togglePosts && $options.togglePosts.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
@@ -15439,7 +15482,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "aria-hidden": "true"
   }, null, 2
   /* CLASS */
-  ), _hoisted_5]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+  ), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
     id: "posts",
     "class": ["posts", {
       hidden: $data.postsHidden
@@ -15465,7 +15508,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   ))], 2
   /* CLASS */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.toggleComments && $options.toggleComments.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
@@ -15482,7 +15525,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "aria-hidden": "true"
   }, null, 2
   /* CLASS */
-  ), _hoisted_6]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+  ), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
     id: "comments",
     "class": ["comments", {
       hidden: $data.commentsHidden

@@ -19,6 +19,11 @@
         </label>
     </form>
 
+    <form @submit.prevent="uploadAvatar">
+        <input type="file" name="avatar_file" id="avatar_file">
+        <input type="submit" value="Upload">
+    </form>
+
     <h1 @click="togglePosts">
         <i class="fa fa-compress" :class="{ hidden: postsHidden }" aria-hidden="true"></i>
         <i class="fa fa-expand" :class="{ hidden: !postsHidden }" aria-hidden="true"></i>
@@ -171,6 +176,30 @@ export default {
                     }
                 }
             });
+        },
+        uploadAvatar(event) {
+            let file = document.getElementById('avatar_file').files[0];
+            let formData = new FormData();
+            formData.append('avatar_file', file);
+            
+            // Send request to upload file and update avatar URL.
+            axios.post('/api/user', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((response) => {
+                if (response.status != 200) {
+                    // FIXME catch error
+                } else {
+                    // Request succeeded. Update the local value.
+                    this.avatar_url = response.data.avatar_url;
+
+                    // Update the value in every post.
+                    for (let i = 0; i < this.posts.length; i++) {
+                        this.posts[i].user.avatar_url = this.avatar_url;
+                    }
+                }
+            });
         }
     },
     mounted() {
@@ -217,7 +246,6 @@ export default {
                         // FIXME handle API failure.
                     } else {
                         // Request succeeded.
-                        console.log(response);
                         this.display_name = response.data.display_name
                         this.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
                     }
