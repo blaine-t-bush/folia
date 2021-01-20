@@ -14714,6 +14714,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+var validateAvatarFile = function validateAvatarFile(avatarFile) {
+  if (!avatarFile) {
+    return {
+      valid: false,
+      error: 'Must select a file'
+    };
+  }
+
+  var allowedExtensions = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+
+  if (!allowedExtensions.includes(avatarFile.type)) {
+    return {
+      valid: false,
+      error: 'File must be one of the following types: .jpg, .jpeg, .png, .gif'
+    };
+  }
+
+  return {
+    valid: true,
+    error: null
+  };
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     'Post': _Post__WEBPACK_IMPORTED_MODULE_1__.default,
@@ -14823,7 +14847,16 @@ __webpack_require__.r(__webpack_exports__);
     uploadAvatar: function uploadAvatar(event) {
       var _this2 = this;
 
+      // Validate the data.
       var file = document.getElementById('avatar_file').files[0];
+      var validFile = validateAvatarFile(file);
+
+      if (!validFile.valid) {
+        this.errors.avatarFile = validFile.error;
+        return false;
+      } // Format the file for request.
+
+
       var formData = new FormData();
       formData.append('avatar_file', file); // Send request to upload file and update avatar URL.
 
@@ -14943,7 +14976,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         id: 5,
         url: '/images/avatars/default_avatar_5.png'
-      }]
+      }],
+      errors: {}
     };
   },
   provide: function provide() {
@@ -15462,7 +15496,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.uploadAvatar && $options.uploadAvatar.apply($options, arguments);
     }, ["prevent"]))
-  }, [_hoisted_5, _hoisted_6], 32
+  }, [_hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.avatarFile), 1
+  /* TEXT */
+  )], 32
   /* HYDRATE_EVENTS */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
     onClick: _cache[3] || (_cache[3] = function () {

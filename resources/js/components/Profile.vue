@@ -22,6 +22,9 @@
     <form @submit.prevent="uploadAvatar">
         <input type="file" name="avatar_file" id="avatar_file">
         <input type="submit" value="Upload">
+        <div>
+            {{ errors.avatarFile }}
+        </div>
     </form>
 
     <h1 @click="togglePosts">
@@ -72,6 +75,19 @@
 import { computed } from 'vue';
 import Post from './Post';
 import Comment from './Comment';
+
+const validateAvatarFile = avatarFile => {
+    if (!avatarFile) {
+        return { valid: false, error: 'Must select a file' };
+    }
+
+    let allowedExtensions = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+    if (!allowedExtensions.includes(avatarFile.type)) {
+        return { valid: false, error: 'File must be one of the following types: .jpg, .jpeg, .png, .gif' };
+    }
+
+    return { valid: true, error: null };
+}
 
 export default {
     components: {
@@ -178,7 +194,15 @@ export default {
             });
         },
         uploadAvatar(event) {
+            // Validate the data.
             let file = document.getElementById('avatar_file').files[0];
+            const validFile = validateAvatarFile(file);
+            if (!validFile.valid) {
+                this.errors.avatarFile = validFile.error;
+                return false;
+            }
+            
+            // Format the file for request.
             let formData = new FormData();
             formData.append('avatar_file', file);
             
@@ -313,6 +337,7 @@ export default {
                     url: '/images/avatars/default_avatar_5.png',
                 },
             ],
+            errors: {},
         }
     },
     provide() {
