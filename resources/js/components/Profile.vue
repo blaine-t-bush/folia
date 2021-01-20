@@ -41,7 +41,7 @@
         Posts
     </h1>
 
-    <p v-if="!posts || !posts.length || posts.length == 0">User has no posts to display.</p>
+    <p :class="{ hidden: postsHidden }" v-if="!posts || !posts.length || posts.length == 0">User has no posts to display.</p>
 
     <ol id="posts" class="posts" :class="{ hidden: postsHidden }">
         <Post
@@ -65,7 +65,7 @@
         Comments
     </h1>
 
-    <p v-if="!comments || !comments.length || comments.length == 0">User has no comments to display.</p>
+    <p :class="{ hidden: commentsHidden }" v-if="!comments || !comments.length || comments.length == 0">User has no comments to display.</p>
 
     <ol id="comments" class="comments" :class="{ hidden: commentsHidden }">
         <Comment
