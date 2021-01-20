@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 use App\Models\User;
 
@@ -97,8 +99,25 @@ class UserController extends Controller
 
         // Upload avatar and update avatar URL based on request.
         if ($request->has('avatar_file')) {
-            $path = $request->file('avatar_file')->storePublicly('avatars');
-            $user->avatar_url = $path;
+            // Downsize the image, if necessary. Don't want anything bigger than 160x160, but also want to keep the aspect ratio.
+            // FIXME consider resizing locally in JS before uploading, to save transfer time.
+            $image = Image::make($request->file('avatar_file'));
+
+            $image->resize(160, 160, function($constraint) { // Set the size limits to 160px to a dimension.
+                $constraint->aspectRatio(); // Maintain the original aspect ratio.
+                $constraint->upsize(); // Prevent the image from upsizing. This function will only make images smaller.
+            });
+
+            // Read exif data for orientation, if any, and rotate the image as appropriate.
+            // This prevents the orientation from changing between when it's uploaded and when
+            // it's displayed.
+            $image->orientate();
+
+            $storage_path = storage_path('app/avatars/');
+            $public_path = 'avatars/';
+            $filename = time() . $request->avatar_file->getClientOriginalName();
+            $image->save($storage_path . $filename);
+            $user->avatar_url = $public_path . $filename;
         }
 
         $user->save();

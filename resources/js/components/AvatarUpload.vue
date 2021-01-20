@@ -29,7 +29,7 @@ const validateAvatarFile = avatarFile => {
         return { valid: false, error: 'File must be one of the following types: .jpg, .jpeg, .png, .gif' };
     }
 
-    if (avatarFile.size > 1048576) { // Using the largest definition of a megabyte.
+    if (avatarFile.size > 2*1048576) { // 2 MB. Using the largest definition of a megabyte.
         return { valid: false, error: 'File must be smaller than 1 MB' };
     }
 
@@ -126,7 +126,7 @@ export default {
             display: block;
             height: 160px;
             width: 160px;
-            object-fit: contain;
+            object-fit: cover;
 
             &.default {
                 height: 80px;

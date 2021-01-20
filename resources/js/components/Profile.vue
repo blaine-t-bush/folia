@@ -371,7 +371,7 @@ export default {
 
         img {
             border: 1px solid $color-post-accent;
-            object-fit: contain;
+            object-fit: cover;
             height: 60px;
             width: 60px;
             margin-right: 1rem;
