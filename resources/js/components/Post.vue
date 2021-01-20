@@ -230,6 +230,7 @@ export default {
         margin-bottom: 0.5rem;
 
         &-avatar {
+            border: 1px solid $color-post-accent;
             object-fit: contain;
             height: 60px;
             width: 60px;

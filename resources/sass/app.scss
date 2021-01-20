@@ -130,11 +130,12 @@ nav {
 }
 
 .heavy-button {
+    align-items: center;
     border: 2px solid $color-confirm;
     color: $color-confirm;
+    display: inline-flex;
     font-weight: bold;
-    height: 1.6em;
-    line-height: 1em;
+    line-height: 1.6em;
     padding: 0 0.3em;
 
     &:focus, &:hover {

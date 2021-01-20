@@ -1,21 +1,21 @@
 <template>
-    <form @submit.prevent="uploadAvatar">
-        <div class="select-file">
-            <div class="select-file-prompt">Select File</div>
-            <img class="select-file-image" id="avatar_file_preview" src="" />
+    <form @submit.prevent>
+        <button class="select-file heavy-button">
+            <div>Select File...</div>
             <input type="file" name="avatar_file" id="avatar_file">
-        </div>
+            <img class="default" id="avatar_file_preview" src="/images/file_upload.png" />
+        </button>
 
-        <input type="submit" value="Upload >>>" class="heavy-button">
+        <button @click="uploadAvatar" class="upload-file heavy-button">Upload >>></button>
+    </form>
 
-        <div>
-            {{ error }}
-        </div>
+    <p>
+        {{ error }}
+    </p>
 
-        <div>
-            {{ message }}
-        </div>
-    </form>    
+    <p>
+        {{ message }}
+    </p>
 </template>
 
 <script>
@@ -82,14 +82,20 @@ export default {
         }
     },
     mounted() {
+        // Populate the image preview on file selection.
         const reader = new FileReader();
+
         reader.onload = event => {
             document.getElementById('avatar_file_preview').src = event.target.result;
         }
-        
+
         document.getElementById('avatar_file').onchange = event => {
             let file = document.getElementById('avatar_file').files[0]; // FIXME change order to validation -> preview -> click submit -> upload.
             reader.readAsDataURL(file);
+            let preview = document.getElementById('avatar_file_preview');
+            if (preview.classList.contains('default')) {
+                preview.classList.remove('default');
+            }
         }
     },
     data() {
@@ -104,33 +110,29 @@ export default {
 <style lang="scss" scoped>
     @import '../../sass/vars';
 
-    .select-file {
-        border: 2px solid $color-confirm;
-        color: $color-confirm;
-        font-weight: bold;
-        padding: 0 0.3em;
-
-        &:focus, &:hover {
-            background-color: $color-confirm-dark;
-            border: 2px solid $color-confirm-light;
-            color: $color-confirm-light;
-        }
-
+    form {
         display: flex;
-        justify-content: space-between;
+    }
+
+    .select-file {
+        cursor: pointer;
+        display: block;
+        width: fit-content;
         position: relative;
+        margin-right: 0.5em;
+        padding: 0.3em;
 
-        &-prompt {
-            height: 1.6em;
-            line-height: 1.6em;
-        }
-
-        &-image {
+        img {
             display: block;
-            height: 120px;
-            width: 120px;
+            height: 160px;
+            width: 160px;
             object-fit: contain;
-            padding: 0.3em 0;
+
+            &.default {
+                height: 80px;
+                width: 80px;
+                padding: 40px;
+            }
         }
 
         input {
@@ -141,6 +143,15 @@ export default {
             position: absolute;
             top: 0;
             left: 0;
+        }
+    }
+
+    .upload-file {
+        height: 1.6em;
+
+        @media (max-width: 380px) {
+            position: absolute;
+            right: 0;
         }
     }
 </style>

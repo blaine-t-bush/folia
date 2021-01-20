@@ -14520,6 +14520,7 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
     }
   },
   mounted: function mounted() {
+    // Populate the image preview on file selection.
     var reader = new FileReader();
 
     reader.onload = function (event) {
@@ -14530,6 +14531,11 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
       var file = document.getElementById('avatar_file').files[0]; // FIXME change order to validation -> preview -> click submit -> upload.
 
       reader.readAsDataURL(file);
+      var preview = document.getElementById('avatar_file_preview');
+
+      if (preview.classList.contains('default')) {
+        preview.classList.remove('default');
+      }
     };
   },
   data: function data() {
@@ -15225,21 +15231,38 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-d1cfc8b6");
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"select-file\" data-v-d1cfc8b6><div class=\"select-file-prompt\" data-v-d1cfc8b6>Select File</div><img class=\"select-file-image\" id=\"avatar_file_preview\" src=\"\" data-v-d1cfc8b6><input type=\"file\" name=\"avatar_file\" id=\"avatar_file\" data-v-d1cfc8b6></div><input type=\"submit\" value=\"Upload &gt;&gt;&gt;\" class=\"heavy-button\" data-v-d1cfc8b6>", 2);
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  "class": "select-file heavy-button"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, "Select File..."), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "file",
+  name: "avatar_file",
+  id: "avatar_file"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+  "class": "default",
+  id: "avatar_file_preview",
+  src: "/images/file_upload.png"
+})], -1
+/* HOISTED */
+);
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["prevent"]))
+  }, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function () {
       return $options.uploadAvatar && $options.uploadAvatar.apply($options, arguments);
-    }, ["prevent"]))
-  }, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.message), 1
-  /* TEXT */
-  )], 32
+    }),
+    "class": "upload-file heavy-button"
+  }, "Upload >>>")], 32
   /* HYDRATE_EVENTS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.message), 1
+  /* TEXT */
+  )], 64
+  /* STABLE_FRAGMENT */
   );
 });
 
@@ -15547,7 +15570,15 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Comments ");
+var _hoisted_9 = {
+  key: 2
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Comments ");
+
+var _hoisted_11 = {
+  key: 3
+};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -15641,7 +15672,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "aria-hidden": "true"
   }, null, 2
   /* CLASS */
-  ), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+  ), _hoisted_8]), !$data.posts || !$data.posts.length || $data.posts.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_9, "User has no posts to display.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
     id: "posts",
     "class": ["posts", {
       hidden: $data.postsHidden
@@ -15684,7 +15715,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "aria-hidden": "true"
   }, null, 2
   /* CLASS */
-  ), _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
+  ), _hoisted_10]), !$data.comments || !$data.comments.length || $data.comments.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_11, "User has no comments to display.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", {
     id: "comments",
     "class": ["comments", {
       hidden: $data.commentsHidden
@@ -15880,7 +15911,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".select-file[data-v-d1cfc8b6] {\n  border: 2px solid green;\n  color: green;\n  font-weight: bold;\n  padding: 0 0.3em;\n  display: flex;\n  justify-content: space-between;\n  position: relative;\n}\n.select-file[data-v-d1cfc8b6]:focus, .select-file[data-v-d1cfc8b6]:hover {\n  background-color: darkgreen;\n  border: 2px solid #63c463;\n  color: #63c463;\n}\n.select-file-prompt[data-v-d1cfc8b6] {\n  height: 1.6em;\n  line-height: 1.6em;\n}\n.select-file-image[data-v-d1cfc8b6] {\n  display: block;\n  height: 120px;\n  width: 120px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  padding: 0.3em 0;\n}\n.select-file input[data-v-d1cfc8b6] {\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "form[data-v-d1cfc8b6] {\n  display: flex;\n}\n.select-file[data-v-d1cfc8b6] {\n  cursor: pointer;\n  display: block;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  position: relative;\n  margin-right: 0.5em;\n  padding: 0.3em;\n}\n.select-file img[data-v-d1cfc8b6] {\n  display: block;\n  height: 160px;\n  width: 160px;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n.select-file img.default[data-v-d1cfc8b6] {\n  height: 80px;\n  width: 80px;\n  padding: 40px;\n}\n.select-file input[data-v-d1cfc8b6] {\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n.upload-file[data-v-d1cfc8b6] {\n  height: 1.6em;\n}\n@media (max-width: 380px) {\n.upload-file[data-v-d1cfc8b6] {\n    position: absolute;\n    right: 0;\n}\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15949,7 +15980,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  align-items: center;\n  -moz-column-gap: 8px;\n       column-gap: 8px;\n  display: grid;\n  grid-template-columns: 60px minmax(0, 1fr) auto;\n  margin-bottom: 0.5rem;\n}\n.post-header-avatar[data-v-5e8280ea] {\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  grid-column: 1/span 1;\n  grid-row: 1/span 2;\n}\n.post-header-name[data-v-5e8280ea] {\n  align-items: baseline;\n  display: flex;\n  grid-column: 2/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-name a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-name-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  overflow: hidden;\n  padding-left: 0.5em;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n  grid-column: 4/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  grid-column: 2/span 2;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  align-items: center;\n  -moz-column-gap: 8px;\n       column-gap: 8px;\n  display: grid;\n  grid-template-columns: 60px minmax(0, 1fr) auto;\n  margin-bottom: 0.5rem;\n}\n.post-header-avatar[data-v-5e8280ea] {\n  border: 1px solid #63c463;\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  grid-column: 1/span 1;\n  grid-row: 1/span 2;\n}\n.post-header-name[data-v-5e8280ea] {\n  align-items: baseline;\n  display: flex;\n  grid-column: 2/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-name a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-name-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  overflow: hidden;\n  padding-left: 0.5em;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n  grid-column: 4/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  grid-column: 2/span 2;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15972,7 +16003,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".profile[data-v-3bd692e4] {\n  align-items: center;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  margin-bottom: 1.5rem;\n}\n.profile img[data-v-3bd692e4] {\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  margin-right: 1rem;\n}\n.profile-name[data-v-3bd692e4] {\n  color: #63c463;\n  font-weight: 600;\n}\n.profile-name-id[data-v-3bd692e4] {\n  font-style: italic;\n  font-weight: 300;\n}\n.profile-name-id[data-v-3bd692e4]::before {\n  content: \"~\";\n}\nh1[data-v-3bd692e4] {\n  cursor: pointer;\n}\n.avatars[data-v-3bd692e4] {\n  display: flex;\n}\n.avatars label[data-v-3bd692e4] {\n  border: 2px solid rgba(0, 0, 0, 0);\n  opacity: 0.2;\n}\n.avatars label.selected[data-v-3bd692e4] {\n  border: 2px solid #63c463;\n  opacity: 1;\n}\n.avatars label img[data-v-3bd692e4] {\n  display: block;\n}\n.avatars label input[type=checkbox][data-v-3bd692e4] {\n  display: none;\n}\n.posts[data-v-3bd692e4] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hidden[data-v-3bd692e4] {\n  display: none;\n}\n.comments[data-v-3bd692e4] {\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}\n.comments .comment[data-v-3bd692e4] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".profile[data-v-3bd692e4] {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  margin-bottom: 1.5rem;\n}\n.profile img[data-v-3bd692e4] {\n  border: 1px solid #63c463;\n  -o-object-fit: contain;\n     object-fit: contain;\n  height: 60px;\n  width: 60px;\n  margin-right: 1rem;\n}\n.profile-name[data-v-3bd692e4] {\n  color: #63c463;\n  font-weight: 600;\n}\n.profile-name-id[data-v-3bd692e4] {\n  font-style: italic;\n  font-weight: 300;\n}\n.profile-name-id[data-v-3bd692e4]::before {\n  content: \"~\";\n}\nh1[data-v-3bd692e4] {\n  cursor: pointer;\n  margin-top: 0;\n}\n.avatars[data-v-3bd692e4] {\n  display: flex;\n}\n.avatars label[data-v-3bd692e4] {\n  border: 2px solid rgba(0, 0, 0, 0);\n  margin-right: 0.5em;\n  opacity: 0.2;\n}\n.avatars label[data-v-3bd692e4]:last-child {\n  margin-right: 0;\n}\n.avatars label.selected[data-v-3bd692e4] {\n  border: 2px solid #63c463;\n  opacity: 1;\n}\n.avatars label img[data-v-3bd692e4] {\n  display: block;\n}\n.avatars label input[type=checkbox][data-v-3bd692e4] {\n  display: none;\n}\n.posts[data-v-3bd692e4] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hidden[data-v-3bd692e4] {\n  display: none;\n}\n.comments[data-v-3bd692e4] {\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}\n.comments .comment[data-v-3bd692e4] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

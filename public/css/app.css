@@ -123,11 +123,12 @@ nav a:last-child {
 }
 
 .heavy-button {
+  align-items: center;
   border: 2px solid green;
   color: green;
+  display: inline-flex;
   font-weight: bold;
-  height: 1.6em;
-  line-height: 1em;
+  line-height: 1.6em;
   padding: 0 0.3em;
 }
 .heavy-button:focus, .heavy-button:hover {

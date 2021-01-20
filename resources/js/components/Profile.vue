@@ -41,6 +41,8 @@
         Posts
     </h1>
 
+    <p v-if="!posts || !posts.length || posts.length == 0">User has no posts to display.</p>
+
     <ol id="posts" class="posts" :class="{ hidden: postsHidden }">
         <Post
             v-for="post in orderedPosts"
@@ -62,6 +64,8 @@
         <i class="fa fa-expand" :class="{ hidden: !commentsHidden }" aria-hidden="true"></i>
         Comments
     </h1>
+
+    <p v-if="!comments || !comments.length || comments.length == 0">User has no comments to display.</p>
 
     <ol id="comments" class="comments" :class="{ hidden: commentsHidden }">
         <Comment
@@ -360,13 +364,13 @@ export default {
     @import '../../sass/vars';
 
     .profile {
-    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     margin-bottom: 1.5rem;
 
         img {
+            border: 1px solid $color-post-accent;
             object-fit: contain;
             height: 60px;
             width: 60px;
@@ -390,6 +394,7 @@ export default {
 
     h1 {
         cursor: pointer;
+        margin-top: 0;
     }
 
     .avatars {
@@ -397,7 +402,12 @@ export default {
 
         label {
             border: 2px solid rgba(0,0,0,0);
+            margin-right: 0.5em;
             opacity: 0.2;
+
+            &:last-child {
+                margin-right: 0;
+            }
 
             &.selected {
                 border: 2px solid $color-post-accent;
