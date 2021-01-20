@@ -86,6 +86,10 @@ const validateAvatarFile = avatarFile => {
         return { valid: false, error: 'File must be one of the following types: .jpg, .jpeg, .png, .gif' };
     }
 
+    if (avatarFile.size > 1048576) { // Using the largest definition of a megabyte.
+        return { valid: false, error: 'File must be smaller than 1 MB' };
+    }
+
     return { valid: true, error: null };
 }
 
@@ -196,6 +200,7 @@ export default {
         uploadAvatar(event) {
             // Validate the data.
             let file = document.getElementById('avatar_file').files[0];
+            console.log(file);
             const validFile = validateAvatarFile(file);
             if (!validFile.valid) {
                 this.errors.avatarFile = validFile.error;

@@ -14732,6 +14732,14 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
     };
   }
 
+  if (avatarFile.size > 1048576) {
+    // Using the largest definition of a megabyte.
+    return {
+      valid: false,
+      error: 'File must be smaller than 1 MB'
+    };
+  }
+
   return {
     valid: true,
     error: null
@@ -14849,6 +14857,7 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
 
       // Validate the data.
       var file = document.getElementById('avatar_file').files[0];
+      console.log(file);
       var validFile = validateAvatarFile(file);
 
       if (!validFile.valid) {
