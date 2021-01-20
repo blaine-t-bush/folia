@@ -25,6 +25,9 @@
         <div>
             {{ errors.avatarFile }}
         </div>
+        <div>
+            {{ messages.avatarFile }}
+        </div>
     </form>
 
     <h1 @click="togglePosts">
@@ -205,7 +208,12 @@ export default {
             if (!validFile.valid) {
                 this.errors.avatarFile = validFile.error;
                 return false;
+            } else {
+                this.errors.avatarFile = null;
             }
+
+            // Update form to convey that upload is being processed.
+            this.messages.avatarFile = 'Uploading image...'
             
             // Format the file for request.
             let formData = new FormData();
@@ -218,9 +226,11 @@ export default {
                 }
             }).then((response) => {
                 if (response.status != 200) {
-                    // FIXME catch error
+                    // Error. Update message.
+                    this.messages.avatarFile = 'Error uploading image. Please refresh the page and try again.'
                 } else {
                     // Request succeeded. Update the local value.
+                    this.messages.avatarFile = 'Image succesfully uploaded!'
                     this.avatar_url = response.data.avatar_url;
 
                     // Update the value in every post.
@@ -343,6 +353,7 @@ export default {
                 },
             ],
             errors: {},
+            messages: {},
         }
     },
     provide() {

@@ -14863,8 +14863,12 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
       if (!validFile.valid) {
         this.errors.avatarFile = validFile.error;
         return false;
-      } // Format the file for request.
+      } else {
+        this.errors.avatarFile = null;
+      } // Update form to convey that upload is being processed.
 
+
+      this.messages.avatarFile = 'Uploading image...'; // Format the file for request.
 
       var formData = new FormData();
       formData.append('avatar_file', file); // Send request to upload file and update avatar URL.
@@ -14874,9 +14878,12 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (response) {
-        if (response.status != 200) {// FIXME catch error
+        if (response.status != 200) {
+          // Error. Update message.
+          _this2.messages.avatarFile = 'Error uploading image. Please refresh the page and try again.';
         } else {
           // Request succeeded. Update the local value.
+          _this2.messages.avatarFile = 'Image succesfully uploaded!';
           _this2.avatar_url = response.data.avatar_url; // Update the value in every post.
 
           for (var i = 0; i < _this2.posts.length; i++) {
@@ -14986,7 +14993,8 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
         id: 5,
         url: '/images/avatars/default_avatar_5.png'
       }],
-      errors: {}
+      errors: {},
+      messages: {}
     };
   },
   provide: function provide() {
@@ -15506,6 +15514,8 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       return $options.uploadAvatar && $options.uploadAvatar.apply($options, arguments);
     }, ["prevent"]))
   }, [_hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.avatarFile), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.messages.avatarFile), 1
   /* TEXT */
   )], 32
   /* HYDRATE_EVENTS */
