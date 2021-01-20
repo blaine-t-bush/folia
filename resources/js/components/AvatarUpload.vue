@@ -1,10 +1,17 @@
 <template>
     <form @submit.prevent="uploadAvatar">
-        <input type="file" name="avatar_file" id="avatar_file">
-        <input type="submit" value="Upload">
+        <div class="select-file">
+            <div class="select-file-prompt">Select File</div>
+            <img class="select-file-image" id="avatar_file_preview" src="" />
+            <input type="file" name="avatar_file" id="avatar_file">
+        </div>
+
+        <input type="submit" value="Upload >>>" class="heavy-button">
+
         <div>
             {{ error }}
         </div>
+
         <div>
             {{ message }}
         </div>
@@ -48,6 +55,8 @@ export default {
                 return false;
             }
 
+            // Populate the image preview.
+
             // Update form to convey that upload is being processed.
             this.message = 'Uploading image...'
             
@@ -72,6 +81,17 @@ export default {
             });
         }
     },
+    mounted() {
+        const reader = new FileReader();
+        reader.onload = event => {
+            document.getElementById('avatar_file_preview').src = event.target.result;
+        }
+        
+        document.getElementById('avatar_file').onchange = event => {
+            let file = document.getElementById('avatar_file').files[0]; // FIXME change order to validation -> preview -> click submit -> upload.
+            reader.readAsDataURL(file);
+        }
+    },
     data() {
         return {
             error: null,
@@ -80,3 +100,47 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+    @import '../../sass/vars';
+
+    .select-file {
+        border: 2px solid $color-confirm;
+        color: $color-confirm;
+        font-weight: bold;
+        padding: 0 0.3em;
+
+        &:focus, &:hover {
+            background-color: $color-confirm-dark;
+            border: 2px solid $color-confirm-light;
+            color: $color-confirm-light;
+        }
+
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+
+        &-prompt {
+            height: 1.6em;
+            line-height: 1.6em;
+        }
+
+        &-image {
+            display: block;
+            height: 120px;
+            width: 120px;
+            object-fit: contain;
+            padding: 0.3em 0;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+</style>

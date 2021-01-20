@@ -6,22 +6,34 @@
         </h1>
     </div>
 
-    <form class="avatars" v-if="session.authenticated_user_id === user_id">
-        <label v-for="avatar in defaultAvatars" :key="avatar.id" :class="{ selected: avatar_url === avatar.url }">
-            <img
-                @click="selectAvatar($event)"
-                :src="avatar.url"
-                alt="">
-            <input
-                type="checkbox"
-                :value="avatar.url"
-                :checked="avatar_url === avatar.url">
-        </label>
-    </form>
+    <h1 @click="toggleAvatar" v-if="session.authenticated_user_id === user_id">
+        <i class="fa fa-compress" :class="{ hidden: avatarHidden }" aria-hidden="true"></i>
+        <i class="fa fa-expand" :class="{ hidden: !avatarHidden }" aria-hidden="true"></i>
+        Avatar
+    </h1>
 
-    <AvatarUpload
-        @avatar-uploaded="updateAvatar"
-        ></AvatarUpload>
+    <div id="avatar" :class="{ hidden: avatarHidden }" v-if="session.authenticated_user_id === user_id">
+        <p>Select one...</p>
+
+        <form class="avatars">
+            <label v-for="avatar in defaultAvatars" :key="avatar.id" :class="{ selected: avatar_url === avatar.url }">
+                <img
+                    @click="selectAvatar($event)"
+                    :src="avatar.url"
+                    alt="">
+                <input
+                    type="checkbox"
+                    :value="avatar.url"
+                    :checked="avatar_url === avatar.url">
+            </label>
+        </form>
+
+        <p>...or upload your own.</p>
+
+        <AvatarUpload
+            @avatar-uploaded="updateAvatar"
+            ></AvatarUpload>
+    </div>
 
     <h1 @click="togglePosts">
         <i class="fa fa-compress" :class="{ hidden: postsHidden }" aria-hidden="true"></i>
@@ -94,6 +106,14 @@ export default {
                 this.commentsHidden = false;
             } else {
                 this.commentsHidden = true;
+            }
+        },
+        toggleAvatar: function() {
+            let avatar = document.getElementById('avatar');
+            if (avatar.classList.contains('hidden')) {
+                this.avatarHidden = false;
+            } else {
+                this.avatarHidden = true;
             }
         },
         addPost(post) {
@@ -273,6 +293,7 @@ export default {
             avatar_url: null,
             postsHidden: false,
             commentsHidden: false,
+            avatarHidden: false,
             defaultAvatars: [
                 {
                     id: 1,
