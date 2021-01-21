@@ -20,6 +20,7 @@ class PostResource extends JsonResource
             'user_id' => $this->user_id,
             'user' => [ // FIXME replace this with UserResponse?
                 'display_name' => $this->user->display_name,
+                'avatar_url' => $this->user->avatar_url,
             ],
             'body' => $this->body,
             'comments' => CommentResource::collection($this->comments),

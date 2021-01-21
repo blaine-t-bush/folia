@@ -52,6 +52,9 @@ class ReactionDeleted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('reactions-' . $this->reaction->post_id);
+        return [
+            new Channel('reactions-' . $this->reaction->post_id),
+            new Channel('users-' . $this->reaction->user_id),
+        ];
     }
 }

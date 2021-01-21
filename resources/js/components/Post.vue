@@ -1,8 +1,11 @@
 <template>
     <li class="post">
         <div class="post-header">
-            <div class="post-header-displayname"><a :href="'/profile/' + user_id">{{ display_name }}</a></div>
-            <div class="post-header-username"><a :href="'/profile/' + user_id">{{ user_id }}</a></div>
+            <img class="post-header-avatar" :src="avatar_url" alt="">
+            <div class="post-header-name">
+                <div class="post-header-name-displayname"><a :href="'/profile/' + user_id">{{ display_name }}</a></div>
+                <div class="post-header-name-username"><a :href="'/profile/' + user_id">{{ user_id }}</a></div>
+            </div>
 
             <form
                 class="post-header-delete"
@@ -15,9 +18,9 @@
                     value="X">
 
             </form>
-        </div>
 
-        <div class="post-timestamp">{{ created_at }}</div>
+            <div class="post-header-timestamp">{{ created_at }}</div>
+        </div>
 
         <p class="post-body">{{ body }}</p>
 
@@ -33,6 +36,9 @@
                 @comment-deleted="removeComment"
                 :key="comment.id"
                 :id="comment.id"
+                :display_parent_info="false"
+                :parent_user_id="comment.post.user_id"
+                :parent_display_name="comment.post.user.display_name"
                 :user_id="comment.user_id"
                 :display_name="comment.user.display_name"
                 :created_at="comment.created_at"
@@ -57,7 +63,8 @@ export default {
         'Reactions': Reactions,
     },
     emits: [
-        'postDeleted'
+        'postDeleted',
+        'commentDeleted',
     ],
     inject: [
         'authenticated_user_id'
@@ -66,6 +73,7 @@ export default {
         id: Number,
         user_id: String,
         display_name: String,
+        avatar_url: String,
         body: String,
         created_at: String,
         comments: Array,
@@ -76,6 +84,9 @@ export default {
             this.comments.push(comment);
         },
         removeComment(comment) {
+            // Emit an event so comments can be removed from posts in profile page.
+            this.$emit('commentDeleted', comment);
+
             let id = comment.id;
 
             // Find index of matching comment in array.
@@ -212,33 +223,50 @@ export default {
     padding: 0.5rem;
 
     &-header {
+        align-items: center;
+        column-gap: 8px;
         display: grid;
-        grid-template-columns: min-content auto auto;
-        max-height: 1.6em;
-        line-height: 1.6em;
+        grid-template-columns: 60px minmax(0, 1fr) auto;
+        margin-bottom: 0.5rem;
+
+        &-avatar {
+            border: 1px solid $color-post-accent;
+            object-fit: cover;
+            height: 60px;
+            width: 60px;
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 2;
+        }
+
+        &-name {
+            align-items: baseline;
+            display: flex;
+            grid-column: 2 / span 1;
+            grid-row: 1 / span 1;
         
-        a {
-            color: $color-link !important;
-        }
+            a {
+                color: $color-link !important;
+            }
 
-        &-displayname {
-            font-size: 1.2em;
-            font-weight: 600;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+            &-displayname {
+                font-size: 1.2em;
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
 
-        &-username {
-            font-style: italic;
-            font-weight: 300;
-            padding-left: 0.5em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            &-username {
+                font-style: italic;
+                font-weight: 300;
+                overflow: hidden;
+                padding-left: 0.5em;
+                text-overflow: ellipsis;
+                white-space: nowrap;
 
-            &::before {
-                content: $username-prepend;
+                &::before {
+                    content: $username-prepend;
+                }
             }
         }
 
@@ -247,12 +275,17 @@ export default {
             line-height: 1.6em;
             max-height: 1.6em;
             padding-left: 0.5em;
+            grid-column: 4 / span 1;
+            grid-row: 1 / span 1;
         }
-    }
 
-    &-timestamp {
-        font-weight: 300;
-        margin-bottom: 0.5rem;
+        &-timestamp {
+            font-weight: 300;
+            grid-column: 2 / span 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     &-body {
@@ -262,10 +295,10 @@ export default {
 }
 
 .comments {
-    border-top: 1px solid lightgreen;
+    border-top: 1px solid $color-post-accent;
     font-size: 0.9rem;
     list-style: none;
     margin: 1rem 0 0 0rem;
-    padding: 0 0 0 1.5rem;
+    padding: 0;
 }
 </style>

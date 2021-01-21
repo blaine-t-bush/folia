@@ -67,7 +67,7 @@ Route::middleware(['check_token'])->group(function() {
         UserController::class, 'session'
     ]);
 
-    Route::get('/api/posts', [
+    Route::get('/api/posts/{id?}', [
         PostController::class, 'index'
     ]);
 
@@ -79,7 +79,7 @@ Route::middleware(['check_token'])->group(function() {
         PostController::class, 'destroy'
     ]);
 
-    Route::get('/api/comments', [
+    Route::get('/api/comments/{id?}', [
         CommentController::class, 'index'
     ]);
 
@@ -101,5 +101,13 @@ Route::middleware(['check_token'])->group(function() {
 
     Route::delete('/api/reactions', [
         ReactionController::class, 'destroy'
+    ]);
+
+    Route::get('/api/user/{id?}', [
+        UserController::class, 'fetch'
+    ]);
+
+    Route::post('/api/user', [
+        UserController::class, 'update'
     ]);
 });

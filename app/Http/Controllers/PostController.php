@@ -13,8 +13,12 @@ use App\Http\Resources\PostResource;
 
 class PostController extends Controller
 {
-    public function index(Request $request) {
-        return PostResource::collection(Post::all());
+    public function index(Request $request, string $user_id = null) {
+        if (!is_null($user_id)) {
+            return PostResource::collection(Post::where('user_id', $user_id)->get());
+        } else {
+            return PostResource::collection(Post::all());
+        }
     }
 
     public function create(Request $request) {

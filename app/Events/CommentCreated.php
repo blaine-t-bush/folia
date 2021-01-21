@@ -49,6 +49,9 @@ class CommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('comments-' . $this->comment->post_id);
+        return [
+            new Channel('comments-' . $this->comment->post_id),
+            new Channel('users-' . $this->comment->user_id),
+        ];
     }
 }

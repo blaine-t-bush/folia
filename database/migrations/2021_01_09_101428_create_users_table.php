@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('hashed_password');
             $table->string('display_name');
             $table->string('authenticated_token')->nullable();
+            $table->string('avatar_url')->default('/images/avatars/default_avatar_1.png');
         });
     }
 

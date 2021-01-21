@@ -107,6 +107,9 @@ nav a {
   padding: 1em;
   color: #63c463 !important;
 }
+nav a:last-child {
+  padding-right: 0;
+}
 @media (max-width: 380px) {
   nav {
     align-items: flex-end;
@@ -120,11 +123,12 @@ nav a {
 }
 
 .heavy-button {
+  align-items: center;
   border: 2px solid green;
   color: green;
+  display: inline-flex;
   font-weight: bold;
-  height: 1.6em;
-  line-height: 1em;
+  line-height: 1.6em;
   padding: 0 0.3em;
 }
 .heavy-button:focus, .heavy-button:hover {

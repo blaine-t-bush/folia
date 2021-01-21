@@ -20,6 +20,7 @@ class ReactionResource extends JsonResource
             'user_id' => $this->user_id,
             'user' => [ // FIXME replace this with UserResponse?
                 'display_name' => $this->user->display_name,
+                'avatar_url' => $this->user->avatar_url,
             ],
             'post_id' => $this->post_id,
             'type' => $this->type,

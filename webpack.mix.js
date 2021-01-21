@@ -14,11 +14,11 @@ const mix = require('laravel-mix');
 mix
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/home.js', 'public/js')
+    .js('resources/js/profile.js', 'public/js')
     .scripts('resources/js/helpers.js', 'public/js/helpers.js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/register.scss', 'public/css')
-    .sass('resources/sass/profile.scss', 'public/css')
     .vue({ version: 3 });
 
 mix.version(); // TODO remove versioning before final launch
