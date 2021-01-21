@@ -32,12 +32,15 @@ class DatabaseSeeder extends Seeder
 
         // Generate some random number of users.
         $total_user_count = random_int(5, 10);
+        $avatar_filepath = '/images/avatars/';
+        $avatar_filenames = ['default_avatar_1.png', 'default_avatar_2.png', 'default_avatar_3.png', 'default_avatar_4.png', 'default_avatar_5.png'];
         $user_ids = [];
         for ($i = 0; $i < $total_user_count; $i++) {
             $user = new User;
             $user->id = $faker->userName;
             $user->display_name = $faker->name;
             $user->hashed_password = Hash::make($faker->password);
+            $user->avatar_url = $avatar_filepath . $avatar_filenames[array_rand($avatar_filenames)];
             $user->save();
 
             $user_ids[] = $user->id;

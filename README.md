@@ -1,5 +1,4 @@
 # Quick-fix
-- Create icon and favicon
 - Restyle checkboxes to match rest of site
 
 # To-do
