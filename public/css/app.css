@@ -147,6 +147,8 @@ nav a:last-child {
 .delete-button {
   border: 2px solid #8a0000;
   color: #8a0000;
+  line-height: 1.2em;
+  max-height: 1.6em;
 }
 .delete-button:focus, .delete-button:hover {
   background-color: #8a0000;

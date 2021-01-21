@@ -156,6 +156,8 @@ nav {
 .delete-button {
     border: 2px solid $color-delete;
     color: $color-delete;
+    line-height: 1.2em;
+    max-height: 1.6em;
 
     &:focus, &:hover {
         background-color: $color-delete;
