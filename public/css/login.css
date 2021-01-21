@@ -55,7 +55,7 @@
 }
 
 .sticky-note {
-  background-image: url("/images/sticky_note.png");
+  background-image: url("https://folia.parvifolium.net/images/sticky_note_bent.png");
   color: rgba(0, 0, 0, 0.7);
   font-family: "Gloria Hallelujah", cursive;
   font-size: 2rem;
@@ -65,8 +65,8 @@
   transform: rotate(7deg);
   margin: auto;
 }
-.sticky-note:hover, .sticky-note:focus {
-  background-image: url("/images/sticky_note_bent.png");
+.sticky-note:hover .sticky-note-image, .sticky-note:active .sticky-note-image {
+  display: none;
 }
 .sticky-note-text {
   position: absolute;
