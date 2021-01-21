@@ -123,10 +123,11 @@ export default {
         padding: 0.3em;
 
         img {
+            border: 1px solid $color-post-accent;
             display: block;
             height: 160px;
             width: 160px;
-            object-fit: cover;
+            object-fit: cover; // FIXME cover appears not to be working on Chrome on Android.
 
             &.default {
                 height: 80px;
