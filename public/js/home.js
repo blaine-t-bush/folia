@@ -15617,7 +15617,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".alerts[data-v-7b2bf401] {\n  position: absolute;\n  margin-left: 10%;\n  width: 80%;\n}\n.alerts .alert[data-v-7b2bf401] {\n  background-color: #f1a9a9;\n  border: 1px solid #e60a0a;\n  color: #e60a0a;\n  display: grid;\n  grid-template-columns: auto -webkit-min-content;\n  grid-template-columns: auto min-content;\n  padding: 0.5em;\n  margin: 0.5em;\n}\n.alerts .alert-close[data-v-7b2bf401] {\n  max-height: 1.6em;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".alerts[data-v-7b2bf401] {\n  position: fixed;\n  top: 0;\n  left: 50%;\n  transform: translateX(-50%);\n  max-width: 480px;\n  width: 100%;\n}\n.alerts .alert[data-v-7b2bf401] {\n  background-color: #f1a9a9;\n  border: 1px solid #e60a0a;\n  color: #e60a0a;\n  -moz-column-gap: 10px;\n       column-gap: 10px;\n  display: grid;\n  grid-template-columns: auto -webkit-min-content;\n  grid-template-columns: auto min-content;\n  padding: 0.5em;\n  margin: 0.5em;\n}\n.alerts .alert-close[data-v-7b2bf401] {\n  max-height: 1.6em;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

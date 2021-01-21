@@ -27,14 +27,18 @@ export default {
 @import '../../sass/vars';
 
 .alerts {
-    position: absolute;
-    margin-left: 10%;
-    width: 80%;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 480px;
+    width: 100%;
 
     .alert {
         background-color: $color-error-background;
         border: 1px solid $color-error;
         color: $color-error;
+        column-gap: 10px;
         display: grid;
         grid-template-columns: auto min-content;
         padding: 0.5em;
