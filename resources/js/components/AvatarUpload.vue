@@ -125,9 +125,9 @@ export default {
         img {
             border: 1px solid $color-post-accent;
             display: block;
-            height: 160px;
+            height: auto;
             width: 160px;
-            object-fit: cover; // FIXME cover appears not to be working on Chrome on Android.
+            // object-fit: cover; // FIXME cover appears not to be working on Chrome on Android with image from camera. Could have something to do with orientation data.
 
             &.default {
                 height: 80px;
