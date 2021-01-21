@@ -13,7 +13,8 @@
 <script>
 export default {
     emits: [
-        'postCreated'
+        'apiError',
+        'postCreated',
     ],
     methods: {
         submitPost() {
@@ -21,16 +22,15 @@ export default {
             axios.post('/api/posts', {
                 body: this.body, // FIXME add validation.
             }).then(response => {
-                if (response.status != 201) {
-                    // Request failed.
-                    // FIXME handle errors.
-                } else {
+                if (response.status == 201) {
                     // Request succeeded. Clear form.
                     this.body = '';
                     
                     // Trigger event to add new post without waiting for broadcast.
                     this.$emit('postCreated', response.data);
                 }
+            }).catch(error => {
+                this.$emit('apiError', 'Error creating post. Please refresh the page and try again.');
             });
         },
     },

@@ -1,11 +1,18 @@
 <template>
+    <Alert
+        v-if="errors.length > 0"
+        :errors="errors"
+        @remove-error="removeError"></Alert>
+
     <PostSubmit
-        @post-created="addPost"></PostSubmit>
+        @post-created="addPost"
+        @api-error="raiseError"></PostSubmit>
 
     <ol class="posts">
         <Post
             v-for="post in orderedPosts"
             @post-deleted="removePost"
+            @api-error="raiseError"
             :key="post.id"
             :id="post.id"
             :user_id="post.user_id"
@@ -20,11 +27,13 @@
 
 <script>
 import { computed } from 'vue';
+import Alert from './Alert';
 import Post from './Post';
 import PostSubmit from './PostSubmit';
 
 export default {
     components: {
+        'Alert': Alert,
         'Post': Post,
         'PostSubmit' : PostSubmit,
     },
@@ -48,6 +57,12 @@ export default {
             if (indexToRemove >= 0) {
                 this.posts.splice(indexToRemove, 1);
             }
+        },
+        raiseError(message) {
+            this.errors.push(message);
+        },
+        removeError(index) {
+            this.errors.splice(index, 1);
         }
     },
     mounted() {
@@ -106,6 +121,7 @@ export default {
                 authenticated_user_id: null,
             },
             posts: [],
+            errors: [],
         }
     },
     provide() {

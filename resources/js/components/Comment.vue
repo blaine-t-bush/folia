@@ -41,7 +41,8 @@ export default {
         'authenticated_user_id'
     ],
     emits: [
-        'commentDeleted'
+        'apiError',
+        'commentDeleted',
     ],
     props: {
         id: Number,
@@ -61,13 +62,12 @@ export default {
                     id: this.id,
                 }, // Not that axios.delete() requests are formatted differently than .get() and .post().
             }).then(response => {
-                if (response.status != 200) {
-                    // Request failed.
-                    // FIXME handle errors.
-                } else {
+                if (response.status == 200) {
                     // Request succeeded.
                     this.$emit('commentDeleted', response.data);
                 }
+            }).catch(error => {
+                this.$emit('apiError', 'Error deleting comment. Please refresh the page and try again.');
             });
         },
     }

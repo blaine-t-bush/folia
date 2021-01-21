@@ -27,6 +27,7 @@
         <Reactions
             @reaction-created="addReaction"
             @reaction-deleted="removeReaction"
+            @api-error="bubbleApiError"
             :id="id"
             :reactions="reactions"></Reactions>
 
@@ -34,6 +35,7 @@
             <Comment
                 v-for="comment in orderedComments"
                 @comment-deleted="removeComment"
+                @api-error="bubbleApiError"
                 :key="comment.id"
                 :id="comment.id"
                 :display_parent_info="false"
@@ -47,6 +49,7 @@
 
         <CommentSubmit
             @comment-created="addComment"
+            @api-error="bubbleApiError"
             :id="id"></CommentSubmit>
     </li>
 </template>
@@ -63,6 +66,7 @@ export default {
         'Reactions': Reactions,
     },
     emits: [
+        'apiError',
         'postDeleted',
         'commentDeleted',
     ],
@@ -130,15 +134,17 @@ export default {
                     id: this.id,
                 }, // Not that axios.delete() requests are formatted differently than .get() and .post().
             }).then(response => {
-                if (response.status != 200) {
-                    // Request failed.
-                    // FIXME handle errors. 
-                } else {
+                if (response.status == 200) {
                     // Request succeeded.
                     this.$emit('postDeleted', response.data);
                 }
+            }).catch(error => {
+                this.$emit('apiError', 'Error deleting post. Please refresh the page and try again.');
             });
         },
+        bubbleApiError(error) {
+            this.$emit('apiError', error)
+        }
     },
     mounted() {
         // Add Echo listener to listen for new comments.
@@ -291,6 +297,7 @@ export default {
     &-body {
         margin: 0;
         padding: 0;
+        overflow-wrap: break-word;
     }
 }
 

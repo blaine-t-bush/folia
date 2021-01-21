@@ -80,6 +80,7 @@ export default {
         'authenticated_user_id'
     ],
     emits: [
+        'apiError',
         'reactionCreated',
         'reactionDeleted'
     ],
@@ -128,14 +129,13 @@ export default {
                 id: this.id,
                 type: type,
             }).then(response => {
-                if (response.status != 201) {
-                    // Request failed.
-                    // FIXME handle errors.
-                } else {
+                if (response.status == 201) {
                     // Request succeeded.
                     // Trigger event to add reaction without waiting for broadcast.
                     this.$emit('reactionCreated', response.data);
                 }
+            }).catch(error => {
+                this.$emit('apiError', 'Error adding reaction. Please refresh the page and try again.');
             });
         },
         deleteReaction(type) {
@@ -146,14 +146,13 @@ export default {
                     type: type,
                 }, // Not that axios.delete() requests are formatted differently than .get() and .post().
             }).then(response => {
-                if (response.status != 200) {
-                    // Request failed.
-                    // FIXME handle errors.
-                } else {
+                if (response.status == 200) {
                     // Request succeeded.
                     // Trigger event to add reaction without waiting for broadcast.
                     this.$emit('reactionDeleted', response.data);
                 }
+            }).catch(error => {
+                this.$emit('apiError', 'Error removing reaction. Please refresh the page and try again.');
             });
         }
     }

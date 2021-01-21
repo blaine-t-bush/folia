@@ -1,4 +1,9 @@
 <template>
+    <Alert
+        v-if="errors.length > 0"
+        :errors="errors"
+        @remove-error="removeError"></Alert>
+
     <div class="profile">
         <img :src="avatar_url" alt="">
         <h1 class="profile-name">
@@ -48,6 +53,7 @@
             v-for="post in orderedPosts"
             @post-deleted="removePost"
             @comment-deleted="removeComment"
+            @api-error="raiseError"
             :key="post.id"
             :id="post.id"
             :user_id="post.user_id"
@@ -71,6 +77,7 @@
         <Comment
             v-for="comment in orderedComments"
             @comment-deleted="removeComment"
+            @api-error="raiseError"
             :key="comment.id"
             :id="comment.id"
             :display_parent_info="true"
@@ -206,6 +213,12 @@ export default {
                 this.posts[i].user.avatar_url = avatar_url;
             }
 
+        },
+        raiseError(message) {
+            this.errors.push(message);
+        },
+        removeError(index) {
+            this.errors.splice(index, 1);
         }
     },
     mounted() {
@@ -293,6 +306,7 @@ export default {
             },
             posts: [],
             comments: [],
+            errors: [],
             user_id: null,
             avatar_url: null,
             postsHidden: false,

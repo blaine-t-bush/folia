@@ -17,7 +17,8 @@ export default {
         id: Number,
     },
     emits: [
-        'commentCreated'
+        'apiError',
+        'commentCreated',
     ],
     methods: {
         submitComment() {
@@ -26,16 +27,15 @@ export default {
                 id: this.id,
                 body: this.body, // FIXME add validation.
             }).then(response => {
-                if (response.status != 201) {
-                    // Request failed.
-                    // FIXME handle error.
-                } else {
+                if (response.status == 201) {
                     // Request succeeded. Clear form.
                     this.body = '';
                     
                     // Trigger event to add comment without waiting for broadcast.
                     this.$emit('commentCreated', response.data);
                 }
+            }).catch(error => {
+                this.$emit('apiError', 'Error creating comment. Please refresh the page and try again.');
             });
         },
     },

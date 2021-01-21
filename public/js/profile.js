@@ -14560,7 +14560,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   inject: ['authenticated_user_id'],
-  emits: ['commentDeleted'],
+  emits: ['apiError', 'commentDeleted'],
   props: {
     id: Number,
     display_parent_info: Boolean,
@@ -14582,12 +14582,12 @@ __webpack_require__.r(__webpack_exports__);
         } // Not that axios.delete() requests are formatted differently than .get() and .post().
 
       }).then(function (response) {
-        if (response.status != 200) {// Request failed.
-          // FIXME handle errors.
-        } else {
+        if (response.status == 200) {
           // Request succeeded.
           _this.$emit('commentDeleted', response.data);
         }
+      })["catch"](function (error) {
+        _this.$emit('apiError', 'Error deleting comment. Please refresh the page and try again.');
       });
     }
   }
@@ -14609,7 +14609,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     id: Number
   },
-  emits: ['commentCreated'],
+  emits: ['apiError', 'commentCreated'],
   methods: {
     submitComment: function submitComment() {
       var _this = this;
@@ -14620,14 +14620,14 @@ __webpack_require__.r(__webpack_exports__);
         body: this.body // FIXME add validation.
 
       }).then(function (response) {
-        if (response.status != 201) {// Request failed.
-          // FIXME handle error.
-        } else {
+        if (response.status == 201) {
           // Request succeeded. Clear form.
           _this.body = ''; // Trigger event to add comment without waiting for broadcast.
 
           _this.$emit('commentCreated', response.data);
         }
+      })["catch"](function (error) {
+        _this.$emit('apiError', 'Error creating comment. Please refresh the page and try again.');
       });
     }
   },
@@ -14662,7 +14662,7 @@ __webpack_require__.r(__webpack_exports__);
     'CommentSubmit': _CommentSubmit__WEBPACK_IMPORTED_MODULE_1__.default,
     'Reactions': _Reactions__WEBPACK_IMPORTED_MODULE_2__.default
   },
-  emits: ['postDeleted', 'commentDeleted'],
+  emits: ['apiError', 'postDeleted', 'commentDeleted'],
   inject: ['authenticated_user_id'],
   props: {
     id: Number,
@@ -14729,13 +14729,16 @@ __webpack_require__.r(__webpack_exports__);
         } // Not that axios.delete() requests are formatted differently than .get() and .post().
 
       }).then(function (response) {
-        if (response.status != 200) {// Request failed.
-          // FIXME handle errors. 
-        } else {
+        if (response.status == 200) {
           // Request succeeded.
           _this.$emit('postDeleted', response.data);
         }
+      })["catch"](function (error) {
+        _this.$emit('apiError', 'Error deleting post. Please refresh the page and try again.');
       });
+    },
+    bubbleApiError: function bubbleApiError(error) {
+      this.$emit('apiError', error);
     }
   },
   mounted: function mounted() {
@@ -14947,6 +14950,12 @@ __webpack_require__.r(__webpack_exports__);
       for (var i = 0; i < this.posts.length; i++) {
         this.posts[i].user.avatar_url = avatar_url;
       }
+    },
+    raiseError: function raiseError(message) {
+      this.errors.push(message);
+    },
+    removeError: function removeError(index) {
+      this.errors.splice(index, 1);
     }
   },
   mounted: function mounted() {
@@ -15029,6 +15038,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       posts: [],
       comments: [],
+      errors: [],
       user_id: null,
       avatar_url: null,
       postsHidden: false,
@@ -15111,7 +15121,7 @@ __webpack_require__.r(__webpack_exports__);
     reactions: Array
   },
   inject: ['authenticated_user_id'],
-  emits: ['reactionCreated', 'reactionDeleted'],
+  emits: ['apiError', 'reactionCreated', 'reactionDeleted'],
   computed: {
     smileCount: function smileCount() {
       return this.reactions.filter(function (reaction) {
@@ -15180,13 +15190,13 @@ __webpack_require__.r(__webpack_exports__);
         id: this.id,
         type: type
       }).then(function (response) {
-        if (response.status != 201) {// Request failed.
-          // FIXME handle errors.
-        } else {
+        if (response.status == 201) {
           // Request succeeded.
           // Trigger event to add reaction without waiting for broadcast.
           _this5.$emit('reactionCreated', response.data);
         }
+      })["catch"](function (error) {
+        _this5.$emit('apiError', 'Error adding reaction. Please refresh the page and try again.');
       });
     },
     deleteReaction: function deleteReaction(type) {
@@ -15200,13 +15210,13 @@ __webpack_require__.r(__webpack_exports__);
         } // Not that axios.delete() requests are formatted differently than .get() and .post().
 
       }).then(function (response) {
-        if (response.status != 200) {// Request failed.
-          // FIXME handle errors.
-        } else {
+        if (response.status == 200) {
           // Request succeeded.
           // Trigger event to add reaction without waiting for broadcast.
           _this6.$emit('reactionDeleted', response.data);
         }
+      })["catch"](function (error) {
+        _this6.$emit('apiError', 'Error removing reaction. Please refresh the page and try again.');
       });
     }
   }
@@ -15496,13 +15506,15 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Reactions, {
     onReactionCreated: $options.addReaction,
     onReactionDeleted: $options.removeReaction,
+    onApiError: $options.bubbleApiError,
     id: $props.id,
     reactions: $props.reactions
   }, null, 8
   /* PROPS */
-  , ["onReactionCreated", "onReactionDeleted", "id", "reactions"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
+  , ["onReactionCreated", "onReactionDeleted", "onApiError", "id", "reactions"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
       onCommentDeleted: $options.removeComment,
+      onApiError: $options.bubbleApiError,
       key: comment.id,
       id: comment.id,
       display_parent_info: false,
@@ -15514,15 +15526,16 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       body: comment.body
     }, null, 8
     /* PROPS */
-    , ["onCommentDeleted", "id", "parent_user_id", "parent_display_name", "user_id", "display_name", "created_at", "body"]);
+    , ["onCommentDeleted", "onApiError", "id", "parent_user_id", "parent_display_name", "user_id", "display_name", "created_at", "body"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CommentSubmit, {
     onCommentCreated: $options.addComment,
+    onApiError: $options.bubbleApiError,
     id: $props.id
   }, null, 8
   /* PROPS */
-  , ["onCommentCreated", "id"])]);
+  , ["onCommentCreated", "onApiError", "id"])]);
 });
 
 /***/ }),
@@ -15575,13 +15588,21 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Alert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Alert");
+
   var _component_AvatarUpload = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AvatarUpload");
 
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
   var _component_Comment = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Comment");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [$data.errors.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Alert, {
+    key: 0,
+    errors: $data.errors,
+    onRemoveError: $options.removeError
+  }, null, 8
+  /* PROPS */
+  , ["errors", "onRemoveError"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
     src: $data.avatar_url,
     alt: ""
   }, null, 8
@@ -15591,7 +15612,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.user_id), 1
   /* TEXT */
   )])]), $data.session.authenticated_user_id === $data.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("h1", {
-    key: 0,
+    key: 1,
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.toggleAvatar && $options.toggleAvatar.apply($options, arguments);
     })
@@ -15610,7 +15631,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }, null, 2
   /* CLASS */
   ), _hoisted_4])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.session.authenticated_user_id === $data.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-    key: 1,
+    key: 2,
     id: "avatar",
     "class": {
       hidden: $data.avatarHidden
@@ -15665,7 +15686,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }, null, 2
   /* CLASS */
   ), _hoisted_8]), !$data.posts || !$data.posts.length || $data.posts.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", {
-    key: 2,
+    key: 3,
     "class": {
       hidden: $data.postsHidden
     }
@@ -15680,6 +15701,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       onPostDeleted: $options.removePost,
       onCommentDeleted: $options.removeComment,
+      onApiError: $options.raiseError,
       key: post.id,
       id: post.id,
       user_id: post.user_id,
@@ -15691,7 +15713,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       reactions: post.reactions
     }, null, 8
     /* PROPS */
-    , ["onPostDeleted", "onCommentDeleted", "id", "user_id", "display_name", "avatar_url", "created_at", "body", "comments", "reactions"]);
+    , ["onPostDeleted", "onCommentDeleted", "onApiError", "id", "user_id", "display_name", "avatar_url", "created_at", "body", "comments", "reactions"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 2
@@ -15715,7 +15737,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }, null, 2
   /* CLASS */
   ), _hoisted_9]), !$data.comments || !$data.comments.length || $data.comments.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", {
-    key: 3,
+    key: 4,
     "class": {
       hidden: $data.commentsHidden
     }
@@ -15729,6 +15751,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.orderedComments, function (comment) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Comment, {
       onCommentDeleted: $options.removeComment,
+      onApiError: $options.raiseError,
       key: comment.id,
       id: comment.id,
       display_parent_info: true,
@@ -15740,7 +15763,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       body: comment.body
     }, null, 8
     /* PROPS */
-    , ["onCommentDeleted", "id", "parent_user_id", "parent_display_name", "user_id", "display_name", "created_at", "body"]);
+    , ["onCommentDeleted", "onApiError", "id", "parent_user_id", "parent_display_name", "user_id", "display_name", "created_at", "body"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 2
@@ -15986,7 +16009,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  align-items: center;\n  -moz-column-gap: 8px;\n       column-gap: 8px;\n  display: grid;\n  grid-template-columns: 60px minmax(0, 1fr) auto;\n  margin-bottom: 0.5rem;\n}\n.post-header-avatar[data-v-5e8280ea] {\n  border: 1px solid #63c463;\n  -o-object-fit: cover;\n     object-fit: cover;\n  height: 60px;\n  width: 60px;\n  grid-column: 1/span 1;\n  grid-row: 1/span 2;\n}\n.post-header-name[data-v-5e8280ea] {\n  align-items: baseline;\n  display: flex;\n  grid-column: 2/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-name a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-name-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  overflow: hidden;\n  padding-left: 0.5em;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n  grid-column: 4/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  grid-column: 2/span 2;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".post[data-v-5e8280ea] {\n  background-color: #6b6b6b;\n  border: 1px solid #63c463;\n  color: #63c463;\n  margin-bottom: 1.5rem;\n  padding: 0.5rem;\n}\n.post-header[data-v-5e8280ea] {\n  align-items: center;\n  -moz-column-gap: 8px;\n       column-gap: 8px;\n  display: grid;\n  grid-template-columns: 60px minmax(0, 1fr) auto;\n  margin-bottom: 0.5rem;\n}\n.post-header-avatar[data-v-5e8280ea] {\n  border: 1px solid #63c463;\n  -o-object-fit: cover;\n     object-fit: cover;\n  height: 60px;\n  width: 60px;\n  grid-column: 1/span 1;\n  grid-row: 1/span 2;\n}\n.post-header-name[data-v-5e8280ea] {\n  align-items: baseline;\n  display: flex;\n  grid-column: 2/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-name a[data-v-5e8280ea] {\n  color: #63c463 !important;\n}\n.post-header-name-displayname[data-v-5e8280ea] {\n  font-size: 1.2em;\n  font-weight: 600;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea] {\n  font-style: italic;\n  font-weight: 300;\n  overflow: hidden;\n  padding-left: 0.5em;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-header-name-username[data-v-5e8280ea]::before {\n  content: \"~\";\n}\n.post-header-delete[data-v-5e8280ea] {\n  justify-self: end;\n  line-height: 1.6em;\n  max-height: 1.6em;\n  padding-left: 0.5em;\n  grid-column: 4/span 1;\n  grid-row: 1/span 1;\n}\n.post-header-timestamp[data-v-5e8280ea] {\n  font-weight: 300;\n  grid-column: 2/span 2;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.post-body[data-v-5e8280ea] {\n  margin: 0;\n  padding: 0;\n  overflow-wrap: break-word;\n}\n.comments[data-v-5e8280ea] {\n  border-top: 1px solid #63c463;\n  font-size: 0.9rem;\n  list-style: none;\n  margin: 1rem 0 0 0rem;\n  padding: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
