@@ -8,9 +8,6 @@
 - Restyle checkboxes to match rest of site
 
 ## Functionality
-- Add validation to requests
-- Move alert box to top of document
-- Update seeder to add reactions
 - Update seeded posts to sometimes have 0 comments
 - Add daily recurring job to clear data (except accounts) and re-seed
 - Add frequently recurring job to add posts and comments

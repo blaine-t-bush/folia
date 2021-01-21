@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Reaction;
 use App\Http\Controllers\UserController;
 
 class DatabaseSeeder extends Seeder
@@ -55,13 +56,39 @@ class DatabaseSeeder extends Seeder
         }
 
         // Generate some random number of comments. For each one, randomly select a creator and parent post.
-        $total_comment_count = random_int(100, 200);
+        $total_comment_count = random_int(30, 50);
         for ($i = 0; $i < $total_comment_count; $i++) {
             $comment = new Comment;
             $comment->user_id = $user_ids[array_rand($user_ids)];
             $comment->post_id = $post_ids[array_rand($post_ids)];
             $comment->body = $faker->paragraph;
             $comment->save();
+        }
+
+        // Generate some random number of reactions. For each one, randomly select a creator and parent post,
+        // but only if that specific reaction-user-post combination does not already exist.
+        $total_reaction_count = random_int(100, 200);
+        $reaction_types = ['smile', 'frown', 'heart', 'laugh'];
+        for ($i = 0; $i < $total_reaction_count; $i++) {
+            // Attempt to generate a new permutation.
+            $valid = false;
+            while (!$valid) {
+                // Generate new permutation.
+                $user_id = $user_ids[array_rand($user_ids)];
+                $post_id = $post_ids[array_rand($post_ids)];
+                $type = $reaction_types[array_rand($reaction_types)];
+
+                // Check against existing reactions.
+                if (Reaction::where('user_id', $user_id)->where('post_id', $post_id)->where('type', $type)->count() == 0) {
+                    $valid = true;
+                }
+            }
+
+            $reaction = new Reaction;
+            $reaction->user_id = $user_id;
+            $reaction->post_id = $post_id;
+            $reaction->type = $type;
+            $reaction->save();
         }
     }
 }
