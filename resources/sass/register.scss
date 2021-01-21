@@ -18,8 +18,8 @@
 
         &-robot {
             align-items: center;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 60px;
             margin-top: 1.5em;
         }
     }
@@ -39,7 +39,7 @@
 .password-container {
     align-items: center;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto 60px;
 
     &-button {
         align-items: center;
@@ -72,4 +72,41 @@
 .login-prompt {
     text-align: center;
     margin-top: 1em;
+}
+
+.checkbox-container {
+    cursor: pointer;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkbox {
+    justify-self: center;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    background-color: $color-confirm-background;
+    border: 1px solid $color-confirm-dark;
+    border-radius: 2px;
+    position: relative;
+}
+
+.checkbox:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkbox:after {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.checkbox-container .checkbox:after {
+    content: "✔";
+    color: $color-confirm-dark;
 }

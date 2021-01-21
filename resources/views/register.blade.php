@@ -15,7 +15,8 @@
             name="user_id"
             id="user_id"
             placeholder="username"
-            value="{{ old('user_id') }}">
+            value="{{ old('user_id') }}"
+            tabindex="1">
         @error('user_id')
         <div class="error">{{ $message }}</div>
         @enderror
@@ -27,7 +28,8 @@
             name="display_name"
             id="display_name"
             placeholder="display name"
-            value="{{ old('display_name') }}">
+            value="{{ old('display_name') }}"
+            tabindex="2">
         @error('display_name')
         <div class="error">{{ $message }}</div>
         @enderror
@@ -39,8 +41,9 @@
                 type="password"
                 name="password"
                 id="password"
-                placeholder="password">
-            <button class="password-container-button" onclick="togglePasswordVisibility(event, 'password', 'password-visibility-toggle')">
+                placeholder="password"
+                tabindex="3">
+            <button class="password-container-button" onclick="togglePasswordVisibility(event, 'password', 'password-visibility-toggle')" tabindex="4">
                 <i id="password-visibility-toggle" class="fa fa-eye password-container-button-icon" aria-hidden="true"></i>
             </button>
         </div>
@@ -48,13 +51,14 @@
         <div class="error">{{ $message }}</div>
         @enderror
 
-        <label class="register-label-robot" for="robot">
+        <label class="checkbox-container register-label-robot" for="robot" tabindex="5">
             <div>Are you a <del>robot</del> human?</div>
-            
+
             <input type="checkbox" name="robot" id="robot">
+            <span class="checkbox"></span>
         </label>
 
-        <input class="register-button heavy-button" type="submit" value=">>> Register">
+        <input class="register-button heavy-button" type="submit" value=">>> Register" tabindex="6">
 
         <div class="login-prompt">
             Already registered? <a href="{{ route('login') }}">Log in!</a>
