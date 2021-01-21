@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 @endpush
 
-@section('main')
+@section('main')    
     <form class="login" id="login" method="POST" action="/login" enctype="multipart/form-data">
         @csrf
 
@@ -51,7 +51,7 @@
     </form>
 
     <div class="sticky-note">
-        <img class="sticky-note-image" src="{{ asset('images/sticky_note.png') }}" alt="An yellow sticky note, with 'admin' and 'password123' hand-written on it.">
+        {{-- <img class="sticky-note-image" src="{{ asset('images/sticky_note.png') }}" alt="An yellow sticky note, with 'admin' and 'password123' hand-written on it."> --}}
         <ul class="sticky-note-text">
             <li class="sticky-note-item">admin</li>
             <li class="sticky-note-item">password123</li>

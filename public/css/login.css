@@ -55,6 +55,7 @@
 }
 
 .sticky-note {
+  background-image: url("/images/sticky_note.png");
   color: rgba(0, 0, 0, 0.7);
   font-family: "Gloria Hallelujah", cursive;
   font-size: 2rem;
@@ -63,6 +64,9 @@
   position: relative;
   transform: rotate(7deg);
   margin: auto;
+}
+.sticky-note:hover, .sticky-note:focus {
+  background-image: url("/images/sticky_note_bent.png");
 }
 .sticky-note-text {
   position: absolute;
