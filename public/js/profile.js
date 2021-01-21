@@ -14485,17 +14485,8 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
 
       // Reset messages.
       this.error = null;
-      this.message = null; // Validate the data.
-
-      var file = document.getElementById('avatar_file').files[0];
-      var validFile = validateAvatarFile(file);
-
-      if (!validFile.valid) {
-        this.error = validFile.error;
-        return false;
-      } // Populate the image preview.
+      this.message = null; // Populate the image preview.
       // Update form to convey that upload is being processed.
-
 
       this.message = 'Uploading image...'; // Format the file for request.
 
@@ -14520,6 +14511,8 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     // Populate the image preview on file selection.
     var reader = new FileReader();
 
@@ -14528,13 +14521,20 @@ var validateAvatarFile = function validateAvatarFile(avatarFile) {
     };
 
     document.getElementById('avatar_file').onchange = function (event) {
+      // Set the existing preview image to the prompt.
+      document.getElementById('avatar_file_preview').src = '/images/file_upload.png'; // Get the file.
+
       var file = document.getElementById('avatar_file').files[0]; // FIXME change order to validation -> preview -> click submit -> upload.
+      // Validate the data.
 
-      reader.readAsDataURL(file);
-      var preview = document.getElementById('avatar_file_preview');
+      var validFile = validateAvatarFile(file);
 
-      if (preview.classList.contains('default')) {
-        preview.classList.remove('default');
+      if (!validFile.valid) {
+        _this2.error = validFile.error;
+        return false;
+      } else {
+        reader.readAsDataURL(file);
+        var preview = document.getElementById('avatar_file_preview');
       }
     };
   },
@@ -15248,7 +15248,6 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
   name: "avatar_file",
   id: "avatar_file"
 }), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-  "class": "default",
   id: "avatar_file_preview",
   src: "/images/file_upload.png"
 })], -1
@@ -15940,7 +15939,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "form[data-v-d1cfc8b6] {\n  display: flex;\n}\n.select-file[data-v-d1cfc8b6] {\n  cursor: pointer;\n  display: block;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  position: relative;\n  margin-right: 0.5em;\n  padding: 0.3em;\n}\n.select-file img[data-v-d1cfc8b6] {\n  border: 1px solid #63c463;\n  display: block;\n  height: auto;\n  width: 160px;\n}\n.select-file img.default[data-v-d1cfc8b6] {\n  height: 80px;\n  width: 80px;\n  padding: 40px;\n}\n.select-file input[data-v-d1cfc8b6] {\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n.upload-file[data-v-d1cfc8b6] {\n  height: 1.6em;\n}\n@media (max-width: 380px) {\n.upload-file[data-v-d1cfc8b6] {\n    position: absolute;\n    right: 0;\n}\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "form[data-v-d1cfc8b6] {\n  display: flex;\n}\n.select-file[data-v-d1cfc8b6] {\n  cursor: pointer;\n  display: block;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  position: relative;\n  margin-right: 0.5em;\n  padding: 0.3em;\n}\n.select-file img[data-v-d1cfc8b6] {\n  border: 1px solid #63c463;\n  display: block;\n  height: auto;\n  width: 160px;\n}\n.select-file input[data-v-d1cfc8b6] {\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n.upload-file[data-v-d1cfc8b6] {\n  height: 1.6em;\n}\n@media (max-width: 380px) {\n.upload-file[data-v-d1cfc8b6] {\n    position: absolute;\n    right: 0;\n}\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

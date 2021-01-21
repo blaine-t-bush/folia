@@ -3,7 +3,7 @@
         <button class="select-file heavy-button">
             <div>Select File...</div>
             <input type="file" name="avatar_file" id="avatar_file">
-            <img class="default" id="avatar_file_preview" src="/images/file_upload.png" />
+            <img id="avatar_file_preview" src="/images/file_upload.png" />
         </button>
 
         <button @click="uploadAvatar" class="upload-file heavy-button">Upload >>></button>
@@ -46,15 +46,6 @@ export default {
             this.error = null;
             this.message = null;
 
-            // Validate the data.
-            let file = document.getElementById('avatar_file').files[0];
-            const validFile = validateAvatarFile(file);
-
-            if (!validFile.valid) {
-                this.error = validFile.error;
-                return false;
-            }
-
             // Populate the image preview.
 
             // Update form to convey that upload is being processed.
@@ -90,11 +81,21 @@ export default {
         }
 
         document.getElementById('avatar_file').onchange = event => {
+            // Set the existing preview image to the prompt.
+            document.getElementById('avatar_file_preview').src = '/images/file_upload.png';
+
+            // Get the file.
             let file = document.getElementById('avatar_file').files[0]; // FIXME change order to validation -> preview -> click submit -> upload.
-            reader.readAsDataURL(file);
-            let preview = document.getElementById('avatar_file_preview');
-            if (preview.classList.contains('default')) {
-                preview.classList.remove('default');
+
+            // Validate the data.
+            const validFile = validateAvatarFile(file);
+
+            if (!validFile.valid) {
+                this.error = validFile.error;
+                return false;
+            } else {
+                reader.readAsDataURL(file);
+                let preview = document.getElementById('avatar_file_preview');
             }
         }
     },
@@ -128,12 +129,6 @@ export default {
             height: auto;
             width: 160px;
             // object-fit: cover; // FIXME cover appears not to be working on Chrome on Android with image from camera. Could have something to do with orientation data.
-
-            &.default {
-                height: 80px;
-                width: 80px;
-                padding: 40px;
-            }
         }
 
         input {
