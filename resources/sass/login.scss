@@ -39,6 +39,10 @@
         display: grid;
         height: 100%;
 
+        &:focus {
+            outline: revert;
+        }
+
         &-icon {
             align-items: center;
             display: grid !important;

@@ -29,6 +29,9 @@
   display: grid;
   height: 100%;
 }
+.password-container-button:focus {
+  outline: revert;
+}
 .password-container-button-icon {
   align-items: center;
   display: grid !important;

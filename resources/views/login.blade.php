@@ -58,3 +58,22 @@
         </ul>
     </div>
 @endsection
+
+@push('script_body')
+<script>
+// Submit form when enter key is pressed.
+document.getElementById('user_id').onkeydown = event => {
+    if (event.keyCode == 13) { // 13 = enter button
+        event.preventDefault();
+        document.getElementById('login').submit();
+    }
+};
+
+document.getElementById('password').onkeydown = event => {
+    if (event.keyCode == 13) { // 13 = enter button
+        event.preventDefault();
+        document.getElementById('login').submit();
+    }
+};
+</script>
+@endpush
