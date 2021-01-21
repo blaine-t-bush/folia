@@ -8,9 +8,25 @@
     </form>
 
     <input class="create-button heavy-button" type="submit" value=">>>" form="create">
+
+    <div class="create-error">
+        {{ error }}
+    </div>
 </template>
 
 <script>
+const validatePostBody = postBody => {
+    if (!postBody) {
+        return { valid: false, error: 'Cannot create an empty post.'};
+    }
+
+    if (postBody.length > 255) {
+        return { valid: false, error: 'Posts cannot be longer than 255 characters.'};
+    }
+
+    return { valid: true, error: null };
+}
+
 export default {
     emits: [
         'apiError',
@@ -18,25 +34,35 @@ export default {
     ],
     methods: {
         submitPost() {
-            // Send request to controller.
-            axios.post('/api/posts', {
-                body: this.body, // FIXME add validation.
-            }).then(response => {
-                if (response.status == 201) {
-                    // Request succeeded. Clear form.
-                    this.body = '';
-                    
-                    // Trigger event to add new post without waiting for broadcast.
-                    this.$emit('postCreated', response.data);
-                }
-            }).catch(error => {
-                this.$emit('apiError', 'Error creating post. Please refresh the page and try again.');
-            });
+            // Validate the data.
+            const validPostBody = validatePostBody(this.body);
+
+            if (!validPostBody.valid) {
+                this.error = validPostBody.error;
+            } else {
+                this.error = null;
+
+                // Send request to controller.
+                axios.post('/api/posts', {
+                    body: this.body, // FIXME add validation.
+                }).then(response => {
+                    if (response.status == 201) {
+                        // Request succeeded. Clear form.
+                        this.body = '';
+                        
+                        // Trigger event to add new post without waiting for broadcast.
+                        this.$emit('postCreated', response.data);
+                    }
+                }).catch(error => {
+                    this.$emit('apiError', 'Error creating post. Please refresh the page and try again.');
+                });
+            }
         },
     },
     data() {
         return {
-            body: ''
+            body: '',
+            error: null,
         }
     },
 }
@@ -67,8 +93,12 @@ export default {
         }
 
         &-button {
-            margin-bottom: 2rem;
             margin-top: 0.5rem;
+        }
+
+        &-error {
+            color: $color-error;
+            margin-top: 0.3em;
         }
     }
 </style>

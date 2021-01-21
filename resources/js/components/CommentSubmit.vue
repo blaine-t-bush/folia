@@ -9,9 +9,23 @@
 
         <input class="reply-button heavy-button" type="submit" value=">>>">
     </form>
+
+    <div class="reply-error">{{ error }}</div>
 </template>
 
 <script>
+const validateCommentBody = commentBody => {
+    if (!commentBody) {
+        return { valid: false, error: 'Cannot create an empty comment.'};
+    }
+
+    if (commentBody.length > 255) {
+        return { valid: false, error: 'Comments cannot be longer than 255 characters.'};
+    }
+
+    return { valid: true, error: null };
+}
+
 export default {
     props: {
         id: Number,
@@ -22,26 +36,36 @@ export default {
     ],
     methods: {
         submitComment() {
-            // Send request to controller.
-            axios.post('/api/comments', {
-                id: this.id,
-                body: this.body, // FIXME add validation.
-            }).then(response => {
-                if (response.status == 201) {
-                    // Request succeeded. Clear form.
-                    this.body = '';
-                    
-                    // Trigger event to add comment without waiting for broadcast.
-                    this.$emit('commentCreated', response.data);
-                }
-            }).catch(error => {
-                this.$emit('apiError', 'Error creating comment. Please refresh the page and try again.');
-            });
+            // Validate the data.
+            const validCommentBody = validateCommentBody(this.body);
+
+            if (!validCommentBody.valid) {
+                this.error = validCommentBody.error;
+            } else {
+                this.error = null;
+
+                // Send request to controller.
+                axios.post('/api/comments', {
+                    id: this.id,
+                    body: this.body, // FIXME add validation.
+                }).then(response => {
+                    if (response.status == 201) {
+                        // Request succeeded. Clear form.
+                        this.body = '';
+                        
+                        // Trigger event to add comment without waiting for broadcast.
+                        this.$emit('commentCreated', response.data);
+                    }
+                }).catch(error => {
+                    this.$emit('apiError', 'Error creating comment. Please refresh the page and try again.');
+                });
+            }
         },
     },
     data() {
         return {
-            body: ""
+            body: '',
+            error: null,
         }
     },
 }
@@ -80,6 +104,11 @@ export default {
             margin-left: 0;
             margin-top: 0.5em;
         }
+    }
+
+    &-error {
+        color: $color-error;
+        margin-top: 0.3em;
     }
 }
 </style>

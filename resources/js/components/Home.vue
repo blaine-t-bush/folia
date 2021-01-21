@@ -154,6 +154,7 @@ export default {
     .posts {
         list-style: none;
         margin: 0;
+        margin-top: 2rem;
         padding: 0;
     }
 </style>
