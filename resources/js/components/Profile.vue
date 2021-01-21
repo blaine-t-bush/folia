@@ -92,12 +92,14 @@
 
 <script>
 import { computed } from 'vue';
+import Alert from './Alert';
 import Post from './Post';
 import Comment from './Comment';
 import AvatarUpload from './AvatarUpload';
 
 export default {
     components: {
+        'Alert': Alert,
         'Post': Post,
         'Comment': Comment,
         'AvatarUpload': AvatarUpload,
@@ -224,10 +226,7 @@ export default {
     mounted() {
         // Get user session information.
         axios.get('/api/session', {}).then((response) => {
-            if (response.status != 200) {
-                // Request failed.
-                // FIXME handle API failure.
-            } else {
+            if (response.status == 200) {
                 // Request succeeded.
                 this.session = response.data;
                 if (window.location.pathname.match("(?<=\/profile\/).*")) {
@@ -238,24 +237,22 @@ export default {
 
                 // Once user ID is established, we can fetch all user's posts from Laravel.
                 axios.get('/api/posts/' + this.user_id, {}).then((response) => {
-                    if (response.status != 200) {
-                        // Request failed.
-                        // FIXME handle API failure.
-                    } else {
+                    if (response.status == 200) {
                         // Request succeeded.
                         this.posts = response.data; // Convert payload to an array, where each object is a post.
                     }
+                }).catch(error => {
+                    this.raiseError('Error retrieving posts. Please refresh the page and try again.');
                 });
 
                 // And then fetch all user's comments from Laravel.
                 axios.get('/api/comments/' + this.user_id, {}).then((response) => {
-                    if (response.status != 200) {
-                        // Request failed.
-                        // FIXME handle API failure.
-                    } else {
+                    if (response.status == 200) {
                         // Request succeeded.
                         this.comments = response.data; // Convert payload to an array, where each object is a post.
                     }
+                }).catch(error => {
+                    this.raiseError('Error retrieving comments. Please refresh the page and try again.');
                 });
 
                 // And fetch user's display name and avatar URL.
@@ -268,6 +265,8 @@ export default {
                         this.display_name = response.data.display_name
                         this.avatar_url = response.data.avatar_url; // Convert payload to an array, where each object is a post.
                     }
+                }).catch(error => {
+                    this.raiseError('Error retrieving user information. Please refresh the page and try again.');
                 });
 
                 // Add Echo listener to listen for new comments.
@@ -296,6 +295,8 @@ export default {
                     }
                 });
             }
+        }).catch(error => {
+            this.raiseError('Error retrieving session information. Please log out and try again.');
         });
     },
     data() {
@@ -309,6 +310,7 @@ export default {
             errors: [],
             user_id: null,
             avatar_url: null,
+            display_name: null,
             postsHidden: false,
             commentsHidden: false,
             avatarHidden: false,

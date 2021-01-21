@@ -38,6 +38,7 @@ const validateAvatarFile = avatarFile => {
 
 export default {
     emits: [
+        'apiError',
         'avatarUploaded',
     ],
     methods: {
@@ -46,13 +47,12 @@ export default {
             this.error = null;
             this.message = null;
 
-            // Populate the image preview.
-
             // Update form to convey that upload is being processed.
             this.message = 'Uploading image...'
             
             // Format the file for request.
             let formData = new FormData();
+            let file = document.getElementById('avatar_file').files[0];
             formData.append('avatar_file', file);
             
             // Send request to upload file and update avatar URL.
@@ -61,14 +61,12 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((response) => {
-                if (response.status != 200) {
-                    // Error. Update message.
-                    this.message = 'Error uploading image. Please refresh the page and try again.'
-                } else {
-                    // Request succeeded. Update the avatar image on this page.
+                if (response.status == 200) {
                     this.$emit('avatarUploaded', response.data.avatar_url);
                     this.message = 'Image succesfully uploaded!'
                 }
+            }).catch(error => {
+                this.$emit('apiError', 'Error uploading image. Please refresh the page and try again.');
             });
         }
     },
@@ -81,6 +79,10 @@ export default {
         }
 
         document.getElementById('avatar_file').onchange = event => {
+            // Reset messages.
+            this.error = null;
+            this.message = null;
+
             // Set the existing preview image to the prompt.
             document.getElementById('avatar_file_preview').src = '/images/file_upload.png';
 
@@ -92,7 +94,7 @@ export default {
 
             if (!validFile.valid) {
                 this.error = validFile.error;
-                return false;
+                document.getElementById('avatar_file').value = null; // Reset the file input so user can't attempt to upload invalid files.
             } else {
                 reader.readAsDataURL(file);
                 let preview = document.getElementById('avatar_file_preview');
