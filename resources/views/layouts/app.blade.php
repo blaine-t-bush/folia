@@ -20,7 +20,7 @@
 </head>
 <body>
     <header>
-        <h1 class="title"><a href="{{ route('home') }}">Folia</a></h1>
+        <h1 class="title"><img src="{{ asset('images/site_icon.png') }}" alt=""><a href="{{ route('home') }}">Folia</a></h1>
         <div class="rule">======================================================================================================================================================================================================================</div>
         <h2 class="tagline">The Social Media Platform for&nbsp;<del>Robots</del>&nbsp;Humans</h2>
         @if(session('user_logged_in') == true)

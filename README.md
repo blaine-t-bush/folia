@@ -1,5 +1,4 @@
 # Quick-fix
-- Add sticky note animation on hover
 - Create icon and favicon
 - Restyle checkboxes to match rest of site
 
