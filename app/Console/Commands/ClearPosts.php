@@ -14,7 +14,7 @@ class ClearPosts extends Command
      *
      * @var string
      */
-    protected $signature = 'posts:clear {hours?}'; // FIXME add option description
+    protected $signature = 'posts:clear {count} {--R|remainder}'; // FIXME add option description
 
     /**
      * The console command description.
@@ -40,30 +40,39 @@ class ClearPosts extends Command
      */
     public function handle()
     {
-        // Determine time cutoff based on input. If no input is given for the hours argument,
-        // then all posts will be deleted.
-        $hours = $this->argument('hours');
-        if ($hours === null) {
-            $this->info('Getting all posts...');
-            $posts = Post::all();
-        } else {
-            $this->info('Getting posts older than ' . $hours . ' hour(s)...');
-            $posts = Post::where('created_at', '<', Carbon::now()->subHours($hours))->get();
+        $count = (int) $this->argument('count');
+
+        // If remainder option is not declared, then we delete $count posts.
+        // If remainder option is declared, then we delete posts until we're left with $count.
+        if ($this->option('remainder')) { 
+            $count = max(Post::all()->count() - $count, 0);
         }
 
-        $count = $posts->count();
-        if ($count === 0) {
-            $this->error('No posts found.');
+        $this->info('[' . Carbon::now() . ' | posts:clear' . ($count ? ' ' . $count  : '') . ']');
+        
+        if ($count < 0) {
+            $this->error('Argument must be a non-negative integer.');
             return;
         }
 
-        $this->info('Found ' . $count . ' post(s). Deleting...');
+        $this->info('Getting oldest ' . $count . ' post(s)...');
+        $posts = Post::orderBy('created_at')->limit($count)->get();
+
+        $found_count = $posts->count();
+        if ($found_count === 0) {
+            $this->error('No posts found.');
+            $this->newLine();
+            return;
+        }
+
+        $this->info('Found ' . $found_count . ' post(s). Deleting...');
 
         $posts = $this->withProgressBar($posts, function ($post) {
             $post->delete();
         });
         $this->newLine();
+        $this->newLine();
 
-        return $hours;
+        return $count;
     }
 }

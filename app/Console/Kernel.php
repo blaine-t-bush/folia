@@ -24,7 +24,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('users:clear')
+                 ->timezone('America/Los_Angeles')
+                 ->weeklyOn(1, '1:00') // Run every Monday at 1:00 AM.
+                 ->appendOutputTo('storage/logs/schedule.log'); // FIXME add email on failure
+        
+        
+        $schedule->command('posts:clear -R 30') // Clear posts so there are no more than 30
+                 ->timezone('America/Los_Angeles')
+                 ->hourly()
+                 ->appendOutputTo('storage/logs/schedule.log'); // FIXME add email on failure
     }
 
     /**

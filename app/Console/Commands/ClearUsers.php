@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Models\User;
+use Carbon\Carbon;
 
 class ClearUsers extends Command
 {
@@ -39,12 +40,14 @@ class ClearUsers extends Command
      */
     public function handle()
     {
+        $this->info('[' . Carbon::now() . ' | users:clear]');
         $this->info('Getting all non-default users...');
         $users = User::where('is_default', false)->get();
 
         $count = $users->count();
         if ($count === 0) {
             $this->error('No users found.');
+            $this->newLine();
             return;
         }
 
@@ -53,6 +56,7 @@ class ClearUsers extends Command
         $users = $this->withProgressBar($users, function ($user) {
             $user->delete();
         });
+        $this->newLine();
         $this->newLine();
 
         return 0;
