@@ -42,19 +42,7 @@ class PostController extends Controller
             return; // FIXME add error message here.
         }
         
-        // First delete all child comments, if any.
-        $comments = $post->comments;
-        foreach ($comments as $comment) {
-            $comment->delete();
-        }
-
-        // Then delete all child reactions, if any.
-        $reactions = $post->reactions;
-        foreach ($reactions as $reaction) {
-            $reaction->delete();
-        }
-
-        // Then delete post.
+        // Delete post.
         $post->delete();
 
         // Dispatch the event.

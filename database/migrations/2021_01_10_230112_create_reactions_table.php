@@ -17,11 +17,11 @@ class CreateReactionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('post_id');
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->string('type');
-            $table->foreign('type')->references('id')->on('reaction_types');
+            $table->foreign('type')->references('id')->on('reaction_types')->onDelete('cascade');
             // $table->boolean('smile')->default(false); // :)
             // $table->boolean('frown')->default(false); // :(
             // $table->boolean('heart')->default(false); // <3
