@@ -25,7 +25,13 @@ class DatabaseSeeder extends Seeder
         // If you're looking through the repo and scoffing, know that these credentials
         // are for a joke, and that this "admin" user doesn't actually have any
         // administrator or special privileges on my server or website.
-        UserController::create('admin', 'Security Mastah', 'password123');
+        $user = new User;
+        $user->id = 'admin';
+        $user->display_name = 'Security Mastah';
+        $user->hashed_password = Hash::make('password123');
+        $user->avatar_url = '/images/avatars/default_avatar_1.png';
+        $user->is_default = true;
+        $user->save();
         
         // Instantiate Faker, which we'll use to generate some test data.
         $faker = Faker::create();
@@ -41,6 +47,7 @@ class DatabaseSeeder extends Seeder
             $user->display_name = $faker->name;
             $user->hashed_password = Hash::make($faker->password);
             $user->avatar_url = $avatar_filepath . $avatar_filenames[array_rand($avatar_filenames)];
+            $user->is_default = true;
             $user->save();
 
             $user_ids[] = $user->id;

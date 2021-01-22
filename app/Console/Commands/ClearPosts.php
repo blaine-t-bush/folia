@@ -57,7 +57,7 @@ class ClearPosts extends Command
             return;
         }
 
-        $this->info('Found ' . $count . ' posts. Deleting...');
+        $this->info('Found ' . $count . ' post(s). Deleting...');
 
         $posts = $this->withProgressBar($posts, function ($post) {
             $post->delete();
