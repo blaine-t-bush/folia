@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('authenticated_token')->nullable();
             $table->string('avatar_url')->default('/images/avatars/default_avatar_1.png');
             $table->boolean('is_default')->default(false);
+            $table->boolean('is_custom')->default(true);
         });
     }
 

@@ -6,5 +6,4 @@
 - Add pagination to home page
 
 # Stretch
-- Add frequently recurring job to add posts and comments
 - Add additional language option in profile

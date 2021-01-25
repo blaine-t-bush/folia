@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $user->hashed_password = Hash::make('password123');
         $user->avatar_url = '/images/avatars/default_avatar_1.png';
         $user->is_default = true;
+        $user->is_custom = true;
         $user->save();
         
         // Instantiate Faker, which we'll use to generate some test data.
@@ -48,6 +49,7 @@ class DatabaseSeeder extends Seeder
             $user->hashed_password = Hash::make($faker->password);
             $user->avatar_url = $avatar_filepath . $avatar_filenames[array_rand($avatar_filenames)];
             $user->is_default = true;
+            $user->is_custom = false;
             $user->save();
 
             $user_ids[] = $user->id;

@@ -32,7 +32,17 @@ class Kernel extends ConsoleKernel
         
         $schedule->command('posts:clear -R 30') // Clear posts so there are no more than 30
                  ->timezone('America/Los_Angeles')
-                 ->hourly()
+                 ->everyThirtyMinutes()
+                 ->appendOutputTo('storage/logs/schedule.log'); // FIXME add email on failure
+        
+        $schedule->command('comments:generate 1 2') // Add new comment every minute.
+                 ->timezone('America/Los_Angeles')
+                 ->everyMinute()
+                 ->appendOutputTo('storage/logs/schedule.log'); // FIXME add email on failure
+
+        $schedule->command('posts:generate 1') // Add new post every minute.
+                 ->timezone('America/Los_Angeles')
+                 ->everyMinute()
                  ->appendOutputTo('storage/logs/schedule.log'); // FIXME add email on failure
     }
 
