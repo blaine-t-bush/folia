@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 
-use App\Events\PostCreated;
-use App\Events\PostDeleted;
-
 use App\Http\Resources\PostResource;
 
 class PostController extends Controller
@@ -28,9 +25,6 @@ class PostController extends Controller
         $post->body = $request->body;
         $post->save();
 
-        // Dispatch the event.
-        PostCreated::dispatch($post);
-
         return new PostResource($post);
     }
 
@@ -44,9 +38,6 @@ class PostController extends Controller
         
         // Delete post.
         $post->delete();
-
-        // Dispatch the event.
-        PostDeleted::dispatch($post);
 
         return new PostResource($post);
     }

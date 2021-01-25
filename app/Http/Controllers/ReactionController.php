@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Models\Reaction;
 
-use App\Events\ReactionCreated;
-use App\Events\ReactionDeleted;
-
 use App\Http\Resources\ReactionResource;
 
 class ReactionController extends Controller
@@ -34,9 +31,6 @@ class ReactionController extends Controller
 
             $reaction->save();
 
-            // Dispatch the event.
-            ReactionCreated::dispatch($reaction);
-
             return new ReactionResource($reaction);
         }
     }
@@ -50,9 +44,6 @@ class ReactionController extends Controller
                                 ->firstOrFail(); // If it doesn't, this should throw a ModelNotFound exception.
 
             $reaction->delete();
-
-            // Dispatch the event.
-            ReactionDeleted::dispatch($reaction);
 
             return new ReactionResource($reaction);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

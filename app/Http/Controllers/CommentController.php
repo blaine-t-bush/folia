@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Models\Comment;
 
-use App\Events\CommentCreated;
-use App\Events\CommentDeleted;
-
 use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
@@ -28,9 +25,6 @@ class CommentController extends Controller
         $comment->body = $request->body;
         $comment->save();
 
-        // Dispatch the event.
-        CommentCreated::dispatch($comment);
-
         return new CommentResource($comment);
     }
     
@@ -39,9 +33,6 @@ class CommentController extends Controller
         
         if ($comment->user_id == $request->session()->get('user_id')) {
             $comment->delete();
-
-            // Dispatch the event.
-            CommentDeleted::dispatch($comment);
 
             return new CommentResource($comment);
         }

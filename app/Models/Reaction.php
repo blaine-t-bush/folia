@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Events\ReactionCreated;
+use App\Events\ReactionDeleted;
+
 class Reaction extends Model
 {
     use HasFactory;
@@ -22,4 +25,14 @@ class Reaction extends Model
     public function post() {
         return $this->belongsTo(Post::class);
     }
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ReactionCreated::class,
+        'deleted' => ReactionDeleted::class,
+    ];
 }
