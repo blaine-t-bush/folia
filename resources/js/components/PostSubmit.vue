@@ -20,6 +20,10 @@ const validatePostBody = postBody => {
         return { valid: false, error: 'Cannot create an empty post.'};
     }
 
+    if (postBody.trim().length == 0) {
+        return { valid: false, error: 'Cannot create a post with only spaces.' };
+    }
+
     if (postBody.length > 255) {
         return { valid: false, error: 'Posts cannot be longer than 255 characters.'};
     }

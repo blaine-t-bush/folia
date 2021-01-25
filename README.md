@@ -1,5 +1,5 @@
 # Quick-fix
-- Add validation to prevent whitespace-only posts and comments
+- 
 
 # To-do
 - Add loading/processing icons on form submissions

@@ -16,11 +16,15 @@
 <script>
 const validateCommentBody = commentBody => {
     if (!commentBody) {
-        return { valid: false, error: 'Cannot create an empty comment.'};
+        return { valid: false, error: 'Cannot create an empty comment.' };
+    }
+
+    if (commentBody.trim().length == 0) {
+        return { valid: false, error: 'Cannot create a comment with only spaces.' };
     }
 
     if (commentBody.length > 255) {
-        return { valid: false, error: 'Comments cannot be longer than 255 characters.'};
+        return { valid: false, error: 'Comments cannot be longer than 255 characters.' };
     }
 
     return { valid: true, error: null };

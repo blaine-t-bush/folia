@@ -14525,6 +14525,13 @@ var validateCommentBody = function validateCommentBody(commentBody) {
     };
   }
 
+  if (commentBody.trim().length == 0) {
+    return {
+      valid: false,
+      error: 'Cannot create a comment with only spaces.'
+    };
+  }
+
   if (commentBody.length > 255) {
     return {
       valid: false,
@@ -14908,6 +14915,13 @@ var validatePostBody = function validatePostBody(postBody) {
     return {
       valid: false,
       error: 'Cannot create an empty post.'
+    };
+  }
+
+  if (postBody.trim().length == 0) {
+    return {
+      valid: false,
+      error: 'Cannot create a post with only spaces.'
     };
   }
 
