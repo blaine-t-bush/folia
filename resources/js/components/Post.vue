@@ -19,7 +19,7 @@
 
             </form>
 
-            <div class="post-header-timestamp">{{ created_at }}</div>
+            <div class="post-header-timestamp">{{ formattedTimestamp }}</div>
         </div>
 
         <p class="post-body">{{ body }}</p>
@@ -200,6 +200,10 @@ export default {
         });
     },
     computed: {
+        formattedTimestamp: function() {
+            let d = new Date(Date.parse(this.created_at));
+            return d.toLocaleString();
+        },
         orderedComments: function() {
             // Sort comments oldest-first.
             function compare(a, b) {
@@ -286,7 +290,7 @@ export default {
         }
 
         &-timestamp {
-            font-weight: 300;
+            font-weight: 100;
             grid-column: 2 / span 2;
             overflow: hidden;
             text-overflow: ellipsis;
